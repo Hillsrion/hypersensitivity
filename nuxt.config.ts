@@ -16,8 +16,7 @@ export default defineNuxtConfig({
 
   googleFonts: {
     families: {
-      // Add your fonts here, e.g.:
-      // Inter: [400, 500, 600, 700],
+      Epilogue: [400, 500, 600],
     },
   },
 

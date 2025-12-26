@@ -45,7 +45,7 @@ This is a Nuxt 4 content-driven website with animation capabilities.
 - **Tailwind CSS v4** via Vite plugin with fluid-tailwindcss
 - **GSAP + ScrollTrigger** for animations (client-side plugin)
 - **nuxt-split-type** for text splitting animations
-- **@nuxtjs/google-fonts** for typography
+- **Typography**: Epilogue (Google Fonts - 400, 500, 600), Satoshi Regular (custom - 400), PP Eiko Thin (custom - 100)
 
 ### Project Structure
 - `app/` - Nuxt application (pages, components, app.vue)
@@ -69,6 +69,18 @@ const { instance } = useSplitType(el, { types: 'lines, words, chars' })
 ```
 
 **Content Components**: Markdown files support inline Vue components using `::component-name` syntax.
+
+**Typography**: Custom fonts are configured via `@theme` in CSS:
+```html
+<!-- Epilogue (Google Fonts) -->
+<h1 class="font-epilogue font-medium">Heading</h1>
+
+<!-- Satoshi Regular -->
+<p class="font-satoshi">Body text</p>
+
+<!-- PP Eiko Thin -->
+<h2 class="font-eiko font-thin">Display heading</h2>
+```
 
 ### Fluid Tailwind CSS
 
