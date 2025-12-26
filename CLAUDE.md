@@ -43,23 +43,23 @@ This is a Nuxt 4 content-driven website with animation capabilities.
 - **Nuxt 4** with Vue 3 Composition API
 - **@nuxt/content v3** for Markdown-based content management
 - **Tailwind CSS v4** via Vite plugin with fluid-tailwindcss
-- **GSAP + ScrollTrigger** for animations (client-side plugin)
+- **@hypernym/nuxt-gsap** for GSAP animations
 - **nuxt-split-type** for text splitting animations
 - **Typography**: Epilogue (Google Fonts - 400, 500, 600), Satoshi Regular (custom - 400), PP Eiko Thin (custom - 100)
 
 ### Project Structure
 - `app/` - Nuxt application (pages, components, app.vue)
 - `content/` - Markdown content files with YAML frontmatter
-- `plugins/` - Nuxt plugins (gsap.client.ts for animations)
+- `plugins/` - Nuxt plugins
 - `assets/css/` - Tailwind entry point
 
 ### Key Patterns
 
 **Content Pages**: The catch-all route `app/pages/[...slug].vue` renders all content from `content/` directory using ContentRenderer.
 
-**GSAP Usage**: Access via Nuxt app instance:
+**GSAP Usage**: Access via explicit import from Nuxt app instance:
 ```ts
-const { $gsap, $ScrollTrigger } = useNuxtApp()
+const { $gsap } = useNuxtApp()
 ```
 
 **SplitType Usage**: Use the composable for text animations:

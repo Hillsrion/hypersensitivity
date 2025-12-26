@@ -7,6 +7,7 @@ export default defineNuxtConfig({
     '@nuxt/content',
     '@nuxtjs/google-fonts',
     'nuxt-split-type',
+    '@hypernym/nuxt-gsap',
   ],
 
   css: ['~/assets/css/main.css'],
