@@ -11,6 +11,30 @@ pnpm generate   # Static site generation
 pnpm preview    # Preview production build
 ```
 
+## Git Conventions
+
+This project uses **Conventional Commits** for commit messages.
+
+**Format**: `<type>(<scope>): <subject>`
+
+**Types**:
+- `feat`: New feature
+- `fix`: Bug fix
+- `docs`: Documentation changes
+- `style`: Code style/formatting (no functional changes)
+- `refactor`: Code refactoring
+- `perf`: Performance improvements
+- `test`: Adding/updating tests
+- `chore`: Build process, tooling, dependencies
+
+**Examples**:
+```bash
+feat(animations): add scroll-triggered fade-in effect
+fix(content): resolve markdown rendering issue
+docs(readme): update installation instructions
+refactor(components): simplify header navigation logic
+```
+
 ## Architecture
 
 This is a Nuxt 4 content-driven website with animation capabilities.
