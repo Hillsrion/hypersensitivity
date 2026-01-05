@@ -2,7 +2,8 @@
 @plugin "fluid-tailwindcss";
 
 @theme {
-  --font-family-sans-serif: "Satoshi", sans-serif;
+  --font-family-sans: "Satoshi", sans-serif;
+  --default-font-family: "Satoshi", sans-serif;
   --font-family-serif: "PP Eiko", serif;
   --font-epilogue: "Epilogue", sans-serif;
 }
