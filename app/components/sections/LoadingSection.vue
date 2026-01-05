@@ -1,9 +1,11 @@
 <script setup>
 import circleAudiowave from "~/assets/images/circle-audiowave.svg";
 import { useAnimationsStore } from "~/stores/animations";
+import { storeToRefs } from "pinia";
 
 const { $gsap } = useNuxtApp();
 const animationsStore = useAnimationsStore();
+const { landing } = storeToRefs(animationsStore);
 const bottomElement = useTemplateRef("bottomElement");
 
 const onBottomElementClick = () => {
@@ -21,8 +23,8 @@ const onBottomElementClick = () => {
       class="flex flex-col place-items-center gap-y-4 absolute left-1/2 bottom-10 -translate-x-1/2 transition-opacity duration-500 cursor-pointer"
       :class="{
         'opacity-0':
-          !animationsStore.landing.mainTitle.entry.completed ||
-          animationsStore.landing.mainTitle.exit.started,
+          !landing.mainTitle.entry.completed ||
+          landing.mainTitle.exit.started,
       }"
       @click="onBottomElementClick"
     >
@@ -32,7 +34,7 @@ const onBottomElementClick = () => {
     <div
       class="absolute top-10 right-16 transition-opacity duration-500"
       :class="{
-        'opacity-0': !animationsStore.landing.intro.started,
+        'opacity-0': !landing.intro.started,
       }"
     >
       <img :src="circleAudiowave" alt="Circle Audio Wave" class="w-14 h-14" />

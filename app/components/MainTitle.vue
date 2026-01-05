@@ -1,5 +1,6 @@
 <script setup>
 import { useAnimationsStore } from "~/stores/animations";
+import { storeToRefs } from "pinia";
 
 defineProps({
   title: {
@@ -10,6 +11,7 @@ defineProps({
 
 const { $gsap } = useNuxtApp();
 const animationsStore = useAnimationsStore();
+const { landing } = storeToRefs(animationsStore);
 const titleRef = ref(null);
 const { chars } = useSplitText(titleRef, { splitBy: "chars,words" });
 
@@ -48,7 +50,7 @@ watch(
 );
 
 watch(
-  () => animationsStore.landing.mainTitle.exit.started,
+  () => landing.value.mainTitle.exit.started,
   (started) => {
     if (started && chars.value && chars.value.length) {
       const elements = toRaw(chars.value);
