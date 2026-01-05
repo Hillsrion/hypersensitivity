@@ -10,14 +10,26 @@ export const useAnimationsStore = defineStore("animations", {
         completed: false,
       },
       mainTitle: {
-        started: false,
-        completed: false,
+        entry: {
+          started: false,
+          completed: false,
+        },
+        exit: {
+          started: false,
+          completed: false,
+        },
       },
     },
   }),
   actions: {
     onTitleEntryComplete() {
-      this.landing.mainTitle.completed = true;
+      this.landing.mainTitle.entry.completed = true;
+    },
+    startTitleExit() {
+      this.landing.mainTitle.exit.started = true;
+    },
+    onTitleExitComplete() {
+      this.landing.mainTitle.exit.completed = true;
     },
     onIntroComplete() {
       this.landing.intro.completed = true;

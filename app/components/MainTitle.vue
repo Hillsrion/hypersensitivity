@@ -1,46 +1,36 @@
 <script setup>
 import { useAnimationsStore } from "~/stores/animations";
 
-const props = defineProps({
+defineProps({
   title: {
     type: String,
     required: true,
   },
 });
 
-const emit = defineEmits(["entry-complete"]);
-
 const { $gsap } = useNuxtApp();
 const animationsStore = useAnimationsStore();
 const titleRef = ref(null);
 const { chars } = useSplitText(titleRef, { splitBy: "chars,words" });
-const masterTl = ref(null);
 
 watch(
   chars,
   (newChars) => {
     if (newChars && newChars.length) {
       nextTick(() => {
-        // Kill previous
-        if (masterTl.value) masterTl.value.kill();
-
         const elements = toRaw(newChars);
 
         // Force start state
         $gsap.set(elements, { autoAlpha: 0 });
 
-        const tl = $gsap.timeline();
-        masterTl.value = tl;
-
         // Wave animation timing
         // Each letter takes 3 phases to fully appear
         // Stagger = 1 phase, so 3 letters animate simultaneously
         const phaseTime = 0.1;
-        const letterDuration = phaseTime * 3;
 
         // Entry: wave effect with overlapping opacity
         // n at 20% → n at 80% + n+1 at 20% → n at 100% + n+1 at 80% + n+2 at 20%
-        tl.to(elements, {
+        $gsap.to(elements, {
           keyframes: [
             { autoAlpha: 0.2, duration: phaseTime, ease: "power1.out" },
             { autoAlpha: 0.8, duration: phaseTime, ease: "power1.inOut" },
@@ -48,7 +38,7 @@ watch(
           ],
           stagger: phaseTime,
           onComplete: () => {
-            emit("entry-complete");
+            animationsStore.onTitleEntryComplete();
           },
         });
       });
@@ -61,7 +51,6 @@ watch(
   () => animationsStore.landing.intro.started,
   (started) => {
     if (started && chars.value && chars.value.length) {
-      console.log("started");
       const elements = toRaw(chars.value);
       const phaseTime = 0.1;
 
@@ -73,6 +62,9 @@ watch(
           { autoAlpha: 0, duration: phaseTime, ease: "power1.in" },
         ],
         stagger: phaseTime,
+        onComplete: () => {
+          animationsStore.onTitleExitComplete();
+        },
       });
     }
   }
