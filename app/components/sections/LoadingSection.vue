@@ -29,9 +29,9 @@ watch(
   () => landing.value.intro.started,
   (started) => {
     if (started) {
-      const tl = $gsap.timeline({ defaults: { ease: "power1.inOut" } });
+      const tl = $gsap.timeline({ defaults: { ease: "sine.inOut", duration: 0.6 } });
 
-      // État 1 → 2: 0% #1C2032, 33% #2B3E5F, 66% #627EA4, 97% #A4BBD6
+      // État 1 → 2
       tl.to(gradientState, {
         color1: "#1c2032",
         color2: "#2b3e5f",
@@ -40,11 +40,10 @@ watch(
         stop1: 0,
         stop2: 33,
         stop3: 66,
-        stop4: 97,
-        duration: 0.4,
+        stop4: 100,
       });
 
-      // État 2 → 3: 0% #2B3E5F, 33% #627EA4, 66% #A4BBD6, 100% #C2D6E6
+      // État 2 → 3
       tl.to(gradientState, {
         color1: "#2b3e5f",
         color2: "#627ea4",
@@ -54,10 +53,9 @@ watch(
         stop2: 33,
         stop3: 66,
         stop4: 100,
-        duration: 0.4,
       });
 
-      // État 3 → 4: 0% #627EA4, 33% #A4BBD6, 66% #C2D6E6, 100% #FFFFFF
+      // État 3 → 4
       tl.to(gradientState, {
         color1: "#627ea4",
         color2: "#a4bbd6",
@@ -67,10 +65,10 @@ watch(
         stop2: 33,
         stop3: 66,
         stop4: 100,
-        duration: 0.4,
       });
 
-      // État 4 → 5: 0% #A4BBD6, 33% #C2D6E6, 100% #FFFFFF (3 stops, color3=color4)
+      // État 4 → 5: Transition douce vers moins de stops
+      // On éclaircit tout, le blanc prend plus de place (stop3 -> 100)
       tl.to(gradientState, {
         color1: "#a4bbd6",
         color2: "#c2d6e6",
@@ -80,23 +78,10 @@ watch(
         stop2: 33,
         stop3: 100,
         stop4: 100,
-        duration: 0.4,
       });
 
-      // État 5 → 6: 16% #C2D6E6, 100% #FFFFFF (2 stops)
-      tl.to(gradientState, {
-        color1: "#c2d6e6",
-        color2: "#c2d6e6",
-        color3: "#ffffff",
-        color4: "#ffffff",
-        stop1: 16,
-        stop2: 16,
-        stop3: 100,
-        stop4: 100,
-        duration: 0.4,
-      });
-
-      // État 6 → 7: 0% #C2D6E6, 75% #FFFFFF
+      // État 5 → 6: Fusion des premiers stops pour ne garder que 2 couleurs visuelles
+      // On écrase le premier segment (stop2 -> 0) et on harmonise les couleurs
       tl.to(gradientState, {
         color1: "#c2d6e6",
         color2: "#c2d6e6",
@@ -106,7 +91,6 @@ watch(
         stop2: 0,
         stop3: 75,
         stop4: 100,
-        duration: 0.4,
       });
     }
   }
