@@ -7,6 +7,38 @@ const { $gsap } = useNuxtApp();
 const animationsStore = useAnimationsStore();
 const { landing } = storeToRefs(animationsStore);
 const bottomElement = useTemplateRef("bottomElement");
+const containerElement = useTemplateRef("containerElement");
+
+const gradientColors = reactive({
+  start: "#242124",
+  third: "#1c2032",
+  twoThirds: "#2b3e5f",
+  end: "#627ea4",
+  stopThird: 33,
+  stopTwoThirds: 66,
+});
+
+const backgroundGradient = computed(() => {
+  return `linear-gradient(to bottom, ${gradientColors.start} 0%, ${gradientColors.third} ${gradientColors.stopThird}%, ${gradientColors.twoThirds} ${gradientColors.stopTwoThirds}%, ${gradientColors.end} 100%)`;
+});
+
+watch(
+  () => landing.value.intro.started,
+  (started) => {
+    if (started) {
+      $gsap.to(gradientColors, {
+        start: "#a4bbd6",
+        third: "#c2d6e6",
+        twoThirds: "#ffffff",
+        end: "#ffffff",
+        stopThird: 33,
+        stopTwoThirds: 66,
+        duration: 1.5,
+        ease: "power2.inOut",
+      });
+    }
+  }
+);
 
 const onBottomElementClick = () => {
   animationsStore.startTitleExit();
@@ -15,12 +47,9 @@ const onBottomElementClick = () => {
 
 <template>
   <div
-    class="h-screen w-screen flex flex-col items-center justify-center fixed inset-0 z-10 transition-all duration-1000"
-    :class="
-      landing.intro.started
-        ? 'bg-[linear-gradient(to_bottom,var(--color-bg-intro-gradient-start)_0%,var(--color-bg-intro-gradient-third)_33%,white_100%)]'
-        : 'bg-[linear-gradient(to_bottom,var(--color-bg-gradient-start)_0%,var(--color-bg-gradient-third)_33%,var(--color-bg-gradient-two-thirds)_66%,var(--color-bg-gradient-end)_100%)]'
-    "
+    ref="containerElement"
+    class="h-screen w-screen flex flex-col items-center justify-center fixed inset-0 z-10"
+    :style="{ background: backgroundGradient }"
   >
     <MainTitle title="Hypersensibles" />
     <button
