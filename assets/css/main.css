@@ -7,13 +7,13 @@
   --font-family-serif: "PP Eiko", serif;
   --font-epilogue: "Epilogue", sans-serif;
 
-  --color-bg-gradient-start: #242124;
-  --color-bg-gradient-third: #1c2032;
-  --color-bg-gradient-two-thirds: #2b3e5f;
-  --color-bg-gradient-end: #627ea4;
-
-  --color-bg-intro-gradient-start: #a4bbd6;
-  --color-bg-intro-gradient-third: #c2d6e6;
+  --color-bg-loading-1: #242124;
+  --color-bg-loading-2: #1c2032;
+  --color-bg-loading-3: #2b3e5f;
+  --color-bg-loading-4: #627ea4;
+  --color-bg-loading-5: #a4bbd6;
+  --color-bg-loading-6: #c2d6e6;
+  --color-bg-loading-7: #ffffff;
 }
 
 /* Satoshi Font */

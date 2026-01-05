@@ -25,52 +25,71 @@ const backgroundGradient = computed(() => {
   return `linear-gradient(to bottom, ${gradientState.color1} ${gradientState.stop1}%, ${gradientState.color2} ${gradientState.stop2}%, ${gradientState.color3} ${gradientState.stop3}%, ${gradientState.color4} ${gradientState.stop4}%)`;
 });
 
+// Palette pour stocker les valeurs calculées des variables CSS
+const palette = {};
+
+onMounted(() => {
+  // On récupère les valeurs Hex réelles depuis le CSS pour permettre à GSAP d'interpoler
+  const style = getComputedStyle(document.documentElement);
+  for (let i = 1; i <= 7; i++) {
+    palette[`loading${i}`] = style
+      .getPropertyValue(`--color-bg-loading-${i}`)
+      .trim();
+  }
+
+  // On met à jour l'état initial avec les valeurs exactes du CSS
+  gradientState.color1 = palette.loading1;
+  gradientState.color2 = palette.loading2;
+  gradientState.color3 = palette.loading3;
+  gradientState.color4 = palette.loading4;
+});
+
 watch(
   () => landing.value.intro.started,
   (started) => {
     if (started) {
       const tl = $gsap.timeline();
 
-      // Utilisation de keyframes pour une interpolation ininterrompue et fluide
+      // Utilisation des valeurs Hex résolues (palette) pour une interpolation fluide
       tl.to(gradientState, {
         keyframes: [
-          // Étape 1 : Décalage vers le haut (P2, P3, P4, P5)
+          // Étape 1 : Décalage vers le haut
           {
-            color1: "#1c2032",
-            color2: "#2b3e5f",
-            color3: "#627ea4",
-            color4: "#a4bbd6",
+            color1: palette.loading2,
+            color2: palette.loading3,
+            color3: palette.loading4,
+            color4: palette.loading5,
             stop2: 33,
             stop3: 66,
           },
-          // Étape 2 : Décalage (P3, P4, P5, P6)
+          // Étape 2
           {
-            color1: "#2b3e5f",
-            color2: "#627ea4",
-            color3: "#a4bbd6",
-            color4: "#c2d6e6",
+            color1: palette.loading3,
+            color2: palette.loading4,
+            color3: palette.loading5,
+            color4: palette.loading6,
           },
-          // Étape 3 : Décalage (P4, P5, P6, P7)
+          // Étape 3
           {
-            color1: "#627ea4",
-            color2: "#a4bbd6",
-            color3: "#c2d6e6",
-            color4: "#ffffff",
+            color1: palette.loading4,
+            color2: palette.loading5,
+            color3: palette.loading6,
+            color4: palette.loading7,
           },
-          // Étape 4 : Le blanc s'étend (P5, P6, P7, P7) + stop3 bouge vers 75%
+          // Étape 4
           {
-            color1: "#a4bbd6",
-            color2: "#c2d6e6",
-            color3: "#ffffff",
-            color4: "#ffffff",
+            color1: palette.loading5,
+            color2: palette.loading6,
+            color3: palette.loading7,
+            color4: palette.loading7,
             stop3: 75,
           },
-          // Étape 5 : Final (P6, P6, P7, P7) + stop2 fusionne à 0%
+          // Étape 5
           {
-            color1: "#c2d6e6",
-            color2: "#c2d6e6",
-            color3: "#ffffff",
-            color4: "#ffffff",
+            color1: palette.loading6,
+            color2: palette.loading6,
+            color3: palette.loading7,
+            color4: palette.loading7,
             stop2: 0,
             stop3: 75,
           },
