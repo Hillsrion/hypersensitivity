@@ -6,6 +6,8 @@ const props = defineProps({
   },
 });
 
+const emit = defineEmits(['entry-complete']);
+
 const { $gsap } = useNuxtApp();
 const titleRef = ref(null);
 const { chars } = useSplitText(titleRef, { splitBy: "chars,words" });
@@ -42,6 +44,9 @@ watch(
             { autoAlpha: 1, duration: phaseTime, ease: "power1.in" },
           ],
           stagger: phaseTime,
+          onComplete: () => {
+            emit('entry-complete');
+          },
         });
 
         // Pause
