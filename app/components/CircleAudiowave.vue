@@ -13,19 +13,19 @@ const centerY = 36
 
 // Estimated points from the original SVG to recreate the shape closely
 // The original path is irregular, so we define specific Y values for each X step
-// X range: 7 to 65 (width ~58)
-// We'll use 10 points to match the visual peaks/valleys
+// We exaggerate the Y values (relative to center 36) because our smoothing algorithm (Quadratic through midpoints)
+// tends to flatten peaks. Roughly doubling the offset restores the visual height.
 const originalPoints = [
-  { x: 7.2, y: 37.95 },   // Start
-  { x: 12.4, y: 37.95 },  // Flat
-  { x: 17.9, y: 41.9 },   // Dip
-  { x: 24.8, y: 33.0 },   // Rise
-  { x: 31.4, y: 45.6 },   // Dip
-  { x: 39.0, y: 24.7 },   // Big Rise
-  { x: 46.1, y: 47.3 },   // Big Dip
-  { x: 52.9, y: 34.0 },   // Rise
-  { x: 58.9, y: 38.5 },   // Settling
-  { x: 64.8, y: 38.5 }    // End
+  { x: 7.2, y: 39.9 },    // Start
+  { x: 12.4, y: 39.9 },   // Flat
+  { x: 17.9, y: 47.8 },   // Dip
+  { x: 24.8, y: 30.0 },   // Rise
+  { x: 31.4, y: 55.2 },   // Dip
+  { x: 39.0, y: 13.4 },   // Big Rise (Exaggerated to hit ~24 visual)
+  { x: 46.1, y: 58.6 },   // Big Dip (Exaggerated to hit ~47 visual)
+  { x: 52.9, y: 32.0 },   // Rise
+  { x: 58.9, y: 41.0 },   // Settling
+  { x: 64.8, y: 41.0 }    // End
 ]
 
 // Animation variables
