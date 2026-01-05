@@ -48,7 +48,7 @@ watch(
 );
 
 watch(
-  () => animationsStore.landing.intro.started,
+  () => animationsStore.landing.mainTitle.exit.started,
   (started) => {
     if (started && chars.value && chars.value.length) {
       const elements = toRaw(chars.value);
