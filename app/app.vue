@@ -1,4 +1,5 @@
 <script setup>
+import LoadingSection from "./components/sections/LoadingSection.vue";
 const route = useRoute();
 
 const { data: page } = await useAsyncData("page-" + route.path, () => {
@@ -12,8 +13,13 @@ if (!page.value) {
     fatal: true,
   });
 }
+
+const isLoading = ref(true);
 </script>
 
 <template>
-  <BackgroundGradient />
+  <div>
+    <BackgroundGradient />
+    <LoadingSection v-if="isLoading" />
+  </div>
 </template>
