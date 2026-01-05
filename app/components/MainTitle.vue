@@ -1,4 +1,6 @@
 <script setup>
+import { useAnimationsStore } from "~/stores/animations";
+
 const props = defineProps({
   title: {
     type: String,
@@ -6,9 +8,10 @@ const props = defineProps({
   },
 });
 
-const emit = defineEmits(['entry-complete']);
+const emit = defineEmits(["entry-complete"]);
 
 const { $gsap } = useNuxtApp();
+const animationsStore = useAnimationsStore();
 const titleRef = ref(null);
 const { chars } = useSplitText(titleRef, { splitBy: "chars,words" });
 const masterTl = ref(null);
@@ -45,26 +48,34 @@ watch(
           ],
           stagger: phaseTime,
           onComplete: () => {
-            emit('entry-complete');
+            emit("entry-complete");
           },
-        });
-
-        // Pause
-        tl.to({}, { duration: 1 });
-
-        // Exit: same direction (first letter disappears first)
-        tl.to(elements, {
-          keyframes: [
-            { autoAlpha: 0.8, duration: phaseTime, ease: "power1.out" },
-            { autoAlpha: 0.2, duration: phaseTime, ease: "power1.inOut" },
-            { autoAlpha: 0, duration: phaseTime, ease: "power1.in" },
-          ],
-          stagger: phaseTime,
         });
       });
     }
   },
   { immediate: true }
+);
+
+watch(
+  () => animationsStore.landing.intro.started,
+  (started) => {
+    if (started && chars.value && chars.value.length) {
+      console.log("started");
+      const elements = toRaw(chars.value);
+      const phaseTime = 0.1;
+
+      // Exit: same direction (first letter disappears first)
+      $gsap.to(elements, {
+        keyframes: [
+          { autoAlpha: 0.8, duration: phaseTime, ease: "power1.out" },
+          { autoAlpha: 0.2, duration: phaseTime, ease: "power1.inOut" },
+          { autoAlpha: 0, duration: phaseTime, ease: "power1.in" },
+        ],
+        stagger: phaseTime,
+      });
+    }
+  }
 );
 </script>
 
