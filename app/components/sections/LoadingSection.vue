@@ -1,5 +1,4 @@
 <script setup>
-import circleAudiowave from "~/assets/images/circle-audiowave.svg";
 import { useAnimationsStore } from "~/stores/animations";
 import { storeToRefs } from "pinia";
 
@@ -7,6 +6,7 @@ const animationsStore = useAnimationsStore();
 const { landing } = storeToRefs(animationsStore);
 const bottomElement = useTemplateRef("bottomElement");
 const containerElement = useTemplateRef("containerElement");
+const isHovered = ref(false);
 
 const { backgroundGradient, animate } = useBackgroundGradient();
 
@@ -39,9 +39,11 @@ const onBottomElementClick = () => {
           !landing.mainTitle.entry.completed || landing.mainTitle.exit.started,
       }"
       @click="onBottomElementClick"
+      @mouseenter="isHovered = true"
+      @mouseleave="isHovered = false"
     >
       <p class="text-white uppercase leading-5">Cliquer pour écouter</p>
-      <img :src="circleAudiowave" alt="Circle Audio Wave" class="w-18 h-18" />
+      <CircleAudiowave class="w-18 h-18" :animating="isHovered" />
     </button>
     <div
       class="absolute top-10 right-16 transition-opacity duration-500"
@@ -49,7 +51,7 @@ const onBottomElementClick = () => {
         'opacity-0': !landing.intro.started,
       }"
     >
-      <img :src="circleAudiowave" alt="Circle Audio Wave" class="w-14 h-14" />
+      <CircleAudiowave class="w-14 h-14" />
     </div>
   </div>
 </template>
