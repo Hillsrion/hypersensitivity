@@ -6,6 +6,11 @@
   --default-font-family: "Satoshi", sans-serif;
   --font-family-serif: "PP Eiko", serif;
   --font-epilogue: "Epilogue", sans-serif;
+
+  --color-bg-gradient-start: #242124;
+  --color-bg-gradient-third: #1c2032;
+  --color-bg-gradient-two-thirds: #2b3e5f;
+  --color-bg-gradient-end: #627ea4;
 }
 
 /* Satoshi Font */
