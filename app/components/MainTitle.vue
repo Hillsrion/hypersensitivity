@@ -18,30 +18,41 @@ watch(chars, (newChars) => {
       if (masterTl.value) masterTl.value.kill();
 
       const elements = toRaw(newChars);
-      
+
       // Force start state
       $gsap.set(elements, { autoAlpha: 0 });
 
-      const tl = $gsap.timeline({
-        onStart: () => console.log("Timeline started"),
-        onComplete: () => console.log("Timeline complete")
-      });
+      const tl = $gsap.timeline();
       masterTl.value = tl;
 
-      // DEBUG: Simple stagger to verify GSAP works
+      // Wave animation timing
+      // Each letter takes 3 phases to fully appear
+      // Stagger = 1 phase, so 3 letters animate simultaneously
+      const phaseTime = 0.1;
+      const letterDuration = phaseTime * 3;
+
+      // Entry: wave effect with overlapping opacity
+      // n at 20% → n at 80% + n+1 at 20% → n at 100% + n+1 at 80% + n+2 at 20%
       tl.to(elements, {
-        autoAlpha: 1,
-        duration: 0.5,
-        stagger: 0.1,
-        ease: "power2.out"
+        keyframes: [
+          { autoAlpha: 0.2, duration: phaseTime, ease: "power1.out" },
+          { autoAlpha: 0.8, duration: phaseTime, ease: "power1.inOut" },
+          { autoAlpha: 1, duration: phaseTime, ease: "power1.in" }
+        ],
+        stagger: phaseTime
       });
-      
-      // Exit
+
+      // Pause
+      tl.to({}, { duration: 1 });
+
+      // Exit: same direction (first letter disappears first)
       tl.to(elements, {
-        autoAlpha: 0,
-        duration: 0.5,
-        stagger: 0.05,
-        delay: 1
+        keyframes: [
+          { autoAlpha: 0.8, duration: phaseTime, ease: "power1.out" },
+          { autoAlpha: 0.2, duration: phaseTime, ease: "power1.inOut" },
+          { autoAlpha: 0, duration: phaseTime, ease: "power1.in" }
+        ],
+        stagger: phaseTime
       });
     });
   }
