@@ -12,12 +12,14 @@
     "@hypernym/nuxt-gsap": "^2.4.2",
     "@nuxt/content": "^3.9.0",
     "@nuxtjs/google-fonts": "^3.2.0",
+    "@pinia/nuxt": "^0.11.3",
     "@tailwindcss/vite": "^4.1.18",
     "better-sqlite3": "^12.5.0",
     "fluid-tailwindcss": "^1.0.5",
     "gsap": "^3.14.2",
     "nuxt": "^4.2.2",
     "nuxt-split-type": "^0.1.8",
+    "pinia": "^3.0.4",
     "tailwindcss": "^4.1.18"
   },
   "pnpm": {
