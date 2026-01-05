@@ -15,7 +15,12 @@ const onBottomElementClick = () => {
 
 <template>
   <div
-    class="h-screen w-screen flex flex-col items-center justify-center fixed inset-0 z-10 bg-[linear-gradient(to_bottom,var(--color-bg-gradient-start)_0%,var(--color-bg-gradient-third)_33%,var(--color-bg-gradient-two-thirds)_66%,var(--color-bg-gradient-end)_100%)]"
+    class="h-screen w-screen flex flex-col items-center justify-center fixed inset-0 z-10 transition-all duration-1000"
+    :class="
+      landing.intro.started
+        ? 'bg-[linear-gradient(to_bottom,var(--color-bg-intro-gradient-start)_0%,var(--color-bg-intro-gradient-third)_33%,white_100%)]'
+        : 'bg-[linear-gradient(to_bottom,var(--color-bg-gradient-start)_0%,var(--color-bg-gradient-third)_33%,var(--color-bg-gradient-two-thirds)_66%,var(--color-bg-gradient-end)_100%)]'
+    "
   >
     <MainTitle title="Hypersensibles" />
     <button

@@ -30,6 +30,7 @@ export const useAnimationsStore = defineStore("animations", {
     },
     onTitleExitComplete() {
       this.landing.mainTitle.exit.completed = true;
+      this.startIntro();
     },
     onIntroComplete() {
       this.landing.intro.completed = true;
