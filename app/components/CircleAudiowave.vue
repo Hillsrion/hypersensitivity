@@ -5,40 +5,89 @@ const props = defineProps<{
 
 const { $gsap } = useNuxtApp()
 const pathD = ref('')
-const originalOpacity = ref(1)
-const waveOpacity = ref(0)
 
-const originalPath = "M7.19995 37.9498H12.3968C17.0539 37.9498 14.9486 41.8907 17.947 41.8907C21.7748 41.8907 21.7748 32.9765 24.8491 32.9765C28.2819 32.9765 28.1543 45.631 31.4079 45.631C35.4909 45.631 36.3202 24.6855 38.9996 24.6855C42.317 24.6855 40.0842 47.3141 46.081 47.3141C51.376 47.3141 50.3553 34.0362 52.9071 34.0362C55.2676 34.0362 54.9486 38.3375 58.9039 38.4622C62.8593 38.5868 64.7999 38.4609 64.7999 38.4609"
-
-// Configuration for the wave
+// Constants
 const startX = 7
 const endX = 65
 const centerY = 36
-const numberOfPoints = 10
-const segmentWidth = (endX - startX) / (numberOfPoints - 1)
 
-// Animation state
+// Estimated points from the original SVG to recreate the shape closely
+// The original path is irregular, so we define specific Y values for each X step
+// X range: 7 to 65 (width ~58)
+// We'll use 10 points to match the visual peaks/valleys
+const originalPoints = [
+  { x: 7.2, y: 37.95 },   // Start
+  { x: 12.4, y: 37.95 },  // Flat
+  { x: 17.9, y: 41.9 },   // Dip
+  { x: 24.8, y: 33.0 },   // Rise
+  { x: 31.4, y: 45.6 },   // Dip
+  { x: 39.0, y: 24.7 },   // Big Rise
+  { x: 46.1, y: 47.3 },   // Big Dip
+  { x: 52.9, y: 34.0 },   // Rise
+  { x: 58.9, y: 38.5 },   // Settling
+  { x: 64.8, y: 38.5 }    // End
+]
+
+// Animation variables
 const time = ref(0)
-const amplitude = ref(0)
 const speed = ref(0)
+const morphProgress = ref(0) // 0 = Original Shape, 1 = Sine Wave
 
 const updateWave = () => {
   let points = []
+  const numberOfPoints = originalPoints.length
+  
   for (let i = 0; i < numberOfPoints; i++) {
-    const x = startX + i * segmentWidth
-    const edgeFactor = Math.sin((i / (numberOfPoints - 1)) * Math.PI)
-    const y = centerY + Math.sin(i * 1.2 + time.value) * amplitude.value * 14 * edgeFactor
-    points.push({ x, y })
+    // 1. Calculate the "Wave" position (Dynamic)
+    const p = originalPoints[i]
+    
+    // Calculate a nice sine wave for this x-position
+    // Normalized X (0 to 1)
+    const normX = (p.x - startX) / (endX - startX)
+    
+    // Envelope to keep edges pinned (0 at ends, 1 in middle)
+    // Using a sine window for smooth taper
+    const envelope = Math.sin(normX * Math.PI)
+    
+    // Dynamic sine wave
+    const waveY = centerY + Math.sin(i * 1.1 + time.value) * 14 * envelope
+    
+    // 2. Interpolate between Original Y and Wave Y
+    // When morphProgress is 0, we strictly use p.y (Original)
+    // When morphProgress is 1, we strictly use waveY (Dynamic)
+    const currentY = p.y + (waveY - p.y) * morphProgress.value
+    
+    points.push({ x: p.x, y: currentY })
   }
 
-  let d = `M ${points[0].x} ${points[0].y}`
-  for (let i = 1; i < points.length - 2; i++) {
-    const xc = (points[i].x + points[i + 1].x) / 2
-    const yc = (points[i].y + points[i + 1].y) / 2
-    d += ` Q ${points[i].x} ${points[i].y}, ${xc} ${yc}`
+  // Draw the curve
+  // Using Catmull-Rom or similar might be better for the original sharp turns,
+  // but Quadratic Bezier is smoother for the wave.
+  // We'll stick to the Quadratic Midpoint approach as it's stable.
+  if (points.length > 1) {
+    let d = `M ${points[0].x} ${points[0].y}`
+    
+    // For the first segment, just a line if it's flat, but let's use the curve alg
+    for (let i = 0; i < points.length - 1; i++) {
+      const p0 = points[i]
+      const p1 = points[i + 1]
+      
+      // Midpoint strategy
+      const mx = (p0.x + p1.x) / 2
+      const my = (p0.y + p1.y) / 2
+      
+      if (i === 0) {
+        d += ` L ${mx} ${my}`
+      } else {
+         d += ` Q ${p0.x} ${p0.y}, ${mx} ${my}`
+      }
+    }
+    // Connect to last point
+    const last = points[points.length - 1]
+    d += ` L ${last.x} ${last.y}`
+    
+    pathD.value = d
   }
-  d += ` Q ${points[points.length - 2].x} ${points[points.length - 2].y}, ${points[points.length - 1].x} ${points[points.length - 1].y}`
-  pathD.value = d
 }
 
 const onTick = () => {
@@ -50,6 +99,7 @@ let ctx: gsap.Context
 
 onMounted(() => {
   updateWave()
+  
   ctx = $gsap.context(() => {
     $gsap.ticker.add(onTick)
   })
@@ -62,45 +112,30 @@ onUnmounted(() => {
 
 watch(() => props.animating, (isAnimating) => {
   if (isAnimating) {
-    // Cross-fade to wave
-    $gsap.to(originalOpacity, { value: 0, duration: 0.4, ease: 'power2.inOut' })
-    $gsap.to(waveOpacity, { value: 1, duration: 0.4, ease: 'power2.inOut' })
-    
-    // Ramp up animation
-    $gsap.to(speed, { value: 0.12, duration: 0.6, ease: 'power2.out' })
-    $gsap.to(amplitude, { value: 1, duration: 0.6, ease: 'back.out(1.5)' })
+    // Transition TO Wave
+    $gsap.to(morphProgress, { value: 1, duration: 0.8, ease: 'power2.inOut' })
+    $gsap.to(speed, { value: 0.15, duration: 0.8, ease: 'power2.out' })
   } else {
-    // Cross-fade back to original
-    $gsap.to(originalOpacity, { value: 1, duration: 0.4, ease: 'power2.inOut' })
-    $gsap.to(waveOpacity, { value: 0, duration: 0.4, ease: 'power2.inOut' })
-    
-    // Stop animation
-    $gsap.to(speed, { value: 0, duration: 0.4, ease: 'power2.inOut' })
-    $gsap.to(amplitude, { value: 0, duration: 0.4, ease: 'power2.inOut' })
+    // Transition TO Original
+    $gsap.to(morphProgress, { value: 0, duration: 0.6, ease: 'elastic.out(1, 0.5)' })
+    // Slow down speed but keep it moving a bit until fully morphed? 
+    // Actually better to keep speed up during morph back so it doesn't freeze "mid-wave"
+    // then kill speed.
+    $gsap.to(speed, { value: 0, duration: 0.6, ease: 'power2.inOut' })
   }
 }, { immediate: true })
+
 </script>
 
 <template>
   <svg viewBox="0 0 72 72" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <!-- Original Path (Static) -->
-    <path 
-      :d="originalPath" 
-      stroke="white" 
-      stroke-width="1"
-      :style="{ opacity: originalOpacity }"
-    />
-    
-    <!-- Animated Wave Path -->
     <path 
       :d="pathD" 
       stroke="white" 
       stroke-width="1.5" 
       stroke-linecap="round" 
       stroke-linejoin="round"
-      :style="{ opacity: waveOpacity }"
     />
-    
     <circle cx="36" cy="36" r="35.5" stroke="white"/>
   </svg>
 </template>
