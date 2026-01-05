@@ -65,7 +65,7 @@ const { $gsap } = useNuxtApp()
 **SplitType Usage**: Use the composable for text animations:
 ```ts
 const el = ref<HTMLElement>()
-const { instance } = useSplitType(el, { types: 'lines, words, chars' })
+const { chars, words, lines } = useSplitText(el, { splitBy: 'lines, words, chars' })
 ```
 
 **Content Components**: Markdown files support inline Vue components using `::component-name` syntax.

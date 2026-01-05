@@ -3,7 +3,9 @@ import circleAudiowave from "~/assets/images/circle-audiowave.svg";
 </script>
 
 <template>
-  <div class="h-screen w-screen flex flex-col items-center justify-between">
+  <div
+    class="h-screen w-screen flex flex-col items-center justify-between fixed inset-0 z-10"
+  >
     <MainTitle title="Hypersensitivity" />
     <div class="flex flex-col items-center justify-center gap-y-4">
       <p class="text-white uppercase">Cliquer pour écouter</p>
