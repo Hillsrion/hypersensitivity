@@ -17,7 +17,7 @@ const onTitleEntryComplete = () => {
 
 <template>
   <div
-    class="h-screen w-screen flex flex-col items-center justify-center fixed inset-0 z-10 bg-[linear-gradient(to_bottom,_#242124_0%,_#1c2032_33%,_#2b3e5f_66%,_#627ea4_100%)]"
+    class="h-screen w-screen flex flex-col items-center justify-center fixed inset-0 z-10 bg-[linear-gradient(to_bottom,_var(--color-bg-gradient-start)_0%,_var(--color-bg-gradient-third)_33%,_var(--color-bg-gradient-two-thirds)_66%,_var(--color-bg-gradient-end)_100%)]"
   >
     <MainTitle title="Hypersensibles" @entry-complete="onTitleEntryComplete" />
     <div
