@@ -17,7 +17,7 @@ const onTitleEntryComplete = () => {
 
 <template>
   <div
-    class="h-screen w-screen flex flex-col items-center justify-center fixed inset-0 z-10"
+    class="h-screen w-screen flex flex-col items-center justify-center fixed inset-0 z-10 bg-linear-to-b from-black to-gray-900"
   >
     <MainTitle title="Hypersensibles" @entry-complete="onTitleEntryComplete" />
     <div

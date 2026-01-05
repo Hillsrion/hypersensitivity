@@ -19,7 +19,6 @@ const isLoading = ref(true);
 
 <template>
   <div>
-    <BackgroundGradient />
     <LoadingSection v-if="isLoading" />
   </div>
 </template>
