@@ -51,15 +51,17 @@ const updateWave = () => {
 
     // Dynamic sine wave with multiple layers for sophistication
     // Layer 1: Main slow wave
-    const wave1 = Math.sin(i * 0.8 + time.value) * 10;
+    const wave1 = Math.sin(i * 0.8 + time.value) * 10
     // Layer 2: Faster, smaller ripple
-    const wave2 = Math.sin(i * 1.25 - time.value * 1.8) * 4;
+    const wave2 = Math.sin(i * 1.6 - time.value * 1.5) * 4
     // Layer 3: Ultra-slow shifting drift
-    const wave3 = Math.sin(i * 0.4 + time.value * 0.5) * 6;
-
+    const wave3 = Math.sin(i * 0.4 + time.value * 0.5) * 6
+    // Layer 4: Final high-frequency "shimmer"
+    const wave4 = Math.sin(i * 2.5 + time.value * 3.0) * 2.5
+    
     // Combine and apply envelope
-    const waveY = centerY + (wave1 + wave2 + wave3) * envelope * 0.85; // Slight scale down to fit bounds
-
+    const waveY = centerY + (wave1 + wave2 + wave3 + wave4) * envelope * 0.8 
+    
     // 2. Interpolate between Original Y and Wave Y
     // When morphProgress is 0, we strictly use p.y (Original)
     // When morphProgress is 1, we strictly use waveY (Dynamic)
