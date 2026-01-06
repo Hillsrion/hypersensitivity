@@ -55,7 +55,7 @@ const onBottomElementClick = () => {
         'opacity-0': !landing.intro.entry.started,
       }"
     >
-      <CircleAudiowave class="w-14 h-14" />
+      <CircleAudiowave class="w-14 h-14" primary />
     </div>
   </div>
 </template>

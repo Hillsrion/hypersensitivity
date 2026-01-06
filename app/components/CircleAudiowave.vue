@@ -1,10 +1,22 @@
 <script setup lang="ts">
 const props = defineProps<{
   animating?: boolean;
+  primary?: boolean;
 }>();
 
 const { $gsap } = useNuxtApp();
 const pathD = ref("");
+const strokeColor = ref('white');
+
+// Update stroke color based on primary prop
+const updateStrokeColor = () => {
+  if (props.primary) {
+    const cssVar = getComputedStyle(document.documentElement).getPropertyValue('--color-primary').trim();
+    strokeColor.value = cssVar || '#0b1018';
+  } else {
+    strokeColor.value = 'white';
+  }
+};
 
 // Constants
 const startX = 7;
@@ -109,11 +121,17 @@ let ctx: gsap.Context;
 
 onMounted(() => {
   updateWave();
+  updateStrokeColor();
 
   ctx = $gsap.context(() => {
     $gsap.ticker.add(onTick);
   });
 });
+
+watch(
+  () => props.primary,
+  () => updateStrokeColor()
+);
 
 onUnmounted(() => {
   ctx?.revert();
@@ -148,11 +166,11 @@ watch(
   <svg viewBox="0 0 72 72" fill="none" xmlns="http://www.w3.org/2000/svg">
     <path
       :d="pathD"
-      stroke="white"
+      :stroke="strokeColor"
       stroke-width="1.5"
       stroke-linecap="round"
       stroke-linejoin="round"
     />
-    <circle cx="36" cy="36" r="35.5" stroke="white" />
+    <circle cx="36" cy="36" r="35.5" :stroke="strokeColor" />
   </svg>
 </template>
