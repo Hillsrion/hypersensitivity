@@ -1,9 +1,14 @@
 <script setup>
 import LoadingSection from "./components/sections/LoadingSection.vue";
 import SoundIntroduction from "./components/SoundIntroduction.vue";
+import { useAudioStore } from "@/stores/audio";
+import { useAnimationsStore } from "~/stores/animations";
 import mainData from "./data/main.json";
 
 const route = useRoute();
+
+const audioStore = useAudioStore();
+const animations = useAnimationsStore();
 
 const { data: page } = await useAsyncData("page-" + route.path, () => {
   return queryCollection("content").path(route.path).first();
@@ -19,6 +24,22 @@ if (!page.value) {
 
 const isLoading = ref(true);
 const introductionData = mainData.introduction;
+
+onMounted(async () => {
+  const audioList = mainData.testimonies
+    .filter((item) => item.audio)
+    .map((item) => ({
+      path: item.audio,
+      transcript: item.content,
+      timings: item.timings,
+    }));
+  audioList.push({
+    path: "/audios/alix-intro.mp3",
+    transcript: introductionData.content,
+    timings: introductionData.timings,
+  });
+  audioStore.preloadList(audioList);
+});
 </script>
 
 <template>

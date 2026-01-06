@@ -1,6 +1,6 @@
 <template>
   <div class="flex items-center justify-center h-svh mx-auto z-10 relative">
-    <div ref="wrapperRef" class="max-w-5xl px-4 opacity-0 translate-y-5">
+    <div ref="wrapperRef" class="max-w-5xl px-4 opacity-0">
       <p
         ref="textRef"
         class="text-[2.75rem] text-primary leading-16 font-serif font-italic font-light"
@@ -44,9 +44,8 @@ const props = defineProps({
 const split = useSplitText(textRef, {
   splitBy: "lines, words",
   onComplete: (instance) => {
-    $gsap.set(instance.lines, {
-      y: 35,
-      opacity: 0,
+    $gsap.set(instance.words, {
+      opacity: 0.2,
     });
   },
 });
@@ -90,16 +89,18 @@ const animate = () => {
       audioStore.playAudio(props.audio);
     },
     onComplete: () => {
-      // todo
+      animations.onIntroEntryComplete();
+      audioStore.stopCurrentAudio();
     },
   });
+
   split.words.value.forEach((wordEl, index) => {
     const timing = timings.value[index];
     if (timing) {
       wordTimeline.to(
         wordEl,
         {
-          color: "#ffffff",
+          opacity: 1,
           duration: timing.end - timing.start,
           ease: "none",
         },
@@ -108,21 +109,8 @@ const animate = () => {
     }
   });
 
-  // Add word timeline to main timeline at the start
+  // Add word timeline after the initial animations (wrapper fade in + lines fade in)
   tl.add(wordTimeline, "0");
-
-  // Final fade out
-  tl.to(split.lines.value, {
-    y: -10,
-    duration: 0.8,
-    stagger: 0.03,
-    opacity: 0,
-    ease: "power4.out",
-    onComplete: () => {
-      animations.onIntroEntryComplete();
-      audioStore.stopCurrentAudio();
-    },
-  });
 };
 
 watch(
@@ -133,8 +121,4 @@ watch(
     }
   }
 );
-
-onBeforeUnmount(() => {
-  split.revert();
-});
 </script>
