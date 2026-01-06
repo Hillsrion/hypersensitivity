@@ -1,9 +1,12 @@
 <script setup>
 import { useAnimationsStore } from "~/stores/animations";
+import { useAudioStore } from "~/stores/audio";
 import { storeToRefs } from "pinia";
 
 const animationsStore = useAnimationsStore();
+const audioStore = useAudioStore();
 const { landing } = storeToRefs(animationsStore);
+const { isPlaying } = storeToRefs(audioStore);
 const bottomElement = useTemplateRef("bottomElement");
 const containerElement = useTemplateRef("containerElement");
 const isHovered = ref(false);
@@ -55,7 +58,7 @@ const onBottomElementClick = () => {
         'opacity-0': !landing.intro.entry.started,
       }"
     >
-      <CircleAudiowave class="w-14 h-14" primary />
+      <CircleAudiowave class="w-14 h-14" primary :animating="isPlaying" />
     </div>
   </div>
 </template>
