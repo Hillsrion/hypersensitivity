@@ -11,7 +11,7 @@ const isHovered = ref(false);
 const { backgroundGradient, animate } = useBackgroundGradient();
 
 watch(
-  () => landing.value.intro.started,
+  () => landing.value.intro.entry.started,
   (started) => {
     if (started) {
       animate();
@@ -27,8 +27,12 @@ const onBottomElementClick = () => {
 <template>
   <div
     ref="containerElement"
-    class="h-screen w-screen flex flex-col items-center justify-center fixed inset-0 z-10"
+    class="h-screen w-screen flex flex-col items-center justify-center fixed inset-0"
     :style="{ background: backgroundGradient }"
+    :class="{
+      'z-99': !landing.mainTitle.exit.completed,
+      'z-10': landing.mainTitle.exit.completed,
+    }"
   >
     <MainTitle title="Hypersensibles" />
     <button
@@ -48,7 +52,7 @@ const onBottomElementClick = () => {
     <div
       class="absolute top-10 right-16 transition-opacity duration-500"
       :class="{
-        'opacity-0': !landing.intro.started,
+        'opacity-0': !landing.intro.entry.started,
       }"
     >
       <CircleAudiowave class="w-14 h-14" />

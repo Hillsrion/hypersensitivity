@@ -119,14 +119,14 @@ const animate = () => {
     opacity: 0,
     ease: "power4.out",
     onComplete: () => {
-      animations.onIntroductionComplete();
+      animations.onIntroEntryComplete();
       audioStore.stopCurrentAudio();
     },
   });
 };
 
 watch(
-  () => animations.landing.intro.started,
+  () => animations.landing.intro.entry.started,
   (started) => {
     if (started) {
       animate();

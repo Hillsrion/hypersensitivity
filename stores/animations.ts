@@ -6,8 +6,14 @@ export const useAnimationsStore = defineStore("animations", {
       enabled: true,
       complete: false,
       intro: {
-        started: false,
-        completed: false,
+        entry: {
+          started: false,
+          completed: false,
+        },
+        exit: {
+          started: false,
+          completed: false,
+        },
       },
       mainTitle: {
         entry: {
@@ -30,13 +36,19 @@ export const useAnimationsStore = defineStore("animations", {
     },
     onTitleExitComplete() {
       this.landing.mainTitle.exit.completed = true;
-      this.startIntro();
+      this.startIntroEntry();
     },
-    onIntroComplete() {
-      this.landing.intro.completed = true;
+    onIntroEntryComplete() {
+      this.landing.intro.entry.completed = true;
     },
-    startIntro() {
-      this.landing.intro.started = true;
+    startIntroExit() {
+      this.landing.intro.exit.started = true;
+    },
+    onIntroExitComplete() {
+      this.landing.intro.exit.completed = true;
+    },
+    startIntroEntry() {
+      this.landing.intro.entry.started = true;
     },
   },
 });
