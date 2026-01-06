@@ -22,7 +22,7 @@ if (!page.value) {
   });
 }
 
-const isLoading = ref(true);
+const isLoading = ref(false);
 const introductionData = mainData.introduction;
 
 onMounted(async () => {
@@ -54,5 +54,13 @@ onMounted(async () => {
     <div
       class="fixed inset-0 z-9999 pointer-events-none opacity-15 bg-repeat bg-[url('/images/noise.svg')]"
     />
+    <div class="relative z-1 mx-auto flex flex-col gap-y-16">
+      <GenericSection
+        v-for="section in mainData.sections"
+        :key="section.title"
+        :title="section.title"
+        :content="section.content"
+      />
+    </div>
   </div>
 </template>

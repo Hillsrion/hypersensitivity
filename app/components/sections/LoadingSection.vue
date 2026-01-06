@@ -34,7 +34,6 @@ const onBottomElementClick = () => {
     :style="{ background: backgroundGradient }"
     :class="{
       'z-99': !landing.mainTitle.exit.completed,
-      'z-10': landing.mainTitle.exit.completed,
     }"
   >
     <MainTitle title="Hypersensibles" />
