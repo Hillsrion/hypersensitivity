@@ -34,7 +34,7 @@ onMounted(() => {
         trigger: containerRef.value,
         start: "top top",
         pin: true,
-        end: "+=200%", // Increased scroll distance
+        end: "+=300%",
         scrub: 1,
         invalidateOnRefresh: true, // Handle resize better
       },
@@ -54,7 +54,7 @@ onMounted(() => {
           if (total <= 1) return 1;
           return 1 - (index / (total - 1)) * 0.6;
         },
-        duration: 5,
+        duration: 4,
         ease: "power2.out",
       },
       "fanOut"
@@ -67,7 +67,7 @@ onMounted(() => {
       {
         y: maxDistance,
         scale: minScale,
-        duration: 5,
+        duration: 6,
         ease: "power2.inOut",
       },
       ">"
@@ -76,7 +76,7 @@ onMounted(() => {
     // Phase 3: Move pack to top
     const firstTitle = titlesRef.value[0];
     const scaledHeight = firstTitle.offsetHeight * minScale;
-    const offset = 32; // 2rem offset
+    const offset = 108; // 2rem offset
 
     // Set initial position for content before moving up (at the bottom)
     tl.set(contentRef.value, { y: maxDistance + scaledHeight + offset });
@@ -85,7 +85,7 @@ onMounted(() => {
       titlesRef.value,
       {
         y: 0,
-        duration: 5,
+        duration: 6,
         ease: "power2.inOut",
       },
       "moveUp"
@@ -96,7 +96,7 @@ onMounted(() => {
       contentRef.value,
       {
         y: scaledHeight + offset,
-        duration: 5,
+        duration: 6,
         ease: "power2.inOut",
       },
       "<"
@@ -108,18 +108,18 @@ onMounted(() => {
     tl.to(
       listItems,
       { opacity: 1, duration: 1, ease: "power2.out", stagger: 0.1 },
-      "moveUp+=2.5"
+      "moveUp+=2"
     );
 
     // Phase 5: Fade Out
-    // Fade out only after the moveUp phase is complete (duration was 5)
+    // Fade out only after the moveUp phase is complete (duration was 6)
     tl.to(
       containerRef.value,
       {
         opacity: 0,
         ease: "power1.inOut",
       },
-      "moveUp+=5"
+      "moveUp+=6"
     );
   });
 });
@@ -128,7 +128,7 @@ onMounted(() => {
 <template>
   <section
     ref="containerRef"
-    class="h-[300svh] w-full relative overflow-hidden flex flex-col items-center justify-start pt-19 z-10"
+    class="h-[400svh] w-full relative overflow-hidden flex flex-col items-center justify-start pt-19 z-10"
   >
     <!-- Title Wrapper: Holds the stack of titles -->
 
