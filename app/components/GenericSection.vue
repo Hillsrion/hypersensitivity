@@ -76,9 +76,10 @@ onMounted(() => {
     // Phase 3: Move pack to top
     const firstTitle = titlesRef.value[0];
     const scaledHeight = firstTitle.offsetHeight * minScale;
+    const offset = 108; // 2rem offset
 
     // Set initial position for content before moving up (at the bottom)
-    tl.set(contentRef.value, { y: maxDistance + scaledHeight });
+    tl.set(contentRef.value, { y: maxDistance + scaledHeight + offset });
 
     tl.to(
       titlesRef.value,
@@ -94,7 +95,7 @@ onMounted(() => {
     tl.to(
       contentRef.value,
       {
-        y: scaledHeight,
+        y: scaledHeight + offset,
         duration: 5,
         ease: "power2.inOut",
       },
