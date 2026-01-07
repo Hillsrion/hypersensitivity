@@ -76,7 +76,7 @@ onMounted(() => {
     // Phase 3: Move pack to top
     const firstTitle = titlesRef.value[0];
     const scaledHeight = firstTitle.offsetHeight * minScale;
-    const offset = 108; // 2rem offset
+    const offset = 32; // 2rem offset
 
     // Set initial position for content before moving up (at the bottom)
     tl.set(contentRef.value, { y: maxDistance + scaledHeight + offset });
@@ -88,7 +88,7 @@ onMounted(() => {
         duration: 5,
         ease: "power2.inOut",
       },
-      ">"
+      "moveUp"
     );
 
     // Sync content movement with titles
@@ -103,18 +103,23 @@ onMounted(() => {
     );
 
     // Phase 4: Reveal Content
-    // Content fades in after titles are back at top
+    // Content fades in later during the move up
     const listItems = contentRef.value.querySelectorAll("li");
-    tl.to(listItems, { opacity: 1, duration: 1, ease: "power2.out" }, ">");
+    tl.to(
+      listItems,
+      { opacity: 1, duration: 1, ease: "power2.out", stagger: 0.1 },
+      "moveUp+=2.5"
+    );
 
     // Phase 5: Fade Out
+    // Fade out only after the moveUp phase is complete (duration was 5)
     tl.to(
       containerRef.value,
       {
         opacity: 0,
         ease: "power1.inOut",
       },
-      ">"
+      "moveUp+=5"
     );
   });
 });
