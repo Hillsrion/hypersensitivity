@@ -26,7 +26,7 @@ onMounted(() => {
   mm.add("(min-width: 375px)", () => {
     const totalHeight = window.innerHeight;
 
-    const maxDistance = totalHeight * 0.6; // The bottom-most position
+    const maxDistance = totalHeight * 0.625; // The bottom-most position
     const minScale = 0.4;
 
     const tl = $gsap.timeline({
@@ -100,8 +100,17 @@ onMounted(() => {
       ">+1"
     ); // Wait a bit after content reveal
 
-    // Hold phase to ensure collapse finishes around midway (100svh)
-    tl.to({}, { duration: 10 });
+    // Phase 3.5: Move pack to top
+
+    tl.to(
+      titlesRef.value,
+      {
+        y: 0,
+        duration: 5,
+        ease: "power2.inOut",
+      },
+      ">"
+    );
 
     // Phase 4: Fade Out
 
@@ -124,10 +133,10 @@ onMounted(() => {
 
   
 
-      <template>
+<template>
   <section
     ref="containerRef"
-    class="h-[300svh] w-full relative overflow-hidden flex flex-col items-center justify-start pt-20 z-10"
+    class="h-[300svh] w-full relative overflow-hidden flex flex-col items-center justify-start pt-19 z-10"
   >
     <!-- Title Wrapper: Holds the stack of titles -->
 
