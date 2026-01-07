@@ -74,6 +74,12 @@ onMounted(() => {
     );
 
     // Phase 3: Move pack to top
+    const firstTitle = titlesRef.value[0];
+    const scaledHeight = firstTitle.offsetHeight * minScale;
+
+    // Set initial position for content before moving up (at the bottom)
+    tl.set(contentRef.value, { y: maxDistance + scaledHeight });
+
     tl.to(
       titlesRef.value,
       {
@@ -84,16 +90,20 @@ onMounted(() => {
       ">"
     );
 
+    // Sync content movement with titles
+    tl.to(
+      contentRef.value,
+      {
+        y: scaledHeight,
+        duration: 5,
+        ease: "power2.inOut",
+      },
+      "<"
+    );
+
     // Phase 4: Reveal Content
     // Content fades in after titles are back at top
     const listItems = contentRef.value.querySelectorAll("li");
-    // Get the position of the first title and position content just beneath it
-    const firstTitle = titlesRef.value[0];
-    const titleHeight = firstTitle.offsetHeight;
-    const titleY = $gsap.getProperty(firstTitle, "y") || 0;
-    const titleBottom = titleY + titleHeight;
-    // Set y position immediately (at once, no animation)
-    $gsap.set(contentRef.value, { y: titleBottom });
     tl.to(listItems, { opacity: 1, duration: 1, ease: "power2.out" }, ">");
 
     // Phase 5: Fade Out
