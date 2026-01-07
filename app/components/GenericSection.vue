@@ -41,54 +41,27 @@ onMounted(() => {
     });
 
     // Phase 1: Fan Out
-
     // Top (0) stays, Bottom (8) moves to maxDistance.
-
     tl.to(
       titlesRef.value,
       {
         y: (index) => {
           if (index === 0) return 0;
-
           return maxDistance * (index / (titlesRef.value.length - 1));
         },
-
         scale: (index) => {
           const total = titlesRef.value.length;
-
           if (total <= 1) return 1;
-
           return 1 - (index / (total - 1)) * 0.6;
         },
-
         duration: 5,
-
         ease: "power2.out",
       },
       "fanOut"
     );
 
-    // Phase 2: Reveal Content (Staggered)
-
-    // We want the content to appear "from top to bottom".
-
-    // Let's assume contentRef is the wrapper div. We need to target the LI elements inside.
-
-    const listItems = contentRef.value.querySelectorAll("li");
-
-    tl.fromTo(
-      listItems,
-      { opacity: 0, y: 20 },
-      { opacity: 1, y: 0, duration: 2, stagger: 0.5, ease: "power2.out" },
-      ">-=1" // Start slightly before fanOut finishes or right after
-    );
-
-    // Phase 3: Collapse Down
-
-    // "Top titles move downward to meet the smallest title"
-
+    // Phase 2: Collapse Down
     // All titles move to maxDistance and minScale.
-
     tl.to(
       titlesRef.value,
       {
@@ -97,11 +70,10 @@ onMounted(() => {
         duration: 5,
         ease: "power2.inOut",
       },
-      ">+1"
-    ); // Wait a bit after content reveal
+      ">"
+    ); 
 
-    // Phase 3.5: Move pack to top
-
+    // Phase 3: Move pack to top
     tl.to(
       titlesRef.value,
       {
@@ -112,8 +84,16 @@ onMounted(() => {
       ">"
     );
 
-    // Phase 4: Fade Out
+    // Phase 4: Reveal Content
+    const listItems = contentRef.value.querySelectorAll("li");
+    tl.fromTo(
+      listItems,
+      { opacity: 0, y: 20 },
+      { opacity: 1, y: 0, duration: 2, stagger: 0, ease: "power2.out" },
+      ">" 
+    );
 
+    // Phase 5: Fade Out
     tl.to(
       containerRef.value,
       {
