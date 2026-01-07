@@ -22,7 +22,7 @@ if (!page.value) {
   });
 }
 
-const isLoading = ref(false);
+const isLoading = ref(true);
 const introductionData = mainData.introduction;
 
 onMounted(async () => {

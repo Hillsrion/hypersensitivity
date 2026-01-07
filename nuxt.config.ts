@@ -11,6 +11,12 @@ export default defineNuxtConfig({
     '@pinia/nuxt',
   ],
 
+  gsap: {
+    extraPlugins: {
+      scrollTrigger: true,
+    },
+  },
+
   css: ['~/assets/css/main.css'],
 
   alias: {
