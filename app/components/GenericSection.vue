@@ -100,6 +100,9 @@ onMounted(() => {
       ">+1"
     ); // Wait a bit after content reveal
 
+    // Hold phase to ensure collapse finishes around midway (100svh)
+    tl.to({}, { duration: 10 });
+
     // Phase 4: Fade Out
 
     tl.to(
