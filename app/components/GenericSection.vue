@@ -24,126 +24,137 @@ onMounted(() => {
   const mm = $gsap.matchMedia();
 
   mm.add("(min-width: 375px)", () => {
+    const totalHeight = window.innerHeight;
+
+    const maxDistance = totalHeight * 0.6; // The bottom-most position
+    const minScale = 0.4;
+
     const tl = $gsap.timeline({
       scrollTrigger: {
         trigger: containerRef.value,
         start: "top top",
-        end: "+=200%", // Scroll distance to complete animation
-        scrub: 1,
         pin: true,
-        // markers: true, // For debugging
+        end: "+=200%", // Increased scroll distance
+        scrub: 1,
+        invalidateOnRefresh: true, // Handle resize better
       },
     });
 
-    // Initial State: All titles are at the top (y: 0, scale: 1).
-    // We want to fan them out.
-    // The first title (index 0) stays at the top (or moves slightly?).
-    // "Title moves towards the bottom, leaving the bigger duplicated behind."
-    // This implies the element at index 0 (Top visual) should be the "Bigger" one.
-    // The element moving down (index N) should be smaller.
+    // Phase 1: Fan Out
 
-    // Let's assume titlesRef[0] is the top one.
-    // titlesRef[length-1] is the one that goes furthest down.
+    // Top (0) stays, Bottom (8) moves to maxDistance.
 
-    // Animate the fan-out
     tl.to(
       titlesRef.value,
       {
         y: (index) => {
-          // Distribute them downwards.
-          // Index 0 stays at 0.
-          // Index 1 moves down a bit.
-          // Last index moves to "25% of the bottom" -> roughly 75vh?
-          // Let's explicitly calculate or use percentages.
-          // If container is 100vh. Bottom 25% starts at 75vh.
           if (index === 0) return 0;
-          const totalHeight = window.innerHeight; // approximate
-          const targetY =
-            totalHeight * 0.6 * (index / (titlesRef.value.length - 1));
-          return targetY;
+
+          return maxDistance * (index / (titlesRef.value.length - 1));
         },
+
         scale: (index) => {
-          // Index 0 is Scale 1.
-          // Last index is smaller.
-          // "duplicating in smaller sizes"
-          return 1 - index * 0.15;
+          const total = titlesRef.value.length;
+
+          if (total <= 1) return 1;
+
+          return 1 - (index / (total - 1)) * 0.6;
         },
-        opacity: (index) => {
-          // Maybe fading out the lower ones or keeping them visible?
-          // "starts duplicating... leaving bigger behind".
-          // Usually trail effects might have transparency.
-          // Let's keep them relatively visible but maybe slight fade.
-          return 1 - index * 0.1;
-        },
+
         duration: 5,
+
         ease: "power2.out",
       },
-      "start"
+      "fanOut"
     );
 
-    // Reveal Content
+    // Phase 2: Reveal Content (Staggered)
+
+    // We want the content to appear "from top to bottom".
+
+    // Let's assume contentRef is the wrapper div. We need to target the LI elements inside.
+
+    const listItems = contentRef.value.querySelectorAll("li");
+
     tl.fromTo(
-      contentRef.value,
-      { opacity: 0, y: 50 },
-      { opacity: 1, y: 0, duration: 2, ease: "power2.out" },
-      "-=2" // Overlap slightly with the end of fan-out
+      listItems,
+      { opacity: 0, y: 20 },
+      { opacity: 1, y: 0, duration: 2, stagger: 0.5, ease: "power2.out" },
+      ">-=1" // Start slightly before fanOut finishes or right after
     );
 
-    // Fade out whole section at the end
-    tl.to(containerRef.value, {
-      opacity: 0,
-      duration: 2,
-      ease: "power1.inOut",
-    });
+    // Phase 3: Collapse Down
+
+    // "Top titles move downward to meet the smallest title"
+
+    // All titles move to maxDistance and minScale.
+
+    tl.to(
+      titlesRef.value,
+      {
+        y: maxDistance,
+        scale: minScale,
+        duration: 5,
+        ease: "power2.inOut",
+      },
+      ">+1"
+    ); // Wait a bit after content reveal
+
+    // Phase 4: Fade Out
+
+    tl.to(
+      containerRef.value,
+      {
+        opacity: 0,
+        duration: 2,
+        ease: "power1.inOut",
+      },
+      ">"
+    );
   });
 });
 </script>
 
-<template>
+  
+
+      
+
+  
+
+      <template>
   <section
     ref="containerRef"
-    class="h-svh w-full relative overflow-hidden flex flex-col items-center justify-start pt-20"
+    class="h-[300svh] w-full relative overflow-hidden flex flex-col items-center justify-start pt-20 z-10"
   >
     <!-- Title Wrapper: Holds the stack of titles -->
-    <!-- "When title reaches top of viewport" -> We pin the section. 
-         So the titles should be positioned near the top. -->
+
     <div
       ref="titleWrapperRef"
       class="relative w-full flex justify-center z-10 px-4 md:px-0"
     >
-      <!-- 
-        We render the main title and duplicates.
-        We can just render N copies.
-        Let's render 5 copies.
-        Copy 0 is the "Anchor" (Top, Big).
-        Copy 4 is the "Lead" (Bottom, Small).
-      -->
-      <h2
-        v-for="i in 5"
+      <p
+        v-for="i in 9"
         :key="i"
         ref="titlesRef"
-        class="absolute bg-white top-0 w-full text-5xl md:text-[7.5rem] leading-[1.1] md:leading-none font-serif font-light text-center origin-top select-none text-primary break-words hyphens-auto"
+        class="absolute top-0 w-full flex text-5xl md:text-[7.5rem] leading-[1.13] font-serif font-light text-center origin-top select-none text-primary"
         :class="{ 'z-20': i === 1, 'z-10': i > 1 }"
         aria-hidden="true"
       >
-        {{ title }}
-      </h2>
-      <!-- One accessible title for screen readers (hidden visually or mapped to the first one) -->
+        <span class="bg-white max-w-7xl mx-auto">{{ title }}</span>
+      </p>
+
       <span class="sr-only">{{ title }}</span>
     </div>
 
     <!-- Content Paragraphs -->
-    <!-- Positioned absolutely or flex-end? 
-         "Once it reaches 25% of bottom... content appears".
-         The content shouldn't be covered by titles.
-         Let's place it in the center/bottom area.
-    -->
     <div
       ref="contentRef"
-      class="absolute bottom-[15%] w-full max-w-lg px-6 z-30 opacity-0 text-center"
+      class="absolute bottom-[10%] w-full max-w-lg px-6 z-30 text-center"
     >
       <ul class="flex flex-col gap-y-6">
-        <li v-for="(item, index) in content" :key="index">
+        <li v-for="(item, index) in content" :key="index" class="opacity-0">
+          <!-- Start hidden for GSAP to control -->
+
           <p
             class="text-xl md:text-2xl text-primary font-satoshi font-light leading-relaxed"
           >
@@ -154,3 +165,5 @@ onMounted(() => {
     </div>
   </section>
 </template>
+
+  
