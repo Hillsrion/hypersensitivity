@@ -87,6 +87,13 @@ onMounted(() => {
     // Phase 4: Reveal Content
     // Content fades in after titles are back at top
     const listItems = contentRef.value.querySelectorAll("li");
+    // Get the position of the first title and position content just beneath it
+    const firstTitle = titlesRef.value[0];
+    const titleHeight = firstTitle.offsetHeight;
+    const titleY = $gsap.getProperty(firstTitle, "y") || 0;
+    const titleBottom = titleY + titleHeight;
+    // Set y position immediately (at once, no animation)
+    $gsap.set(contentRef.value, { y: titleBottom });
     tl.to(listItems, { opacity: 1, duration: 1, ease: "power2.out" }, ">");
 
     // Phase 5: Fade Out
