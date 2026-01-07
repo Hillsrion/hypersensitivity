@@ -99,7 +99,7 @@ onMounted(() => {
     <!-- Title Wrapper: Holds the stack of titles -->
     <!-- "When title reaches top of viewport" -> We pin the section. 
          So the titles should be positioned near the top. -->
-    <div ref="titleWrapperRef" class="relative w-full flex justify-center z-10">
+    <div ref="titleWrapperRef" class="relative w-full flex justify-center z-10 px-4 md:px-0">
       <!-- 
         We render the main title and duplicates.
         We can just render N copies.
@@ -111,7 +111,7 @@ onMounted(() => {
         v-for="i in 5"
         :key="i"
         ref="titlesRef"
-        class="absolute top-0 text-[7.5rem] leading-none font-serif font-light text-center origin-top select-none text-primary whitespace-nowrap"
+        class="absolute top-0 w-full max-w-5xl text-5xl md:text-[7.5rem] leading-[1.1] md:leading-none font-serif font-light text-center origin-top select-none text-primary break-words hyphens-auto"
         :class="{ 'z-20': i === 1, 'z-10': i > 1 }"
         aria-hidden="true"
       >
