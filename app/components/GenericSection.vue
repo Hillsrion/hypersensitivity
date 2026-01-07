@@ -71,7 +71,7 @@ onMounted(() => {
         ease: "power2.inOut",
       },
       ">"
-    ); 
+    );
 
     // Phase 3: Move pack to top
     tl.to(
@@ -85,20 +85,15 @@ onMounted(() => {
     );
 
     // Phase 4: Reveal Content
+    // Content fades in after titles are back at top
     const listItems = contentRef.value.querySelectorAll("li");
-    tl.fromTo(
-      listItems,
-      { opacity: 0, y: 20 },
-      { opacity: 1, y: 0, duration: 2, stagger: 0, ease: "power2.out" },
-      ">" 
-    );
+    tl.to(listItems, { opacity: 1, duration: 1, ease: "power2.out" }, ">");
 
     // Phase 5: Fade Out
     tl.to(
       containerRef.value,
       {
         opacity: 0,
-        duration: 2,
         ease: "power1.inOut",
       },
       ">"
@@ -106,12 +101,6 @@ onMounted(() => {
   });
 });
 </script>
-
-  
-
-      
-
-  
 
 <template>
   <section
@@ -141,7 +130,7 @@ onMounted(() => {
     <!-- Content Paragraphs -->
     <div
       ref="contentRef"
-      class="absolute bottom-[10%] w-full max-w-lg px-6 z-30 text-center"
+      class="absolute top-0 w-full max-w-lg px-6 z-30 text-center"
     >
       <ul class="flex flex-col gap-y-6">
         <li v-for="(item, index) in content" :key="index" class="opacity-0">
