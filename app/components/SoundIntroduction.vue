@@ -1,5 +1,8 @@
 <template>
-  <div class="flex items-center justify-center h-svh mx-auto z-10 relative">
+  <div
+    ref="containerRef"
+    class="flex items-center justify-center h-svh mx-auto z-10 relative"
+  >
     <div ref="wrapperRef" class="max-w-5xl px-4 opacity-0">
       <p
         ref="textRef"
@@ -16,9 +19,11 @@ import { useAudioStore } from "@/stores/audio";
 import { useAnimationsStore } from "@/stores/animations";
 
 const audioStore = useAudioStore();
-const { $gsap } = useNuxtApp();
+const { $gsap, $ScrollTrigger } = useNuxtApp();
 const animations = useAnimationsStore();
+const { animateToWhite } = useBackgroundGradient();
 
+const containerRef = ref(null);
 const wrapperRef = ref(null);
 const textRef = ref(null);
 
@@ -39,6 +44,18 @@ const props = defineProps({
     type: Array,
     required: true,
   },
+});
+
+onMounted(() => {
+  if ($ScrollTrigger) {
+    $ScrollTrigger.create({
+      trigger: containerRef.value,
+      start: "center top",
+      onEnter: () => {
+        animateToWhite();
+      },
+    });
+  }
 });
 
 const split = useSplitText(textRef, {

@@ -2,7 +2,7 @@ export const useBackgroundGradient = () => {
   const { $gsap } = useNuxtApp();
 
   // Gradient state with 4 color stops and their positions
-  const gradientState = reactive({
+  const gradientState = useState("backgroundGradientState", () => ({
     color1: "#242124",
     color2: "#1c2032",
     color3: "#2b3e5f",
@@ -11,38 +11,55 @@ export const useBackgroundGradient = () => {
     stop2: 33,
     stop3: 66,
     stop4: 100,
-  });
+  }));
+
+  const isInitialized = useState("bgGradientInitialized", () => false);
 
   const backgroundGradient = computed(() => {
-    return `linear-gradient(to bottom, ${gradientState.color1} ${gradientState.stop1}%, ${gradientState.color2} ${gradientState.stop2}%, ${gradientState.color3} ${gradientState.stop3}%, ${gradientState.color4} ${gradientState.stop4}%)`;
+    return `linear-gradient(to bottom, ${gradientState.value.color1} ${gradientState.value.stop1}%, ${gradientState.value.color2} ${gradientState.value.stop2}%, ${gradientState.value.color3} ${gradientState.value.stop3}%, ${gradientState.value.color4} ${gradientState.value.stop4}%)`;
   });
 
   // Palette pour stocker les valeurs calculées des variables CSS
   const palette: Record<string, string> = {};
 
-  onMounted(() => {
-    // On récupère les valeurs Hex réelles depuis le CSS pour permettre à GSAP d'interpoler
-    const style = getComputedStyle(document.documentElement);
-    for (let i = 1; i <= 7; i++) {
-      palette[`loading${i}`] = style
-        .getPropertyValue(`--color-bg-loading-${i}`)
-        .trim();
+  const updatePalette = () => {
+    if (import.meta.client) {
+      const style = getComputedStyle(document.documentElement);
+      for (let i = 1; i <= 7; i++) {
+        palette[`loading${i}`] = style
+          .getPropertyValue(`--color-bg-loading-${i}`)
+          .trim();
+      }
     }
-    console.log("Gradient: onMounted called, palette keys:", Object.keys(palette));
+  };
+
+  onMounted(() => {
+    updatePalette();
+
+    if (isInitialized.value) return;
+
+    // On récupère les valeurs Hex réelles depuis le CSS pour permettre à GSAP d'interpoler
+    console.log(
+      "Gradient: onMounted called, palette keys:",
+      Object.keys(palette)
+    );
 
     // On met à jour l'état initial avec les valeurs exactes du CSS
-    if (palette.loading1) gradientState.color1 = palette.loading1;
-    if (palette.loading2) gradientState.color2 = palette.loading2;
-    if (palette.loading3) gradientState.color3 = palette.loading3;
-    if (palette.loading4) gradientState.color4 = palette.loading4;
+    if (palette.loading1) gradientState.value.color1 = palette.loading1;
+    if (palette.loading2) gradientState.value.color2 = palette.loading2;
+    if (palette.loading3) gradientState.value.color3 = palette.loading3;
+    if (palette.loading4) gradientState.value.color4 = palette.loading4;
+
+    isInitialized.value = true;
   });
 
   const animate = () => {
+    if (Object.keys(palette).length === 0) updatePalette();
     console.log("Gradient: animate called, palette:", palette);
     const tl = $gsap.timeline();
 
     // Utilisation des valeurs Hex résolues (palette) pour une interpolation fluide
-    tl.to(gradientState, {
+    tl.to(gradientState.value, {
       keyframes: [
         // Étape 1 : Décalage vers le haut
         {
@@ -91,8 +108,22 @@ export const useBackgroundGradient = () => {
     return tl;
   };
 
+  const animateToWhite = () => {
+    const tl = $gsap.timeline();
+    tl.to(gradientState.value, {
+      color1: "#ffffff",
+      color2: "#ffffff",
+      color3: "#ffffff",
+      color4: "#ffffff",
+      duration: 1.5,
+      ease: "power2.inOut",
+    });
+    return tl;
+  };
+
   return {
     backgroundGradient,
     animate,
+    animateToWhite,
   };
 };
