@@ -79,6 +79,7 @@ onMounted(async () => {
         :key="section.title"
         :title="section.title"
         :content="section.content"
+        :color="section.color"
       />
     </div>
   </div>

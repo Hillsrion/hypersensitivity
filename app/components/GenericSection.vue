@@ -1,4 +1,6 @@
 <script setup>
+import { useAnimationsStore } from "~/stores/animations";
+
 const props = defineProps({
   title: {
     type: String,
@@ -8,9 +10,14 @@ const props = defineProps({
     type: Array,
     required: true,
   },
+  color: {
+    type: String,
+    required: true,
+  },
 });
 
 const { $gsap } = useNuxtApp();
+const animationsStore = useAnimationsStore();
 const containerRef = ref(null);
 const titleWrapperRef = ref(null);
 const contentRef = ref(null);
@@ -115,6 +122,16 @@ onMounted(() => {
       "<"
     );
 
+    // Update Aurora State
+    tl.call(
+      () => {
+        animationsStore.setAuroraColor(props.color);
+        animationsStore.setAuroraVisibility(true);
+      },
+      null,
+      "moveUp"
+    );
+
     // Phase 4: Reveal Content
     // Content fades in later during the move up
     const listItems = contentRef.value.querySelectorAll("li");
@@ -133,6 +150,14 @@ onMounted(() => {
         duration: 1,
         ease: "power1.inOut",
       },
+      "moveUp+=6"
+    );
+
+    tl.call(
+      () => {
+        animationsStore.setAuroraVisibility(false);
+      },
+      null,
       "moveUp+=6"
     );
 

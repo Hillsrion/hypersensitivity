@@ -9,6 +9,11 @@
   --color-bg-loading-5: #a4bbd6;
   --color-bg-loading-6: #c2d6e6;
   --color-bg-loading-7: #ffffff;
+
+  --color-gradient-red: #ffc1c3;
+  --color-gradient-pink: #ffb8e4;
+  --color-gradient-blue: #a2ccfd;
+  --color-gradient-green: #c6ffe9;
 }
 
 @theme {
@@ -17,10 +22,6 @@
   --font-serif: "PP Eiko", serif;
   --font-epilogue: "Epilogue", sans-serif;
   --color-primary: #0b1018;
-  --color-gradient-red: #ffc1c3;
-  --color-gradient-pink: #ffb8e4;
-  --color-gradient-blue: #a2ccfd;
-  --color-gradient-green: #c6ffe9;
 }
 
 /* Satoshi Font */

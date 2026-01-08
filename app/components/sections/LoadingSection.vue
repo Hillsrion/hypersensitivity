@@ -16,6 +16,10 @@ const isHovered = ref(false);
 
 const { backgroundGradient, animate } = useBackgroundGradient();
 
+const auroraColorState = reactive({
+  middleColor: "#c6ffe9", // Will be resolved on mounted
+});
+
 watch(
   () => landing.value.intro.entry.started,
   (started) => {
@@ -25,16 +29,48 @@ watch(
   }
 );
 
+onMounted(() => {
+  const style = getComputedStyle(document.documentElement);
+  const initialColor = style.getPropertyValue("--color-gradient-green").trim();
+  if (initialColor) {
+    auroraColorState.middleColor = initialColor;
+  }
+});
+
 watch(
-  () => landing.value.intro.entry.completed,
-  (completed) => {
-    if (completed && auroraRef.value && auroraInnerRef.value) {
-      $gsap.to(auroraRef.value, {
-        opacity: 1,
+  () => animationsStore.aurora.color,
+  (newColor) => {
+    const style = getComputedStyle(document.documentElement);
+    const newHex = style
+      .getPropertyValue(`--color-gradient-${newColor}`)
+      .trim();
+    if (newHex) {
+      $gsap.to(auroraColorState, {
+        middleColor: newHex,
         duration: 2,
         ease: "power2.inOut",
       });
+    }
+  }
+);
 
+watch(
+  () => animationsStore.aurora.visible,
+  (visible) => {
+    if (auroraRef.value) {
+      $gsap.to(auroraRef.value, {
+        opacity: visible ? 1 : 0,
+        duration: 1,
+        ease: "power2.inOut",
+      });
+    }
+  }
+);
+
+watch(
+  () => landing.value.intro.entry.completed,
+  (completed) => {
+    if (completed && auroraInnerRef.value) {
       $gsap.to(auroraInnerRef.value, {
         xPercent: 15,
         yPercent: 20,
@@ -70,15 +106,10 @@ const onBottomElementClick = () => {
       <div
         ref="auroraInnerRef"
         class="w-full h-full blur-[80px] scale-125"
-        style="
-          background: linear-gradient(
-            180deg,
-            #ffffff 20%,
-            var(--color-gradient-green) 50%,
-            #ffffff 80%
-          );
-          transform: rotate(-3deg);
-        "
+        :style="{
+          background: `linear-gradient(180deg, #ffffff 20%, ${auroraColorState.middleColor} 50%, #ffffff 80%)`,
+          transform: 'rotate(-3deg)',
+        }"
       ></div>
     </div>
     <MainTitle title="Hypersensibles" />

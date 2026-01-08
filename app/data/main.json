@@ -267,6 +267,7 @@
   "sections": [
     {
       "title": "Paralysie décisionnelle et surcharge cognitive",
+      "color": "red",
       "content": [
         "Les personnes hypersensibles peuvent facilement se retrouver submergées par un trop-plein d'informations et de stimuli dans leur quotidien.",
         "Cette surcharge cognitive se manifeste notamment lors des prises de décision, même pour des choix qui pourraient sembler anodins pour d'autres.",
@@ -276,6 +277,7 @@
     },
     {
       "title": "Problèmes de concentration liés aux stimuli sensoriels",
+      "color": "pink",
       "content": [
         "L'hypersensible vit dans un monde où chaque bruit, odeur et sensation est perçu avec une intensité démultipliée",
         "Les bruits ambiants, même les plus anodins, comme des objets qui s'entrechoquent, des bruits de fond comme une conversation lointaine, une lampe qui clignote, un claquement de porte...",
@@ -285,6 +287,7 @@
     },
     {
       "title": "Absorption émotionnelle",
+      "color": "blue",
       "content": [
         "L'empathie est souvent une caractéristique marquante chez les personnes hypersensibles.",
         "Elles ont la capacité de ressentir intensément les émotions d'autrui, parfois au point de les vivre comme si elles étaient les leurs.",
@@ -294,6 +297,7 @@
     },
     {
       "title": "Sensibilité à la beauté de l'environnement",
+      "color": "green",
       "content": [
         "La sensibilité accrue des personnes hypersensibles s'exprime également dans leur rapport à la nature et à leur environnement.",
         "Elles peuvent être profondément émues par la beauté d'un coucher de soleil, la délicatesse d'une fleur ou le chant des oiseaux.",

@@ -26,8 +26,18 @@ export const useAnimationsStore = defineStore("animations", {
         },
       },
     },
+    aurora: {
+      color: "green",
+      visible: false,
+    },
   }),
   actions: {
+    setAuroraColor(color: string) {
+      this.aurora.color = color;
+    },
+    setAuroraVisibility(visible: boolean) {
+      this.aurora.visible = visible;
+    },
     onTitleEntryComplete() {
       this.landing.mainTitle.entry.completed = true;
     },
