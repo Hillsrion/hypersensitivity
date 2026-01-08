@@ -34,7 +34,7 @@ onMounted(() => {
         trigger: containerRef.value,
         start: "top top",
         pin: true,
-        end: "+=300%",
+        end: "+=400%",
         scrub: 1,
         invalidateOnRefresh: true, // Handle resize better
       },
@@ -76,7 +76,7 @@ onMounted(() => {
     // Phase 3: Move pack to top
     const firstTitle = titlesRef.value[0];
     const scaledHeight = firstTitle.offsetHeight * minScale;
-    const offset = 108; // 2rem offset
+    const offset = 124; // 2rem offset
 
     // Set initial position for content before moving up (at the bottom)
     tl.set(contentRef.value, { y: maxDistance + scaledHeight + offset });
@@ -151,16 +151,13 @@ onMounted(() => {
     </div>
 
     <!-- Content Paragraphs -->
-    <div
-      ref="contentRef"
-      class="absolute top-0 w-full max-w-lg px-6 z-30 text-center"
-    >
+    <div ref="contentRef" class="absolute top-0 w-full max-w-lg px-6 z-30">
       <ul class="flex flex-col gap-y-6">
         <li v-for="(item, index) in content" :key="index" class="opacity-0">
           <!-- Start hidden for GSAP to control -->
 
           <p
-            class="text-xl md:text-2xl text-primary font-satoshi font-light leading-relaxed"
+            class="text-xl text-primary/60 font-satoshi font-light leading-[1.4]"
           >
             {{ item }}
           </p>
