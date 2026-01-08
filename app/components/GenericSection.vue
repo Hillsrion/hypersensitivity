@@ -88,7 +88,12 @@ onMounted(() => {
 
     // Set initial position for content before moving up (at the bottom)
     tl.set(contentRef.value, { y: maxDistance + scaledHeight + offset });
-
+    tl.set(titlesRef.value.slice(0, -1), { autoAlpha: 0 });
+    tl.set(
+      titlesRef.value.map((el) => el.querySelector("span")),
+      { backgroundColor: "transparent" },
+      "<"
+    );
     tl.to(
       titlesRef.value,
       {
