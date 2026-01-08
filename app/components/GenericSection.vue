@@ -117,10 +117,18 @@ onMounted(() => {
       containerRef.value,
       {
         opacity: 0,
+        duration: 1,
         ease: "power1.inOut",
       },
       "moveUp+=6"
     );
+
+    // Pause finale : les animations se terminent à ~80% de la timeline
+    // Durée totale des animations: ~17 unités (16 + 0.5 fade out)
+    // Pour 80% de timeline: 17 / 0.8 = ~21.25 unités
+    // Pause nécessaire: ~4.25 unités (20% de la timeline)
+    // Position: juste après le fade out (">" = immédiatement après la dernière animation)
+    tl.to({}, { duration: 4.25 }, ">");
   });
 });
 </script>
