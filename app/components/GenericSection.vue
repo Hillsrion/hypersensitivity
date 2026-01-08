@@ -26,13 +26,13 @@ onMounted(() => {
   mm.add("(min-width: 375px)", () => {
     const totalHeight = window.innerHeight;
 
-    const maxDistance = totalHeight * 0.625; // The bottom-most position
+    const maxDistance = totalHeight * 0.525; // The bottom-most position
     const minScale = 0.46;
 
     const tl = $gsap.timeline({
       scrollTrigger: {
         trigger: containerRef.value,
-        start: "top top",
+        start: "top 18%",
         pin: true,
         end: "+=400%",
         scrub: 1,
@@ -76,7 +76,7 @@ onMounted(() => {
     // Phase 3: Move pack to top
     const firstTitle = titlesRef.value[0];
     const scaledHeight = firstTitle.offsetHeight * minScale;
-    const offset = 124; // 2rem offset
+    const offset = 62; // 2rem offset
 
     // Set initial position for content before moving up (at the bottom)
     tl.set(contentRef.value, { y: maxDistance + scaledHeight + offset });
@@ -128,7 +128,7 @@ onMounted(() => {
 <template>
   <section
     ref="containerRef"
-    class="h-[400svh] w-full relative overflow-hidden flex flex-col items-center justify-start pt-19 z-10"
+    class="h-[400svh] w-full relative overflow-hidden flex flex-col items-center justify-start z-10"
   >
     <!-- Title Wrapper: Holds the stack of titles -->
 
