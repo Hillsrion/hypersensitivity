@@ -36,10 +36,11 @@ watch(
       });
 
       $gsap.to(auroraInnerRef.value, {
-        yPercent: 20,
+        xPercent: 10,
+        yPercent: 15,
         rotation: 5,
         scale: 1.1,
-        duration: 8,
+        duration: 6,
         repeat: -1,
         yoyo: true,
         ease: "sine.inOut",
@@ -64,11 +65,11 @@ const onBottomElementClick = () => {
   >
     <div
       ref="auroraRef"
-      class="absolute inset-0 flex items-center justify-center pointer-events-none opacity-0 z-0"
+      class="absolute inset-0 flex items-center justify-center pointer-events-none opacity-0 z-0 overflow-hidden"
     >
       <div
         ref="auroraInnerRef"
-        class="w-[150vw] h-[20vh] blur-[40px]"
+        class="w-full h-full blur-[100px] scale-125"
         style="
           background: linear-gradient(
             180deg,
@@ -76,7 +77,7 @@ const onBottomElementClick = () => {
             var(--color-gradient-green) 50%,
             #ffffff 100%
           );
-          transform: rotate(-5deg);
+          transform: rotate(-3deg);
         "
       ></div>
     </div>
