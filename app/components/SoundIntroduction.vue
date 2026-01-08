@@ -19,9 +19,9 @@ import { useAudioStore } from "@/stores/audio";
 import { useAnimationsStore } from "@/stores/animations";
 
 const audioStore = useAudioStore();
-const { $gsap, $ScrollTrigger } = useNuxtApp();
+const { $gsap } = useNuxtApp();
 const animations = useAnimationsStore();
-const { animateToWhite } = useBackgroundGradient();
+const { animateToWhite, animateBackToGradient } = useBackgroundGradient();
 
 const containerRef = ref(null);
 const wrapperRef = ref(null);
@@ -47,15 +47,18 @@ const props = defineProps({
 });
 
 onMounted(() => {
-  if ($ScrollTrigger) {
-    $ScrollTrigger.create({
+  $gsap.timeline({
+    scrollTrigger: {
       trigger: containerRef.value,
       start: "center top",
       onEnter: () => {
         animateToWhite();
       },
-    });
-  }
+      onLeaveBack: () => {
+        animateBackToGradient();
+      },
+    },
+  });
 });
 
 const split = useSplitText(textRef, {

@@ -121,9 +121,26 @@ export const useBackgroundGradient = () => {
     return tl;
   };
 
+  const animateBackToGradient = () => {
+    if (Object.keys(palette).length === 0) updatePalette();
+    const tl = $gsap.timeline();
+    tl.to(gradientState.value, {
+      color1: palette.loading6,
+      color2: palette.loading6,
+      color3: palette.loading7,
+      color4: palette.loading7,
+      stop2: 0,
+      stop3: 75,
+      duration: 1.5,
+      ease: "power2.inOut",
+    });
+    return tl;
+  };
+
   return {
     backgroundGradient,
     animate,
     animateToWhite,
+    animateBackToGradient,
   };
 };
