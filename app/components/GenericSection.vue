@@ -73,9 +73,17 @@ onMounted(() => {
       ">"
     );
 
+    // After Phase 2: Hide all but last, and remove bg-white
+    tl.set(titlesRef.value.slice(0, -1), { autoAlpha: 0 });
+    tl.set(
+      titlesRef.value.map((el) => el.querySelector("span")),
+      { backgroundColor: "transparent" },
+      "<"
+    );
+
     // Phase 3: Move pack to top
-    const firstTitle = titlesRef.value[0];
-    const scaledHeight = firstTitle.offsetHeight * minScale;
+    const lastTitle = titlesRef.value[titlesRef.value.length - 1];
+    const scaledHeight = lastTitle.offsetHeight * minScale;
     const offset = 62; // 2rem offset
 
     // Set initial position for content before moving up (at the bottom)
