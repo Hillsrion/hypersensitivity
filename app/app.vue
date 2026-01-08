@@ -1,4 +1,5 @@
 <script setup>
+import { VueLenis } from "lenis/vue";
 import LoadingSection from "./components/sections/LoadingSection.vue";
 import SoundIntroduction from "./components/SoundIntroduction.vue";
 import { useAudioStore } from "@/stores/audio";
@@ -6,6 +7,7 @@ import { useAnimationsStore } from "~/stores/animations";
 import mainData from "./data/main.json";
 
 const route = useRoute();
+const lenisRef = ref(null);
 
 const audioStore = useAudioStore();
 const animations = useAnimationsStore();
@@ -25,7 +27,23 @@ if (!page.value) {
 const isLoading = ref(true);
 const introductionData = mainData.introduction;
 
+// Watch loading state and control Lenis scrolling
+watch(
+  () => animations.landing.intro.entry.completed,
+  (newState) => {
+    if (!lenisRef.value?.lenis) return;
+
+    if (newState) {
+      // Re-enable scrolling after loading is complete
+      lenisRef.value.lenis.start();
+    }
+  },
+  { immediate: true }
+);
+
 onMounted(async () => {
+  scrollTo(0, 0);
+  lenisRef.value?.lenis?.stop();
   const audioList = mainData.testimonies
     .filter((item) => item.audio)
     .map((item) => ({
@@ -44,6 +62,7 @@ onMounted(async () => {
 
 <template>
   <div>
+    <VueLenis root ref="lenisRef" />
     <LoadingSection v-if="isLoading" />
     <SoundIntroduction
       :text="introductionData.content"
