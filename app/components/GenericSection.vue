@@ -27,7 +27,7 @@ onMounted(() => {
     const totalHeight = window.innerHeight;
 
     const maxDistance = totalHeight * 0.625; // The bottom-most position
-    const minScale = 0.4;
+    const minScale = 0.46;
 
     const tl = $gsap.timeline({
       scrollTrigger: {
@@ -52,7 +52,7 @@ onMounted(() => {
         scale: (index) => {
           const total = titlesRef.value.length;
           if (total <= 1) return 1;
-          return 1 - (index / (total - 1)) * 0.6;
+          return 1 - (index / (total - 1)) * (1 - minScale);
         },
         duration: 4,
         ease: "power2.out",
@@ -140,8 +140,14 @@ onMounted(() => {
         v-for="i in 9"
         :key="i"
         ref="titlesRef"
-        class="absolute top-0 w-full flex text-5xl md:text-[7.5rem] leading-[1.13] font-serif font-light text-center origin-top select-none text-primary"
-        :class="{ 'z-20': i === 1, 'z-10': i > 1 }"
+        class="absolute top-0 w-full flex text-5xl md:text-[7.5rem] font-serif font-light text-center origin-top select-none text-primary"
+        :class="{
+          'z-10': i === 1,
+          'z-20': i > 1,
+          'leading-[1.13]': i < 3,
+          'leading-[1.2]': i < 5,
+          'leading-[1.28]': i > 5,
+        }"
         aria-hidden="true"
       >
         <span class="bg-white max-w-7xl mx-auto">{{ title }}</span>
