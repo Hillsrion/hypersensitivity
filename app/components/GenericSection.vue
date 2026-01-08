@@ -140,7 +140,7 @@ onMounted(() => {
         v-for="i in 9"
         :key="i"
         ref="titlesRef"
-        class="absolute top-0 w-full flex text-5xl md:text-[7.5rem] font-serif font-light text-center origin-top select-none text-primary"
+        class="absolute top-0 w-full text-5xl md:text-[7.5rem] font-serif font-light text-center origin-top select-none text-primary"
         :class="{
           'z-10': i === 1,
           'z-20': i > 1,
@@ -150,7 +150,10 @@ onMounted(() => {
         }"
         aria-hidden="true"
       >
-        <span class="bg-white max-w-7xl mx-auto">{{ title }}</span>
+        <span
+          class="bg-white max-w-7xl mx-auto py-[0.2em] px-[0.2em] [box-decoration-break:clone]"
+          >{{ title }}</span
+        >
       </p>
 
       <span class="sr-only">{{ title }}</span>
