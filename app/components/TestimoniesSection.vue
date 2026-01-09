@@ -87,9 +87,9 @@ onMounted(async () => {
     tl.set(heroTextRef.value, {
       scale: fitScale,
       x: initialX,
-      opacity: 0,
       y: initialY,
       transformOrigin: "center center",
+      immediateRender: true,
     });
 
     // Phase A: Move Hero Text to position of Card 1
@@ -162,7 +162,7 @@ onMounted(async () => {
       >
         <h2
           ref="heroTextRef"
-          class="text-xl text-primary/60 font-serif font-light leading-tight origin-center"
+          class="text-xl text-primary/60 font-serif font-light leading-tight origin-center opacity-0"
         >
           {{ testimonies[0].content }}
         </h2>
