@@ -139,7 +139,7 @@ onMounted(async () => {
       <!-- HORIZONTAL TRACK -->
       <div
         ref="trackRef"
-        class="opacity-0 flex items-center gap-20 px-[10vw] w-max h-full"
+        class="opacity-0 flex items-center gap-6 px-[10vw] w-max h-full"
       >
         <TestimonyCard
           v-for="(t, i) in testimonies"
@@ -149,7 +149,7 @@ onMounted(async () => {
           :author="t.author"
           :audio="t.audio"
           :color="t.color"
-          class="shrink-0 w-[450px]"
+          class="shrink-0 w-100"
           :class="{ 'opacity-0-content': i === 0 }"
         />
 
