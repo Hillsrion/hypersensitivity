@@ -1,7 +1,7 @@
 <template>
-  <div 
+  <div
     ref="containerRef"
-    class="relative rounded-2xl shadow-sm overflow-hidden flex flex-col cursor-pointer p-8 transition-colors duration-300 bg-white border border-neutral-100" 
+    class="relative rounded-2xl overflow-hidden flex flex-col cursor-pointer p-8 transition-colors duration-300 bg-white border border-primary"
     @mouseenter="handleHover(true)"
     @mouseleave="handleHover(false)"
   >
@@ -22,91 +22,51 @@
 
     <!-- Quote Icon -->
     <div class="absolute left-8 top-8 z-10">
-      <svg width="32" height="27" viewBox="0 0 32 27" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M16.9008 0L0.9437 15.2943H11.6676V27H0V15.2943L8.23592 0H16.9008ZM32 0L16.1287 15.2943H26.7668V27H15.0992V15.2943L23.3351 0H32Z" fill="#0B1018"/>
+      <svg
+        width="32"
+        height="27"
+        viewBox="0 0 32 27"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          d="M16.9008 0L0.9437 15.2943H11.6676V27H0V15.2943L8.23592 0H16.9008ZM32 0L16.1287 15.2943H26.7668V27H15.0992V15.2943L23.3351 0H32Z"
+          fill="#0B1018"
+        />
       </svg>
     </div>
 
-    <!-- Play Icon -->
-    <div v-if="audio" class="absolute left-8 bottom-8 z-10">
-      <div class="relative">
-        <svg 
-          xmlns="http://www.w3.org/2000/svg" 
-          viewBox="0 0 24 24" 
-          class="w-7 h-7 absolute transition-all duration-300"
-          :style="{ opacity: isHovered ? 0 : 1, transform: isHovered ? 'scale(0.8)' : 'scale(1)' }"
-        >
-          <path 
-            d="M8 7v10l8-5L8 7z"
-            fill="#0b1018"
-            class="transition-all duration-300"
-          />
-        </svg>
-
-        <!-- Wave Animation -->
-        <svg 
-          xmlns="http://www.w3.org/2000/svg" 
-          viewBox="0 0 21 21" 
-          class="w-7 h-7 absolute transition-all duration-300"
-          :style="{ opacity: isHovered ? 1 : 0, transform: isHovered ? 'scale(1)' : 'scale(1.2)' }"
-        >
-          <g 
-            fill="none" 
-            fill-rule="evenodd" 
-            stroke="#0b1018" 
-            stroke-linecap="round" 
-            stroke-linejoin="round" 
-            stroke-width="1.5"
-          >
-            <path class="wave-line wave-1" d="m6.5 8.5v4"/>
-            <path class="wave-line wave-2" d="m8.5 6.5v9"/>
-            <path class="wave-line wave-3" d="m10.5 9.5v2"/>
-            <path class="wave-line wave-4" d="m12.5 7.5v6.814"/>
-            <path class="wave-line wave-5" d="m14.5 4.5v12"/>
-          </g>
-        </svg>
-      </div>
-    </div>
-    <svg 
-      class="absolute inset-0 w-full h-full pointer-events-none z-20"
-      :viewBox="`0 0 ${containerWidth} ${containerHeight}`"
+    <p
+      id="textRef"
+      ref="textRef"
+      class="text-primary/60 font-light font-serif text-xl leading-[1.4] mt-12 relative lg:mb-0 mb-8 z-10"
     >
-      <rect
-        ref="borderRect"
-        x="0"
-        y="0"
-        :width="containerWidth"
-        :height="containerHeight"
+      {{ content }}
+    </p>
+    <div class="flex w-full items-center justify-between mt-6">
+      <svg
+        width="12"
+        height="14"
+        viewBox="0 0 12 14"
         fill="none"
-        stroke="#0b1018"
-        stroke-width="9"
-        opacity="0"
-        :style="`stroke-dasharray: ${perimeter}; vector-effect: non-scaling-stroke;`"
-        rx="1rem"
-        ry="1rem"
-      />
-    </svg>
-
-    <p id="textRef" ref="textRef" class="text-primary text-xl sm:text-[1.35rem] mt-12 relative lg:mb-0 mb-8 font-epilogue z-10">"{{ content }}"</p>
-    <div class="flex w-full justify-end relative mt-auto z-10">
-      <div class="relative">
-        <p 
-          ref="authorRef" 
-          class="text-primary absolute inset-0 right-0 text-right w-max ml-auto"
-          :class="authorClasses"
-          :style="{ opacity: isHovered ? 0 : 1 }"
-        >
-          {{ author }}
-        </p>
-        <p 
-          ref="authorGradientRef" 
-          class="text-primary text-right w-max ml-auto"
-          :class="authorClasses"
-          :style="{ opacity: isHovered ? 1 : 0 }"
-        >
-          {{ author }}
-        </p>
-      </div>
+        class="transition-all duration-300"
+        :style="{
+          opacity: isHovered ? 0 : 1,
+          transform: isHovered ? 'scale(0.8)' : 'scale(1)',
+        }"
+      >
+        <path
+          d="M12 6.92773L3.01142e-07 13.8559L9.06825e-07 -0.000469255L12 6.92773Z"
+          fill="#0B1018"
+        />
+      </svg>
+      <p
+        ref="authorRef"
+        class="text-primary font-medium text-xl leading-[1.4] text-right w-max ml-auto"
+        :style="{ opacity: isHovered ? 0 : 1 }"
+      >
+        {{ author }}
+      </p>
     </div>
   </div>
 </template>
@@ -129,13 +89,20 @@ const authorGradientRef = ref(null);
 const auroraRef = ref(null);
 const auroraInnerRef = ref(null);
 
-const isPlaying = computed(() => audioStore.isPlaying && audioStore.currentAudio?.src.includes(props.audio));
+const isPlaying = computed(
+  () =>
+    audioStore.isPlaying && audioStore.currentAudio?.src.includes(props.audio)
+);
 
 const timings = computed(() => {
-  return audioStore.list.find(item => item.path === props.audio)?.timings ?? [];
+  return (
+    audioStore.list.find((item) => item.path === props.audio)?.timings ?? []
+  );
 });
 const duration = computed(() => {
-  return audioStore.list.find(item => item.path === props.audio)?.duration ?? 0;
+  return (
+    audioStore.list.find((item) => item.path === props.audio)?.duration ?? 0
+  );
 });
 
 const props = defineProps({
@@ -149,7 +116,6 @@ let currentAnimation = null;
 let splitInstance = null;
 let textAnimation = null;
 let auroraAnimation = null;
-const authorClasses = "text-lg sm:text-xl font-semibold font-epilogue";
 
 onMounted(() => {
   if (textRef.value) {
@@ -164,7 +130,7 @@ onMounted(() => {
       containerWidth.value = rect.width;
       containerHeight.value = rect.height;
       perimeter.value = (containerWidth.value + containerHeight.value) * 2;
-      
+
       gsap.set(borderRect.value, {
         strokeDashoffset: perimeter.value,
         opacity: 0,
@@ -178,7 +144,9 @@ onMounted(() => {
   // Set initial Aurora color
   if (props.color && auroraInnerRef.value) {
     const style = getComputedStyle(document.documentElement);
-    const colorHex = style.getPropertyValue(`--color-gradient-${props.color}`).trim();
+    const colorHex = style
+      .getPropertyValue(`--color-gradient-${props.color}`)
+      .trim();
     if (colorHex) {
       auroraInnerRef.value.style.setProperty("--aurora-middle-color", colorHex);
     }
@@ -195,14 +163,14 @@ onMounted(() => {
       repeat: -1,
       yoyo: true,
       ease: "sine.inOut",
-      paused: false // Always floating
+      paused: false, // Always floating
     });
   }
 });
 
 const handleHover = async (_isHovered) => {
   isHovered.value = _isHovered;
-  
+
   // Kill all ongoing animations
   if (currentAnimation) {
     currentAnimation.kill();
@@ -210,12 +178,12 @@ const handleHover = async (_isHovered) => {
   if (textAnimation) {
     textAnimation.kill();
   }
-  
+
   if (_isHovered) {
     if (props.audio) {
       await audioStore.playAudio(props.audio);
     }
-    
+
     // Aurora Fade In
     if (auroraRef.value) {
       gsap.to(auroraRef.value, {
@@ -235,7 +203,7 @@ const handleHover = async (_isHovered) => {
         strokeDashoffset: 0,
         duration: duration.value,
         ease: "none",
-      },
+      }
     );
 
     // Text opacity animations (Karaoke effect)
@@ -244,7 +212,7 @@ const handleHover = async (_isHovered) => {
       gsap.to(splitInstance.words.value, {
         opacity: 0.6,
         duration: 0.3,
-        ease: "power2.out"
+        ease: "power2.out",
       });
 
       const timeline = gsap.timeline();
@@ -252,20 +220,24 @@ const handleHover = async (_isHovered) => {
         const timing = timings.value[index];
         if (timing) {
           // Animate word to full opacity when it's spoken
-          timeline.to(wordEl, {
-            opacity: 1,
-            duration: 0.1, // Quick transition to active
-            ease: "none",
-          }, timing.start);
+          timeline.to(
+            wordEl,
+            {
+              opacity: 1,
+              duration: 0.1, // Quick transition to active
+              ease: "none",
+            },
+            timing.start
+          );
         }
       });
       textAnimation = timeline;
     }
-    
-    if(authorRef.value && authorGradientRef.value) {
+
+    if (authorRef.value) {
       // Author transition
-      gsap.to([authorRef.value, authorGradientRef.value], {
-        opacity: (_i, el) => el === authorRef.value ? 0 : 1,
+      gsap.to([authorRef.value], {
+        opacity: (_i, el) => (el === authorRef.value ? 0 : 1),
         duration: 0.6,
         ease: "power2.out",
       });
@@ -307,19 +279,13 @@ const handleHover = async (_isHovered) => {
       });
     }
 
-    // Author transition
-    gsap.to(authorGradientRef.value, {
-      opacity: 0,
-      duration: 0.8,
-      ease: "power3.inOut",
-    });
     gsap.to(authorRef.value, {
       opacity: 1,
       duration: 0.8,
       ease: "power3.inOut",
     });
 
-    if(props.audio) {
+    if (props.audio) {
       await audioStore.stopCurrentAudio();
     }
   }
@@ -339,13 +305,14 @@ onUnmounted(() => {
 
 defineExpose({
   textRef,
-  containerRef
+  containerRef,
 });
 </script>
 
 <style scoped>
- @keyframes wave {
-  0%, 100% {
+@keyframes wave {
+  0%,
+  100% {
     transform: scaleY(1);
   }
   50% {

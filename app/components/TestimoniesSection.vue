@@ -22,9 +22,9 @@ const setFirstCardRef = (el, index) => {
 onMounted(async () => {
   await nextTick();
   await document.fonts.ready;
-  
+
   // Wait a bit more for the components to be fully ready and measured
-  await new Promise(resolve => setTimeout(resolve, 100));
+  await new Promise((resolve) => setTimeout(resolve, 100));
 
   if (
     !sectionRef.value ||
@@ -59,45 +59,46 @@ onMounted(async () => {
     const widthScale = endRect.width / startRect.width;
 
     // --- 2. Build Timeline ---
-    
+
     // Phase A: Shrink and Move Hero Text to position of Card 1
     tl.to(heroTextRef.value, {
       opacity: 0.2,
       duration: 0.5,
-    }).to(heroTextRef.value, {
-      opacity: 0.6,
-      x: xMove,
-      y: yMove,
-      scale: widthScale,
-      transformOrigin: "top left",
-      ease: "power1.inOut",
-      duration: 3,
     })
-    // Phase B: Swap Visibility (Smoother Cross-fade)
-    // As the hero text reaches its final spot, we fade it out while fading in the track and the card content.
-    .to(heroTextRef.value, {
-      opacity: 0,
-      duration: 0.8,
-      ease: "power2.inOut",
-    })
-    .to(
-      trackRef.value,
-      {
-        opacity: 1,
+      .to(heroTextRef.value, {
+        opacity: 0.6,
+        x: xMove,
+        y: yMove,
+        scale: widthScale,
+        transformOrigin: "top left",
+        ease: "power1.inOut",
+        duration: 3,
+      })
+      // Phase B: Swap Visibility (Smoother Cross-fade)
+      // As the hero text reaches its final spot, we fade it out while fading in the track and the card content.
+      .to(heroTextRef.value, {
+        opacity: 0,
         duration: 0.8,
         ease: "power2.inOut",
-      },
-      "<"
-    )
-    .to(
-      firstCardContentRef.value,
-      {
-        opacity: 1,
-        duration: 0.8,
-        ease: "power2.inOut",
-      },
-      "<"
-    );
+      })
+      .to(
+        trackRef.value,
+        {
+          opacity: 1,
+          duration: 0.8,
+          ease: "power2.inOut",
+        },
+        "<"
+      )
+      .to(
+        firstCardContentRef.value,
+        {
+          opacity: 1,
+          duration: 0.8,
+          ease: "power2.inOut",
+        },
+        "<"
+      );
 
     // Phase C: Horizontal Scroll
     // Move the track to the left to reveal other cards
@@ -148,7 +149,7 @@ onMounted(async () => {
           :author="t.author"
           :audio="t.audio"
           :color="t.color"
-          class="shrink-0 w-[450px] h-[550px]"
+          class="shrink-0 w-[450px]"
           :class="{ 'opacity-0-content': i === 0 }"
         />
 
