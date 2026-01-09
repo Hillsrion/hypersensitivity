@@ -61,40 +61,41 @@ onMounted(async () => {
     tl.to(heroTextRef.value, {
       opacity: 0.2,
       duration: 0.5,
-    }).to(heroTextRef.value, {
-      opacity: 0.6,
-      x: xMove,
-      y: yMove,
-      scale: widthScale,
-      transformOrigin: "top left",
-      ease: "power1.inOut",
-      duration: 3,
     })
-              // Phase B: Swap Visibility (Smoother Cross-fade)
-              // As the hero text reaches its final spot, we fade it out while fading in the track and the card content.
-              .to(heroTextRef.value, {
-                opacity: 0,
-                duration: 0.8,
-                ease: "power2.inOut",
-              })
-              .to(
-                trackRef.value,
-                {
-                  opacity: 1,
-                  duration: 0.8,
-                  ease: "power2.inOut",
-                },
-                "<"
-              )
-              .to(
-                firstCardContentRef.value,
-                {
-                  opacity: 1,
-                  duration: 0.8,
-                  ease: "power2.inOut",
-                },
-                "<"
-              );    // Phase C: Horizontal Scroll
+      .to(heroTextRef.value, {
+        opacity: 0.6,
+        x: xMove,
+        y: yMove,
+        scale: widthScale,
+        transformOrigin: "top left",
+        ease: "power1.inOut",
+        duration: 3,
+      })
+      // Phase B: Swap Visibility (Smoother Cross-fade)
+      // As the hero text reaches its final spot, we fade it out while fading in the track and the card content.
+      .to(heroTextRef.value, {
+        opacity: 0,
+        duration: 0.8,
+        ease: "power2.inOut",
+      })
+      .to(
+        trackRef.value,
+        {
+          opacity: 1,
+          duration: 0.8,
+          ease: "power2.inOut",
+        },
+        "<"
+      )
+      .to(
+        firstCardContentRef.value,
+        {
+          opacity: 1,
+          duration: 0.8,
+          ease: "power2.inOut",
+        },
+        "<"
+      ); // Phase C: Horizontal Scroll
     // Move the track to the left to reveal other cards
     const trackWidth = trackRef.value.scrollWidth;
     const windowWidth = window.innerWidth;
@@ -114,7 +115,7 @@ onMounted(async () => {
 </script>
 
 <template>
-  <section ref="sectionRef" class="relative h-[400svh]">
+  <section ref="sectionRef" class="relative h-[400svh] mt-[-50vh]">
     <div
       ref="stickyRef"
       class="sticky top-0 h-screen w-full overflow-hidden flex flex-col justify-center"
