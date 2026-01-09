@@ -14,6 +14,8 @@
   --color-gradient-pink: #ffb8e4;
   --color-gradient-blue: #a2ccfd;
   --color-gradient-green: #c6ffe9;
+  --color-gradient-yellow: #fdedb3;
+  --color-gradient-violet: #decafe;
 }
 
 @theme {
