@@ -97,14 +97,13 @@ onMounted(async () => {
       class="sticky top-0 h-screen w-full overflow-hidden flex flex-col justify-center"
     >
       <!-- HERO TEXT (The big one) -->
-      <!-- Absolute centered initially. We remove CSS transforms on the element itself to avoid conflict with GSAP -->
       <div
-        ref="heroTextRef"
-        class="absolute top-0 left-0 w-[80vw] z-20 pointer-events-none origin-top-left flex items-center justify-center text-center"
-        style="top: 50%; left: 50%; transform: translate(-50%, -50%)"
+        class="absolute inset-0 px-[7%] py-[29px] z-20 pointer-events-none flex items-center"
       >
-        <!-- Note: inline style used for initial centering, GSAP will computed-style this out or add component transform -->
-        <h2 class="font-epilogue font-medium fl-text-4xl/7xl leading-tight">
+        <h2
+          ref="heroTextRef"
+          class="text-5xl md:text-[7.5rem] font-serif font-light leading-tight origin-top-left"
+        >
           {{ testimonies[0].content }}
         </h2>
       </div>
