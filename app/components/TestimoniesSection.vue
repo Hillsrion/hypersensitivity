@@ -13,14 +13,18 @@ const testimonies = mainData.testimonies;
 
 // Function ref to capture the first card's content element reliably
 const setFirstCardRef = (el, index) => {
-  if (index === 0) {
-    firstCardContentRef.value = el;
+  if (index === 0 && el) {
+    // el is the component instance, we want the textRef element
+    firstCardContentRef.value = el.textRef;
   }
 };
 
 onMounted(async () => {
   await nextTick();
   await document.fonts.ready;
+  
+  // Wait a bit more for the components to be fully ready and measured
+  await new Promise(resolve => setTimeout(resolve, 100));
 
   if (
     !sectionRef.value ||
@@ -52,55 +56,54 @@ onMounted(async () => {
     const yMove = endRect.top - startRect.top;
 
     // We use width ratio for scaling.
-    // Note: Text reflow is not simulated by scale, but it's the smoothest visual transition.
     const widthScale = endRect.width / startRect.width;
 
     // --- 2. Build Timeline ---
-
+    
     // Phase A: Shrink and Move Hero Text to position of Card 1
     tl.to(heroTextRef.value, {
       opacity: 0.2,
       duration: 0.5,
+    }).to(heroTextRef.value, {
+      opacity: 0.6,
+      x: xMove,
+      y: yMove,
+      scale: widthScale,
+      transformOrigin: "top left",
+      ease: "power1.inOut",
+      duration: 3,
     })
-      .to(heroTextRef.value, {
-        opacity: 0.6,
-        x: xMove,
-        y: yMove,
-        scale: widthScale,
-        transformOrigin: "top left",
-        ease: "power1.inOut",
-        duration: 3,
-      })
-      // Phase B: Swap Visibility (Smoother Cross-fade)
-      // As the hero text reaches its final spot, we fade it out while fading in the track and the card content.
-      .to(heroTextRef.value, {
-        opacity: 0,
+    // Phase B: Swap Visibility (Smoother Cross-fade)
+    // As the hero text reaches its final spot, we fade it out while fading in the track and the card content.
+    .to(heroTextRef.value, {
+      opacity: 0,
+      duration: 0.8,
+      ease: "power2.inOut",
+    })
+    .to(
+      trackRef.value,
+      {
+        opacity: 1,
         duration: 0.8,
         ease: "power2.inOut",
-      })
-      .to(
-        trackRef.value,
-        {
-          opacity: 1,
-          duration: 0.8,
-          ease: "power2.inOut",
-        },
-        "<"
-      )
-      .to(
-        firstCardContentRef.value,
-        {
-          opacity: 1,
-          duration: 0.8,
-          ease: "power2.inOut",
-        },
-        "<"
-      ); // Phase C: Horizontal Scroll
+      },
+      "<"
+    )
+    .to(
+      firstCardContentRef.value,
+      {
+        opacity: 1,
+        duration: 0.8,
+        ease: "power2.inOut",
+      },
+      "<"
+    );
+
+    // Phase C: Horizontal Scroll
     // Move the track to the left to reveal other cards
     const trackWidth = trackRef.value.scrollWidth;
     const windowWidth = window.innerWidth;
     // Scroll enough to see the last card + some padding
-    // If trackWidth < windowWidth, no scroll needed, but likely it is larger.
     const xScroll = Math.min(0, -(trackWidth - windowWidth + 200));
 
     if (xScroll < 0) {
@@ -115,7 +118,7 @@ onMounted(async () => {
 </script>
 
 <template>
-  <section ref="sectionRef" class="relative h-[400svh] mt-[-50vh]">
+  <section ref="sectionRef" class="relative h-[400svh]">
     <div
       ref="stickyRef"
       class="sticky top-0 h-screen w-full overflow-hidden flex flex-col justify-center"
@@ -137,46 +140,17 @@ onMounted(async () => {
         ref="trackRef"
         class="opacity-0 flex items-center gap-20 px-[10vw] w-max h-full"
       >
-        <div
+        <TestimonyCard
           v-for="(t, i) in testimonies"
           :key="i"
-          class="shrink-0 w-[400px] h-[400px] bg-white border border-neutral-200 p-8 flex flex-col justify-between shadow-sm"
-        >
-          <!-- Inner content wrapper to measure and target -->
-          <div
-            :ref="(el) => setFirstCardRef(el, i)"
-            :class="{ 'opacity-0': i === 0 }"
-            class="h-full flex flex-col justify-between"
-          >
-            <p class="font-epilogue fl-text-xl/2xl leading-relaxed">
-              {{ t.content }}
-            </p>
-            <div class="mt-6">
-              <span class="block font-epilogue font-medium text-lg">{{
-                t.author
-              }}</span>
-              <div
-                v-if="t.audio"
-                class="mt-2 flex items-center gap-2 text-sm text-neutral-500 font-satoshi"
-              >
-                <!-- Simple Play Icon SVG -->
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 24 24"
-                  fill="currentColor"
-                  class="w-6 h-6"
-                >
-                  <path
-                    fill-rule="evenodd"
-                    d="M4.5 5.653c0-1.426 1.529-2.33 2.779-1.643l11.54 6.348c1.295.712 1.295 2.573 0 3.285L7.28 19.991c-1.25.687-2.779-.217-2.779-1.643V5.653Z"
-                    clip-rule="evenodd"
-                  />
-                </svg>
-                <span>Écouter le témoignage</span>
-              </div>
-            </div>
-          </div>
-        </div>
+          :ref="(el) => setFirstCardRef(el, i)"
+          :content="t.content"
+          :author="t.author"
+          :audio="t.audio"
+          :color="t.color"
+          class="shrink-0 w-[450px] h-[550px]"
+          :class="{ 'opacity-0-content': i === 0 }"
+        />
 
         <!-- Spacer -->
         <div class="w-[10vw] shrink-0"></div>
@@ -184,3 +158,11 @@ onMounted(async () => {
     </div>
   </section>
 </template>
+
+<style scoped>
+/* Custom class to hide ONLY the content of the first card initially */
+:deep(.opacity-0-content #textRef),
+:deep(.opacity-0-content p) {
+  opacity: 0;
+}
+</style>
