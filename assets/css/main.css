@@ -45,3 +45,13 @@
   font-style: italic;
   font-display: swap;
 }
+
+/* Custom Cursor */
+html,
+body {
+  cursor: none !important;
+}
+
+* {
+  cursor: none !important;
+}

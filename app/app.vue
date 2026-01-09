@@ -6,6 +6,9 @@ import { useAudioStore } from "@/stores/audio";
 import { useAnimationsStore } from "~/stores/animations";
 import mainData from "./data/main.json";
 import TestimoniesSection from "./components/TestimoniesSection.vue";
+import { useCustomCursor } from "./composables/useCustomCursor";
+
+const { cursorRef } = useCustomCursor();
 
 const route = useRoute();
 const lenisRef = ref(null);
@@ -64,6 +67,12 @@ onMounted(async () => {
 
 <template>
   <div>
+    <!-- Custom Cursor -->
+    <div
+      ref="cursorRef"
+      class="fixed top-0 left-0 w-4 h-4 rounded-full pointer-events-none z-[99999]"
+      style="transform: translate(-50%, -50%); will-change: transform; background-color: var(--color-primary);"
+    />
     <VueLenis root ref="lenisRef" />
     <LoadingSection />
     <SoundIntroduction
