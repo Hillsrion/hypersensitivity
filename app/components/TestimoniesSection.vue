@@ -58,14 +58,20 @@ onMounted(async () => {
     // --- 2. Build Timeline ---
 
     // Phase A: Shrink and Move Hero Text to position of Card 1
-    tl.to(heroTextRef.value, {
-      x: xMove,
-      y: yMove,
-      scale: widthScale,
-      transformOrigin: "top left",
-      ease: "power1.inOut",
-      duration: 3,
-    })
+    tl.fromTo(
+      heroTextRef.value,
+      { opacity: 0.2 },
+      {
+        opacity: 0.6,
+        x: xMove,
+        y: yMove,
+        scale: widthScale,
+        transformOrigin: "top left",
+        ease: "power1.inOut",
+        duration: 3,
+        immediateRender: false,
+      }
+    )
       // Phase B: Swap Visibility
       // Hide the floating hero text and show the actual card content
       .set(heroTextRef.value, { opacity: 0 })
@@ -102,7 +108,7 @@ onMounted(async () => {
       >
         <h2
           ref="heroTextRef"
-          class="text-5xl md:text-[7.5rem] font-serif font-light leading-tight origin-top-left"
+          class="opacity-0 text-5xl md:text-[7.5rem] font-serif font-light leading-tight origin-top-left"
         >
           {{ testimonies[0].content }}
         </h2>
