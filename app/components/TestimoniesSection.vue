@@ -156,7 +156,7 @@ onMounted(async () => {
       >
         <h2
           ref="heroTextRef"
-          class="text-xl text-primary/60 font-serif font-light leading-tight origin-center opacity-0"
+          class="text-xl text-primary/60 font-serif font-light leading-[1.4] origin-center opacity-0"
         >
           {{ testimonies[0].content }}
         </h2>
@@ -185,11 +185,3 @@ onMounted(async () => {
     </div>
   </section>
 </template>
-
-<style scoped>
-/* Custom class to hide ONLY the content of the first card initially */
-:deep(.opacity-0-content #textRef),
-:deep(.opacity-0-content p) {
-  opacity: 0;
-}
-</style>
