@@ -5,6 +5,7 @@ import SoundIntroduction from "./components/SoundIntroduction.vue";
 import { useAudioStore } from "@/stores/audio";
 import { useAnimationsStore } from "~/stores/animations";
 import mainData from "./data/main.json";
+import TestimoniesSection from "./components/TestimoniesSection.vue";
 
 const route = useRoute();
 const lenisRef = ref(null);
@@ -24,7 +25,6 @@ if (!page.value) {
   });
 }
 
-const isLoading = ref(true);
 const introductionData = mainData.introduction;
 
 // Watch loading state and control Lenis scrolling
@@ -65,7 +65,7 @@ onMounted(async () => {
 <template>
   <div>
     <VueLenis root ref="lenisRef" />
-    <LoadingSection v-if="isLoading" />
+    <LoadingSection />
     <SoundIntroduction
       :text="introductionData.content"
       :audio="introductionData.audio"
@@ -84,5 +84,6 @@ onMounted(async () => {
         :color="section.color"
       />
     </div>
+    <TestimoniesSection />
   </div>
 </template>
