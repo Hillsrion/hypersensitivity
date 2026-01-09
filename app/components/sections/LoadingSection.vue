@@ -21,10 +21,11 @@ const { backgroundGradient, animate } = useBackgroundGradient();
 watch(
   () => landing.value.intro.entry.started,
   (started) => {
-    if (started) {
-      animate();
+    if (started && import.meta.client) {
+      animate(animationsStore.skipIntro ? 0 : 2);
     }
-  }
+  },
+  { immediate: true }
 );
 
 onMounted(() => {

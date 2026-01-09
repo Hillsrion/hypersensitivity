@@ -64,9 +64,15 @@ onMounted(() => {
 const split = useSplitText(textRef, {
   splitBy: "lines, words",
   onComplete: (instance) => {
-    $gsap.set(instance.words, {
-      opacity: 0.2,
-    });
+    if (animations.skipIntro) {
+      $gsap.set(wrapperRef.value, { opacity: 1, y: 0 });
+      $gsap.set(instance.lines, { opacity: 1, y: 0 });
+      $gsap.set(instance.words, { opacity: 1 });
+    } else {
+      $gsap.set(instance.words, {
+        opacity: 0.2,
+      });
+    }
   },
 });
 

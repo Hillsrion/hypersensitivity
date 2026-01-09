@@ -53,7 +53,7 @@ export const useBackgroundGradient = () => {
     isInitialized.value = true;
   });
 
-  const animate = () => {
+  const animate = (duration = 2) => {
     if (Object.keys(palette).length === 0) updatePalette();
     console.log("Gradient: animate called, palette:", palette);
     const tl = $gsap.timeline();
@@ -102,7 +102,7 @@ export const useBackgroundGradient = () => {
           stop3: 75,
         },
       ],
-      duration: 2,
+      duration: duration,
       ease: "sine.inOut",
     });
     return tl;

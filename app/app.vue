@@ -43,7 +43,9 @@ watch(
 
 onMounted(async () => {
   scrollTo(0, 0);
-  lenisRef.value?.lenis?.stop();
+  if (!animations.landing.intro.entry.completed) {
+    lenisRef.value?.lenis?.stop();
+  }
   const audioList = mainData.testimonies
     .filter((item) => item.audio)
     .map((item) => ({

@@ -1,36 +1,42 @@
 import { defineStore } from "pinia";
 
 export const useAnimationsStore = defineStore("animations", {
-  state: () => ({
-    landing: {
-      enabled: true,
-      complete: false,
-      intro: {
-        entry: {
-          started: false,
-          completed: false,
+  state: () => {
+    // DEV: Set to true to skip intro animation
+    const SKIP_INTRO = true;
+
+    return {
+      skipIntro: SKIP_INTRO,
+      landing: {
+        enabled: !SKIP_INTRO,
+        complete: SKIP_INTRO,
+        intro: {
+          entry: {
+            started: SKIP_INTRO,
+            completed: SKIP_INTRO,
+          },
+          exit: {
+            started: SKIP_INTRO,
+            completed: SKIP_INTRO,
+          },
         },
-        exit: {
-          started: false,
-          completed: false,
+        mainTitle: {
+          entry: {
+            started: SKIP_INTRO,
+            completed: SKIP_INTRO,
+          },
+          exit: {
+            started: SKIP_INTRO,
+            completed: SKIP_INTRO,
+          },
         },
       },
-      mainTitle: {
-        entry: {
-          started: false,
-          completed: false,
-        },
-        exit: {
-          started: false,
-          completed: false,
-        },
+      aurora: {
+        color: "green",
+        visible: false,
       },
-    },
-    aurora: {
-      color: "green",
-      visible: false,
-    },
-  }),
+    };
+  },
   actions: {
     setAuroraColor(color: string) {
       this.aurora.color = color;

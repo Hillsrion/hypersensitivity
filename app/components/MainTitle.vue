@@ -25,6 +25,10 @@ watch(
         // Force start state
         $gsap.set(elements, { autoAlpha: 0 });
 
+        if (animationsStore.skipIntro) {
+          return;
+        }
+
         // Wave animation timing
         // Each letter takes 3 phases to fully appear
         // Stagger = 1 phase, so 3 letters animate simultaneously
@@ -54,6 +58,12 @@ watch(
   (started) => {
     if (started && chars.value && chars.value.length) {
       const elements = toRaw(chars.value);
+      
+      if (animationsStore.skipIntro) {
+        $gsap.set(elements, { autoAlpha: 0 });
+        return;
+      }
+
       const phaseTime = 0.1;
 
       // Exit: same direction (first letter disappears first)
