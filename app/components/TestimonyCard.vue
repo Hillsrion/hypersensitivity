@@ -63,22 +63,7 @@
     >
       {{ content }}
     </p>
-    <div class="flex w-full items-center justify-between mt-6">
-      <svg
-        width="12"
-        height="14"
-        viewBox="0 0 12 14"
-        fill="none"
-        class="transition-all duration-300"
-        :style="{
-          transform: isHovering || isPlaying ? 'scale(0.8)' : 'scale(1)',
-        }"
-      >
-        <path
-          d="M12 6.92773L3.01142e-07 13.8559L9.06825e-07 -0.000469255L12 6.92773Z"
-          fill="#0B1018"
-        />
-      </svg>
+    <div class="flex w-full items-center justify-end mt-6">
       <p
         ref="authorRef"
         class="text-primary font-medium text-xl leading-[1.4] text-right relative z-10"
