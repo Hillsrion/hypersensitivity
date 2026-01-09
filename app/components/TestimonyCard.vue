@@ -178,11 +178,15 @@ const handleHover = async (val) => {
   isHovering.value = val;
   if (val) {
     if (props.audio) {
+      // Set volume to 0.6 for testimonies
+      audioStore.setVolume(0.6);
       await audioStore.playAudio(props.audio);
     }
   } else {
     if (isPlaying.value) {
       await audioStore.stopCurrentAudio();
+      // Reset volume to default 0.8
+      audioStore.setVolume(0.8);
     }
   }
 };
@@ -300,6 +304,7 @@ onUnmounted(() => {
   }
   if (props.audio && isPlaying.value) {
     audioStore.stopCurrentAudio();
+    audioStore.setVolume(0.8);
   }
   if (auroraAnimation) {
     auroraAnimation.kill();

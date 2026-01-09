@@ -6,16 +6,26 @@ export const useAudioStore = defineStore('audio', {
     fadeInterval: null,
     isPlaying: false,
     list: [],
+    volume: 0.8,
   }),
 
   actions: {
+    setVolume(val) {
+      this.volume = val;
+      if (this.currentAudio && !this.fadeInterval) {
+        this.currentAudio.volume = val;
+      }
+    },
+
     async playAudio(audioPath) {
       // Stop any currently playing audio first
       await this.stopCurrentAudio();
 
       // Create and play new audio
-      const { audio } = this.list.find(item => item.path === audioPath);
-      this.currentAudio = audio;
+      const item = this.list.find(item => item.path === audioPath);
+      if (!item) return;
+
+      this.currentAudio = item.audio;
       this.currentAudio.volume = 0;
       // Start playing and fade in
       this.currentAudio.play();
@@ -87,7 +97,7 @@ export const useAudioStore = defineStore('audio', {
           return;
         }
 
-        const targetVolume = fadeIn ? 0.5 : 0; // Max volume 50%
+        const targetVolume = fadeIn ? this.volume : 0;
         const startVolume = this.currentAudio.volume;
         const volumeStep = (targetVolume - startVolume) / steps;
         const stepDuration = duration / steps;
@@ -95,7 +105,7 @@ export const useAudioStore = defineStore('audio', {
 
         this.fadeInterval = setInterval(() => {
           currentStep++;
-          this.currentAudio.volume = Math.abs(startVolume + (volumeStep * currentStep));
+          this.currentAudio.volume = Math.max(0, Math.min(1, startVolume + (volumeStep * currentStep)));
 
           if (currentStep >= steps) {
             clearInterval(this.fadeInterval);
