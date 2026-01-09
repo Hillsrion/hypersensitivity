@@ -175,7 +175,7 @@ onMounted(() => {
     tl.to(
       containerRef.value,
       {
-        opacity: 0,
+        autoAlpha: 0,
         duration: 1,
         ease: "power1.inOut",
       },

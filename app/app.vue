@@ -93,6 +93,6 @@ onMounted(async () => {
         :color="section.color"
       />
     </div>
-    <TestimoniesSection />
+    <TestimoniesSection class="relative z-10" />
   </div>
 </template>

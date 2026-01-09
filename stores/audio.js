@@ -25,24 +25,35 @@ export const useAudioStore = defineStore('audio', {
 
     preloadList(list) {
       this.list = list.map(item => {
+        const timings = item.timings?.map(timing => {
+          return {
+            word: timing.word,
+            start: parseFloat(timing.startOffset.replace('s', '')),
+            end: parseFloat(timing.endOffset.replace('s', '')),
+          }
+        }) ?? [];
+
+        // Calculate duration from timings if available
+        let duration = 0;
+        if (timings.length > 0) {
+          duration = timings[timings.length - 1].end - timings[0].start;
+        }
+
         return {
           ...item,
           audio: new Audio(item.path),
           transcript: item.transcript,
-          timings: item.timings?.map(timing => {
-            return {
-              word: timing.word,
-              start: parseFloat(timing.startOffset.replace('s', '')),
-              end: parseFloat(timing.endOffset.replace('s', '')),
-            }
-          }) ?? [],
+          timings,
+          duration
         };
-      });;
+      });
     },
 
     defineDurations() {
       this.list.forEach(item => {
-        item.duration = item.timings[item.timings.length - 1].end - item.timings[0].start;
+        if (item.timings && item.timings.length > 0) {
+          item.duration = item.timings[item.timings.length - 1].end - item.timings[0].start;
+        }
       });
     },
 

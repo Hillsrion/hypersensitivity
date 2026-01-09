@@ -5,6 +5,26 @@
     @mouseenter="handleHover(true)"
     @mouseleave="handleHover(false)"
   >
+    <!-- Border Animation -->
+    <svg
+      class="absolute inset-0 w-full h-full pointer-events-none z-20"
+      style="overflow: visible"
+    >
+      <rect
+        ref="borderRect"
+        x="0.5"
+        y="0.5"
+        width="calc(100% - 1px)"
+        height="calc(100% - 1px)"
+        rx="15"
+        ry="15"
+        fill="none"
+        stroke-width="1"
+        :stroke="`var(--color-gradient-${color})`"
+        class="opacity-0"
+      />
+    </svg>
+
     <!-- Aurora Background -->
     <div
       ref="auroraRef"
@@ -51,8 +71,7 @@
         fill="none"
         class="transition-all duration-300"
         :style="{
-          opacity: isHovered ? 0 : 1,
-          transform: isHovered ? 'scale(0.8)' : 'scale(1)',
+          transform: isHovering || isPlaying ? 'scale(0.8)' : 'scale(1)',
         }"
       >
         <path
@@ -62,8 +81,7 @@
       </svg>
       <p
         ref="authorRef"
-        class="text-primary font-medium text-xl leading-[1.4] text-right w-max ml-auto"
-        :style="{ opacity: isHovered ? 0 : 1 }"
+        class="text-primary font-medium text-xl leading-[1.4] text-right relative z-10"
       >
         {{ author }}
       </p>
@@ -77,17 +95,20 @@ import { useAudioStore } from "~/stores/audio";
 const { $gsap: gsap } = useNuxtApp();
 
 const audioStore = useAudioStore();
-const isHovered = ref(false);
 const containerRef = ref(null);
 const borderRect = ref(null);
 const textRef = ref(null);
-const containerWidth = ref(0);
-const containerHeight = ref(0);
-const perimeter = ref(0);
 const authorRef = ref(null);
-const authorGradientRef = ref(null);
 const auroraRef = ref(null);
 const auroraInnerRef = ref(null);
+const isHovering = ref(false);
+
+const props = defineProps({
+  content: String,
+  author: String,
+  audio: String,
+  color: String,
+});
 
 const isPlaying = computed(
   () =>
@@ -100,16 +121,8 @@ const timings = computed(() => {
   );
 });
 const duration = computed(() => {
-  return (
-    audioStore.list.find((item) => item.path === props.audio)?.duration ?? 0
-  );
-});
-
-const props = defineProps({
-  content: String,
-  author: String,
-  audio: String,
-  color: String,
+  const d = audioStore.list.find((item) => item.path === props.audio)?.duration;
+  return d || 5; // Fallback to 5s if no duration found
 });
 
 let currentAnimation = null;
@@ -122,23 +135,6 @@ onMounted(() => {
     splitInstance = useSplitText(textRef, {
       splitBy: "words",
     });
-  }
-
-  if (containerRef.value) {
-    const updateDimensions = () => {
-      const rect = containerRef.value.getBoundingClientRect();
-      containerWidth.value = rect.width;
-      containerHeight.value = rect.height;
-      perimeter.value = (containerWidth.value + containerHeight.value) * 2;
-
-      gsap.set(borderRect.value, {
-        strokeDashoffset: perimeter.value,
-        opacity: 0,
-      });
-    };
-
-    updateDimensions();
-    window.addEventListener("resize", updateDimensions);
   }
 
   // Set initial Aurora color
@@ -166,11 +162,32 @@ onMounted(() => {
       paused: false, // Always floating
     });
   }
+
+  // Initialize border
+  if (borderRect.value) {
+    const length = borderRect.value.getTotalLength();
+    gsap.set(borderRect.value, {
+      strokeDasharray: length,
+      strokeDashoffset: length,
+      opacity: 0,
+    });
+  }
 });
 
-const handleHover = async (_isHovered) => {
-  isHovered.value = _isHovered;
+const handleHover = async (val) => {
+  isHovering.value = val;
+  if (val) {
+    if (props.audio) {
+      await audioStore.playAudio(props.audio);
+    }
+  } else {
+    if (isPlaying.value) {
+      await audioStore.stopCurrentAudio();
+    }
+  }
+};
 
+const startAnimations = () => {
   // Kill all ongoing animations
   if (currentAnimation) {
     currentAnimation.kill();
@@ -179,82 +196,57 @@ const handleHover = async (_isHovered) => {
     textAnimation.kill();
   }
 
-  if (_isHovered) {
-    if (props.audio) {
-      await audioStore.playAudio(props.audio);
-    }
+  // Border animation
+  if (borderRect.value) {
+    const length = borderRect.value.getTotalLength();
+    // Reset to start
+    gsap.set(borderRect.value, {
+      strokeDashoffset: length,
+      opacity: 1,
+    });
 
-    // Aurora Fade In
-    if (auroraRef.value) {
-      gsap.to(auroraRef.value, {
-        opacity: 1,
-        duration: 1,
-        ease: "power2.inOut",
-      });
-    }
-
-    currentAnimation = gsap.fromTo(
-      borderRect.value,
-      {
-        strokeDashoffset: perimeter.value,
-        opacity: 1,
-      },
-      {
-        strokeDashoffset: 0,
-        duration: duration.value,
-        ease: "none",
-      }
-    );
-
-    // Text opacity animations (Karaoke effect)
-    if (splitInstance?.words.value) {
-      // Immediately dim all words to inactive state
-      gsap.to(splitInstance.words.value, {
-        opacity: 0.6,
-        duration: 0.3,
-        ease: "power2.out",
-      });
-
-      const timeline = gsap.timeline();
-      splitInstance.words.value.forEach((wordEl, index) => {
-        const timing = timings.value[index];
-        if (timing) {
-          // Animate word to full opacity when it's spoken
-          timeline.to(
-            wordEl,
-            {
-              opacity: 1,
-              duration: 0.1, // Quick transition to active
-              ease: "none",
-            },
-            timing.start
-          );
-        }
-      });
-      textAnimation = timeline;
-    }
-
-    if (authorRef.value) {
-      // Author transition
-      gsap.to([authorRef.value], {
-        opacity: (_i, el) => (el === authorRef.value ? 0 : 1),
-        duration: 0.6,
-        ease: "power2.out",
-      });
-    }
-  } else {
-    // Aurora Fade Out
-    if (auroraRef.value) {
-      gsap.to(auroraRef.value, {
-        opacity: 0,
-        duration: 1,
-        ease: "power2.inOut",
-      });
-    }
-
-    // Border animation
     currentAnimation = gsap.to(borderRect.value, {
-      strokeDashoffset: perimeter.value,
+      strokeDashoffset: 0,
+      duration: duration.value,
+      ease: "none",
+    });
+  }
+
+  // Text opacity animations (Karaoke effect)
+  if (splitInstance?.words.value) {
+    // Immediately dim all words to inactive state
+    gsap.to(splitInstance.words.value, {
+      opacity: 0.6,
+      duration: 0.3,
+      ease: "power2.out",
+    });
+
+    const timeline = gsap.timeline();
+    splitInstance.words.value.forEach((wordEl, index) => {
+      const timing = timings.value[index];
+      if (timing) {
+        // Animate word to full opacity when it's spoken
+        timeline.to(
+          wordEl,
+          {
+            opacity: 1,
+            duration: 0.1, // Quick transition to active
+            ease: "none",
+          },
+          timing.start
+        );
+      }
+    });
+    textAnimation = timeline;
+  }
+};
+
+const stopAnimations = () => {
+  // Border animation
+  if (borderRect.value) {
+    const length = borderRect.value.getTotalLength();
+    currentAnimation = gsap.to(borderRect.value, {
+      strokeDashoffset: length,
       duration: 1,
       ease: "power3.out",
       onComplete: () => {
@@ -264,38 +256,49 @@ const handleHover = async (_isHovered) => {
         });
       },
     });
+  }
 
-    // Reset text opacity
-    if (splitInstance?.words.value) {
-      gsap.killTweensOf(splitInstance.words.value);
-      textAnimation = gsap.to(splitInstance.words.value, {
-        opacity: 1,
-        duration: 0.4,
-        stagger: {
-          each: 0.01,
-          from: "start",
-        },
-        ease: "power2.out",
-      });
-    }
-
-    gsap.to(authorRef.value, {
+  // Reset text opacity
+  if (splitInstance?.words.value) {
+    gsap.killTweensOf(splitInstance.words.value);
+    textAnimation = gsap.to(splitInstance.words.value, {
       opacity: 1,
-      duration: 0.8,
-      ease: "power3.inOut",
+      duration: 0.4,
+      stagger: {
+        each: 0.01,
+        from: "start",
+      },
+      ease: "power2.out",
     });
-
-    if (props.audio) {
-      await audioStore.stopCurrentAudio();
-    }
   }
 };
+
+// Handle Aurora visibility separately for immediate feedback
+watch(isHovering, (hovering) => {
+  console.log("hovering");
+
+  if (auroraRef.value) {
+    gsap.to(auroraRef.value, {
+      opacity: hovering ? 1 : 0,
+      duration: 1,
+      ease: "power2.inOut",
+    });
+  }
+});
+
+watch(isPlaying, (playing) => {
+  if (playing) {
+    startAnimations();
+  } else {
+    stopAnimations();
+  }
+});
 
 onUnmounted(() => {
   if (splitInstance) {
     splitInstance.revert();
   }
-  if (props.audio) {
+  if (props.audio && isPlaying.value) {
     audioStore.stopCurrentAudio();
   }
   if (auroraAnimation) {
@@ -308,46 +311,3 @@ defineExpose({
   containerRef,
 });
 </script>
-
-<style scoped>
-@keyframes wave {
-  0%,
-  100% {
-    transform: scaleY(1);
-  }
-  50% {
-    transform: scaleY(0.5);
-  }
-}
-
-.wave-line {
-  transform-origin: center center;
-  transform-box: fill-box;
-  opacity: 1;
-  transform: scaleY(1);
-}
-
-.wave-1 {
-  animation: wave 0.8s ease-in-out infinite;
-}
-
-.wave-2 {
-  animation: wave 1s ease-in-out infinite;
-  animation-delay: 0.1s;
-}
-
-.wave-3 {
-  animation: wave 0.6s ease-in-out infinite;
-  animation-delay: 0.2s;
-}
-
-.wave-4 {
-  animation: wave 0.9s ease-in-out infinite;
-  animation-delay: 0.15s;
-}
-
-.wave-5 {
-  animation: wave 0.7s ease-in-out infinite;
-  animation-delay: 0.25s;
-}
-</style>

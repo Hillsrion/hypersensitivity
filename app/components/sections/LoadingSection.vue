@@ -98,6 +98,7 @@ const onBottomElementClick = () => {
     :style="{ background: backgroundGradient }"
     :class="{
       'z-99': !landing.mainTitle.exit.completed,
+      'pointer-events-none': landing.mainTitle.exit.started,
     }"
   >
     <div
