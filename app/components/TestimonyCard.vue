@@ -39,7 +39,7 @@
     <p
       id="textRef"
       ref="textRef"
-      class="text-primary/60 font-light font-serif text-xl leading-[1.4] mt-12 relative lg:mb-0 mb-8 z-10"
+      class="text-primary/60 font-light font-serif text-xl leading-tight mt-12 relative lg:mb-0 mb-8 z-10"
     >
       {{ content }}
     </p>

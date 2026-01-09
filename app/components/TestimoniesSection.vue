@@ -49,43 +49,69 @@ onMounted(async () => {
 
     // --- 1. Calculate Geometry ---
     // We calculate the delta between the Big Hero Text and the Small Card Text
-    const startRect = heroTextRef.value.getBoundingClientRect();
     const endRect = firstCardContentRef.value.getBoundingClientRect();
 
-    const xMove = endRect.left - startRect.left;
-    const yMove = endRect.top - startRect.top;
+    // Force the Hero Text to have the exact same width as the target text
+    // This ensures line breaks (wrapping) are identical.
+    heroTextRef.value.style.width = `${endRect.width}px`;
 
-    // We use width ratio for scaling.
-    const widthScale = endRect.width / startRect.width;
+    // Re-measure Hero Text after width adjustment
+    const startRect = heroTextRef.value.getBoundingClientRect();
+
+    // Calculate initial scale to fit screen width (with some padding)
+    const fitScale = (window.innerWidth * 0.9) / startRect.width;
+
+    // Calculate initial centering offsets
+    // We want the text to appear centered on screen initially
+    const screenCenterX = window.innerWidth / 2;
+    const screenCenterY = window.innerHeight / 2;
+    const startCenterX = startRect.left + startRect.width / 2;
+    const startCenterY = startRect.top + startRect.height / 2;
+    
+    const initialX = screenCenterX - startCenterX;
+    const initialY = screenCenterY - startCenterY;
+
+    // Calculate final position (relative to initial startRect position)
+    const finalX = endRect.left - startRect.left;
+    const finalY = endRect.top - startRect.top;
 
     // --- 2. Build Timeline ---
 
-    // Phase A: Shrink and Move Hero Text to position of Card 1
+    // Set initial state: Scaled up and centered
+    tl.set(heroTextRef.value, {
+      scale: fitScale,
+      x: initialX,
+      y: initialY,
+      opacity: 0, 
+      transformOrigin: "center center"
+    });
+
+    // Phase A: Move Hero Text to position of Card 1
+    // We animate from the "Big Centered" state to the "Small Card" state (scale: 1, x: finalX, y: finalY)
     tl.to(heroTextRef.value, {
-      opacity: 0.2,
-      duration: 0.5,
+        opacity: 1,
+        duration: 0.5,
     })
       .to(heroTextRef.value, {
-        opacity: 0.6,
-        x: xMove,
-        y: yMove,
-        scale: widthScale,
-        transformOrigin: "top left",
-        ease: "power1.inOut",
+        x: finalX,
+        y: finalY,
+        scale: 1,
+        transformOrigin: "center center", // Scale from center
+        ease: "power2.inOut",
         duration: 3,
       })
       // Phase B: Swap Visibility (Smoother Cross-fade)
       // As the hero text reaches its final spot, we fade it out while fading in the track and the card content.
       .to(heroTextRef.value, {
-        opacity: 0,
-        duration: 0.8,
+        autoAlpha: 0,
+        duration: 0.2, // Quick fade out at the end
         ease: "power2.inOut",
       })
       .to(
         trackRef.value,
         {
           opacity: 1,
-          duration: 0.8,
+          duration: 0.2,
           ease: "power2.inOut",
         },
         "<"
@@ -94,7 +120,7 @@ onMounted(async () => {
         firstCardContentRef.value,
         {
           opacity: 1,
-          duration: 0.8,
+          duration: 0.2,
           ease: "power2.inOut",
         },
         "<"
@@ -130,7 +156,7 @@ onMounted(async () => {
       >
         <h2
           ref="heroTextRef"
-          class="opacity-0 text-5xl md:text-[7.5rem] font-serif font-light leading-tight origin-top-left"
+          class="opacity-0 text-xl text-primary/60 font-serif font-light leading-tight origin-center"
         >
           {{ testimonies[0].content }}
         </h2>
