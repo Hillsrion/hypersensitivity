@@ -25,6 +25,35 @@ const contentRef = ref(null);
 // Let's create an array for the titles to animate.
 const titlesRef = ref([]);
 
+let lastColorChangeTime = 0;
+let visibilityTimeout = null;
+
+const setAuroraColorSafe = () => {
+  animationsStore.setAuroraColor(props.color);
+  lastColorChangeTime = Date.now();
+};
+
+const setAuroraVisibilitySafe = (visible) => {
+  if (visibilityTimeout) {
+    clearTimeout(visibilityTimeout);
+    visibilityTimeout = null;
+  }
+
+  if (visible) {
+    const elapsed = Date.now() - lastColorChangeTime;
+    const delay = Math.max(0, 2000 - elapsed);
+    if (delay > 0) {
+      visibilityTimeout = setTimeout(() => {
+        animationsStore.setAuroraVisibility(true);
+      }, delay);
+    } else {
+      animationsStore.setAuroraVisibility(true);
+    }
+  } else {
+    animationsStore.setAuroraVisibility(false);
+  }
+};
+
 onMounted(() => {
   if (!containerRef.value || !titleWrapperRef.value) return;
 
@@ -32,7 +61,6 @@ onMounted(() => {
 
   mm.add("(min-width: 375px)", () => {
     const totalHeight = window.innerHeight;
-
     const maxDistance = totalHeight * 0.525; // The bottom-most position
     const minScale = 0.46;
 
@@ -44,6 +72,8 @@ onMounted(() => {
         end: "+=400%",
         scrub: 1,
         invalidateOnRefresh: true, // Handle resize better
+        onEnter: setAuroraColorSafe,
+        onEnterBack: setAuroraColorSafe,
       },
     });
 
@@ -125,8 +155,7 @@ onMounted(() => {
     // Update Aurora State
     tl.call(
       () => {
-        animationsStore.setAuroraColor(props.color);
-        animationsStore.setAuroraVisibility(true);
+        setAuroraVisibilitySafe(true);
       },
       null,
       "moveUp"
@@ -155,7 +184,7 @@ onMounted(() => {
 
     tl.call(
       () => {
-        animationsStore.setAuroraVisibility(false);
+        setAuroraVisibilitySafe(false);
       },
       null,
       "moveUp+=6"
@@ -168,6 +197,12 @@ onMounted(() => {
     // Position: juste après le fade out (">" = immédiatement après la dernière animation)
     tl.to({}, { duration: 4.25 }, ">");
   });
+});
+
+onUnmounted(() => {
+  if (visibilityTimeout) {
+    clearTimeout(visibilityTimeout);
+  }
 });
 </script>
 

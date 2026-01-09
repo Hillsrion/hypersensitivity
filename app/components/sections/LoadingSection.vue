@@ -16,9 +16,7 @@ const isHovered = ref(false);
 
 const { backgroundGradient, animate } = useBackgroundGradient();
 
-const auroraColorState = reactive({
-  middleColor: "#c6ffe9", // Will be resolved on mounted
-});
+// Remove reactive state for color to avoid DOM trashing
 
 watch(
   () => landing.value.intro.entry.started,
@@ -32,8 +30,9 @@ watch(
 onMounted(() => {
   const style = getComputedStyle(document.documentElement);
   const initialColor = style.getPropertyValue("--color-gradient-green").trim();
-  if (initialColor) {
-    auroraColorState.middleColor = initialColor;
+  if (initialColor && auroraInnerRef.value) {
+    // Set initial CSS variable
+    auroraInnerRef.value.style.setProperty("--aurora-middle-color", initialColor);
   }
 });
 
@@ -44,9 +43,10 @@ watch(
     const newHex = style
       .getPropertyValue(`--color-gradient-${newColor}`)
       .trim();
-    if (newHex) {
-      $gsap.to(auroraColorState, {
-        middleColor: newHex,
+    if (newHex && auroraInnerRef.value) {
+      // Animate the CSS variable directly
+      $gsap.to(auroraInnerRef.value, {
+        "--aurora-middle-color": newHex,
         duration: 2,
         ease: "power2.inOut",
       });
@@ -101,13 +101,13 @@ const onBottomElementClick = () => {
   >
     <div
       ref="auroraRef"
-      class="absolute inset-0 flex items-center justify-center pointer-events-none opacity-0 z-0 overflow-hidden"
+      class="absolute inset-0 flex items-center justify-center pointer-events-none opacity-0 z-0 overflow-hidden will-change-opacity backface-hidden"
     >
       <div
         ref="auroraInnerRef"
-        class="w-full h-full blur-[80px] scale-125"
+        class="w-full h-full blur-[80px] scale-125 will-change-transform backface-hidden"
         :style="{
-          background: `linear-gradient(180deg, #ffffff 20%, ${auroraColorState.middleColor} 50%, #ffffff 80%)`,
+          background: `linear-gradient(180deg, #ffffff 20%, var(--aurora-middle-color) 50%, #ffffff 80%)`,
           transform: 'rotate(-3deg)',
         }"
       ></div>
