@@ -70,12 +70,31 @@ onMounted(async () => {
       ease: "power1.inOut",
       duration: 3,
     })
-      // Phase B: Swap Visibility
-      // Hide the floating hero text and show the actual card content
-      .set(heroTextRef.value, { opacity: 0 })
-      .set(firstCardContentRef.value, { opacity: 1 }, "<");
-
-    // Phase C: Horizontal Scroll
+              // Phase B: Swap Visibility (Smoother Cross-fade)
+              // As the hero text reaches its final spot, we fade it out while fading in the track and the card content.
+              .to(heroTextRef.value, {
+                opacity: 0,
+                duration: 0.8,
+                ease: "power2.inOut",
+              })
+              .to(
+                trackRef.value,
+                {
+                  opacity: 1,
+                  duration: 0.8,
+                  ease: "power2.inOut",
+                },
+                "<"
+              )
+              .to(
+                firstCardContentRef.value,
+                {
+                  opacity: 1,
+                  duration: 0.8,
+                  ease: "power2.inOut",
+                },
+                "<"
+              );    // Phase C: Horizontal Scroll
     // Move the track to the left to reveal other cards
     const trackWidth = trackRef.value.scrollWidth;
     const windowWidth = window.innerWidth;
@@ -115,7 +134,7 @@ onMounted(async () => {
       <!-- HORIZONTAL TRACK -->
       <div
         ref="trackRef"
-        class="flex items-center gap-20 px-[10vw] w-max h-full"
+        class="opacity-0 flex items-center gap-20 px-[10vw] w-max h-full"
       >
         <div
           v-for="(t, i) in testimonies"
