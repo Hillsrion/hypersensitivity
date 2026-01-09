@@ -58,20 +58,18 @@ onMounted(async () => {
     // --- 2. Build Timeline ---
 
     // Phase A: Shrink and Move Hero Text to position of Card 1
-    tl.fromTo(
-      heroTextRef.value,
-      { opacity: 0.2 },
-      {
-        opacity: 0.6,
-        x: xMove,
-        y: yMove,
-        scale: widthScale,
-        transformOrigin: "top left",
-        ease: "power1.inOut",
-        duration: 3,
-        immediateRender: false,
-      }
-    )
+    tl.to(heroTextRef.value, {
+      opacity: 0.2,
+      duration: 0.5,
+    }).to(heroTextRef.value, {
+      opacity: 0.6,
+      x: xMove,
+      y: yMove,
+      scale: widthScale,
+      transformOrigin: "top left",
+      ease: "power1.inOut",
+      duration: 3,
+    })
       // Phase B: Swap Visibility
       // Hide the floating hero text and show the actual card content
       .set(heroTextRef.value, { opacity: 0 })
