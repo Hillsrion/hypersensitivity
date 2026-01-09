@@ -91,10 +91,7 @@ onMounted(async () => {
 </script>
 
 <template>
-  <section
-    ref="sectionRef"
-    class="relative h-[400vh] bg-neutral-50 text-neutral-900"
-  >
+  <section ref="sectionRef" class="relative h-[400svh]">
     <div
       ref="stickyRef"
       class="sticky top-0 h-screen w-full overflow-hidden flex flex-col justify-center"
