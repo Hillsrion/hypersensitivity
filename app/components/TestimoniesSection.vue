@@ -44,6 +44,7 @@ onMounted(async () => {
         start: "top top",
         end: "bottom bottom",
         scrub: 1,
+        invalidateOnRefresh: true,
       },
     });
 
@@ -133,19 +134,12 @@ onMounted(async () => {
       );
 
     // Phase C: Horizontal Scroll
-    // Move the track to the left to reveal other cards
-    const trackWidth = trackRef.value.scrollWidth;
-    const windowWidth = window.innerWidth;
-    // Scroll enough to see the last card + some padding
-    const xScroll = Math.min(0, -(trackWidth - windowWidth + 200));
-
-    if (xScroll < 0) {
-      tl.to(trackRef.value, {
-        x: xScroll,
-        ease: "none", // Linear movement for scroll sync
-        duration: 7,
-      });
-    }
+    // Move the track to the left until it completely leaves the screen
+    tl.to(trackRef.value, {
+      x: () => -trackRef.value.scrollWidth,
+      ease: "none", // Linear movement for scroll sync
+      duration: 10,
+    });
   });
 });
 </script>
