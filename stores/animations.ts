@@ -2,8 +2,7 @@ import { defineStore } from "pinia";
 
 export const useAnimationsStore = defineStore("animations", {
   state: () => {
-    // DEV: Set to true to skip intro animation
-    const SKIP_INTRO = true;
+    const SKIP_INTRO = import.meta.dev;
 
     return {
       skipIntro: SKIP_INTRO,
