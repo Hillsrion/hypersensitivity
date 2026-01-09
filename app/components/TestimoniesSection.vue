@@ -65,9 +65,15 @@ onMounted(async () => {
     // We want the text to appear centered on screen initially
     const screenCenterX = window.innerWidth / 2;
     const screenCenterY = window.innerHeight / 2;
-    const startCenterX = startRect.left + startRect.width / 2;
-    const startCenterY = startRect.top + startRect.height / 2;
-    
+
+    // We calculate position relative to sticky container to avoid scroll offset issues
+    const stickyRect = stickyRef.value.getBoundingClientRect();
+    const relativeTop = startRect.top - stickyRect.top;
+    const relativeLeft = startRect.left - stickyRect.left;
+
+    const startCenterX = relativeLeft + startRect.width / 2;
+    const startCenterY = relativeTop + startRect.height / 2;
+
     const initialX = screenCenterX - startCenterX;
     const initialY = screenCenterY - startCenterY;
 
@@ -81,16 +87,16 @@ onMounted(async () => {
     tl.set(heroTextRef.value, {
       scale: fitScale,
       x: initialX,
+      opacity: 0,
       y: initialY,
-      opacity: 0, 
-      transformOrigin: "center center"
+      transformOrigin: "center center",
     });
 
     // Phase A: Move Hero Text to position of Card 1
     // We animate from the "Big Centered" state to the "Small Card" state (scale: 1, x: finalX, y: finalY)
     tl.to(heroTextRef.value, {
-        opacity: 1,
-        duration: 0.5,
+      opacity: 1,
+      duration: 0.5,
     })
       .to(heroTextRef.value, {
         x: finalX,
@@ -156,7 +162,7 @@ onMounted(async () => {
       >
         <h2
           ref="heroTextRef"
-          class="opacity-0 text-xl text-primary/60 font-serif font-light leading-tight origin-center"
+          class="text-xl text-primary/60 font-serif font-light leading-tight origin-center"
         >
           {{ testimonies[0].content }}
         </h2>
