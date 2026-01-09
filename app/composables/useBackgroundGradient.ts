@@ -115,7 +115,6 @@ export const useBackgroundGradient = () => {
       color2: "#ffffff",
       color3: "#ffffff",
       color4: "#ffffff",
-      duration: 1.5,
       ease: "power2.inOut",
     });
     return tl;

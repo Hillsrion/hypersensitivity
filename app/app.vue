@@ -75,7 +75,7 @@ onMounted(async () => {
     <div
       class="fixed inset-0 z-9999 pointer-events-none opacity-15 bg-repeat bg-[url('/images/noise.svg')]"
     />
-    <div class="relative z-1 mx-auto flex flex-col gap-y-16">
+    <div class="relative z-1 mx-auto flex flex-col gap-y-16 mt-[40svh]">
       <GenericSection
         v-for="section in mainData.sections"
         :key="section.title"
