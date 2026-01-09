@@ -1,13 +1,34 @@
 <template>
   <div 
     ref="containerRef"
-    class="relative rounded-2xl shadow-lg overflow-hidden flex flex-col cursor-pointer p-5 transition-colors duration-300" 
-    :style="{ backgroundColor: `var(--color-gradient-${color})` }"
+    class="relative rounded-2xl shadow-sm overflow-hidden flex flex-col cursor-pointer p-8 transition-colors duration-300 bg-white border border-neutral-100" 
     @mouseenter="handleHover(true)"
     @mouseleave="handleHover(false)"
   >
+    <!-- Aurora Background -->
+    <div
+      ref="auroraRef"
+      class="absolute inset-0 flex items-center justify-center pointer-events-none opacity-0 z-0 overflow-hidden will-change-opacity backface-hidden"
+    >
+      <div
+        ref="auroraInnerRef"
+        class="w-full h-full blur-[60px] scale-125 will-change-transform backface-hidden"
+        :style="{
+          background: `linear-gradient(180deg, #ffffff 20%, var(--aurora-middle-color) 50%, #ffffff 80%)`,
+          transform: 'rotate(-3deg)',
+        }"
+      ></div>
+    </div>
+
+    <!-- Quote Icon -->
+    <div class="absolute left-8 top-8 z-10">
+      <svg width="32" height="27" viewBox="0 0 32 27" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M16.9008 0L0.9437 15.2943H11.6676V27H0V15.2943L8.23592 0H16.9008ZM32 0L16.1287 15.2943H26.7668V27H15.0992V15.2943L23.3351 0H32Z" fill="#0B1018"/>
+      </svg>
+    </div>
+
     <!-- Play Icon -->
-    <div v-if="audio" class="absolute left-5 bottom-[2.75rem] z-10">
+    <div v-if="audio" class="absolute left-8 bottom-8 z-10">
       <div class="relative">
         <svg 
           xmlns="http://www.w3.org/2000/svg" 
@@ -47,7 +68,7 @@
       </div>
     </div>
     <svg 
-      class="absolute inset-0 w-full h-full pointer-events-none"
+      class="absolute inset-0 w-full h-full pointer-events-none z-20"
       :viewBox="`0 0 ${containerWidth} ${containerHeight}`"
     >
       <rect
@@ -66,12 +87,12 @@
       />
     </svg>
 
-    <p id="textRef" ref="textRef" class="text-primary text-xl sm:text-[1.35rem] mt-4 relative lg:mb-0 mb-8 font-epilogue">"{{ content }}"</p>
-    <div class="flex w-full justify-end relative mt-auto">
+    <p id="textRef" ref="textRef" class="text-primary text-xl sm:text-[1.35rem] mt-12 relative lg:mb-0 mb-8 font-epilogue z-10">"{{ content }}"</p>
+    <div class="flex w-full justify-end relative mt-auto z-10">
       <div class="relative">
         <p 
           ref="authorRef" 
-          class="text-primary absolute inset-0"
+          class="text-primary absolute inset-0 right-0 text-right w-max ml-auto"
           :class="authorClasses"
           :style="{ opacity: isHovered ? 0 : 1 }"
         >
@@ -79,7 +100,7 @@
         </p>
         <p 
           ref="authorGradientRef" 
-          class="text-primary"
+          class="text-primary text-right w-max ml-auto"
           :class="authorClasses"
           :style="{ opacity: isHovered ? 1 : 0 }"
         >
@@ -105,6 +126,8 @@ const containerHeight = ref(0);
 const perimeter = ref(0);
 const authorRef = ref(null);
 const authorGradientRef = ref(null);
+const auroraRef = ref(null);
+const auroraInnerRef = ref(null);
 
 const isPlaying = computed(() => audioStore.isPlaying && audioStore.currentAudio?.src.includes(props.audio));
 
@@ -125,6 +148,7 @@ const props = defineProps({
 let currentAnimation = null;
 let splitInstance = null;
 let textAnimation = null;
+let auroraAnimation = null;
 const authorClasses = "text-lg sm:text-xl font-semibold font-epilogue";
 
 onMounted(() => {
@@ -150,6 +174,30 @@ onMounted(() => {
     updateDimensions();
     window.addEventListener("resize", updateDimensions);
   }
+
+  // Set initial Aurora color
+  if (props.color && auroraInnerRef.value) {
+    const style = getComputedStyle(document.documentElement);
+    const colorHex = style.getPropertyValue(`--color-gradient-${props.color}`).trim();
+    if (colorHex) {
+      auroraInnerRef.value.style.setProperty("--aurora-middle-color", colorHex);
+    }
+  }
+
+  // Start Aurora floating animation
+  if (auroraInnerRef.value) {
+    auroraAnimation = gsap.to(auroraInnerRef.value, {
+      xPercent: 15,
+      yPercent: 20,
+      rotation: 10,
+      scale: 1.2,
+      duration: 4,
+      repeat: -1,
+      yoyo: true,
+      ease: "sine.inOut",
+      paused: false // Always floating
+    });
+  }
 });
 
 const handleHover = async (_isHovered) => {
@@ -168,6 +216,15 @@ const handleHover = async (_isHovered) => {
       await audioStore.playAudio(props.audio);
     }
     
+    // Aurora Fade In
+    if (auroraRef.value) {
+      gsap.to(auroraRef.value, {
+        opacity: 1,
+        duration: 1,
+        ease: "power2.inOut",
+      });
+    }
+
     currentAnimation = gsap.fromTo(
       borderRect.value,
       {
@@ -181,21 +238,30 @@ const handleHover = async (_isHovered) => {
       },
     );
 
-    // Text color animations
+    // Text opacity animations (Karaoke effect)
     if (splitInstance?.words.value) {
+      // Immediately dim all words to inactive state
+      gsap.to(splitInstance.words.value, {
+        opacity: 0.6,
+        duration: 0.3,
+        ease: "power2.out"
+      });
+
       const timeline = gsap.timeline();
       splitInstance.words.value.forEach((wordEl, index) => {
         const timing = timings.value[index];
         if (timing) {
+          // Animate word to full opacity when it's spoken
           timeline.to(wordEl, {
-            color: "#ffffff", // White text highlighting
-            duration: (timing.end - timing.start),
+            opacity: 1,
+            duration: 0.1, // Quick transition to active
             ease: "none",
           }, timing.start);
         }
       });
       textAnimation = timeline;
     }
+    
     if(authorRef.value && authorGradientRef.value) {
       // Author transition
       gsap.to([authorRef.value, authorGradientRef.value], {
@@ -205,6 +271,15 @@ const handleHover = async (_isHovered) => {
       });
     }
   } else {
+    // Aurora Fade Out
+    if (auroraRef.value) {
+      gsap.to(auroraRef.value, {
+        opacity: 0,
+        duration: 1,
+        ease: "power2.inOut",
+      });
+    }
+
     // Border animation
     currentAnimation = gsap.to(borderRect.value, {
       strokeDashoffset: perimeter.value,
@@ -218,17 +293,17 @@ const handleHover = async (_isHovered) => {
       },
     });
 
-    // Text color animations
+    // Reset text opacity
     if (splitInstance?.words.value) {
       gsap.killTweensOf(splitInstance.words.value);
       textAnimation = gsap.to(splitInstance.words.value, {
-        color: "#0b1018", // Reset to primary color
+        opacity: 1,
         duration: 0.4,
         stagger: {
-          each: 0.02,
-          from: "end",
+          each: 0.01,
+          from: "start",
         },
-        ease: "power4.out",
+        ease: "power2.out",
       });
     }
 
@@ -256,6 +331,9 @@ onUnmounted(() => {
   }
   if (props.audio) {
     audioStore.stopCurrentAudio();
+  }
+  if (auroraAnimation) {
+    auroraAnimation.kill();
   }
 });
 
