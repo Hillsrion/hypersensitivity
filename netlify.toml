@@ -1,0 +1,11 @@
+[build]
+  command = "pnpm install && pnpm nuxi build"
+  publish = "dist"
+  functions = ".netlify/functions-internal"
+
+[env]
+  [env.production]
+    NODE_ENV = "production"
+
+[functions]
+  node_bundler = "esbuild"
