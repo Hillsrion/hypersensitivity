@@ -96,7 +96,7 @@ onMounted(async () => {
     // Phase A: Move Hero Text to position of Card 1
     // We animate from the "Big Centered" state to the "Small Card" state (scale: 1, x: finalX, y: finalY)
     tl.to(heroTextRef.value, {
-      opacity: 1,
+      opacity: 0.6,
       duration: 0.5,
     })
       .to(heroTextRef.value, {
@@ -156,7 +156,7 @@ onMounted(async () => {
       >
         <h2
           ref="heroTextRef"
-          class="text-xl text-primary/60 font-serif font-light leading-[1.4] origin-center opacity-0"
+          class="text-xl text-primary font-serif font-light leading-[1.4] origin-center opacity-0"
         >
           {{ testimonies[0].content }}
         </h2>
@@ -176,11 +176,7 @@ onMounted(async () => {
           :audio="t.audio"
           :color="t.color"
           class="shrink-0 w-100"
-          :class="{ 'opacity-0-content': i === 0 }"
         />
-
-        <!-- Spacer -->
-        <div class="w-[10vw] shrink-0"></div>
       </div>
     </div>
   </section>

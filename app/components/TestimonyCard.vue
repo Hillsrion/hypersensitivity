@@ -70,7 +70,7 @@
     <p
       id="textRef"
       ref="textRef"
-      class="text-primary/60 font-light font-serif text-xl leading-[1.4] mt-12 relative lg:mb-0 mb-8 z-10"
+      class="text-primary font-light font-serif text-xl leading-[1.4] mt-12 relative lg:mb-0 mb-8 z-10"
     >
       {{ content }}
     </p>
@@ -84,6 +84,12 @@
     </div>
   </div>
 </template>
+
+<style scoped>
+:deep(.word) {
+  opacity: 0.6;
+}
+</style>
 
 <script setup>
 import { useAudioStore } from "~/stores/audio";
@@ -263,7 +269,7 @@ const stopAnimations = () => {
   if (splitInstance?.words.value) {
     gsap.killTweensOf(splitInstance.words.value);
     textAnimation = gsap.to(splitInstance.words.value, {
-      opacity: 1,
+      opacity: 0.6,
       duration: 0.4,
       stagger: {
         each: 0.01,
