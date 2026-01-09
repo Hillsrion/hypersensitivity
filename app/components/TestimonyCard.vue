@@ -1,7 +1,7 @@
 <template>
   <div
     ref="containerRef"
-    class="relative rounded-2xl overflow-hidden flex flex-col cursor-pointer p-8 transition-colors duration-300 bg-white border border-primary"
+    class="relative rounded-2xl overflow-hidden flex flex-col cursor-pointer p-8 transition-colors duration-300 bg-white"
     @mouseenter="handleHover(true)"
     @mouseleave="handleHover(false)"
   >
@@ -11,7 +11,6 @@
       style="overflow: visible"
     >
       <rect
-        ref="borderRect"
         x="0.5"
         y="0.5"
         width="calc(100% - 1px)"
@@ -20,6 +19,18 @@
         ry="15"
         fill="none"
         stroke-width="1"
+        class="stroke-primary"
+      />
+      <rect
+        ref="borderRect"
+        x="0.5"
+        y="0.5"
+        width="calc(100% - 1px)"
+        height="calc(100% - 1px)"
+        rx="15"
+        ry="15"
+        fill="none"
+        stroke-width="2"
         :stroke="`var(--color-gradient-${color})`"
         class="opacity-0"
       />
@@ -190,6 +201,7 @@ const startAnimations = () => {
     const length = borderRect.value.getTotalLength();
     // Reset to start
     gsap.set(borderRect.value, {
+      strokeDasharray: length,
       strokeDashoffset: length,
       opacity: 1,
     });
