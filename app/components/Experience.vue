@@ -55,7 +55,7 @@ watch(
         const mainTl = $gsap.timeline({
           scrollTrigger: {
             trigger: containerEl,
-            start: "top center",
+            start: "top top",
             end: "+=400%",
             scrub: true,
           },
@@ -68,14 +68,17 @@ watch(
         Array.from(lineElements).forEach((lineEl) => {
           const lineWords = lineEl.querySelectorAll(".word");
 
+          // Set initial state of words to 0.2 opacity
+          $gsap.set(lineWords, { opacity: 0.2 });
+
           textTl.to(lineEl, {
-            autoAlpha: 0.2,
+            autoAlpha: 1,
             duration: 0.5,
             ease: "power2.out",
           });
 
           textTl.to(lineWords, {
-            autoAlpha: 1,
+            opacity: 1,
             stagger: 0.1,
             duration: 0.5,
             ease: "power2.out",
@@ -149,12 +152,25 @@ watch(
         const stepDuration = totalDuration / gradientSteps.length;
         const gradientTl = $gsap.timeline();
 
-        gradientSteps.forEach((step) => {
+        gradientSteps.forEach((step, index) => {
           gradientTl.to(gradientState, {
             ...step,
             duration: stepDuration,
             ease: "none",
           });
+
+          // At step 6 (index 5), change text color to white
+          if (index === 5) {
+            gradientTl.to(
+              lineElements,
+              {
+                color: "#ffffff",
+                duration: stepDuration,
+                ease: "none",
+              },
+              "<"
+            );
+          }
         });
 
         mainTl.add(textTl, 0);
@@ -193,7 +209,7 @@ watch(
         <span
           v-for="(line, index) in lines"
           :key="index"
-          class="font-serif font-light text-[1.75rem] sm:text-2xl lg:text-[2.75rem] leading-[1.45] text-white opacity-0 col-start-1 row-start-1 w-full"
+          class="font-serif font-light text-[1.75rem] sm:text-2xl lg:text-[2.75rem] leading-[1.45] text-primary opacity-0 col-start-1 row-start-1 w-full"
         >
           {{ line }}
         </span>
