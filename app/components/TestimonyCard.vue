@@ -282,8 +282,6 @@ const stopAnimations = () => {
 
 // Handle Aurora visibility separately for immediate feedback
 watch(isHovering, (hovering) => {
-  console.log("hovering");
-
   if (auroraRef.value) {
     gsap.to(auroraRef.value, {
       opacity: hovering ? 1 : 0,
