@@ -67,7 +67,7 @@ watch(
 
         Array.from(lineElements).forEach((lineEl) => {
           const lineWords = lineEl.querySelectorAll(".word");
-          
+
           textTl.to(lineEl, {
             autoAlpha: 0.2,
             duration: 0.5,
@@ -90,15 +90,60 @@ watch(
 
         const totalDuration = textTl.duration();
         const gradientSteps = [
-          { color1: "#C2D6E6", color2: "#ffffff", color3: "#ffffff", color4: "#ffffff" },
-          { color1: "#A4BBD6", color2: "#C2D6E6", color3: "#ffffff", color4: "#ffffff" },
-          { color1: "#627EA4", color2: "#A4BBD6", color3: "#C2D6E6", color4: "#ffffff" },
-          { color1: "#2B3E5F", color2: "#627EA4", color3: "#A4BBD6", color4: "#C2D6E6" },
-          { color1: "#1C2032", color2: "#2B3E5F", color3: "#627EA4", color4: "#A4BBD6" },
-          { color1: "#0B1018", color2: "#1C2032", color3: "#2B3E5F", color4: "#627EA4" },
-          { color1: "#0B1018", color2: "#0B1018", color3: "#1C2032", color4: "#2B3E5F" },
-          { color1: "#0B1018", color2: "#0B1018", color3: "#0B1018", color4: "#1C2032" },
-          { color1: "#0B1018", color2: "#0B1018", color3: "#0B1018", color4: "#0B1018" },
+          {
+            color1: "#C2D6E6",
+            color2: "#ffffff",
+            color3: "#ffffff",
+            color4: "#ffffff",
+          },
+          {
+            color1: "#A4BBD6",
+            color2: "#C2D6E6",
+            color3: "#ffffff",
+            color4: "#ffffff",
+          },
+          {
+            color1: "#627EA4",
+            color2: "#A4BBD6",
+            color3: "#C2D6E6",
+            color4: "#ffffff",
+          },
+          {
+            color1: "#2B3E5F",
+            color2: "#627EA4",
+            color3: "#A4BBD6",
+            color4: "#C2D6E6",
+          },
+          {
+            color1: "#1C2032",
+            color2: "#2B3E5F",
+            color3: "#627EA4",
+            color4: "#A4BBD6",
+          },
+          {
+            color1: "#0B1018",
+            color2: "#1C2032",
+            color3: "#2B3E5F",
+            color4: "#627EA4",
+          },
+          {
+            color1: "#0B1018",
+            color2: "#0B1018",
+            color3: "#1C2032",
+            color4: "#2B3E5F",
+          },
+          {
+            color1: "#0B1018",
+            color2: "#0B1018",
+            color3: "#0B1018",
+            color4: "#1C2032",
+          },
+          {
+            color1: "#0B1018",
+            color2: "#0B1018",
+            color3: "#0B1018",
+            color4: "#0B1018",
+          },
         ];
 
         const stepDuration = totalDuration / gradientSteps.length;
@@ -141,11 +186,14 @@ watch(
       :style="{ background: backgroundGradient }"
     >
       <!-- Content -->
-      <h2 ref="textContainer" class="relative z-10 max-w-4xl px-6 text-center grid place-items-center">
+      <h2
+        ref="textContainer"
+        class="relative z-10 max-w-4xl px-6 text-center grid place-items-center"
+      >
         <span
           v-for="(line, index) in lines"
           :key="index"
-          class="font-epilogue text-3xl md:text-5xl lg:text-6xl text-white opacity-0 col-start-1 row-start-1 w-full"
+          class="font-serif font-light text-[1.75rem] sm:text-2xl lg:text-[2.75rem] leading-[1.45] text-white opacity-0 col-start-1 row-start-1 w-full"
         >
           {{ line }}
         </span>
