@@ -2,6 +2,7 @@
 import { VueLenis } from "lenis/vue";
 import LoadingSection from "./components/sections/LoadingSection.vue";
 import SoundIntroduction from "./components/SoundIntroduction.vue";
+import Experience from "./components/Experience.vue";
 import { useAudioStore } from "@/stores/audio";
 import { useAnimationsStore } from "~/stores/animations";
 import mainData from "./data/main.json";
@@ -71,9 +72,14 @@ onMounted(async () => {
     <div
       ref="cursorRef"
       class="fixed top-0 left-0 w-4 h-4 rounded-full pointer-events-none z-[99999]"
-      style="transform: translate(-50%, -50%); will-change: transform; background-color: var(--color-primary);"
+      style="
+        transform: translate(-50%, -50%);
+        will-change: transform;
+        background-color: var(--color-primary);
+      "
     />
     <VueLenis root ref="lenisRef" />
+    <BackgroundGradient />
     <LoadingSection />
     <SoundIntroduction
       :text="introductionData.content"
@@ -81,6 +87,7 @@ onMounted(async () => {
       :timings="introductionData.timings"
     />
     <!-- Noise overlay -->
+
     <div
       class="fixed inset-0 z-9999 pointer-events-none opacity-15 bg-repeat bg-[url('/images/noise.svg')]"
     />
@@ -94,5 +101,6 @@ onMounted(async () => {
       />
     </div>
     <TestimoniesSection class="relative z-10" />
+    <Experience class="-mt-[35svh]" />
   </div>
 </template>
