@@ -1,6 +1,9 @@
 <script setup lang="ts">
+import { useAnimationsStore } from "~/stores/animations";
+
 const { $gsap } = useNuxtApp();
 const container = ref<HTMLElement | null>(null);
+const animationsStore = useAnimationsStore();
 
 // Initial state is all white to match the end of the previous section (SoundIntroduction)
 const gradientState = reactive({
@@ -56,6 +59,18 @@ onMounted(() => {
 
   // Placeholder for other animations in the remaining 100svh of scroll
   tl.to({}, { duration: 1 });
+
+  tl.eventCallback("onUpdate", () => {
+    if (tl.progress() > 0.4) {
+      if (animationsStore.cursor.variant !== "light") {
+        animationsStore.setCursorVariant("light");
+      }
+    } else {
+      if (animationsStore.cursor.variant !== "dark") {
+        animationsStore.setCursorVariant("dark");
+      }
+    }
+  });
 });
 </script>
 

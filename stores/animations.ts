@@ -2,7 +2,8 @@ import { defineStore } from "pinia";
 
 export const useAnimationsStore = defineStore("animations", {
   state: () => {
-    const SKIP_INTRO = import.meta.dev;
+    // const SKIP_INTRO = import.meta.dev;
+    const SKIP_INTRO = false;
 
     return {
       skipIntro: SKIP_INTRO,
@@ -34,9 +35,15 @@ export const useAnimationsStore = defineStore("animations", {
         color: "green",
         visible: false,
       },
+      cursor: {
+        variant: "light" as "dark" | "light",
+      },
     };
   },
   actions: {
+    setCursorVariant(variant: "dark" | "light") {
+      this.cursor.variant = variant;
+    },
     setAuroraColor(color: string) {
       this.aurora.color = color;
     },

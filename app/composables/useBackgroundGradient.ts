@@ -1,5 +1,8 @@
+import { useAnimationsStore } from "~/stores/animations";
+
 export const useBackgroundGradient = () => {
   const { $gsap } = useNuxtApp();
+  const animationsStore = useAnimationsStore();
 
   // Gradient state with 4 color stops and their positions
   const gradientState = useState("backgroundGradientState", () => ({
@@ -56,6 +59,9 @@ export const useBackgroundGradient = () => {
   const animate = (duration = 2) => {
     if (Object.keys(palette).length === 0) updatePalette();
     console.log("Gradient: animate called, palette:", palette);
+
+    animationsStore.setCursorVariant("light");
+
     const tl = $gsap.timeline();
 
     // Utilisation des valeurs Hex résolues (palette) pour une interpolation fluide
@@ -105,6 +111,15 @@ export const useBackgroundGradient = () => {
       duration: duration,
       ease: "sine.inOut",
     });
+
+    tl.call(
+      () => {
+        animationsStore.setCursorVariant("dark");
+      },
+      null,
+      duration * 0.75
+    );
+
     return tl;
   };
 
