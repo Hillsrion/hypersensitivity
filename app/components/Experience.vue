@@ -141,15 +141,15 @@ watch(
       :style="{ background: backgroundGradient }"
     >
       <!-- Content -->
-      <div ref="textContainer" class="relative z-10 max-w-4xl px-6 text-center">
-        <p
+      <h2 ref="textContainer" class="relative z-10 max-w-4xl px-6 text-center grid place-items-center">
+        <span
           v-for="(line, index) in lines"
           :key="index"
-          class="font-epilogue text-3xl md:text-5xl lg:text-6xl text-white opacity-0 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full"
+          class="font-epilogue text-3xl md:text-5xl lg:text-6xl text-white opacity-0 col-start-1 row-start-1 w-full"
         >
           {{ line }}
-        </p>
-      </div>
+        </span>
+      </h2>
     </div>
   </div>
 </template>
