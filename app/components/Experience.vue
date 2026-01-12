@@ -28,94 +28,105 @@ const lines = [
 ];
 
 const { words } = useSplitText(textContainer, { splitBy: "words" });
-const timeline = ref<gsap.core.Timeline | null>(null);
+const scrollTriggerInstance = ref<any>(null);
 
 onMounted(() => {
   if (!container.value) return;
+});
 
-  const tl = $gsap.timeline({
-    scrollTrigger: {
-      trigger: container.value,
-      start: "top center",
-      end: "+=400%", // Increased scroll distance to accommodate text reading
-      scrub: true,
-    },
-  });
-
-  timeline.value = tl;
-
-  tl.eventCallback("onUpdate", () => {
-    if (tl.progress() > 0.4) {
-      if (animationsStore.cursor.variant !== "light") {
-        animationsStore.setCursorVariant("light");
-      }
-    } else {
-      if (animationsStore.cursor.variant !== "dark") {
-        animationsStore.setCursorVariant("dark");
-      }
-    }
-  });
+onUnmounted(() => {
+  if (scrollTriggerInstance.value) {
+    scrollTriggerInstance.value.kill();
+  }
 });
 
 watch(
-  [words, timeline],
-  ([newWords, tl]) => {
-    if (newWords && newWords.length && tl && textContainer.value) {
-      // Small delay to ensure DOM is updated
+  [words, container],
+  ([newWords, containerEl]) => {
+    if (newWords && newWords.length && containerEl && textContainer.value) {
       nextTick(() => {
         const lineElements = textContainer.value?.children;
-        if (!lineElements) return;
+        if (!lineElements || lineElements.length === 0) return;
 
-        const targetColor = "#0B1018"; // --color-primary
+        if (scrollTriggerInstance.value) {
+          scrollTriggerInstance.value.kill();
+        }
+
+        const mainTl = $gsap.timeline({
+          scrollTrigger: {
+            trigger: containerEl,
+            start: "top center",
+            end: "+=400%",
+            scrub: true,
+          },
+        });
+
+        scrollTriggerInstance.value = mainTl.scrollTrigger;
+
+        const textTl = $gsap.timeline();
 
         Array.from(lineElements).forEach((lineEl) => {
           const lineWords = lineEl.querySelectorAll(".word");
           
-          // 1. Line goes to 0.2 opacity
-          tl.to(lineEl, {
+          textTl.to(lineEl, {
             autoAlpha: 0.2,
             duration: 0.5,
             ease: "power2.out",
           });
 
-          // 2. Words go to 1 opacity sequentially
-          tl.to(lineWords, {
+          textTl.to(lineWords, {
             autoAlpha: 1,
             stagger: 0.1,
             duration: 0.5,
             ease: "power2.out",
           });
 
-          // 3. Line hides
-          tl.to(lineEl, {
+          textTl.to(lineEl, {
             autoAlpha: 0,
             duration: 0.5,
             ease: "power2.in",
           });
         });
 
-        // Step 1: Transition to the "reversed" gradient (White top, Dark bottom)
-        tl.to(gradientState, {
-          color1: "#ffffff", // loading7
-          color2: "#c2d6e6", // loading6
-          color3: "#a4bbd6", // loading5
-          color4: "#627ea4", // loading4
-          duration: 0.5,
-          ease: "none",
+        const totalDuration = textTl.duration();
+        const gradientSteps = [
+          { color1: "#C2D6E6", color2: "#ffffff", color3: "#ffffff", color4: "#ffffff" },
+          { color1: "#A4BBD6", color2: "#C2D6E6", color3: "#ffffff", color4: "#ffffff" },
+          { color1: "#627EA4", color2: "#A4BBD6", color3: "#C2D6E6", color4: "#ffffff" },
+          { color1: "#2B3E5F", color2: "#627EA4", color3: "#A4BBD6", color4: "#C2D6E6" },
+          { color1: "#1C2032", color2: "#2B3E5F", color3: "#627EA4", color4: "#A4BBD6" },
+          { color1: "#0B1018", color2: "#1C2032", color3: "#2B3E5F", color4: "#627EA4" },
+          { color1: "#0B1018", color2: "#0B1018", color3: "#1C2032", color4: "#2B3E5F" },
+          { color1: "#0B1018", color2: "#0B1018", color3: "#0B1018", color4: "#1C2032" },
+          { color1: "#0B1018", color2: "#0B1018", color3: "#0B1018", color4: "#0B1018" },
+        ];
+
+        const stepDuration = totalDuration / gradientSteps.length;
+        const gradientTl = $gsap.timeline();
+
+        gradientSteps.forEach((step) => {
+          gradientTl.to(gradientState, {
+            ...step,
+            duration: stepDuration,
+            ease: "none",
+          });
         });
 
-        // Step 2: Transition to solid primary color
-        tl.to(gradientState, {
-          color1: targetColor,
-          color2: targetColor,
-          color3: targetColor,
-          color4: targetColor,
-          duration: 0.5,
-          ease: "none",
-        });
+        mainTl.add(textTl, 0);
+        mainTl.add(gradientTl, 0);
+        mainTl.to({}, { duration: 1 });
 
-        // Add some padding at the end
-        tl.to({}, { duration: 1 });
+        mainTl.eventCallback("onUpdate", () => {
+          if (mainTl.progress() > 0.4) {
+            if (animationsStore.cursor.variant !== "light") {
+              animationsStore.setCursorVariant("light");
+            }
+          } else {
+            if (animationsStore.cursor.variant !== "dark") {
+              animationsStore.setCursorVariant("dark");
+            }
+          }
+        });
       });
     }
   },
