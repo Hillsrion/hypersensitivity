@@ -2,8 +2,12 @@
 import { useAnimationsStore } from "~/stores/animations";
 import MenuIcon from "./MenuIcon.vue";
 import EnergyBar from "./EnergyBar.vue";
+import GameContainer from "./game/GameContainer.vue";
 
 const { $gsap } = useNuxtApp();
+
+// State pour afficher le jeu apres l'animation d'intro
+const showGame = ref(false);
 const container = ref<HTMLElement | null>(null);
 const textContainer = ref<HTMLElement | null>(null);
 const eyePath = ref<SVGPathElement | null>(null);
@@ -265,7 +269,11 @@ watch(
               ease: "power1.inOut",
             },
             "<"
-          );
+          )
+          // A la fin de l'animation de l'oeil, afficher le jeu
+          .call(() => {
+            showGame.value = true;
+          });
 
         mainTl.add(textTl, 0);
         mainTl.add(gradientTl, 0);
@@ -342,5 +350,22 @@ watch(
         </span>
       </h2>
     </div>
+
+    <!-- Game Container - Appears after intro animation -->
+    <Transition name="fade">
+      <GameContainer v-if="showGame" class="sticky top-0" />
+    </Transition>
   </div>
 </template>
+
+<style scoped>
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.5s ease;
+}
+
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
+}
+</style>

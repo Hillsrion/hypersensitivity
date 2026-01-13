@@ -38,11 +38,17 @@ export const useAnimationsStore = defineStore("animations", {
       cursor: {
         variant: "light" as "dark" | "light",
       },
+      audiowave: {
+        variant: "dark" as "dark" | "light",
+      },
     };
   },
   actions: {
     setCursorVariant(variant: "dark" | "light") {
       this.cursor.variant = variant;
+    },
+    setAudiowaveVariant(variant: "dark" | "light") {
+      this.audiowave.variant = variant;
     },
     setAuroraColor(color: string) {
       this.aurora.color = color;
