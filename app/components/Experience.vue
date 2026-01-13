@@ -73,7 +73,7 @@ watch(
           scrollTrigger: {
             trigger: containerEl,
             start: "top top",
-            end: "+=800%",
+            end: "+=600%",
             scrub: true,
           },
         });
@@ -90,20 +90,20 @@ watch(
 
           textTl.to(lineEl, {
             autoAlpha: 1,
-            duration: 0.5,
+            duration: 0.25,
             ease: "power2.out",
           });
 
           textTl.to(lineWords, {
             opacity: 1,
-            stagger: 0.1,
-            duration: 0.5,
+            stagger: 0.05,
+            duration: 0.25,
             ease: "power2.out",
           });
 
           textTl.to(lineEl, {
             autoAlpha: 0,
-            duration: 0.5,
+            duration: 0.25,
             ease: "power2.in",
           });
         });
@@ -191,7 +191,7 @@ watch(
         });
 
         const eyeTl = $gsap.timeline();
-        const eyeStepDuration = totalDuration / 5; // 6 morph steps (closed -> base -> 1 -> 2 -> 3 -> 4 -> 5)
+        const eyeStepDuration = 0.75; // Fixed duration for longer eye animation relative to text
 
         // Set initial centered position for base path (ViewBox height 769, Base center 84.76)
         $gsap.set(eyePath.value, {
@@ -228,7 +228,13 @@ watch(
           .to(eyePath.value, {
             attr: { d: eyePaths.step4 },
             y: 1,
-            scale: 4,
+            duration: eyeStepDuration,
+            ease: "power1.inOut",
+          })
+          .to(eyePath.value, {
+            attr: { d: eyePaths.step5 },
+            y: 1,
+            scale: 5,
             duration: eyeStepDuration,
             ease: "power1.inOut",
           });
@@ -257,7 +263,7 @@ watch(
 </script>
 
 <template>
-  <div ref="container" class="relative h-[800svh] z-10">
+  <div ref="container" class="relative h-[600svh] z-10">
     <div
       class="sticky top-0 w-full h-screen flex items-center justify-center overflow-hidden"
       :style="{ background: backgroundGradient }"
