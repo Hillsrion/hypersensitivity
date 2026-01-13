@@ -30,8 +30,8 @@ const pensees = (
 // SCENES JOUR 1
 // ============================================
 
-const day1_wakeup: Scene = {
-  id: "day1_wakeup",
+const dayOneWakeup: Scene = {
+  id: "dayOneWakeup",
   day: 1,
   title: "Reveil",
   milestone: "reveil",
@@ -40,11 +40,11 @@ const day1_wakeup: Scene = {
       annotation: "Le reveil sonne, les oiseaux chantent, bruits de couette qui bouge",
     }),
   ],
-  nextSceneId: "day1_bathroom",
+  nextSceneId: "dayOneBathroom",
 };
 
-const day1_bathroom: Scene = {
-  id: "day1_bathroom",
+const dayOneBathroom: Scene = {
+  id: "dayOneBathroom",
   day: 1,
   title: "Reveil",
   dialogues: [
@@ -58,7 +58,7 @@ const day1_bathroom: Scene = {
     {
       id: "outfit_sexy",
       text: "TENUE SEXY / RAFFINEE",
-      nextSceneId: "day1_outfit_sexy",
+      nextSceneId: "dayOneOutfitSexy",
       effects: {
         energy: -5,
         flags: { outfitChoice: "sexy" },
@@ -67,7 +67,7 @@ const day1_bathroom: Scene = {
     {
       id: "outfit_comfort",
       text: "TENUE CONFORT",
-      nextSceneId: "day1_outfit_comfort",
+      nextSceneId: "dayOneOutfitComfort",
       effects: {
         flags: { outfitChoice: "comfort" },
       },
@@ -75,8 +75,8 @@ const day1_bathroom: Scene = {
   ],
 };
 
-const day1_outfit_sexy: Scene = {
-  id: "day1_outfit_sexy",
+const dayOneOutfitSexy: Scene = {
+  id: "dayOneOutfitSexy",
   day: 1,
   title: "Reveil",
   dialogues: [
@@ -85,11 +85,11 @@ const day1_outfit_sexy: Scene = {
       "Vas y, one-life. Ca va le faire, je coupe les etiquettes et c'est carre."
     ),
   ],
-  nextSceneId: "day1_metro",
+  nextSceneId: "dayOneMetro",
 };
 
-const day1_outfit_comfort: Scene = {
-  id: "day1_outfit_comfort",
+const dayOneOutfitComfort: Scene = {
+  id: "dayOneOutfitComfort",
   day: 1,
   title: "Reveil",
   dialogues: [
@@ -98,11 +98,11 @@ const day1_outfit_comfort: Scene = {
       "Deja que j'ai c'te reu de 2h30 qui va m'faire mal a la tete, autant etre confort."
     ),
   ],
-  nextSceneId: "day1_metro",
+  nextSceneId: "dayOneMetro",
 };
 
-const day1_metro: Scene = {
-  id: "day1_metro",
+const dayOneMetro: Scene = {
+  id: "dayOneMetro",
   day: 1,
   title: "Trajet",
   milestone: "trajet",
@@ -117,13 +117,13 @@ const day1_metro: Scene = {
   ],
   autoChoice: {
     condition: { flag: "outfitChoice", operator: "equals", value: "sexy" },
-    thenSceneId: "day1_metro_sexy",
-    elseSceneId: "day1_metro_comfort",
+    thenSceneId: "dayOneMetroSexy",
+    elseSceneId: "dayOneMetroComfort",
   },
 };
 
-const day1_metro_sexy: Scene = {
-  id: "day1_metro_sexy",
+const dayOneMetroSexy: Scene = {
+  id: "dayOneMetroSexy",
   day: 1,
   title: "Trajet",
   dialogues: [
@@ -143,11 +143,11 @@ const day1_metro_sexy: Scene = {
     ),
     d("d1_9a", "Inconnue", "Merciiiii"),
   ],
-  nextSceneId: "day1_office",
+  nextSceneId: "dayOneOffice",
 };
 
-const day1_metro_comfort: Scene = {
-  id: "day1_metro_comfort",
+const dayOneMetroComfort: Scene = {
+  id: "dayOneMetroComfort",
   day: 1,
   title: "Trajet",
   dialogues: [
@@ -156,11 +156,11 @@ const day1_metro_comfort: Scene = {
       "Bah velo hein. Ca aurait ete relou avec la robe"
     ),
   ],
-  nextSceneId: "day1_office",
+  nextSceneId: "dayOneOffice",
 };
 
-const day1_office: Scene = {
-  id: "day1_office",
+const dayOneOffice: Scene = {
+  id: "dayOneOffice",
   day: 1,
   title: "Bureau",
   milestone: "bureau",
@@ -192,7 +192,7 @@ const day1_office: Scene = {
     {
       id: "conflict_submit",
       text: "SE SOUMETTRE",
-      nextSceneId: "day1_conflict_submit",
+      nextSceneId: "dayOneConflictSubmit",
       effects: {
         energy: -10,
         flags: { conflictOutcome: "submit" },
@@ -201,7 +201,7 @@ const day1_office: Scene = {
     {
       id: "conflict_assert",
       text: "S'AFFIRMER",
-      nextSceneId: "day1_conflict_assert",
+      nextSceneId: "dayOneConflictAssert",
       effects: {
         flags: { conflictOutcome: "assert" },
       },
@@ -209,8 +209,8 @@ const day1_office: Scene = {
   ],
 };
 
-const day1_conflict_submit: Scene = {
-  id: "day1_conflict_submit",
+const dayOneConflictSubmit: Scene = {
+  id: "dayOneConflictSubmit",
   day: 1,
   title: "Bureau",
   dialogues: [
@@ -232,11 +232,11 @@ const day1_conflict_submit: Scene = {
       { annotation: "Bruits de nerf, projectiles qui stoppent le dialogue" }
     ),
   ],
-  nextSceneId: "day1_party",
+  nextSceneId: "dayOneParty",
 };
 
-const day1_conflict_assert: Scene = {
-  id: "day1_conflict_assert",
+const dayOneConflictAssert: Scene = {
+  id: "dayOneConflictAssert",
   day: 1,
   title: "Bureau",
   dialogues: [
@@ -254,11 +254,11 @@ const day1_conflict_assert: Scene = {
       { annotation: "La reunion commence, Lucie participe activement." }
     ),
   ],
-  nextSceneId: "day1_party",
+  nextSceneId: "dayOneParty",
 };
 
-const day1_party: Scene = {
-  id: "day1_party",
+const dayOneParty: Scene = {
+  id: "dayOneParty",
   day: 1,
   title: "Soiree",
   milestone: "soiree",
@@ -267,13 +267,13 @@ const day1_party: Scene = {
   ],
   autoChoice: {
     condition: { flag: "outfitChoice", operator: "equals", value: "sexy" },
-    thenSceneId: "day1_party_sexy",
-    elseSceneId: "day1_party_comfort",
+    thenSceneId: "dayOnePartySexy",
+    elseSceneId: "dayOnePartyComfort",
   },
 };
 
-const day1_party_sexy: Scene = {
-  id: "day1_party_sexy",
+const dayOnePartySexy: Scene = {
+  id: "dayOnePartySexy",
   day: 1,
   title: "Soiree",
   dialogues: [
@@ -288,11 +288,11 @@ const day1_party_sexy: Scene = {
       "Ca serait a moi de te dire ca, regarde toi, t'es toute mimi !"
     ),
   ],
-  nextSceneId: "day1_game_event",
+  nextSceneId: "dayOneGameEvent",
 };
 
-const day1_party_comfort: Scene = {
-  id: "day1_party_comfort",
+const dayOnePartyComfort: Scene = {
+  id: "dayOnePartyComfort",
   day: 1,
   title: "Soiree",
   dialogues: [
@@ -304,11 +304,11 @@ const day1_party_comfort: Scene = {
       "Comment il va le petit monstre ? Ca fait longtemps je l'ai pas vu lui non plus !"
     ),
   ],
-  nextSceneId: "day1_game_event",
+  nextSceneId: "dayOneGameEvent",
 };
 
-const day1_game_event: Scene = {
-  id: "day1_game_event",
+const dayOneGameEvent: Scene = {
+  id: "dayOneGameEvent",
   day: 1,
   title: "Soiree",
   dialogues: [
@@ -322,7 +322,7 @@ const day1_game_event: Scene = {
     {
       id: "game_play",
       text: "ESSAYER DE JOUER",
-      nextSceneId: "day1_play",
+      nextSceneId: "dayOnePlay",
       effects: {
         energy: -100,
         flags: { gameEventChoice: "play", hadBreakdown: true },
@@ -331,7 +331,7 @@ const day1_game_event: Scene = {
     {
       id: "game_refuse",
       text: "REFUSER / DISCUTER",
-      nextSceneId: "day1_refuse",
+      nextSceneId: "dayOneRefuse",
       effects: {
         flags: { gameEventChoice: "refuse" },
       },
@@ -339,8 +339,8 @@ const day1_game_event: Scene = {
   ],
 };
 
-const day1_play: Scene = {
-  id: "day1_play",
+const dayOnePlay: Scene = {
+  id: "dayOnePlay",
   day: 1,
   title: "Soiree",
   dialogues: [
@@ -369,11 +369,11 @@ const day1_play: Scene = {
       { annotation: "On met une image de bruit sourd qui devient de plus en plus fort" }
     ),
   ],
-  nextSceneId: "day1_crash",
+  nextSceneId: "dayOneCrash",
 };
 
-const day1_crash: Scene = {
-  id: "day1_crash",
+const dayOneCrash: Scene = {
+  id: "dayOneCrash",
   day: 1,
   title: "Soiree",
   dialogues: [
@@ -400,11 +400,11 @@ const day1_crash: Scene = {
     ),
     d("d1_35", "LUCIE", "Merci ma douce."),
   ],
-  nextSceneId: "day1_end_crash",
+  nextSceneId: "dayOneEndCrash",
 };
 
-const day1_refuse: Scene = {
-  id: "day1_refuse",
+const dayOneRefuse: Scene = {
+  id: "dayOneRefuse",
   day: 1,
   title: "Soiree",
   dialogues: [
@@ -429,13 +429,13 @@ const day1_refuse: Scene = {
   ],
   autoChoice: {
     condition: { flag: "conflictOutcome", operator: "equals", value: "assert" },
-    thenSceneId: "day1_refuse_assert",
-    elseSceneId: "day1_refuse_submit",
+    thenSceneId: "dayOneRefuseAssert",
+    elseSceneId: "dayOneRefuseSubmit",
   },
 };
 
-const day1_refuse_assert: Scene = {
-  id: "day1_refuse_assert",
+const dayOneRefuseAssert: Scene = {
+  id: "dayOneRefuseAssert",
   day: 1,
   title: "Soiree",
   dialogues: [
@@ -445,11 +445,11 @@ const day1_refuse_assert: Scene = {
       "Mais bien sur que je l'ai bougee de la, mais c'est pas dans l'aprem je recois un mail du responsable pour un truc rien a voir ? Elle est allee me balancer parceque la semaine derniere je suis partie plus tot mardi pour regler des trucs perso c'te sorciere"
     ),
   ],
-  nextSceneId: "day1_end_good",
+  nextSceneId: "dayOneEndGood",
 };
 
-const day1_refuse_submit: Scene = {
-  id: "day1_refuse_submit",
+const dayOneRefuseSubmit: Scene = {
+  id: "dayOneRefuseSubmit",
   day: 1,
   title: "Soiree",
   dialogues: [
@@ -470,11 +470,11 @@ const day1_refuse_submit: Scene = {
     ),
     d("d1_45b", "Ines", "Toujours"),
   ],
-  nextSceneId: "day1_end_good",
+  nextSceneId: "dayOneEndGood",
 };
 
-const day1_end_crash: Scene = {
-  id: "day1_end_crash",
+const dayOneEndCrash: Scene = {
+  id: "dayOneEndCrash",
   day: 1,
   title: "Retour",
   milestone: "retour",
@@ -492,11 +492,11 @@ const day1_end_crash: Scene = {
       { annotation: "Eau qui coule. Pots qui s'ouvrent, bruits de sachets... Debut de pleurs." }
     ),
   ],
-  nextSceneId: "day2_wakeup",
+  nextSceneId: "dayTwoWakeup",
 };
 
-const day1_end_good: Scene = {
-  id: "day1_end_good",
+const dayOneEndGood: Scene = {
+  id: "dayOneEndGood",
   day: 1,
   title: "Retour",
   milestone: "retour",
@@ -510,13 +510,13 @@ const day1_end_good: Scene = {
   ],
   autoChoice: {
     condition: { flag: "conflictOutcome", operator: "equals", value: "assert" },
-    thenSceneId: "day1_end_good_assert",
-    elseSceneId: "day1_end_good_reflect",
+    thenSceneId: "dayOneEndGoodAssert",
+    elseSceneId: "dayOneEndGoodReflect",
   },
 };
 
-const day1_end_good_assert: Scene = {
-  id: "day1_end_good_assert",
+const dayOneEndGoodAssert: Scene = {
+  id: "dayOneEndGoodAssert",
   day: 1,
   title: "Retour",
   dialogues: [
@@ -529,11 +529,11 @@ const day1_end_good_assert: Scene = {
       "Je suis trop heureuse d'avoir des amis comme ca, toujours la pour ecouter mes galeres. Ca peut etre 100x la meme chose, ca peut etre long comme un lundi avec mes vocaux d'une minute 30, ca peut sembler insignifiant pour la plupart des gens, et pourtant, elles sont toujours la pour m'ecouter avec la meme attention, pour me consoler, pour me donner les meilleurs conseils. Je suis tellement reconnaissante."
     ),
   ],
-  nextSceneId: "day2_wakeup",
+  nextSceneId: "dayTwoWakeup",
 };
 
-const day1_end_good_reflect: Scene = {
-  id: "day1_end_good_reflect",
+const dayOneEndGoodReflect: Scene = {
+  id: "dayOneEndGoodReflect",
   day: 1,
   title: "Retour",
   dialogues: [
@@ -542,27 +542,27 @@ const day1_end_good_reflect: Scene = {
       "Je suis trop heureuse d'avoir des amis comme ca, toujours la pour ecouter mes galeres. Ca peut etre 100x la meme chose, ca peut etre long comme un lundi avec mes vocaux d'une minute 30, ca peut sembler insignifiant pour la plupart des gens, et pourtant, elles sont toujours la pour m'ecouter avec la meme attention, pour me consoler, pour me donner les meilleurs conseils. Je suis tellement reconnaissante."
     ),
   ],
-  nextSceneId: "day2_wakeup",
+  nextSceneId: "dayTwoWakeup",
 };
 
 // ============================================
 // SCENES JOUR 2
 // ============================================
 
-const day2_wakeup: Scene = {
-  id: "day2_wakeup",
+const dayTwoWakeup: Scene = {
+  id: "dayTwoWakeup",
   day: 2,
   title: "Reveil",
   dialogues: [],
   autoChoice: {
     condition: { flag: "hadBreakdown", operator: "equals", value: true },
-    thenSceneId: "day2_wakeup_crash",
-    elseSceneId: "day2_wakeup_good",
+    thenSceneId: "dayTwoWakeupCrash",
+    elseSceneId: "dayTwoWakeupGood",
   },
 };
 
-const day2_wakeup_crash: Scene = {
-  id: "day2_wakeup_crash",
+const dayTwoWakeupCrash: Scene = {
+  id: "dayTwoWakeupCrash",
   day: 2,
   title: "Reveil",
   dialogues: [
@@ -572,11 +572,11 @@ const day2_wakeup_crash: Scene = {
       { annotation: "Le reveil sonne, les oiseaux chantent, bruits de couette" }
     ),
   ],
-  nextSceneId: "day2_call",
+  nextSceneId: "dayTwoCall",
 };
 
-const day2_wakeup_good: Scene = {
-  id: "day2_wakeup_good",
+const dayTwoWakeupGood: Scene = {
+  id: "dayTwoWakeupGood",
   day: 2,
   title: "Reveil",
   dialogues: [
@@ -586,11 +586,11 @@ const day2_wakeup_good: Scene = {
       { annotation: "Le reveil sonne, les oiseaux chantent, bruits de couette" }
     ),
   ],
-  nextSceneId: "day2_call",
+  nextSceneId: "dayTwoCall",
 };
 
-const day2_call: Scene = {
-  id: "day2_call",
+const dayTwoCall: Scene = {
+  id: "dayTwoCall",
   day: 2,
   title: "Appel",
   dialogues: [
@@ -605,20 +605,20 @@ const day2_call: Scene = {
     {
       id: "accept_move",
       text: "ACCEPTER",
-      nextSceneId: "day2_accept",
+      nextSceneId: "dayTwoAccept",
       condition: { flag: "energy", operator: "greaterThan", value: 0 },
       disabledReason: "(Energie insuffisante)",
     },
     {
       id: "refuse_move",
       text: "REFUSER",
-      nextSceneId: "day2_refuse",
+      nextSceneId: "dayTwoRefuse",
     },
   ],
 };
 
-const day2_accept: Scene = {
-  id: "day2_accept",
+const dayTwoAccept: Scene = {
+  id: "dayTwoAccept",
   day: 2,
   title: "Appel",
   dialogues: [
@@ -644,11 +644,11 @@ const day2_accept: Scene = {
     ),
     d("d2_7a", "LUCIE", "Y'a interet d'avoir du homard hein !"),
   ],
-  nextSceneId: "day2_moving",
+  nextSceneId: "dayTwoMoving",
 };
 
-const day2_refuse: Scene = {
-  id: "day2_refuse",
+const dayTwoRefuse: Scene = {
+  id: "dayTwoRefuse",
   day: 2,
   title: "Appel",
   dialogues: [
@@ -668,11 +668,11 @@ const day2_refuse: Scene = {
       "Avec plaisir, desolee encore, gros bisous et bon courage !"
     ),
   ],
-  nextSceneId: "day2_mountain",
+  nextSceneId: "dayTwoMountain",
 };
 
-const day2_mountain: Scene = {
-  id: "day2_mountain",
+const dayTwoMountain: Scene = {
+  id: "dayTwoMountain",
   day: 2,
   title: "Montagne",
   milestone: "montagne",
@@ -706,11 +706,11 @@ const day2_mountain: Scene = {
       "Et je leur raconterai, je VOUS raconterai, le plaisir d'etre reellement compris, de pas se sentir anormale mais simplement different, d'avoir la tete et le coeur qui s'emballent tout le temps. La vie a plus de gout, meme il est parfois amer."
     ),
   ],
-  nextSceneId: "game_end",
+  nextSceneId: "gameEnd",
 };
 
-const day2_moving: Scene = {
-  id: "day2_moving",
+const dayTwoMoving: Scene = {
+  id: "dayTwoMoving",
   day: 2,
   title: "Demenagement",
   milestone: "demenagement",
@@ -720,11 +720,11 @@ const day2_moving: Scene = {
       "3 allers retours, quel menteur celui la, il est deja 18h"
     ),
   ],
-  nextSceneId: "day2_sdf",
+  nextSceneId: "dayTwoSdf",
 };
 
-const day2_sdf: Scene = {
-  id: "day2_sdf",
+const dayTwoSdf: Scene = {
+  id: "dayTwoSdf",
   day: 2,
   title: "Demenagement",
   dialogues: [
@@ -778,11 +778,11 @@ const day2_sdf: Scene = {
     ),
     d("d2_27", "Amine", "Merci beaucoup, aurevoir !"),
   ],
-  nextSceneId: "day2_sunset",
+  nextSceneId: "dayTwoSunset",
 };
 
-const day2_sunset: Scene = {
-  id: "day2_sunset",
+const dayTwoSunset: Scene = {
+  id: "dayTwoSunset",
   day: 2,
   title: "Coucher de soleil",
   dialogues: [
@@ -791,11 +791,11 @@ const day2_sunset: Scene = {
       "Le coucher de soleil est si beau, les cumulus qui refletent la lumiere et les etourneaux qui chantent, je pourrais regarder ca pendant des heures."
     ),
   ],
-  nextSceneId: "game_end",
+  nextSceneId: "gameEnd",
 };
 
-const game_end: Scene = {
-  id: "game_end",
+const gameEnd: Scene = {
+  id: "gameEnd",
   day: 2,
   title: "Fin",
   dialogues: [],
@@ -806,7 +806,7 @@ const game_end: Scene = {
 // ============================================
 
 export const gameData: GameData = {
-  initialSceneId: "day1_wakeup",
+  initialSceneId: "dayOneWakeup",
   initialFlags: {
     outfitChoice: null,
     conflictOutcome: null,
@@ -815,48 +815,48 @@ export const gameData: GameData = {
     energy: 75,
   },
   milestones: [
-    { id: "reveil", label: "Reveil", sceneId: "day1_wakeup", day: 1 },
-    { id: "trajet", label: "Trajet", sceneId: "day1_metro", day: 1 },
-    { id: "bureau", label: "Bureau", sceneId: "day1_office", day: 1 },
-    { id: "soiree", label: "Soiree", sceneId: "day1_party", day: 1 },
-    { id: "retour", label: "Retour", sceneId: "day1_end_good", day: 1 },
-    { id: "montagne", label: "Montagne", sceneId: "day2_mountain", day: 2 },
-    { id: "demenagement", label: "Demenagement", sceneId: "day2_moving", day: 2 },
+    { id: "reveil", label: "Reveil", sceneId: "dayOneWakeup", day: 1 },
+    { id: "trajet", label: "Trajet", sceneId: "dayOneMetro", day: 1 },
+    { id: "bureau", label: "Bureau", sceneId: "dayOneOffice", day: 1 },
+    { id: "soiree", label: "Soiree", sceneId: "dayOneParty", day: 1 },
+    { id: "retour", label: "Retour", sceneId: "dayOneEndGood", day: 1 },
+    { id: "montagne", label: "Montagne", sceneId: "dayTwoMountain", day: 2 },
+    { id: "demenagement", label: "Demenagement", sceneId: "dayTwoMoving", day: 2 },
   ],
   scenes: {
-    day1_wakeup,
-    day1_bathroom,
-    day1_outfit_sexy,
-    day1_outfit_comfort,
-    day1_metro,
-    day1_metro_sexy,
-    day1_metro_comfort,
-    day1_office,
-    day1_conflict_submit,
-    day1_conflict_assert,
-    day1_party,
-    day1_party_sexy,
-    day1_party_comfort,
-    day1_game_event,
-    day1_play,
-    day1_crash,
-    day1_refuse,
-    day1_refuse_assert,
-    day1_refuse_submit,
-    day1_end_crash,
-    day1_end_good,
-    day1_end_good_assert,
-    day1_end_good_reflect,
-    day2_wakeup,
-    day2_wakeup_crash,
-    day2_wakeup_good,
-    day2_call,
-    day2_accept,
-    day2_refuse,
-    day2_mountain,
-    day2_moving,
-    day2_sdf,
-    day2_sunset,
-    game_end,
+    dayOneWakeup,
+    dayOneBathroom,
+    dayOneOutfitSexy,
+    dayOneOutfitComfort,
+    dayOneMetro,
+    dayOneMetroSexy,
+    dayOneMetroComfort,
+    dayOneOffice,
+    dayOneConflictSubmit,
+    dayOneConflictAssert,
+    dayOneParty,
+    dayOnePartySexy,
+    dayOnePartyComfort,
+    dayOneGameEvent,
+    dayOnePlay,
+    dayOneCrash,
+    dayOneRefuse,
+    dayOneRefuseAssert,
+    dayOneRefuseSubmit,
+    dayOneEndCrash,
+    dayOneEndGood,
+    dayOneEndGoodAssert,
+    dayOneEndGoodReflect,
+    dayTwoWakeup,
+    dayTwoWakeupCrash,
+    dayTwoWakeupGood,
+    dayTwoCall,
+    dayTwoAccept,
+    dayTwoRefuse,
+    dayTwoMountain,
+    dayTwoMoving,
+    dayTwoSdf,
+    dayTwoSunset,
+    gameEnd,
   },
 };
