@@ -1,11 +1,14 @@
 <script setup lang="ts">
 import { useAnimationsStore } from "~/stores/animations";
+import MenuIcon from "./MenuIcon.vue";
+import EnergyBar from "./EnergyBar.vue";
 
 const { $gsap } = useNuxtApp();
 const container = ref<HTMLElement | null>(null);
 const textContainer = ref<HTMLElement | null>(null);
 const eyePath = ref<SVGPathElement | null>(null);
 const wakeUpText = ref<HTMLElement | null>(null);
+const uiContainer = ref<HTMLElement | null>(null);
 const animationsStore = useAnimationsStore();
 
 // Initial state is all white to match the end of the previous section (SoundIntroduction)
@@ -237,6 +240,16 @@ watch(
             duration: eyeStepDuration,
             ease: "power1.inOut",
           })
+          // Fade in UI elements before the scaling
+          .to(
+            uiContainer.value,
+            {
+              autoAlpha: 1,
+              duration: 0.5,
+              ease: "power2.out",
+            },
+            "<+=0.1" // Start slightly after step4 starts
+          )
           .to(eyePath.value, {
             attr: { d: eyePaths.step5 },
             y: 1,
@@ -260,13 +273,21 @@ watch(
         mainTl.to({}, { duration: 1 });
 
         mainTl.eventCallback("onUpdate", () => {
-          if (mainTl.progress() > 0.4) {
+          const progress = mainTl.progress();
+          if (progress > 0.9) {
+            if (animationsStore.cursor.variant !== "dark") {
+              animationsStore.setCursorVariant("dark");
+              animationsStore.setAudiowaveVariant("dark");
+            }
+          } else if (progress > 0.4) {
             if (animationsStore.cursor.variant !== "light") {
               animationsStore.setCursorVariant("light");
+              animationsStore.setAudiowaveVariant("light");
             }
           } else {
             if (animationsStore.cursor.variant !== "dark") {
               animationsStore.setCursorVariant("dark");
+              animationsStore.setAudiowaveVariant("dark");
             }
           }
         });
@@ -297,6 +318,15 @@ watch(
       >
         Un réveil sonne, une couette bouge.
       </p>
+
+      <!-- New UI Elements -->
+      <div ref="uiContainer" class="absolute inset-0 z-30 opacity-0 invisible">
+        <MenuIcon class="absolute top-10 left-6 text-primary" />
+        <h1 class="absolute top-10 left-1/2 -translate-x-1/2 text-primary font-serif text-xl tracking-wide">
+          <span class="font-medium">JOUR 1</span> - <span class="italic font-light">Trajet</span>
+        </h1>
+        <EnergyBar class="absolute top-1/2 left-6 -translate-y-1/2 text-primary" />
+      </div>
 
       <!-- Content -->
       <h2
