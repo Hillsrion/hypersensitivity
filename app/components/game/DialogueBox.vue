@@ -157,7 +157,8 @@ const annotationClasses = computed(() => {
   }
   // Pendant l'intro, style similaire a Experience.vue
   const phase = gameStore.introAnimationPhase;
-  const baseClasses = "font-serif text-xl text-gray-400 transition-all duration-300";
+  const baseClasses =
+    "font-serif text-xl text-gray-400 transition-all duration-300";
   if (phase === "annotation") {
     return `${baseClasses} blur-xs opacity-100`;
   }
@@ -178,7 +179,7 @@ const annotationClasses = computed(() => {
     <!-- Speaker Name (cache pendant l'intro jusqu'a la phase revealing) -->
     <p
       v-if="showDialogueContent"
-      class="text-primary/60 font-satoshi text-xs tracking-[0.3em] uppercase mb-4"
+      class="text-primary font-medium leading-[1.4] font-satoshi text-xl uppercase mb-4"
     >
       {{ formattedSpeaker }}
     </p>
