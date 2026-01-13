@@ -90,20 +90,20 @@ watch(
 
           textTl.to(lineEl, {
             autoAlpha: 1,
-            duration: 0.25,
+            duration: 0.5,
             ease: "power2.out",
           });
 
           textTl.to(lineWords, {
             opacity: 1,
-            stagger: 0.05,
-            duration: 0.25,
+            stagger: 0.1,
+            duration: 0.5,
             ease: "power2.out",
           });
 
           textTl.to(lineEl, {
             autoAlpha: 0,
-            duration: 0.25,
+            duration: 0.5,
             ease: "power2.in",
           });
         });
@@ -191,7 +191,7 @@ watch(
         });
 
         const eyeTl = $gsap.timeline();
-        const eyeStepDuration = 0.75; // Fixed duration for longer eye animation relative to text
+        const eyeStepDuration = 0.5; // Reduced duration for eye animation
 
         // Set initial centered position for base path (ViewBox height 769, Base center 84.76)
         $gsap.set(eyePath.value, {
@@ -235,7 +235,7 @@ watch(
             attr: { d: eyePaths.step5 },
             y: 1,
             scale: 5,
-            duration: eyeStepDuration,
+            duration: eyeStepDuration + 0.25,
             ease: "power1.inOut",
           });
 
