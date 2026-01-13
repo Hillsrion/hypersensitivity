@@ -114,12 +114,9 @@ watch(
   { immediate: true }
 );
 
-// Formater le speaker
-const formattedSpeaker = computed(() => {
-  if (!props.dialogue) return "";
-  const speaker = props.dialogue.speaker;
-  const type = props.dialogue.speakerType;
-  return type === "pensees" ? `${speaker} (pensees)` : speaker;
+// Est-ce que c'est une pensée ?
+const isPensees = computed(() => {
+  return props.dialogue?.speakerType === "pensees";
 });
 
 // Est-ce qu'on est dans l'animation d'intro (premier dialogue de la scene initiale)
@@ -170,7 +167,7 @@ const annotationClasses = computed(() => {
 </script>
 
 <template>
-  <div v-if="dialogue" class="max-w-4xl text-center px-8">
+  <div v-if="dialogue" class="max-w-4xl px-8">
     <!-- Annotation (avec animation blur pendant l'intro) -->
     <p v-if="showAnnotation" :class="annotationClasses">
       {{ dialogue.annotation }}
@@ -181,7 +178,10 @@ const annotationClasses = computed(() => {
       v-if="showDialogueContent"
       class="text-primary font-medium leading-[1.4] font-satoshi text-xl uppercase mb-4"
     >
-      {{ formattedSpeaker }}
+      {{ dialogue.speaker }}
+      <span v-if="isPensees" class="font-serif text-primary/60 lowercase"
+        >(en pensées)</span
+      >
     </p>
 
     <!-- Dialogue Text (cache pendant l'intro jusqu'a la phase revealing) -->
