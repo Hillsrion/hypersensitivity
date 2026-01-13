@@ -207,7 +207,7 @@ watch(
 
         mainTl.add(textTl, 0);
         mainTl.add(gradientTl, 0);
-        mainTl.add(eyeTl, 0);
+        mainTl.add(eyeTl, ">");
         mainTl.to({}, { duration: 1 });
 
         mainTl.eventCallback("onUpdate", () => {
