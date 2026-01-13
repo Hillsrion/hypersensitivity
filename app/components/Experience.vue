@@ -73,7 +73,7 @@ watch(
           scrollTrigger: {
             trigger: containerEl,
             start: "top top",
-            end: "+=400%",
+            end: "+=800%",
             scrub: true,
           },
         });
@@ -191,10 +191,15 @@ watch(
         });
 
         const eyeTl = $gsap.timeline();
-        const eyeStepDuration = totalDuration / 6; // 6 morph steps (closed -> base -> 1 -> 2 -> 3 -> 4 -> 5)
+        const eyeStepDuration = totalDuration / 5; // 6 morph steps (closed -> base -> 1 -> 2 -> 3 -> 4 -> 5)
 
         // Set initial centered position for base path (ViewBox height 769, Base center 84.76)
-        $gsap.set(eyePath.value, { y: 299.74 });
+        $gsap.set(eyePath.value, {
+          y: 299.74,
+          scale: 1,
+          transformOrigin: "center center",
+          transformBox: "fill-box",
+        });
 
         eyeTl
           .to(eyePath.value, {
@@ -223,12 +228,7 @@ watch(
           .to(eyePath.value, {
             attr: { d: eyePaths.step4 },
             y: 1,
-            duration: eyeStepDuration,
-            ease: "power1.inOut",
-          })
-          .to(eyePath.value, {
-            attr: { d: eyePaths.step5 },
-            y: 1,
+            scale: 4,
             duration: eyeStepDuration,
             ease: "power1.inOut",
           });
@@ -257,14 +257,14 @@ watch(
 </script>
 
 <template>
-  <div ref="container" class="relative h-[400svh] z-10">
+  <div ref="container" class="relative h-[800svh] z-10">
     <div
       class="sticky top-0 w-full h-screen flex items-center justify-center overflow-hidden"
       :style="{ background: backgroundGradient }"
     >
       <!-- Eye Animation -->
       <svg
-        class="absolute top-1/2 left-0 w-full h-auto -translate-y-1/2 pointer-events-none z-0 overflow-visible"
+        class="absolute top-1/2 left-0 w-full h-auto -translate-y-1/2 pointer-events-none z-0 overflow-visible blur-[8px]"
         viewBox="0 0 1366 769"
       >
         <path ref="eyePath" :d="eyePaths.closed" fill="white" />
