@@ -20,7 +20,7 @@ const pensees = (
   options?: Partial<DialogueLine>
 ): DialogueLine => ({
   id,
-  speaker: "LUCIE",
+  speaker: "Lucie",
   speakerType: "pensees",
   text,
   ...options,
@@ -109,7 +109,7 @@ const day1_metro: Scene = {
   dialogues: [
     d(
       "d1_4",
-      "ANNONCE",
+      "Annonce",
       "En raison d'un bagage abandonne, les metros A et B sont suspendus pour une duree indeterminee, nous vous prions de nous excuser pour la gene occasionnee.",
       { annotation: "A la gare." }
     ),
@@ -133,7 +133,7 @@ const day1_metro_sexy: Scene = {
     ),
     d(
       "d1_7a",
-      "INCONNUE",
+      "Inconnue",
       "Coucou, je voulais juste te dire que t'es trop belle, c'est quoi la ref de la robe ?"
     ),
     d(
@@ -141,7 +141,7 @@ const day1_metro_sexy: Scene = {
       "LUCIE",
       "Oh merci beaucoup, c'est une robe Maje, la patineuse a col montant !"
     ),
-    d("d1_9a", "INCONNUE", "Merciiiii"),
+    d("d1_9a", "Inconnue", "Merciiiii"),
   ],
   nextSceneId: "day1_office",
 };
@@ -167,7 +167,7 @@ const day1_office: Scene = {
   dialogues: [
     d(
       "d1_10",
-      "COLLEGUE",
+      "Collegue",
       "Tu nous rejoins sur Meet ?",
       { annotation: "Open space, bruits de clavier" }
     ),
@@ -184,7 +184,7 @@ const day1_office: Scene = {
     ),
     d(
       "d1_13",
-      "KAREN",
+      "Karen",
       "Ah j'ai encore oublie, la mienne va commencer la, mais y'en a d'autres de libres !"
     ),
   ],
@@ -221,7 +221,7 @@ const day1_conflict_submit: Scene = {
     ),
     d(
       "d1_16a",
-      "TEAM",
+      "Team",
       "Oui, on comprend le point. Apres, l'objectif reste quand meme de tenir le sprint tel qu'il est prevu aujourd'hui...",
       { annotation: "Lucie retourne a son bureau dans l'open space plein de bruit. La reunion commence..." }
     ),
@@ -245,7 +245,7 @@ const day1_conflict_assert: Scene = {
       "LUCIE",
       "Ecoute, y'en a pas d'autres a cette heure la et tu le sais tres bien. On a pas mis les resa des bulles en place pour rien, donc tu vas faire comme moi les deux dernieres fois et tu vas aller faire ta reu dans l'open-space."
     ),
-    d("d1_15b", "KAREN", "Ca y est ca va, ca va, pas besoin de taper une crise."),
+    d("d1_15b", "Karen", "Ca y est ca va, ca va, pas besoin de taper une crise."),
     pensees("d1_16b", "Puis quoi encore ?"),
     d(
       "d1_17b",
@@ -263,7 +263,7 @@ const day1_party: Scene = {
   title: "Soiree",
   milestone: "soiree",
   dialogues: [
-    d("d1_18", "LUCIE + INES", "Heyyyyy", { annotation: "Lucie toque a la porte." }),
+    d("d1_18", "Lucie + Ines", "Heyyyyy", { annotation: "Lucie toque a la porte." }),
   ],
   autoChoice: {
     condition: { flag: "outfitChoice", operator: "equals", value: "sexy" },
@@ -279,7 +279,7 @@ const day1_party_sexy: Scene = {
   dialogues: [
     d(
       "d1_19a",
-      "INES",
+      "Ines",
       "Ca fait plaisir de te voir ! En plus tu viens en resta, epouse moi"
     ),
     d(
@@ -296,11 +296,11 @@ const day1_party_comfort: Scene = {
   day: 1,
   title: "Soiree",
   dialogues: [
-    d("d1_19b", "INES", "Heyyyyy, ca fait plaisir de te voir !"),
+    d("d1_19b", "Ines", "Heyyyyy, ca fait plaisir de te voir !"),
     d("d1_20b", "LUCIE", "Moi aussi je suis grave contente, il va bien"),
     d(
       "d1_21b",
-      "INES",
+      "Ines",
       "Comment il va le petit monstre ? Ca fait longtemps je l'ai pas vu lui non plus !"
     ),
   ],
@@ -312,7 +312,7 @@ const day1_game_event: Scene = {
   day: 1,
   title: "Soiree",
   dialogues: [
-    d("d1_22", "LUCAS", "Lucie, tu veux jouer avec nous a Presque Consensus ?"),
+    d("d1_22", "Lucas", "Lucie, tu veux jouer avec nous a Presque Consensus ?"),
     pensees(
       "d1_23",
       "Mon Dieu, la derniere fois j'ai rien compris, je me suis trompee 4 fois devant tout le monde et je sentais bien qu'ils etaient soules, je me suis sentie trop conne..."
@@ -347,19 +347,19 @@ const day1_play: Scene = {
     d("d1_24", "LUCIE", "Vas yyyyy"),
     d(
       "d1_25",
-      "LUCAS",
+      "Lucas",
       "En gros, on discute tous ensemble, et faut arriver a ce que la majorite du groupe soit d'accord sur une reponse donnee a une question parmi une liste. On gagne en trouvant les influenceurs qui doivent defendre une des options sur la carte."
     ),
     d("d1_26", "LUCIE", "Okay !"),
     d(
       "d1_27",
-      "LUCAS",
+      "Lucas",
       "Au debut, tu pioches une carte role. Tu la regardes en discret. Ensuite, on revele la question du tour. Les cartes opinion que t'as en main, c'est les sous-sujets qui te font gagner des points si tu les abordes..."
     ),
     pensees("d1_28", "Putain, je capte rien"),
     d(
       "d1_29",
-      "LUCAS",
+      "Lucas",
       "Y'a des jetons influence qu'on peut utiliser pour te forcer a aborder certains arguments et faire penser que t'es un influenceur..."
     ),
     d(
@@ -384,7 +384,7 @@ const day1_crash: Scene = {
     ),
     d(
       "d1_32",
-      "INES",
+      "Ines",
       "hey, t'es partie d'un coup et t'es toute pale, ca va ?",
       { annotation: "Porte qui s'ouvre. Elle se cogne contre Ines." }
     ),
@@ -395,7 +395,7 @@ const day1_crash: Scene = {
     ),
     d(
       "d1_34",
-      "INES",
+      "Ines",
       "D'accord, je comprends, assieds toi dans ma chambre, je t'appeler un Uber"
     ),
     d("d1_35", "LUCIE", "Merci ma douce."),
@@ -413,19 +413,19 @@ const day1_refuse: Scene = {
       "LUCIE",
       "Je vais plutot en profiter pour discuter avec Ines, ca fait longtemps"
     ),
-    d("d1_37", "LUCAS", "T'inquietes pas de soucis ! Bon du coup Presque Consensus..."),
+    d("d1_37", "Lucas", "T'inquietes pas de soucis ! Bon du coup Presque Consensus..."),
     d(
       "d1_38",
       "LUCIE",
       "Nan mais faut que je te raconte un truc qui s'est passe tout a l'heure avec la vieille meuf aigrie de mon taff"
     ),
-    d("d1_39", "INES", "Let's gooooooo"),
+    d("d1_39", "Ines", "Let's gooooooo"),
     d(
       "d1_40",
       "LUCIE",
       "J'avais une reu ce matin, et vu que c'est toujours le bordel dans l'open-space j'ai reserve une des petites cabanes a isolation phonique, c'est pas je la vois dans la cabane et elle veut pas bouger ?"
     ),
-    d("d1_41", "INES", "he pitie, dis moi que tu l'as bougee de la"),
+    d("d1_41", "Ines", "he pitie, dis moi que tu l'as bougee de la"),
   ],
   autoChoice: {
     condition: { flag: "conflictOutcome", operator: "equals", value: "assert" },
@@ -460,7 +460,7 @@ const day1_refuse_submit: Scene = {
     ),
     d(
       "d1_43b",
-      "INES",
+      "Ines",
       "On peut pas gagner toutes les batailles, vas y step by step, si tu veux ce week-end on t'aidera a trouver les mots pour mettre tes limites"
     ),
     d(
@@ -468,7 +468,7 @@ const day1_refuse_submit: Scene = {
       "LUCIE",
       "Ah genre tu vas la RP ? Hahaha trop bien, on fera ca, merci d'etre la"
     ),
-    d("d1_45b", "INES", "Toujours"),
+    d("d1_45b", "Ines", "Toujours"),
   ],
   nextSceneId: "day1_end_good",
 };
@@ -481,7 +481,7 @@ const day1_end_crash: Scene = {
   dialogues: [
     d(
       "d1_46",
-      "MESSAGE",
+      "Message",
       "Je suis bien arrivee, merci pour la soiree et de m'avoir fait ramener",
       { annotation: "Bruits de cles, porte qui s'ouvre, lumiere qui s'allume." }
     ),
@@ -503,7 +503,7 @@ const day1_end_good: Scene = {
   dialogues: [
     d(
       "d1_48",
-      "MESSAGE",
+      "Message",
       "Je suis bien arrivee, merci pour la soiree",
       { annotation: "Bruits de cles, porte qui s'ouvre, lumiere qui s'allume." }
     ),
@@ -596,7 +596,7 @@ const day2_call: Scene = {
   dialogues: [
     d(
       "d2_2",
-      "AMI",
+      "Ami",
       "Coucou, je suis desole de deranger si tot, je t'appelle parcequ'on a un souci, tu te souviens je t'avais dit que je demenageais aujourd'hui et j'ai plus personne pour conduire le camion de loc, y'a So qui a une grippe carabinee il est couche la, est-ce que tu pourrais venir tout a l'heure, y'a 3 allers-retours a faire je pense.",
       { annotation: "Le telephone sonne...", color: "#87CEEB" }
     ),
@@ -629,7 +629,7 @@ const day2_accept: Scene = {
     ),
     d(
       "d2_4a",
-      "AMI",
+      "Ami",
       "Ah pitie pitie pitie, j'ai personne d'autre qui a le permis qui est dispo aujourd'hui, j'ai fait le tour t'es mon dernier espoir, sinon j'ai loue le camion et fait venir les gens pour rien, j'te jure que je te revaudrai ca."
     ),
     d(
@@ -639,7 +639,7 @@ const day2_accept: Scene = {
     ),
     d(
       "d2_6a",
-      "AMI",
+      "Ami",
       "Merci vraiment, t'sais quoi je te paye resto la prochaine fois"
     ),
     d("d2_7a", "LUCIE", "Y'a interet d'avoir du homard hein !"),
@@ -659,7 +659,7 @@ const day2_refuse: Scene = {
     ),
     d(
       "d2_4b",
-      "AMI",
+      "Ami",
       "Ca marche, prends soin de toi et on se voit bientot pour la cremaillere alors, gros bisous"
     ),
     d(
@@ -730,12 +730,12 @@ const day2_sdf: Scene = {
   dialogues: [
     d(
       "d2_14",
-      "FEMME SDF",
+      "Femme sdf",
       "Bonjour, excusez-moi, est-ce que auriez un peu de monnaie pour qu'on puisse manger ma fille et moi ?"
     ),
     d(
       "d2_15",
-      "INCONNU",
+      "Inconnu",
       "On a tout ce qu'il faut, vous inquietez pas ! Avec le froid en ce moment on vient distribuer des couvertures et des petits colis alimentaires. Avec un peu de soupe pour vous rechauffer, des pates de fruits..."
     ),
     pensees(
@@ -743,14 +743,14 @@ const day2_sdf: Scene = {
       "Il a une telle douceur dans sa facon de s'exprimer, dans ses gestes, son regard est rempli de bienveillance. Ca fait tellement plaisir de voir des gens qui se donnent pour les autres, j'en reprends foi en l'humanite."
     ),
     pensees("d2_17", "he mais il sent super bon, on dirait du Santal ou du Musc"),
-    d("d2_18", "INCONNU", "Tenez, je vous pose tout ca la."),
+    d("d2_18", "Inconnu", "Tenez, je vous pose tout ca la."),
     d("d2_19", "LUCIE", "Et voici de ma part."),
     d(
       "d2_20",
-      "FEMME SDF",
+      "Femme sdf",
       "Merci, merci, merci enormement. Passez une bonne journee"
     ),
-    d("d2_21", "INCONNU", "Excellente journee !"),
+    d("d2_21", "Inconnu", "Excellente journee !"),
     d(
       "d2_22",
       "LUCIE",
@@ -758,7 +758,7 @@ const day2_sdf: Scene = {
     ),
     d(
       "d2_23",
-      "AMINE",
+      "Amine",
       "Je m'appelle Amine, ravi de te connaitre, et oui je travaille pour Envie de Sourire, on fait des maraudes 3x/semaine en periode hivernale."
     ),
     d(
@@ -768,7 +768,7 @@ const day2_sdf: Scene = {
     ),
     d(
       "d2_25",
-      "AMINE",
+      "Amine",
       "Hahaha oui on a toujours besoin de mains, on vous accueillerait avec plaisir, tenez, voila une carte, appelez ce numero et on s'organise ca la semaine prochaine avec l'equipe."
     ),
     d(
@@ -776,7 +776,7 @@ const day2_sdf: Scene = {
       "LUCIE",
       "Allez ca marche, on s'appelle, finissez bien la journee !"
     ),
-    d("d2_27", "AMINE", "Merci beaucoup, aurevoir !"),
+    d("d2_27", "Amine", "Merci beaucoup, aurevoir !"),
   ],
   nextSceneId: "day2_sunset",
 };
