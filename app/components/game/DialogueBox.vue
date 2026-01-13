@@ -149,34 +149,42 @@ const showDialogueContent = computed(() => {
 
 // Classes pour l'animation du blur sur l'annotation pendant l'intro
 const annotationClasses = computed(() => {
-  if (!isInIntroAnimation.value) {
-    return "text-primary/50 font-serif text-sm italic mb-6";
-  }
-  // Pendant l'intro, style similaire a Experience.vue
   const phase = gameStore.introAnimationPhase;
-  const baseClasses =
-    "font-serif text-xl text-gray-400 transition-all duration-300";
-  if (phase === "annotation") {
-    return `${baseClasses} blur-xs opacity-100`;
-  }
-  if (phase === "revealing" || phase === "complete") {
-    return `${baseClasses} blur-0 opacity-100`;
-  }
-  return `${baseClasses} blur-xs opacity-0`;
+  return {
+    "blur-xs":
+      isInIntroAnimation.value &&
+      (phase === "annotation" ||
+        (phase !== "revealing" && phase !== "complete")),
+    "opacity-100":
+      isInIntroAnimation.value &&
+      (phase === "annotation" || phase === "revealing" || phase === "complete"),
+    "blur-0":
+      isInIntroAnimation.value &&
+      (phase === "revealing" || phase === "complete"),
+    "opacity-0":
+      isInIntroAnimation.value &&
+      phase !== "annotation" &&
+      phase !== "revealing" &&
+      phase !== "complete",
+  };
 });
 </script>
 
 <template>
   <div v-if="dialogue" class="max-w-4xl px-8">
     <!-- Annotation (avec animation blur pendant l'intro) -->
-    <p v-if="showAnnotation" :class="annotationClasses">
+    <p
+      v-if="showAnnotation"
+      class="mb-6 font-serif text-primary/60 text-xl/7 transition-all duration-300"
+      :class="annotationClasses"
+    >
       {{ dialogue.annotation }}
     </p>
 
     <!-- Speaker Name (cache pendant l'intro jusqu'a la phase revealing) -->
     <p
       v-if="showDialogueContent"
-      class="text-primary font-medium leading-[1.4] font-satoshi text-xl uppercase mb-4"
+      class="text-primary font-medium font-satoshi text-xl/7 uppercase mb-2"
     >
       {{ dialogue.speaker }}
       <span v-if="isPensees" class="font-serif text-primary/60 lowercase"
@@ -188,7 +196,7 @@ const annotationClasses = computed(() => {
     <p
       v-if="showDialogueContent"
       ref="textRef"
-      class="font-serif font-light text-2xl lg:text-3xl leading-relaxed text-primary"
+      class="font-serif font-light text-2xl lg:text-[1.75rem] leading-normal text-primary"
     >
       {{ dialogue.text }}
     </p>
