@@ -184,23 +184,28 @@ watch(
           }
         });
 
-        // Eye Animation
         const eyeTl = $gsap.timeline();
         const eyeStepDuration = totalDuration / 3; // 3 morph steps
+
+        // Set initial centered position for base path (ViewBox height 769, Base center 84.76)
+        $gsap.set(eyePath.value, { y: 299.74 });
 
         eyeTl
           .to(eyePath.value, {
             attr: { d: eyePaths.step1 },
+            y: 239.08,
             duration: eyeStepDuration,
             ease: "power1.inOut",
           })
           .to(eyePath.value, {
             attr: { d: eyePaths.step2 },
+            y: 126.5,
             duration: eyeStepDuration,
             ease: "power1.inOut",
           })
           .to(eyePath.value, {
             attr: { d: eyePaths.step3 },
+            y: 1,
             duration: eyeStepDuration,
             ease: "power1.inOut",
           });
@@ -236,9 +241,8 @@ watch(
     >
       <!-- Eye Animation -->
       <svg
-        class="absolute inset-0 w-full h-full pointer-events-none z-0"
+        class="absolute top-1/2 left-0 w-full h-auto -translate-y-1/2 pointer-events-none z-0 overflow-visible"
         viewBox="0 0 1366 769"
-        preserveAspectRatio="xMidYMid slice"
       >
         <path ref="eyePath" :d="eyePaths.base" fill="white" />
       </svg>
