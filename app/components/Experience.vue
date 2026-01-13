@@ -1,17 +1,16 @@
 <script setup lang="ts">
 import { useAnimationsStore } from "~/stores/animations";
+import { useGameStore } from "~/stores/game";
 import MenuIcon from "./MenuIcon.vue";
 import EnergyBar from "./EnergyBar.vue";
 import GameContainer from "./game/GameContainer.vue";
 
 const { $gsap } = useNuxtApp();
+const gameStore = useGameStore();
 
-// State pour afficher le jeu apres l'animation d'intro
-const showGame = ref(false);
 const container = ref<HTMLElement | null>(null);
 const textContainer = ref<HTMLElement | null>(null);
 const eyePath = ref<SVGPathElement | null>(null);
-const wakeUpText = ref<HTMLElement | null>(null);
 const uiContainer = ref<HTMLElement | null>(null);
 const animationsStore = useAnimationsStore();
 
@@ -233,11 +232,11 @@ watch(
             duration: eyeStepDuration,
             ease: "power1.inOut",
           })
-          .to(wakeUpText.value, {
-            opacity: 1,
-            duration: eyeStepDuration,
-            ease: "power1.inOut",
+          // Afficher l'annotation avec blur via le store
+          .call(() => {
+            gameStore.setIntroAnimationPhase("annotation");
           })
+          .to({}, { duration: eyeStepDuration }) // Pause pour l'animation de l'annotation
           .to(eyePath.value, {
             attr: { d: eyePaths.step4 },
             y: 1,
@@ -261,18 +260,18 @@ watch(
             duration: eyeStepDuration + 0.25,
             ease: "power1.inOut",
           })
-          .to(
-            wakeUpText.value,
-            {
-              filter: "blur(0px)",
-              duration: eyeStepDuration,
-              ease: "power1.inOut",
+          // Enlever le blur et reveler le contenu du dialogue
+          .call(
+            () => {
+              gameStore.setIntroAnimationPhase("revealing");
             },
+            [],
             "<"
           )
-          // A la fin de l'animation de l'oeil, afficher le jeu
+          // Marquer l'intro comme terminee
           .call(() => {
-            showGame.value = true;
+            gameStore.setIntroAnimationPhase("complete");
+            gameStore.setIntroPlayed();
           });
 
         mainTl.add(textTl, 0);
@@ -314,26 +313,15 @@ watch(
     >
       <!-- Eye Animation -->
       <svg
-        class="absolute top-1/2 left-0 w-full h-auto -translate-y-1/2 pointer-events-none z-0 overflow-visible blur-[8px]"
+        class="absolute top-1/2 left-0 w-full h-auto -translate-y-1/2 pointer-events-none z-0 overflow-visible blur-sm"
         viewBox="0 0 1366 769"
       >
         <path ref="eyePath" :d="eyePaths.closed" fill="white" />
       </svg>
 
-      <p
-        ref="wakeUpText"
-        class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-gray-400 blur-xs opacity-0 z-20 pointer-events-none font-serif text-xl whitespace-nowrap"
-      >
-        Un réveil sonne, une couette bouge.
-      </p>
-
-      <!-- New UI Elements -->
-      <div ref="uiContainer" class="absolute inset-0 z-30 opacity-0 invisible">
-        <MenuIcon class="absolute top-10 left-6 text-primary" />
-        <h1 class="absolute top-10 left-1/2 -translate-x-1/2 text-primary font-serif text-xl tracking-wide">
-          <span class="font-medium">JOUR 1</span> - <span class="italic font-light">Trajet</span>
-        </h1>
-        <EnergyBar class="absolute top-1/2 left-6 -translate-y-1/2 text-primary" />
+      <!-- Game Container - Affiche dans l'oeil, l'annotation apparait avec l'animation -->
+      <div class="absolute inset-0 z-20 pointer-events-none">
+        <GameContainer class="h-full pointer-events-auto" />
       </div>
 
       <!-- Content -->
@@ -350,11 +338,6 @@ watch(
         </span>
       </h2>
     </div>
-
-    <!-- Game Container - Appears after intro animation -->
-    <Transition name="fade">
-      <GameContainer v-if="showGame" class="sticky top-0" />
-    </Transition>
   </div>
 </template>
 

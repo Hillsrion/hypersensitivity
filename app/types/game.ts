@@ -78,6 +78,9 @@ export interface GameData {
   milestones: Milestone[];
 }
 
+// Phases de l'animation d'intro
+export type IntroAnimationPhase = "hidden" | "annotation" | "revealing" | "complete";
+
 export interface GameState {
   currentSceneId: string;
   currentDialogueIndex: number;
@@ -86,4 +89,6 @@ export interface GameState {
   isTransitioning: boolean;
   showChoices: boolean;
   isMenuOpen: boolean;
+  introPlayed: boolean;
+  introAnimationPhase: IntroAnimationPhase;
 }

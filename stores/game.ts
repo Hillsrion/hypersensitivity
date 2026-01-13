@@ -7,6 +7,7 @@ import type {
   Choice,
   ChoiceCondition,
   Milestone,
+  IntroAnimationPhase,
 } from "../app/types/game";
 import { gameData } from "../app/data/game";
 
@@ -42,6 +43,8 @@ export const useGameStore = defineStore("game", {
     isTransitioning: false,
     showChoices: false,
     isMenuOpen: false,
+    introPlayed: false,
+    introAnimationPhase: "hidden",
   }),
 
   getters: {
@@ -109,6 +112,20 @@ export const useGameStore = defineStore("game", {
     isGameEnded(): boolean {
       return this.currentSceneId === "game_end";
     },
+
+    // Getter pour l'annotation du premier dialogue (pour l'intro)
+    firstDialogueAnnotation(): string | undefined {
+      const initialScene = gameData.scenes[gameData.initialSceneId];
+      return initialScene?.dialogues[0]?.annotation;
+    },
+
+    // Verifier si c'est le premier dialogue de la scene initiale
+    isFirstDialogueOfInitialScene(): boolean {
+      return (
+        this.currentSceneId === gameData.initialSceneId &&
+        this.currentDialogueIndex === 0
+      );
+    },
   },
 
   actions: {
@@ -144,7 +161,19 @@ export const useGameStore = defineStore("game", {
       this.isTransitioning = false;
       this.showChoices = false;
       this.isMenuOpen = false;
+      this.introPlayed = false;
+      this.introAnimationPhase = "hidden";
       this.saveGame();
+    },
+
+    // Marquer l'intro comme jouee (appele par Experience.vue)
+    setIntroPlayed() {
+      this.introPlayed = true;
+    },
+
+    // Definir la phase de l'animation d'intro (appele par Experience.vue)
+    setIntroAnimationPhase(phase: IntroAnimationPhase) {
+      this.introAnimationPhase = phase;
     },
 
     // Avancer dans les dialogues

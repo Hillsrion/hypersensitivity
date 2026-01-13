@@ -1,10 +1,13 @@
 <script setup lang="ts">
 import type { DialogueLine } from "../../types/game";
 import { useAudioStore } from "~/stores/audio";
+import { useGameStore } from "~/stores/game";
 
 const props = defineProps<{
   dialogue: DialogueLine | null;
 }>();
+
+const gameStore = useGameStore();
 
 const emit = defineEmits<{
   animationComplete: [];
@@ -118,27 +121,71 @@ const formattedSpeaker = computed(() => {
   const type = props.dialogue.speakerType;
   return type === "pensees" ? `${speaker} (pensees)` : speaker;
 });
+
+// Est-ce qu'on est dans l'animation d'intro (premier dialogue de la scene initiale)
+const isInIntroAnimation = computed(() => {
+  return gameStore.isFirstDialogueOfInitialScene && !gameStore.introPlayed;
+});
+
+// Afficher l'annotation pendant l'intro ou normalement
+const showAnnotation = computed(() => {
+  if (!props.dialogue?.annotation) return false;
+  // Pendant l'intro, on affiche toujours l'annotation (elle sera animee)
+  if (isInIntroAnimation.value) {
+    return gameStore.introAnimationPhase !== "hidden";
+  }
+  // Apres l'intro, on cache l'annotation du premier dialogue car elle a deja ete vue
+  if (gameStore.isFirstDialogueOfInitialScene && gameStore.introPlayed) {
+    return false;
+  }
+  return true;
+});
+
+// Afficher le contenu du dialogue (speaker + texte) seulement apres la phase "revealing"
+const showDialogueContent = computed(() => {
+  if (!isInIntroAnimation.value) return true;
+  return (
+    gameStore.introAnimationPhase === "revealing" ||
+    gameStore.introAnimationPhase === "complete"
+  );
+});
+
+// Classes pour l'animation du blur sur l'annotation pendant l'intro
+const annotationClasses = computed(() => {
+  if (!isInIntroAnimation.value) {
+    return "text-primary/50 font-serif text-sm italic mb-6";
+  }
+  // Pendant l'intro, style similaire a Experience.vue
+  const phase = gameStore.introAnimationPhase;
+  const baseClasses = "font-serif text-xl text-gray-400 transition-all duration-300";
+  if (phase === "annotation") {
+    return `${baseClasses} blur-xs opacity-100`;
+  }
+  if (phase === "revealing" || phase === "complete") {
+    return `${baseClasses} blur-0 opacity-100`;
+  }
+  return `${baseClasses} blur-xs opacity-0`;
+});
 </script>
 
 <template>
   <div v-if="dialogue" class="max-w-4xl text-center px-8">
-    <!-- Annotation -->
-    <p
-      v-if="dialogue.annotation"
-      class="text-primary/50 font-serif text-sm italic mb-6"
-    >
+    <!-- Annotation (avec animation blur pendant l'intro) -->
+    <p v-if="showAnnotation" :class="annotationClasses">
       {{ dialogue.annotation }}
     </p>
 
-    <!-- Speaker Name -->
+    <!-- Speaker Name (cache pendant l'intro jusqu'a la phase revealing) -->
     <p
+      v-if="showDialogueContent"
       class="text-primary/60 font-satoshi text-xs tracking-[0.3em] uppercase mb-4"
     >
       {{ formattedSpeaker }}
     </p>
 
-    <!-- Dialogue Text -->
+    <!-- Dialogue Text (cache pendant l'intro jusqu'a la phase revealing) -->
     <p
+      v-if="showDialogueContent"
       ref="textRef"
       class="font-serif font-light text-2xl lg:text-3xl leading-relaxed text-primary"
     >
