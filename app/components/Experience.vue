@@ -4,6 +4,7 @@ import { useAnimationsStore } from "~/stores/animations";
 const { $gsap } = useNuxtApp();
 const container = ref<HTMLElement | null>(null);
 const textContainer = ref<HTMLElement | null>(null);
+const eyePath = ref<SVGPathElement | null>(null);
 const animationsStore = useAnimationsStore();
 
 // Initial state is all white to match the end of the previous section (SoundIntroduction)
@@ -17,6 +18,16 @@ const gradientState = reactive({
   stop3: 66,
   stop4: 100,
 });
+
+const eyePaths = {
+  base: "M1366 84.76C1129.12 119.3 912 169.52 683 169.52C454 169.52 236.88 119.3 0 84.76C236.88 50.22 454 0 683 0C912 0 1129.12 50.22 1366 84.76Z",
+  step1:
+    "M1366 145.42C1129.12 204.68 912 290.84 683 290.84C454 290.84 236.88 204.69 0 145.42C236.88 86.15 454 0 683 0C912 0 1129.12 86.15 1366 145.42Z",
+  step2:
+    "M1366 258C1129.12 363.137 912 516 683 516C454 516 236.88 363.155 0 258C236.88 152.845 454 0 683 0C912 0 1129.12 152.845 1366 258Z",
+  step3:
+    "M1366 383.5C1129.12 540.595 912 769 683 769C454 769 236.88 540.621 0 383.5C236.88 226.379 454 -2 683 -2C912 -2 1129.12 226.379 1366 383.5Z",
+};
 
 const backgroundGradient = computed(() => {
   return `linear-gradient(180deg, ${gradientState.color1} ${gradientState.stop1}%, ${gradientState.color2} ${gradientState.stop2}%, ${gradientState.color3} ${gradientState.stop3}%, ${gradientState.color4} ${gradientState.stop4}%)`;
@@ -173,8 +184,30 @@ watch(
           }
         });
 
+        // Eye Animation
+        const eyeTl = $gsap.timeline();
+        const eyeStepDuration = totalDuration / 3; // 3 morph steps
+
+        eyeTl
+          .to(eyePath.value, {
+            attr: { d: eyePaths.step1 },
+            duration: eyeStepDuration,
+            ease: "power1.inOut",
+          })
+          .to(eyePath.value, {
+            attr: { d: eyePaths.step2 },
+            duration: eyeStepDuration,
+            ease: "power1.inOut",
+          })
+          .to(eyePath.value, {
+            attr: { d: eyePaths.step3 },
+            duration: eyeStepDuration,
+            ease: "power1.inOut",
+          });
+
         mainTl.add(textTl, 0);
         mainTl.add(gradientTl, 0);
+        mainTl.add(eyeTl, 0);
         mainTl.to({}, { duration: 1 });
 
         mainTl.eventCallback("onUpdate", () => {
@@ -201,6 +234,15 @@ watch(
       class="sticky top-0 w-full h-screen flex items-center justify-center overflow-hidden"
       :style="{ background: backgroundGradient }"
     >
+      <!-- Eye Animation -->
+      <svg
+        class="absolute inset-0 w-full h-full pointer-events-none z-0"
+        viewBox="0 0 1366 769"
+        preserveAspectRatio="xMidYMid slice"
+      >
+        <path ref="eyePath" :d="eyePaths.base" fill="white" />
+      </svg>
+
       <!-- Content -->
       <h2
         ref="textContainer"
