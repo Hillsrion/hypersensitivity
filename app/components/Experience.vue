@@ -31,6 +31,8 @@ const eyePaths = {
     "M1366 383.5C1129.12 540.595 912 769 683 769C454 769 236.88 540.621 0 383.5C236.88 226.379 454 -2 683 -2C912 -2 1129.12 226.379 1366 383.5Z",
   step4:
     "M1366 383.5C1129.12 715.5 912 1200 683 1200C454 1200 236.88 715.5 0 383.5C236.88 51.5 454 -433 683 -433C912 -433 1129.12 51.5 1366 383.5Z",
+  step5:
+    "M1366 383.5 C1366 1500 683 1500 683 1500 C683 1500 0 1500 0 383.5 C0 -1000 683 -1000 683 -1000 C683 -1000 1366 -1000 1366 383.5 Z",
 };
 
 const backgroundGradient = computed(() => {
@@ -189,7 +191,7 @@ watch(
         });
 
         const eyeTl = $gsap.timeline();
-        const eyeStepDuration = totalDuration / 5; // 5 morph steps (closed -> base -> 1 -> 2 -> 3 -> 4)
+        const eyeStepDuration = totalDuration / 6; // 6 morph steps (closed -> base -> 1 -> 2 -> 3 -> 4 -> 5)
 
         // Set initial centered position for base path (ViewBox height 769, Base center 84.76)
         $gsap.set(eyePath.value, { y: 299.74 });
@@ -217,13 +219,19 @@ watch(
             y: 1,
             duration: eyeStepDuration,
             ease: "power1.inOut",
+          })
+          .to(eyePath.value, {
+            attr: { d: eyePaths.step4 },
+            y: 1,
+            duration: eyeStepDuration,
+            ease: "power1.inOut",
+          })
+          .to(eyePath.value, {
+            attr: { d: eyePaths.step5 },
+            y: 1,
+            duration: eyeStepDuration,
+            ease: "power1.inOut",
           });
-        // .to(eyePath.value, {
-        //   attr: { d: eyePaths.step4 },
-        //   y: 1,
-        //   duration: eyeStepDuration,
-        //   ease: "power1.inOut",
-        // });
 
         mainTl.add(textTl, 0);
         mainTl.add(gradientTl, 0);
