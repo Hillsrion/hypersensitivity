@@ -598,7 +598,7 @@ const dayTwoCall: Scene = {
       "d2_2",
       "Ami",
       "Coucou, je suis desole de deranger si tot, je t'appelle parcequ'on a un souci, tu te souviens je t'avais dit que je demenageais aujourd'hui et j'ai plus personne pour conduire le camion de loc, y'a So qui a une grippe carabinee il est couche la, est-ce que tu pourrais venir tout a l'heure, y'a 3 allers-retours a faire je pense.",
-      { annotation: "Le telephone sonne...", color: "#87CEEB" }
+      { annotation: "Le telephone sonne..." }
     ),
   ],
   choices: [
