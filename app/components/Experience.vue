@@ -5,6 +5,7 @@ const { $gsap } = useNuxtApp();
 const container = ref<HTMLElement | null>(null);
 const textContainer = ref<HTMLElement | null>(null);
 const eyePath = ref<SVGPathElement | null>(null);
+const wakeUpText = ref<HTMLElement | null>(null);
 const animationsStore = useAnimationsStore();
 
 // Initial state is all white to match the end of the previous section (SoundIntroduction)
@@ -73,7 +74,7 @@ watch(
           scrollTrigger: {
             trigger: containerEl,
             start: "top top",
-            end: "+=600%",
+            end: "+=700%",
             scrub: true,
           },
         });
@@ -191,7 +192,7 @@ watch(
         });
 
         const eyeTl = $gsap.timeline();
-        const eyeStepDuration = 0.5; // Reduced duration for eye animation
+        const eyeStepDuration = 0.3; // Reduced duration for eye animation
 
         // Set initial centered position for base path (ViewBox height 769, Base center 84.76)
         $gsap.set(eyePath.value, {
@@ -225,6 +226,11 @@ watch(
             duration: eyeStepDuration,
             ease: "power1.inOut",
           })
+          .to(wakeUpText.value, {
+            opacity: 1,
+            duration: eyeStepDuration,
+            ease: "power1.inOut",
+          })
           .to(eyePath.value, {
             attr: { d: eyePaths.step4 },
             y: 1,
@@ -237,7 +243,16 @@ watch(
             scale: 5,
             duration: eyeStepDuration + 0.25,
             ease: "power1.inOut",
-          });
+          })
+          .to(
+            wakeUpText.value,
+            {
+              filter: "blur(0px)",
+              duration: eyeStepDuration,
+              ease: "power1.inOut",
+            },
+            "<"
+          );
 
         mainTl.add(textTl, 0);
         mainTl.add(gradientTl, 0);
@@ -263,7 +278,7 @@ watch(
 </script>
 
 <template>
-  <div ref="container" class="relative h-[600svh] z-10">
+  <div ref="container" class="relative h-[700svh] z-10">
     <div
       class="sticky top-0 w-full h-screen flex items-center justify-center overflow-hidden"
       :style="{ background: backgroundGradient }"
@@ -275,6 +290,13 @@ watch(
       >
         <path ref="eyePath" :d="eyePaths.closed" fill="white" />
       </svg>
+
+      <p
+        ref="wakeUpText"
+        class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-gray-400 blur-xs opacity-0 z-20 pointer-events-none font-serif text-xl whitespace-nowrap"
+      >
+        Un réveil sonne, une couette bouge.
+      </p>
 
       <!-- Content -->
       <h2
