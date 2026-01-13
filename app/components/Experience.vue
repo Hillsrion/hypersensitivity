@@ -20,6 +20,8 @@ const gradientState = reactive({
 });
 
 const eyePaths = {
+  closed:
+    "M1366 84.76C1129.12 84.76 912 84.76 683 84.76C454 84.76 236.88 84.76 0 84.76C236.88 84.76 454 84.76 683 84.76C912 84.76 1129.12 84.76 1366 84.76Z",
   base: "M1366 84.76C1129.12 119.3 912 169.52 683 169.52C454 169.52 236.88 119.3 0 84.76C236.88 50.22 454 0 683 0C912 0 1129.12 50.22 1366 84.76Z",
   step1:
     "M1366 145.42C1129.12 204.68 912 290.84 683 290.84C454 290.84 236.88 204.69 0 145.42C236.88 86.15 454 0 683 0C912 0 1129.12 86.15 1366 145.42Z",
@@ -185,12 +187,17 @@ watch(
         });
 
         const eyeTl = $gsap.timeline();
-        const eyeStepDuration = totalDuration / 3; // 3 morph steps
+        const eyeStepDuration = totalDuration / 4; // 4 morph steps (closed -> base -> 1 -> 2 -> 3)
 
         // Set initial centered position for base path (ViewBox height 769, Base center 84.76)
         $gsap.set(eyePath.value, { y: 299.74 });
 
         eyeTl
+          .to(eyePath.value, {
+            attr: { d: eyePaths.base },
+            duration: eyeStepDuration,
+            ease: "power1.inOut",
+          })
           .to(eyePath.value, {
             attr: { d: eyePaths.step1 },
             y: 239.08,
@@ -244,7 +251,7 @@ watch(
         class="absolute top-1/2 left-0 w-full h-auto -translate-y-1/2 pointer-events-none z-0 overflow-visible"
         viewBox="0 0 1366 769"
       >
-        <path ref="eyePath" :d="eyePaths.base" fill="white" />
+        <path ref="eyePath" :d="eyePaths.closed" fill="white" />
       </svg>
 
       <!-- Content -->
