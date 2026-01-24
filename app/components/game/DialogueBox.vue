@@ -19,6 +19,8 @@ const audioStore = useAudioStore();
 const textRef = ref<HTMLElement | null>(null);
 const isAnimating = ref(false);
 const activeTimeline = ref<gsap.core.Timeline | null>(null);
+const currentTimedAnnotation = ref<string | null>(null);
+const isShowingOnlyAnnotation = ref(false);
 
 onUnmounted(() => {
   activeTimeline.value?.kill();
@@ -35,7 +37,7 @@ const split = useSplitText(textRef, {
 
 // Animation des mots
 const animateWords = async () => {
-  if (!props.dialogue || !split.words.value?.length) {
+  if (!props.dialogue || (!split.words.value?.length && !props.dialogue.timings?.length)) {
     emit("animationComplete");
     return;
   }
@@ -43,7 +45,7 @@ const animateWords = async () => {
   isAnimating.value = true;
 
   const timings = props.dialogue.timings;
-  const words = split.words.value;
+  const words = split.words.value || [];
 
   // Creer la timeline d'animation
   activeTimeline.value?.kill();
@@ -65,33 +67,50 @@ const animateWords = async () => {
   activeTimeline.value = wordTimeline;
 
   if (timings && timings.length > 0) {
-    // Animation basee sur les timings audio (style SoundIntroduction)
-    words.forEach((wordEl, index) => {
-      const timing = timings[index];
-      if (timing) {
-        wordTimeline.to(
-          wordEl,
-          {
-            opacity: 1,
-            duration: timing.end - timing.start,
-            ease: "none",
-          },
-          timing.start
-        );
+    // Animation basee sur les timings audio
+    let wordIndex = 0;
+    timings.forEach((timing) => {
+      if (timing.annotation) {
+        // Annotation temporaire pendant le dialogue
+        wordTimeline.call(() => {
+          currentTimedAnnotation.value = timing.annotation || null;
+          isShowingOnlyAnnotation.value = !!timing.showOnly;
+        }, [], timing.start);
+        
+        wordTimeline.call(() => {
+          if (currentTimedAnnotation.value === timing.annotation) {
+            currentTimedAnnotation.value = null;
+            isShowingOnlyAnnotation.value = false;
+          }
+        }, [], timing.end);
       } else {
-        // Si pas de timing pour ce mot, l'animer a la fin
-        wordTimeline.to(
-          wordEl,
-          {
-            opacity: 1,
-            duration: 0.3,
-            ease: "power2.out",
-          },
-          ">"
-        );
+        // C'est un mot
+        const wordEl = words[wordIndex];
+        if (wordEl) {
+          wordTimeline.to(
+            wordEl,
+            {
+              opacity: 1,
+              duration: timing.end - timing.start,
+              ease: "none",
+            },
+            timing.start
+          );
+          wordIndex++;
+        }
       }
     });
-  } else {
+
+    // S'assurer que tous les mots restants sont affichés si jamais il en manque dans les timings
+    if (wordIndex < words.length) {
+      wordTimeline.to(words.slice(wordIndex), {
+        opacity: 1,
+        duration: 0.5,
+        stagger: 0.05,
+        ease: "power2.out",
+      }, ">");
+    }
+  } else if (words.length > 0) {
     // Animation par defaut avec stagger (pas de timings)
     wordTimeline.to(words, {
       opacity: 1,
@@ -99,6 +118,9 @@ const animateWords = async () => {
       stagger: 0.05,
       ease: "power2.out",
     });
+  } else if (timings && timings.length > 0) {
+    // Cas où on n'a que des timings d'annotation (pas de mots)
+    // La timeline a déjà été peuplée par la boucle timings.forEach
   }
 };
 
@@ -162,8 +184,14 @@ const isInIntroAnimation = computed(() => {
   return gameStore.isFirstDialogueOfInitialScene && !gameStore.introPlayed;
 });
 
+// Texte de l'annotation à afficher (priorité au timing)
+const displayAnnotation = computed(() => {
+  return currentTimedAnnotation.value || props.dialogue?.annotation || "";
+});
+
 // Afficher l'annotation pendant l'intro ou normalement
 const showAnnotation = computed(() => {
+  if (currentTimedAnnotation.value) return true;
   if (!props.dialogue?.annotation) return false;
 
   // Si c'est le tout premier dialogue de la scene initiale, on ne l'affiche pas dans la boite de dialogue
@@ -176,7 +204,10 @@ const showAnnotation = computed(() => {
 });
 
 // Afficher le contenu du dialogue (speaker + texte) seulement apres la phase "revealing"
+// Et le masquer si on affiche une annotation seule
 const showDialogueContent = computed(() => {
+  if (isShowingOnlyAnnotation.value && currentTimedAnnotation.value) return false;
+  
   if (!isInIntroAnimation.value) return true;
   return (
     gameStore.introAnimationPhase === "revealing" ||
@@ -209,16 +240,18 @@ const annotationClasses = computed(() => {
 
 <template>
   <div v-if="dialogue" class="max-w-4xl px-8">
-    <!-- Annotation (avec animation blur pendant l'intro) -->
+    <!-- Annotation (utilisée aussi pour les timings temporaires) -->
     <p
       v-if="showAnnotation"
       class="mb-6 font-serif text-primary/60 text-xl/7 transition-all duration-300"
-      :class="annotationClasses"
+      :class="[
+        annotationClasses
+      ]"
     >
-      {{ dialogue.annotation }}
+      {{ displayAnnotation }}
     </p>
 
-    <!-- Speaker Name (caché via opacité pendant l'intro) -->
+    <!-- Speaker Name (caché via opacité pendant l'intro ou si showOnly est actif) -->
     <p
       class="text-primary font-medium font-satoshi text-xl/7 uppercase mb-2 transition-opacity duration-700"
       :class="{ 'opacity-0': !showDialogueContent }"
@@ -229,7 +262,7 @@ const annotationClasses = computed(() => {
       >
     </p>
 
-    <!-- Dialogue Text (caché via opacité pendant l'intro) -->
+    <!-- Dialogue Text (caché via opacité pendant l'intro ou si showOnly est actif) -->
     <p
       ref="textRef"
       class="font-serif font-light text-2xl lg:text-[1.75rem] leading-normal text-primary transition-opacity duration-700"

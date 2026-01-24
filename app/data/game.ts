@@ -51,6 +51,7 @@ const dayOneWakeup: Scene = {
         { word: "de", start: 9.38, end: 9.42 },
         { word: "Macron", start: 9.519, end: 10.079 },
         { word: "!", start: 10.199, end: 10.2 },
+        { annotation: "Lucie se prépare pour sa journée", start: 11, end: 14, showOnly: true },
       ],
     }),
   ],

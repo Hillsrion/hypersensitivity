@@ -19,7 +19,7 @@ export interface DialogueLine {
   text: string;
   annotation?: string; // Texte en italique au-dessus (ex: "A la gare.", "Le telephone sonne...")
   audio?: string; // Chemin audio (placeholder)
-  timings?: Array<{ word: string; start: number; end: number }>; // Timings pour animation mot par mot (en ms)
+  timings?: Array<{ word?: string; annotation?: string; showOnly?: boolean; start: number; end: number }>; // Timings pour animation mot par mot (en ms)
   color?: string; // Trigger effet aurore boreale
 }
 
