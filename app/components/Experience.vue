@@ -358,7 +358,7 @@ watch(
 </script>
 
 <template>
-  <div ref="container" class="relative h-[700svh] z-10">
+  <div ref="container" class="relative h-[800svh] z-10">
     <div
       class="sticky top-0 w-full h-screen flex items-center justify-center overflow-hidden"
       :style="{ background: backgroundGradient }"

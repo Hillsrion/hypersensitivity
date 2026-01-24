@@ -38,6 +38,7 @@ const dayOneWakeup: Scene = {
   dialogues: [
     pensees("d1_1", "Ah puree, un autre jour dans la France de M le Maudit", {
       annotation: "Le reveil sonne, les oiseaux chantent, bruits de couette qui bouge",
+      audio: "experience/J01_S01_Reveil.mp3",
     }),
   ],
   nextSceneId: "dayOneBathroom",
