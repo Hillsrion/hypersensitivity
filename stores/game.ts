@@ -141,7 +141,13 @@ export const useGameStore = defineStore("game", {
       if (saved) {
         try {
           const state = JSON.parse(saved) as GameState;
-          this.$patch(state);
+          // On ne restaure que les milestones pour le menu, mais on recommence le jeu
+          this.reachedMilestones = state.reachedMilestones || [];
+          this.currentSceneId = gameData.initialSceneId;
+          this.currentDialogueIndex = 0;
+          this.flags = { ...gameData.initialFlags };
+          this.introPlayed = false;
+          this.introAnimationPhase = "hidden";
         } catch {
           this.resetGame();
         }
@@ -158,7 +164,7 @@ export const useGameStore = defineStore("game", {
       this.currentSceneId = gameData.initialSceneId;
       this.currentDialogueIndex = 0;
       this.flags = { ...gameData.initialFlags };
-      this.reachedMilestones = [];
+      // On garde reachedMilestones pour le menu des chapitres
       this.isTransitioning = false;
       this.showChoices = false;
       this.isMenuOpen = false;
@@ -297,6 +303,8 @@ export const useGameStore = defineStore("game", {
     goToMilestone(milestoneId: string) {
       const milestone = gameData.milestones.find((m) => m.id === milestoneId);
       if (milestone && this.reachedMilestones.includes(milestoneId)) {
+        this.introPlayed = true;
+        this.introAnimationPhase = "complete";
         this.goToScene(milestone.sceneId);
         this.isMenuOpen = false;
       }

@@ -11,7 +11,6 @@ const gameStore = useGameStore();
 const container = ref<HTMLElement | null>(null);
 const textContainer = ref<HTMLElement | null>(null);
 const eyePath = ref<SVGPathElement | null>(null);
-const uiContainer = ref<HTMLElement | null>(null);
 const animationsStore = useAnimationsStore();
 
 // Initial state is all white to match the end of the previous section (SoundIntroduction)
@@ -53,6 +52,27 @@ const lines = [
 
 const { words } = useSplitText(textContainer, { splitBy: "words" });
 const scrollTriggerInstance = ref<any>(null);
+const autoRevealStarted = ref(false);
+
+watch(
+  () => gameStore.introBlurAmount,
+  (val) => {
+    if (
+      val === 0 &&
+      !autoRevealStarted.value &&
+      gameStore.introAnimationPhase === "annotation"
+    ) {
+      autoRevealStarted.value = true;
+      setTimeout(() => {
+        gameStore.setIntroAnimationPhase("revealing");
+        setTimeout(() => {
+          gameStore.setIntroAnimationPhase("complete");
+          gameStore.setIntroPlayed();
+        }, 1000);
+      }, 6000);
+    }
+  }
+);
 
 onMounted(() => {
   if (!container.value) return;
@@ -301,30 +321,8 @@ watch(
             },
             "<"
           )
-          .to({}, { duration: 1.5 }) // Added pause for the last step to last longer
-          // Fade in UI elements before the scaling
-          .to(
-            uiContainer.value,
-            {
-              autoAlpha: 1,
-              duration: 0.5,
-              ease: "power2.out",
-            },
-            "<+=0.1" // Start slightly after step4 starts
-          )
-          // Enlever le blur et reveler le contenu du dialogue
-          .call(
-            () => {
-              gameStore.setIntroAnimationPhase("revealing");
-            },
-            [],
-            "<"
-          )
-          // Marquer l'intro comme terminee
-          .call(() => {
-            gameStore.setIntroAnimationPhase("complete");
-            gameStore.setIntroPlayed();
-          });
+// La suite est gérée par le watcher sur introBlurAmount
+          .to({}, { duration: 1.5 }); // Pause finale dans le scroll
 
         mainTl.add(textTl, 0);
         mainTl.add(gradientTl, 0);
