@@ -89,6 +89,18 @@ onMounted(async () => {
   });
 
   audioStore.preloadList(audioList);
+
+  // Dev shortcut: scroll to a specific component on pageload
+  const target = route.query.scroll || (import.meta.dev ? "experience" : null);
+  if (target) {
+    // We wait a bit for Lenis and ScrollTrigger to be fully initialized and for the page to render
+    setTimeout(() => {
+      const element = document.getElementById(String(target));
+      if (element && lenisRef.value?.lenis) {
+        lenisRef.value.lenis.scrollTo(element, { immediate: true });
+      }
+    }, 500);
+  }
 });
 </script>
 
@@ -115,14 +127,15 @@ onMounted(async () => {
     />
     <div class="relative z-1 mx-auto flex flex-col gap-y-16 mt-[40svh]">
       <GenericSection
-        v-for="section in mainData.sections"
+        v-for="(section, index) in mainData.sections"
+        :id="`section-${index}`"
         :key="section.title"
         :title="section.title"
         :content="section.content"
         :color="section.color"
       />
     </div>
-    <TestimoniesSection class="relative z-10" />
-    <Experience class="-mt-[35svh]" />
+    <TestimoniesSection id="testimonies" class="relative z-10" />
+    <Experience id="experience" class="-mt-[35svh]" />
   </div>
 </template>
