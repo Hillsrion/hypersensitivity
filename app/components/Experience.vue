@@ -240,9 +240,11 @@ watch(
           .to(eyePath.value, {
             attr: { d: eyePaths.step4 },
             y: 1,
-            duration: eyeStepDuration,
+            scale: 5,
+            duration: eyeStepDuration * 3, // Increased from eyeStepDuration
             ease: "power1.inOut",
           })
+          .to({}, { duration: 1.5 }) // Added pause for the last step to last longer
           // Fade in UI elements before the scaling
           .to(
             uiContainer.value,
@@ -253,13 +255,6 @@ watch(
             },
             "<+=0.1" // Start slightly after step4 starts
           )
-          .to(eyePath.value, {
-            attr: { d: eyePaths.step5 },
-            y: 1,
-            scale: 5,
-            duration: eyeStepDuration + 0.25,
-            ease: "power1.inOut",
-          })
           // Enlever le blur et reveler le contenu du dialogue
           .call(
             () => {
@@ -318,11 +313,6 @@ watch(
       >
         <path ref="eyePath" :d="eyePaths.closed" fill="white" />
       </svg>
-
-      <!-- Game Container - Affiche dans l'oeil, l'annotation apparait avec l'animation -->
-      <div class="absolute inset-0 z-20 pointer-events-none">
-        <GameContainer class="h-full pointer-events-auto" />
-      </div>
 
       <!-- Content -->
       <h2

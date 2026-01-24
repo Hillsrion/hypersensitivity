@@ -23,7 +23,11 @@ onMounted(() => {
 
 // Gerer le clic pour avancer dans les dialogues
 const handleInteraction = () => {
-  if (gameStore.showChoices || gameStore.isTransitioning || gameStore.isMenuOpen) {
+  if (
+    gameStore.showChoices ||
+    gameStore.isTransitioning ||
+    gameStore.isMenuOpen
+  ) {
     return;
   }
   gameStore.advanceDialogue();
@@ -81,9 +85,6 @@ const showContent = computed(() => {
   <div
     ref="containerRef"
     class="relative w-full h-screen overflow-hidden transition-colors duration-500"
-    :class="[
-      gameStore.currentDialogue?.color ? 'bg-transparent' : 'bg-[#F5E6C8]',
-    ]"
     @click="handleInteraction"
   >
     <!-- Menu Icon (top left) -->
@@ -97,27 +98,8 @@ const showContent = computed(() => {
     <!-- Header -->
     <GameHeader />
 
-    <!-- Moon Icon (top right) - placeholder -->
-    <div class="absolute top-10 right-6 z-40">
-      <svg
-        width="24"
-        height="24"
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        stroke-width="1.5"
-        class="text-primary"
-      >
-        <path
-          d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-        />
-      </svg>
-    </div>
-
     <!-- Energy Bar (right side) -->
-    <GameEnergyBar class="absolute top-1/2 right-6 -translate-y-1/2 z-40" />
+    <GameEnergyBar class="absolute top-1/2 left-18 -translate-y-1/2 z-40" />
 
     <!-- Dialogue Area (center) -->
     <div
@@ -164,7 +146,9 @@ const showContent = computed(() => {
         class="absolute inset-0 flex flex-col items-center justify-center bg-[#F5E6C8] z-40"
       >
         <h1 class="font-serif text-4xl text-primary mb-8">Fin</h1>
-        <p class="font-serif text-xl text-primary/60 mb-12 text-center max-w-md">
+        <p
+          class="font-serif text-xl text-primary/60 mb-12 text-center max-w-md"
+        >
           Merci d'avoir vecu cette experience avec Lucie.
         </p>
         <button

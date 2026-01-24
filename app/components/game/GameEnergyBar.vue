@@ -4,7 +4,7 @@ import { useGameStore } from "~/stores/game";
 const gameStore = useGameStore();
 const { $gsap } = useNuxtApp();
 
-const fillRef = ref<HTMLElement | null>(null);
+const fillRef = useTemplateRef(null);
 const previousEnergy = ref(gameStore.energyPercentage);
 
 // Animation de la barre d'energie quand elle change
@@ -24,15 +24,15 @@ watch(
 </script>
 
 <template>
-  <div class="flex flex-col items-center gap-4 text-primary">
-    <div
-      class="relative w-1.5 h-32 rounded-full border border-current overflow-hidden"
-    >
-      <div
-        ref="fillRef"
-        class="absolute bottom-0 left-0 w-full bg-current transition-colors duration-300"
-        :style="{ height: `${gameStore.energyPercentage}%` }"
-      />
+  <div class="flex flex-col items-center gap-4">
+    <div class="border border-current p-0.5 rounded-full">
+      <div class="relative w-1 h-62.5 rounded-full overflow-hidden">
+        <div
+          ref="fillRef"
+          class="absolute bottom-0 left-0 rounded-full w-full bg-current"
+          :style="{ height: `${gameStore.energyPercentage}%` }"
+        />
+      </div>
     </div>
     <svg
       width="10"
