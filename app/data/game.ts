@@ -36,9 +36,22 @@ const dayOneWakeup: Scene = {
   title: "Reveil",
   milestone: "reveil",
   dialogues: [
-    pensees("d1_1", "Ah puree, un autre jour dans la France de M le Maudit", {
-      annotation: "Le reveil sonne, les oiseaux chantent, bruits de couette qui bouge",
+    pensees("d1_1", "Oh purée, un autre jour dans la France de Macron !", {
+      annotation: "Le réveil sonne, les oiseaux chantent, bruits de couette qui bouge, bruits de pas",
       audio: "experience/J01_S01_Reveil.mp3",
+      timings: [
+        { word: "Oh", start: 7.279, end: 7.46 },
+        { word: "purée,", start: 7.5, end: 7.98 },
+        { word: "un", start: 8.319, end: 8.42 },
+        { word: "autre", start: 8.46, end: 8.679 },
+        { word: "jour", start: 8.739, end: 8.859 },
+        { word: "dans", start: 8.899, end: 8.98 },
+        { word: "la", start: 9.019, end: 9.06 },
+        { word: "France", start: 9.099, end: 9.34 },
+        { word: "de", start: 9.38, end: 9.42 },
+        { word: "Macron", start: 9.519, end: 10.079 },
+        { word: "!", start: 10.199, end: 10.2 },
+      ],
     }),
   ],
   nextSceneId: "dayOneBathroom",

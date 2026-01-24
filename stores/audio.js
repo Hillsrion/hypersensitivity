@@ -36,10 +36,19 @@ export const useAudioStore = defineStore('audio', {
     preloadList(list) {
       this.list = list.map(item => {
         const timings = item.timings?.map(timing => {
+          // If timings are already numbers (seconds), use them directly
+          // If they are strings like "1.240s", parse them
+          const start = typeof timing.start === 'number' 
+            ? timing.start 
+            : parseFloat(timing.startOffset?.replace('s', '') || 0);
+          const end = typeof timing.end === 'number' 
+            ? timing.end 
+            : parseFloat(timing.endOffset?.replace('s', '') || 0);
+
           return {
             word: timing.word,
-            start: parseFloat(timing.startOffset.replace('s', '')),
-            end: parseFloat(timing.endOffset.replace('s', '')),
+            start,
+            end,
           }
         }) ?? [];
 
