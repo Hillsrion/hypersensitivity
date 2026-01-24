@@ -69,16 +69,7 @@ watch(
 
       const revealTl = $gsap.timeline();
 
-      // Démarrer l'audio au début des 6 secondes
-      revealTl.add(() => {
-        const firstDialogue = gameStore.currentDialogue;
-        if (firstDialogue?.audio) {
-          const audioPath = firstDialogue.audio.startsWith("/")
-            ? firstDialogue.audio
-            : `/audios/${firstDialogue.audio}`;
-          audioStore.playAudio(audioPath);
-        }
-      }, 0);
+
 
       // Le minuteur de 6 secondes
       revealTl.to(

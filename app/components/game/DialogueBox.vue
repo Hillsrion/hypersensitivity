@@ -18,6 +18,11 @@ const audioStore = useAudioStore();
 
 const textRef = ref<HTMLElement | null>(null);
 const isAnimating = ref(false);
+const activeTimeline = ref<gsap.core.Timeline | null>(null);
+
+onUnmounted(() => {
+  activeTimeline.value?.kill();
+});
 
 // Utiliser useSplitText pour decouper le texte en mots
 const split = useSplitText(textRef, {
@@ -41,11 +46,11 @@ const animateWords = async () => {
   const words = split.words.value;
 
   // Creer la timeline d'animation
+  activeTimeline.value?.kill();
   const wordTimeline = $gsap.timeline({
     onStart: () => {
-      // Jouer l'audio si present
-      // NOTE: On ne le joue pas en phase 'annotation' car Experience.vue le gère pour l'intro
-      if (props.dialogue?.audio && gameStore.introAnimationPhase !== "annotation") {
+      // Jouer l'audio si présent
+      if (props.dialogue?.audio) {
         const audioPath = props.dialogue.audio.startsWith("/")
           ? props.dialogue.audio
           : `/audios/${props.dialogue.audio}`;
@@ -57,6 +62,7 @@ const animateWords = async () => {
       emit("animationComplete");
     },
   });
+  activeTimeline.value = wordTimeline;
 
   if (timings && timings.length > 0) {
     // Animation basee sur les timings audio (style SoundIntroduction)
@@ -103,19 +109,47 @@ watch(
     if (newId && newId !== oldId) {
       // Attendre que le split soit pret
       await nextTick();
-      // Petit delai pour laisser le DOM se mettre a jour
-      setTimeout(() => {
+      
+      // Attendre un peu pour que split soit peuplé
+      let attempts = 0;
+      const checkSplit = () => {
         if (split.words.value?.length) {
-          // Reset l'opacite des mots
-          $gsap.set(split.words.value, { opacity: 0.2 });
-          animateWords();
+          const words = split.words.value;
+          if (isInIntroAnimation.value) {
+            $gsap.set(words, { opacity: 0.2 });
+          } else {
+            setTimeout(() => {
+              $gsap.set(words, { opacity: 0.2 });
+              animateWords();
+            }, 100);
+          }
+        } else if (attempts < 10) {
+          attempts++;
+          setTimeout(checkSplit, 50);
         } else {
           emit("animationComplete");
         }
-      }, 100);
+      };
+      
+      checkSplit();
+      return;
     }
   },
   { immediate: true }
+);
+
+// Watcher pour lancer l'animation pendant l'intro
+watch(
+  () => gameStore.introBlurAmount,
+  async (val) => {
+    if (val === 0 && isInIntroAnimation.value && !isAnimating.value) {
+      // S'assurer que les mots sont là avant de lancer
+      if (!split.words.value?.length) {
+        await nextTick();
+      }
+      animateWords();
+    }
+  }
 );
 
 // Est-ce que c'est une pensée ?
@@ -184,10 +218,10 @@ const annotationClasses = computed(() => {
       {{ dialogue.annotation }}
     </p>
 
-    <!-- Speaker Name (cache pendant l'intro jusqu'a la phase revealing) -->
+    <!-- Speaker Name (caché via opacité pendant l'intro) -->
     <p
-      v-if="showDialogueContent"
-      class="text-primary font-medium font-satoshi text-xl/7 uppercase mb-2"
+      class="text-primary font-medium font-satoshi text-xl/7 uppercase mb-2 transition-opacity duration-700"
+      :class="{ 'opacity-0': !showDialogueContent }"
     >
       {{ dialogue.speaker }}
       <span v-if="isPensees" class="font-serif text-primary/60 lowercase"
@@ -195,11 +229,11 @@ const annotationClasses = computed(() => {
       >
     </p>
 
-    <!-- Dialogue Text (cache pendant l'intro jusqu'a la phase revealing) -->
+    <!-- Dialogue Text (caché via opacité pendant l'intro) -->
     <p
-      v-if="showDialogueContent"
       ref="textRef"
-      class="font-serif font-light text-2xl lg:text-[1.75rem] leading-normal text-primary"
+      class="font-serif font-light text-2xl lg:text-[1.75rem] leading-normal text-primary transition-opacity duration-700"
+      :class="{ 'opacity-0': !showDialogueContent }"
     >
       {{ dialogue.text }}
     </p>
