@@ -45,6 +45,7 @@ export const useGameStore = defineStore("game", {
     isMenuOpen: false,
     introPlayed: false,
     introAnimationPhase: "hidden",
+    introBlurAmount: 8,
   }),
 
   getters: {
@@ -174,6 +175,10 @@ export const useGameStore = defineStore("game", {
     // Definir la phase de l'animation d'intro (appele par Experience.vue)
     setIntroAnimationPhase(phase: IntroAnimationPhase) {
       this.introAnimationPhase = phase;
+    },
+
+    setIntroBlurAmount(amount: number) {
+      this.introBlurAmount = amount;
     },
 
     // Avancer dans les dialogues

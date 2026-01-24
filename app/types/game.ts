@@ -91,4 +91,5 @@ export interface GameState {
   isMenuOpen: boolean;
   introPlayed: boolean;
   introAnimationPhase: IntroAnimationPhase;
+  introBlurAmount: number;
 }

@@ -8,6 +8,8 @@ import ChoiceButtons from "./ChoiceButtons.vue";
 import GameMilestoneMenu from "./GameMilestoneMenu.vue";
 import MenuIcon from "../MenuIcon.vue";
 
+import IntroAnnotation from "./IntroAnnotation.vue";
+
 const gameStore = useGameStore();
 const animationsStore = useAnimationsStore();
 const { $gsap } = useNuxtApp();
@@ -15,6 +17,22 @@ const { $gsap } = useNuxtApp();
 const containerRef = ref<HTMLElement | null>(null);
 const dialogueBoxRef = ref<InstanceType<typeof DialogueBox> | null>(null);
 const choicesRef = ref<HTMLElement | null>(null);
+
+// Computeds de visibilité
+const showAnnotation = computed(() => {
+  return gameStore.introAnimationPhase === "annotation";
+});
+
+const showGameUI = computed(() => {
+  return (
+    gameStore.introAnimationPhase === "revealing" ||
+    gameStore.introAnimationPhase === "complete"
+  );
+});
+
+const annotationText = computed(() => {
+  return gameStore.firstDialogueAnnotation || "";
+});
 
 // Initialiser le jeu au montage
 onMounted(() => {
@@ -24,6 +42,7 @@ onMounted(() => {
 // Gerer le clic pour avancer dans les dialogues
 const handleInteraction = () => {
   if (
+    !showGameUI.value || // Pas d'interaction pendant l'intro
     gameStore.showChoices ||
     gameStore.isTransitioning ||
     gameStore.isMenuOpen
@@ -56,7 +75,7 @@ watch(
 watch(
   () => gameStore.showChoices,
   async (show) => {
-    if (show) {
+    if (show && showGameUI.value) {
       await nextTick();
       if (choicesRef.value) {
         $gsap.fromTo(
@@ -88,18 +107,41 @@ const showContent = computed(() => {
     @click="handleInteraction"
   >
     <!-- Menu Icon (top left) -->
-    <button
-      class="absolute top-10 left-6 z-50 text-primary"
-      @click.stop="gameStore.toggleMenu()"
-    >
-      <MenuIcon />
-    </button>
+    <Transition name="fade">
+      <button
+        v-if="showGameUI"
+        class="absolute top-10 left-6 z-50 text-primary"
+        @click.stop="gameStore.toggleMenu()"
+      >
+        <MenuIcon />
+      </button>
+    </Transition>
 
     <!-- Header -->
-    <GameHeader />
+    <Transition name="fade">
+      <GameHeader v-if="showGameUI" />
+    </Transition>
 
     <!-- Energy Bar (right side) -->
-    <GameEnergyBar class="absolute top-1/2 left-18 -translate-y-1/2 z-40" />
+    <Transition name="fade">
+      <GameEnergyBar
+        v-if="showGameUI"
+        class="absolute top-1/2 left-18 -translate-y-1/2 z-40"
+      />
+    </Transition>
+
+    <!-- Intro Annotation -->
+    <Transition name="fade">
+      <div
+        v-if="showAnnotation"
+        class="absolute inset-0 flex flex-col items-center justify-center pointer-events-none z-50"
+      >
+        <IntroAnnotation
+          :text="annotationText"
+          :blur-amount="gameStore.introBlurAmount"
+        />
+      </div>
+    </Transition>
 
     <!-- Dialogue Area (center) -->
     <div
@@ -107,7 +149,7 @@ const showContent = computed(() => {
     >
       <Transition name="fade" mode="out-in">
         <DialogueBox
-          v-if="showContent"
+          v-if="showContent && showGameUI"
           :key="gameStore.currentDialogue?.id"
           ref="dialogueBoxRef"
           :dialogue="gameStore.currentDialogue"
@@ -121,7 +163,7 @@ const showContent = computed(() => {
     <div ref="choicesRef">
       <Transition name="fade-up">
         <ChoiceButtons
-          v-if="gameStore.showChoices"
+          v-if="gameStore.showChoices && showGameUI"
           :choices="gameStore.availableChoices"
           @select="handleChoiceSelect"
         />

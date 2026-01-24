@@ -200,6 +200,9 @@ watch(
         const eyeTl = $gsap.timeline();
         const eyeStepDuration = 0.3; // Reduced duration for eye animation
 
+        // State for blur animation
+        const blurState = { amount: 8 };
+
         // Set initial centered position for base path (ViewBox height 769, Base center 84.76)
         $gsap.set(eyePath.value, {
           y: 299.74,
@@ -208,34 +211,78 @@ watch(
           transformBox: "fill-box",
         });
 
+        // Initialiser le blur (mais garder l'annotation cachée)
+        gameStore.setIntroBlurAmount(8);
+
         eyeTl
           .to(eyePath.value, {
             attr: { d: eyePaths.base },
             duration: eyeStepDuration,
             ease: "power1.inOut",
           })
-          .to(eyePath.value, {
-            attr: { d: eyePaths.step1 },
-            y: 239.08,
-            duration: eyeStepDuration,
-            ease: "power1.inOut",
-          })
-          .to(eyePath.value, {
-            attr: { d: eyePaths.step2 },
-            y: 126.5,
-            duration: eyeStepDuration,
-            ease: "power1.inOut",
-          })
-          .to(eyePath.value, {
-            attr: { d: eyePaths.step3 },
-            y: 1,
-            duration: eyeStepDuration,
-            ease: "power1.inOut",
-          })
-          // Afficher l'annotation avec blur via le store
           .call(() => {
             gameStore.setIntroAnimationPhase("annotation");
           })
+          .to(
+            eyePath.value,
+            {
+              attr: { d: eyePaths.step1 },
+              y: 239.08,
+              duration: eyeStepDuration,
+              ease: "power1.inOut",
+            },
+            "step1"
+          )
+          .to(
+            blurState,
+            {
+              amount: 6,
+              duration: eyeStepDuration,
+              ease: "power1.inOut",
+              onUpdate: () => gameStore.setIntroBlurAmount(blurState.amount),
+            },
+            "step1"
+          )
+          .to(
+            eyePath.value,
+            {
+              attr: { d: eyePaths.step2 },
+              y: 126.5,
+              duration: eyeStepDuration,
+              ease: "power1.inOut",
+            },
+            "step2"
+          )
+          .to(
+            blurState,
+            {
+              amount: 4,
+              duration: eyeStepDuration,
+              ease: "power1.inOut",
+              onUpdate: () => gameStore.setIntroBlurAmount(blurState.amount),
+            },
+            "step2"
+          )
+          .to(
+            eyePath.value,
+            {
+              attr: { d: eyePaths.step3 },
+              y: 1,
+              duration: eyeStepDuration,
+              ease: "power1.inOut",
+            },
+            "step3"
+          )
+          .to(
+            blurState,
+            {
+              amount: 2,
+              duration: eyeStepDuration,
+              ease: "power1.inOut",
+              onUpdate: () => gameStore.setIntroBlurAmount(blurState.amount),
+            },
+            "step3"
+          )
           .to({}, { duration: eyeStepDuration }) // Pause pour l'animation de l'annotation
           .to(eyePath.value, {
             attr: { d: eyePaths.step4 },
@@ -244,6 +291,16 @@ watch(
             duration: eyeStepDuration * 3, // Increased from eyeStepDuration
             ease: "power1.inOut",
           })
+          .to(
+            blurState,
+            {
+              amount: 0,
+              duration: eyeStepDuration * 3,
+              ease: "power1.inOut",
+              onUpdate: () => gameStore.setIntroBlurAmount(blurState.amount),
+            },
+            "<"
+          )
           .to({}, { duration: 1.5 }) // Added pause for the last step to last longer
           // Fade in UI elements before the scaling
           .to(
@@ -313,6 +370,11 @@ watch(
       >
         <path ref="eyePath" :d="eyePaths.closed" fill="white" />
       </svg>
+
+      <!-- Game Container - Affiche dans l'oeil, l'annotation apparait avec l'animation -->
+      <div class="absolute inset-0 z-20 pointer-events-none">
+        <GameContainer class="h-full pointer-events-auto" />
+      </div>
 
       <!-- Content -->
       <h2
