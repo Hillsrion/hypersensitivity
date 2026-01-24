@@ -127,14 +127,13 @@ const isInIntroAnimation = computed(() => {
 // Afficher l'annotation pendant l'intro ou normalement
 const showAnnotation = computed(() => {
   if (!props.dialogue?.annotation) return false;
-  // Pendant l'intro, on affiche toujours l'annotation (elle sera animee)
-  if (isInIntroAnimation.value) {
-    return gameStore.introAnimationPhase !== "hidden";
-  }
-  // Apres l'intro, on cache l'annotation du premier dialogue car elle a deja ete vue
-  if (gameStore.isFirstDialogueOfInitialScene && gameStore.introPlayed) {
+
+  // Si c'est le tout premier dialogue de la scene initiale, on ne l'affiche pas dans la boite de dialogue
+  // car elle est affichee par le composant IntroAnnotation avant
+  if (gameStore.isFirstDialogueOfInitialScene) {
     return false;
   }
+
   return true;
 });
 
