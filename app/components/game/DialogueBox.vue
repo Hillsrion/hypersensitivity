@@ -65,6 +65,22 @@ const animateWords = async () => {
     },
   });
   activeTimeline.value = wordTimeline;
+  
+  const getEffectiveEnd = (end: number | "end", start: number): number => {
+    if (end === "end") {
+      // Tenter de trouver la durée dans le store audio
+      if (props.dialogue?.audio) {
+        const audioPath = props.dialogue.audio.startsWith("/")
+          ? props.dialogue.audio
+          : `/audios/${props.dialogue.audio}`;
+        const audioItem = (audioStore.list as any[]).find((item: any) => item.path === audioPath);
+        if (audioItem?.duration) return audioItem.duration;
+      }
+      // Fallback: 2s après le start
+      return start + 2;
+    }
+    return end;
+  };
 
   if (timings && timings.length > 0) {
     // Animation basee sur les timings audio
@@ -77,21 +93,24 @@ const animateWords = async () => {
           isShowingOnlyAnnotation.value = !!timing.showOnly;
         }, [], timing.start);
         
+        const effectiveEnd = getEffectiveEnd(timing.end, timing.start);
+        
         wordTimeline.call(() => {
           if (currentTimedAnnotation.value === timing.annotation) {
             currentTimedAnnotation.value = null;
             isShowingOnlyAnnotation.value = false;
           }
-        }, [], timing.end);
+        }, [], effectiveEnd);
       } else {
         // C'est un mot
         const wordEl = words[wordIndex];
         if (wordEl) {
+          const effectiveEnd = getEffectiveEnd(timing.end, timing.start);
           wordTimeline.to(
             wordEl,
             {
               opacity: 1,
-              duration: timing.end - timing.start,
+              duration: effectiveEnd - timing.start,
               ease: "none",
             },
             timing.start
