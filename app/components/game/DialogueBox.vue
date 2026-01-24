@@ -44,8 +44,12 @@ const animateWords = async () => {
   const wordTimeline = $gsap.timeline({
     onStart: () => {
       // Jouer l'audio si present
-      if (props.dialogue?.audio) {
-        audioStore.playAudio(props.dialogue.audio);
+      // NOTE: On ne le joue pas en phase 'annotation' car Experience.vue le gère pour l'intro
+      if (props.dialogue?.audio && gameStore.introAnimationPhase !== "annotation") {
+        const audioPath = props.dialogue.audio.startsWith("/")
+          ? props.dialogue.audio
+          : `/audios/${props.dialogue.audio}`;
+        audioStore.playAudio(audioPath);
       }
     },
     onComplete: () => {

@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { useAnimationsStore } from "~/stores/animations";
 import { useGameStore } from "~/stores/game";
+import { useAudioStore } from "~/stores/audio";
 import MenuIcon from "./MenuIcon.vue";
 import EnergyBar from "./EnergyBar.vue";
 import GameContainer from "./game/GameContainer.vue";
@@ -54,6 +55,8 @@ const { words } = useSplitText(textContainer, { splitBy: "words" });
 const scrollTriggerInstance = ref<any>(null);
 const autoRevealStarted = ref(false);
 
+const audioStore = useAudioStore();
+
 watch(
   () => gameStore.introBlurAmount,
   (val) => {
@@ -63,13 +66,34 @@ watch(
       gameStore.introAnimationPhase === "annotation"
     ) {
       autoRevealStarted.value = true;
-      setTimeout(() => {
-        gameStore.setIntroAnimationPhase("revealing");
-        setTimeout(() => {
-          gameStore.setIntroAnimationPhase("complete");
-          gameStore.setIntroPlayed();
-        }, 1000);
-      }, 6000);
+
+      const revealTl = $gsap.timeline();
+
+      // Démarrer l'audio au début des 6 secondes
+      revealTl.add(() => {
+        const firstDialogue = gameStore.currentDialogue;
+        if (firstDialogue?.audio) {
+          const audioPath = firstDialogue.audio.startsWith("/")
+            ? firstDialogue.audio
+            : `/audios/${firstDialogue.audio}`;
+          audioStore.playAudio(audioPath);
+        }
+      }, 0);
+
+      // Le minuteur de 6 secondes
+      revealTl.to(
+        {},
+        {
+          duration: 6,
+          onComplete: () => {
+            gameStore.setIntroAnimationPhase("revealing");
+            $gsap.delayedCall(1, () => {
+              gameStore.setIntroAnimationPhase("complete");
+              gameStore.setIntroPlayed();
+            });
+          },
+        }
+      );
     }
   }
 );

@@ -45,11 +45,15 @@ watch(
   { immediate: true }
 );
 
+import { gameData } from "~/app/data/game";
+
 onMounted(async () => {
   scrollTo(0, 0);
   if (!animations.landing.intro.entry.completed) {
     lenisRef.value?.lenis?.stop();
   }
+
+  // Preload testimonie audios
   const audioList = mainData.testimonies
     .filter((item) => item.audio)
     .map((item) => ({
@@ -57,11 +61,33 @@ onMounted(async () => {
       transcript: item.content,
       timings: item.timings,
     }));
+
+  // Preload intro audio
   audioList.push({
     path: "/audios/alix-intro.mp3",
     transcript: introductionData.content,
     timings: introductionData.timings,
   });
+
+  // Collect all audios from gameData
+  Object.values(gameData.scenes).forEach((scene) => {
+    scene.dialogues.forEach((dialogue) => {
+      if (dialogue.audio) {
+        // Double check if not already in list or handle duplicates
+        const fullPath = dialogue.audio.startsWith("/")
+          ? dialogue.audio
+          : `/audios/${dialogue.audio}`;
+        if (!audioList.find((a) => a.path === fullPath)) {
+          audioList.push({
+            path: fullPath,
+            transcript: dialogue.text,
+            timings: dialogue.timings,
+          });
+        }
+      }
+    });
+  });
+
   audioStore.preloadList(audioList);
 });
 </script>

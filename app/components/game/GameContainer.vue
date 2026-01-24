@@ -149,7 +149,7 @@ const showContent = computed(() => {
     >
       <Transition name="fade" mode="out-in">
         <DialogueBox
-          v-if="showContent && showGameUI"
+          v-if="showContent && (showGameUI || gameStore.introAnimationPhase === 'annotation')"
           :key="gameStore.currentDialogue?.id"
           ref="dialogueBoxRef"
           :dialogue="gameStore.currentDialogue"
