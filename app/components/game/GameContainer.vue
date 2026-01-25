@@ -18,6 +18,7 @@ const containerRef = ref<HTMLElement | null>(null);
 const dialogueBoxRef = ref<InstanceType<typeof DialogueBox> | null>(null);
 const choicesRef = ref<HTMLElement | null>(null);
 const isChoiceSelecting = ref(false);
+const activeChoices = ref<any[]>([]);
 
 // Computeds de visibilité
 const showAnnotation = computed(() => {
@@ -78,6 +79,7 @@ watch(
   () => gameStore.showChoices,
   async (show) => {
     if (show && showGameUI.value) {
+      activeChoices.value = [...gameStore.availableChoices];
       await nextTick();
       if (choicesRef.value) {
         $gsap.fromTo(
@@ -163,11 +165,11 @@ const showContent = computed(() => {
     </div>
 
     <!-- Choice Buttons (bottom) -->
-    <Transition :name="isChoiceSelecting ? 'fade' : 'fade-up'">
+    <Transition name="fade">
       <ChoiceButtons
-        v-if="gameStore.showChoices && showGameUI"
+        v-if="(gameStore.showChoices || gameStore.selectedChoice) && showGameUI"
         ref="choicesRef"
-        :choices="gameStore.availableChoices"
+        :choices="activeChoices"
         @selecting="isChoiceSelecting = true"
         @select="handleChoiceSelect"
       />

@@ -21,6 +21,17 @@ const selectedIndex = ref<number | null>(null);
 const iconRef = ref<HTMLElement | null>(null);
 const buttonRefs = ref<HTMLElement[]>([]);
 
+// Si un choix est déjà sélectionné dans le store au montage
+onMounted(() => {
+  if (gameStore.selectedChoice) {
+    const index = props.choices.findIndex(c => c.id === gameStore.selectedChoice?.id);
+    if (index !== -1) {
+      selectedIndex.value = index;
+      isSelecting.value = true;
+    }
+  }
+});
+
 const handleSelect = async (choice: Choice, index: number) => {
   if (gameStore.isChoiceDisabled(choice) || isSelecting.value) return;
 
@@ -58,10 +69,9 @@ const handleSelect = async (choice: Choice, index: number) => {
       selectedBtn,
       {
         x: xMove,
-        duration: 0.6,
+        duration: 0.85,
         ease: "power3.inOut",
-      },
-      "<"
+      }
     );
   }
 };
@@ -69,20 +79,23 @@ const handleSelect = async (choice: Choice, index: number) => {
 
 <template>
   <div
-    class="absolute bottom-16 left-1/2 -translate-x-1/2 flex items-center justify-center gap-6"
+    class="absolute bottom-10 left-1/2 -translate-x-1/2 flex items-center justify-center gap-6 z-40"
+    :class="{ 'pointer-events-none': isSelecting }"
   >
     <template v-for="(choice, index) in choices" :key="choice.id">
       <!-- CHOICE BUTTON -->
       <button
         :ref="(el) => { if (el) buttonRefs[index] = el as HTMLElement }"
-        class="group relative py-4 font-satoshi font-semibold text-xl/7 uppercase transition-all duration-300 flex flex-col items-center"
+        class="group relative py-4 font-satoshi font-semibold text-xl/7 uppercase flex flex-col items-center"
         :class="[
+          !isSelecting ? 'transition-[color,opacity] duration-300' : 'transition-[color] duration-300',
           gameStore.isChoiceDisabled(choice)
             ? 'text-primary/30 cursor-not-allowed'
             : 'text-primary',
           !isSelecting && hoveredIndex !== null && hoveredIndex !== index
             ? 'opacity-20'
             : 'opacity-100',
+          isSelecting && selectedIndex !== index ? 'opacity-0' : '',
         ]"
         :disabled="gameStore.isChoiceDisabled(choice) || isSelecting"
         @mouseenter="hoveredIndex = index"
@@ -109,6 +122,7 @@ const handleSelect = async (choice: Choice, index: number) => {
         class="relative w-14 h-14 rounded-full border border-primary flex items-center justify-center transition-opacity duration-300"
         :class="[
           !isSelecting && hoveredIndex !== null ? 'opacity-20' : 'opacity-100',
+          isSelecting ? 'opacity-0' : '',
         ]"
       >
         <div class="transform -rotate-20">

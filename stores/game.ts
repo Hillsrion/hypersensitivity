@@ -46,6 +46,7 @@ export const useGameStore = defineStore("game", {
     introPlayed: false,
     introAnimationPhase: "hidden",
     introBlurAmount: 8,
+    selectedChoice: null,
   }),
 
   getters: {
@@ -170,6 +171,7 @@ export const useGameStore = defineStore("game", {
       this.isMenuOpen = false;
       this.introPlayed = false;
       this.introAnimationPhase = "hidden";
+      this.selectedChoice = null;
       this.saveGame();
     },
 
@@ -212,6 +214,7 @@ export const useGameStore = defineStore("game", {
 
       // Si il y a des choix, les afficher
       if (this.hasChoices) {
+        this.selectedChoice = null; // Clear previous choice when new choices appear
         this.showChoices = true;
         return;
       }
@@ -238,6 +241,8 @@ export const useGameStore = defineStore("game", {
     selectChoice(choice: Choice) {
       if (this.isChoiceDisabled(choice)) return;
 
+      this.selectedChoice = choice;
+
       // Appliquer les effets
       if (choice.effects) {
         if (choice.effects.energy !== undefined) {
@@ -257,6 +262,7 @@ export const useGameStore = defineStore("game", {
 
     // Aller a une scene
     goToScene(sceneId: string) {
+      const oldDay = this.currentDay;
       this.isTransitioning = true;
       this.showChoices = false;
 
@@ -284,6 +290,11 @@ export const useGameStore = defineStore("game", {
         // Enregistrer le milestone si present
         if (scene.milestone && !this.reachedMilestones.includes(scene.milestone)) {
           this.reachedMilestones.push(scene.milestone);
+        }
+
+        // Si le jour change, on peut éventuellement reset le choix affiché
+        if (scene.day !== oldDay) {
+          this.selectedChoice = null;
         }
 
         this.currentSceneId = sceneId;
