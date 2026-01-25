@@ -169,7 +169,32 @@ const dayOneOutfitComfort: Scene = {
   dialogues: [
     pensees(
       "d1_3b",
-      "Deja que j'ai c'te reu de 2h30 qui va m'faire mal a la tete, autant etre confort."
+      "déjà que j'ai c'te réu de deux heures trente qui va me faire mal à la tête, autant être confort.",
+      {
+        audio: "experience/J01_C01_TenueB.mp3",
+        timings: [
+          { word: "déjà", start: 0.099, end: 0.239 },
+          { word: "que", start: 0.259, end: 0.319 },
+          { word: "j'ai", start: 0.359, end: 0.439 },
+          { word: "c'te", start: 0.479, end: 0.519 },
+          { word: "réu", start: 0.659, end: 0.98 },
+          { word: "de", start: 0.98, end: 1.12 },
+          { word: "deux", start: 1.12, end: 1.199 },
+          { word: "heures", start: 1.299, end: 1.5 },
+          { word: "trente", start: 1.519, end: 1.759 },
+          { word: "qui", start: 1.84, end: 1.899 },
+          { word: "va", start: 1.919, end: 2.019 },
+          { word: "me", start: 2.019, end: 2.099 },
+          { word: "faire", start: 2.119, end: 2.34 },
+          { word: "mal", start: 2.359, end: 2.519 },
+          { word: "à", start: 2.539, end: 2.599 },
+          { word: "la", start: 2.619, end: 2.699 },
+          { word: "tête,", start: 2.819, end: 3.519 },
+          { word: "autant", start: 3.539, end: 3.779 },
+          { word: "être", start: 3.799, end: 3.939 },
+          { word: "confort.", start: 3.959, end: 4.379 },
+        ],
+      }
     ),
   ],
   nextSceneId: "dayOneMetro",
@@ -203,19 +228,87 @@ const dayOneMetroSexy: Scene = {
   dialogues: [
     pensees(
       "d1_6a",
-      "Je vais aller prendre un velo, et j'vais me faire siffler 5x sur le chemin, top ca"
+      "Je vais aller prendre un vélo et je vais me faire siffler cinq fois sur le chemin. Super !",
+      {
+        audio: "experience/J01_S03_Trajet_A.mp3",
+        timings: [
+          { word: "Je", start: 0.5, end: 0.56 },
+          { word: "vais", start: 0.579, end: 0.659 },
+          { word: "aller", start: 0.68, end: 0.879 },
+          { word: "prendre", start: 0.899, end: 1.099 },
+          { word: "un", start: 1.1, end: 1.159 },
+          { word: "vélo", start: 1.199, end: 1.539 },
+          { word: "et", start: 1.679, end: 1.739 },
+          { word: "je", start: 1.779, end: 1.819 },
+          { word: "vais", start: 1.839, end: 1.899 },
+          { word: "me", start: 1.899, end: 1.98 },
+          { word: "faire", start: 2.0, end: 2.159 },
+          { word: "siffler", start: 2.18, end: 2.579 },
+          { word: "cinq", start: 2.619, end: 2.84 },
+          { word: "fois", start: 2.879, end: 3.019 },
+          { word: "sur", start: 3.059, end: 3.159 },
+          { word: "le", start: 3.159, end: 3.259 },
+          { word: "chemin.", start: 3.279, end: 3.899 },
+          { word: "Super", start: 3.919, end: 4.319 },
+          { word: "!", start: 5.079, end: 5.119 },
+        ],
+      }
     ),
     d(
       "d1_7a",
       "Inconnue",
-      "Coucou, je voulais juste te dire que t'es trop belle, c'est quoi la ref de la robe ?"
+      "Coucou, je voulais juste te dire que t'es trop belle. C'est quoi la ref de ta robe ?",
+      {
+        audio: "experience/J01_S03_Trajet_A.mp3",
+        timings: [
+          { word: "Coucou,", start: 5.139, end: 5.519 },
+          { word: "je", start: 5.739, end: 5.799 },
+          { word: "voulais", start: 5.799, end: 6.019 },
+          { word: "juste", start: 6.059, end: 6.199 },
+          { word: "te", start: 6.219, end: 6.279 },
+          { word: "dire", start: 6.359, end: 6.519 },
+          { word: "que", start: 6.539, end: 6.599 },
+          { word: "t'es", start: 6.639, end: 6.699 },
+          { word: "trop", start: 6.799, end: 7.039 },
+          { word: "belle.", start: 7.059, end: 7.48 },
+          { word: "C'est", start: 7.539, end: 7.659 },
+          { word: "quoi", start: 7.679, end: 7.779 },
+          { word: "la", start: 7.799, end: 7.859 },
+          { word: "ref", start: 7.919, end: 8.1 },
+          { word: "de", start: 8.119, end: 8.239 },
+          { word: "ta", start: 8.26, end: 8.4 },
+          { word: "robe", start: 8.42, end: 8.659 },
+          { word: "?", start: 8.659, end: 9.439 },
+        ],
+      }
     ),
     d(
       "d1_8a",
       "LUCIE",
-      "Oh merci beaucoup, c'est une robe Maje, la patineuse a col montant !"
+      "Oh, merci beaucoup ! C'est une robe Maje, la patineuse à col montant.",
+      {
+        audio: "experience/J01_S03_Trajet_A.mp3",
+        timings: [
+          { word: "Oh,", start: 9.5, end: 9.68 },
+          { word: "merci", start: 9.72, end: 10.0 },
+          { word: "beaucoup", start: 10.019, end: 10.38 },
+          { word: "!", start: 10.439, end: 10.859 },
+          { word: "C'est", start: 10.92, end: 11.0 },
+          { word: "une", start: 11.039, end: 11.099 },
+          { word: "robe", start: 11.18, end: 11.359 },
+          { word: "Maje,", start: 11.38, end: 11.879 },
+          { word: "la", start: 11.92, end: 11.98 },
+          { word: "patineuse", start: 12.039, end: 12.44 },
+          { word: "à", start: 12.52, end: 12.539 },
+          { word: "col", start: 12.559, end: 12.699 },
+          { word: "montant.", start: 12.739, end: 13.579 },
+        ],
+      }
     ),
-    d("d1_9a", "Inconnue", "Merciiiii"),
+    d("d1_9a", "Inconnue", "Merciii.", {
+      audio: "experience/J01_S03_Trajet_A.mp3",
+      timings: [{ word: "Merciii.", start: 13.619, end: 15.479 }],
+    }),
   ],
   nextSceneId: "dayOneOffice",
 };
