@@ -160,15 +160,14 @@ const showContent = computed(() => {
     </div>
 
     <!-- Choice Buttons (bottom) -->
-    <div ref="choicesRef">
-      <Transition name="fade-up">
-        <ChoiceButtons
-          v-if="gameStore.showChoices && showGameUI"
-          :choices="gameStore.availableChoices"
-          @select="handleChoiceSelect"
-        />
-      </Transition>
-    </div>
+    <Transition name="fade-up">
+      <ChoiceButtons
+        v-if="gameStore.showChoices && showGameUI"
+        ref="choicesRef"
+        :choices="gameStore.availableChoices"
+        @select="handleChoiceSelect"
+      />
+    </Transition>
 
     <!-- Scene Transition Overlay -->
     <Transition name="fade">
