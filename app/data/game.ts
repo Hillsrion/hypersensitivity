@@ -36,7 +36,7 @@ const dayOneWakeup: Scene = {
   title: "Reveil",
   milestone: "reveil",
   dialogues: [
-    pensees("d1_1", "Oh purée, un autre jour dans la France de Macron !", {
+    pensees("d1_1", "Oh purée, un autre jour dans la France de Macron..", {
       annotation: "Le réveil sonne, les oiseaux chantent, bruits de couette qui bouge, bruits de pas",
       audio: "experience/J01_S01_Reveil.mp3",
       timings: [
@@ -49,8 +49,7 @@ const dayOneWakeup: Scene = {
         { word: "la", start: 9.019, end: 9.06 },
         { word: "France", start: 9.099, end: 9.34 },
         { word: "de", start: 9.38, end: 9.42 },
-        { word: "Macron", start: 9.519, end: 10.079 },
-        { word: "!", start: 10.199, end: 10.2 },
+        { word: "Macron..", start: 9.519, end: 10.079 },
         { annotation: "Lucie se prépare pour sa journée", start: 11, end: "end", showOnly: true },
       ],
     }),
@@ -65,11 +64,11 @@ const dayOneBathroom: Scene = {
   dialogues: [
     pensees(
       "d1_2",
-      "...OK, alors soit la robe qui me serre avec cette foutue étiquette dedans, mais je suis maxi fraîche, soit je mets pantalon oversize avec une chemise, mais je suis maxi confort pour la journée de taf",
+      "OK, alors soit la robe qui me serre avec cette foutue étiquette dedans, mais je suis maxi fraîche, soit je mets pantalon oversize avec une chemise, mais je suis maxi confort pour la journée de taf",
       {
         audio: "experience/J01_C01_Tenue_base.mp3",
         timings: [
-          { word: "...OK,", start: 0.219, end: 0.8 },
+          { word: "OK,", start: 0.219, end: 0.8 },
           { word: "alors", start: 0.839, end: 1.018 },
           { word: "soit", start: 1.08, end: 1.239 },
           { word: "la", start: 1.259, end: 1.34 },
@@ -137,7 +136,27 @@ const dayOneOutfitSexy: Scene = {
   dialogues: [
     pensees(
       "d1_3a",
-      "Vas y, one-life. Ca va le faire, je coupe les etiquettes et c'est carre."
+      "Vas-y, one life, ça va le faire ! Je coupe les étiquettes et c'est carré.",
+      {
+        audio: "experience/J01_C01_TenueA.mp3",
+        timings: [
+          { word: "Vas-y,", start: 0.079, end: 0.56 },
+          { word: "one", start: 0.659, end: 0.879 },
+          { word: "life,", start: 0.879, end: 1.339 },
+          { word: "ça", start: 1.399, end: 1.519 },
+          { word: "va", start: 1.559, end: 1.639 },
+          { word: "le", start: 1.659, end: 1.759 },
+          { word: "faire", start: 1.799, end: 2.119 },
+          { word: "!", start: 2.219, end: 2.22 },
+          { word: "Je", start: 2.46, end: 2.539 },
+          { word: "coupe", start: 2.559, end: 2.719 },
+          { word: "les", start: 2.72, end: 2.819 },
+          { word: "étiquettes", start: 2.859, end: 3.279 },
+          { word: "et", start: 3.279, end: 3.359 },
+          { word: "c'est", start: 3.359, end: 3.519 },
+          { word: "carré.", start: 3.539, end: 3.979 },
+        ],
+      }
     ),
   ],
   nextSceneId: "dayOneMetro",
