@@ -35,10 +35,10 @@ const dayOneWakeup: Scene = {
   day: 1,
   title: "Reveil",
   milestone: "reveil",
+  audio: "experience/J01_S01_Reveil.mp3",
   dialogues: [
     pensees("d1_1", "Oh purée, un autre jour dans la France de Macron..", {
       annotation: "Le réveil sonne, les oiseaux chantent, bruits de couette qui bouge, bruits de pas",
-      audio: "experience/J01_S01_Reveil.mp3",
       timings: [
         { word: "Oh", start: 7.279, end: 7.46 },
         { word: "purée,", start: 7.5, end: 7.98 },
@@ -61,12 +61,12 @@ const dayOneBathroom: Scene = {
   id: "dayOneBathroom",
   day: 1,
   title: "Reveil",
+  audio: "experience/J01_C01_Tenue_base.mp3",
   dialogues: [
     pensees(
       "d1_2",
       "OK, alors soit la robe qui me serre avec cette foutue étiquette dedans, mais je suis maxi fraîche, soit je mets pantalon oversize avec une chemise, mais je suis maxi confort pour la journée de taf",
       {
-        audio: "experience/J01_C01_Tenue_base.mp3",
         timings: [
           { word: "OK,", start: 0.219, end: 0.8 },
           { word: "alors", start: 0.839, end: 1.018 },
@@ -133,12 +133,12 @@ const dayOneOutfitSexy: Scene = {
   id: "dayOneOutfitSexy",
   day: 1,
   title: "Reveil",
+  audio: "experience/J01_C01_TenueA.mp3",
   dialogues: [
     pensees(
       "d1_3a",
       "Vas-y, one life, ça va le faire ! Je coupe les étiquettes et c'est carré.",
       {
-        audio: "experience/J01_C01_TenueA.mp3",
         timings: [
           { word: "Vas-y,", start: 0.079, end: 0.56 },
           { word: "one", start: 0.659, end: 0.879 },
@@ -166,12 +166,12 @@ const dayOneOutfitComfort: Scene = {
   id: "dayOneOutfitComfort",
   day: 1,
   title: "Reveil",
+  audio: "experience/J01_C01_TenueB.mp3",
   dialogues: [
     pensees(
       "d1_3b",
       "déjà que j'ai c'te réu de deux heures trente qui va me faire mal à la tête, autant être confort.",
       {
-        audio: "experience/J01_C01_TenueB.mp3",
         timings: [
           { word: "déjà", start: 0.099, end: 0.239 },
           { word: "que", start: 0.259, end: 0.319 },
@@ -225,12 +225,12 @@ const dayOneMetroSexy: Scene = {
   id: "dayOneMetroSexy",
   day: 1,
   title: "Trajet",
+  audio: "experience/J01_S03_Trajet_A.mp3",
   dialogues: [
     pensees(
       "d1_6a",
       "Je vais aller prendre un vélo et je vais me faire siffler cinq fois sur le chemin. Super !",
       {
-        audio: "experience/J01_S03_Trajet_A.mp3",
         timings: [
           { word: "Je", start: 0.5, end: 0.56 },
           { word: "vais", start: 0.579, end: 0.659 },
@@ -259,7 +259,6 @@ const dayOneMetroSexy: Scene = {
       "Inconnue",
       "Coucou, je voulais juste te dire que t'es trop belle. C'est quoi la ref de ta robe ?",
       {
-        audio: "experience/J01_S03_Trajet_A.mp3",
         timings: [
           { word: "Coucou,", start: 5.139, end: 5.519 },
           { word: "je", start: 5.739, end: 5.799 },
@@ -287,7 +286,6 @@ const dayOneMetroSexy: Scene = {
       "LUCIE",
       "Oh, merci beaucoup ! C'est une robe Maje, la patineuse à col montant.",
       {
-        audio: "experience/J01_S03_Trajet_A.mp3",
         timings: [
           { word: "Oh,", start: 9.5, end: 9.68 },
           { word: "merci", start: 9.72, end: 10.0 },
@@ -306,7 +304,6 @@ const dayOneMetroSexy: Scene = {
       }
     ),
     d("d1_9a", "Inconnue", "Merciii.", {
-      audio: "experience/J01_S03_Trajet_A.mp3",
       timings: [{ word: "Merciii.", start: 13.619, end: 15.479 }],
     }),
   ],

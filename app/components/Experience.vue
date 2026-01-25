@@ -258,11 +258,13 @@ watch(
           .call(() => {
             gameStore.setIntroAnimationPhase("annotation");
             // Lancer l'audio du premier dialogue maintenant car DialogueBox n'est pas encore monté
-            const firstDialogue = gameStore.currentDialogue;
-            if (firstDialogue?.audio) {
-              const audioPath = firstDialogue.audio.startsWith("/")
-                ? firstDialogue.audio
-                : `/audios/${firstDialogue.audio}`;
+            const currentScene = gameStore.currentScene;
+            const audioToPlay = currentScene?.audio || gameStore.currentDialogue?.audio;
+            
+            if (audioToPlay) {
+              const audioPath = audioToPlay.startsWith("/")
+                ? audioToPlay
+                : `/audios/${audioToPlay}`;
               audioStore.playAudio(audioPath);
             }
           })

@@ -71,6 +71,31 @@ onMounted(async () => {
 
   // Collect all audios from gameData
   Object.values(gameData.scenes).forEach((scene) => {
+    // Check for scene-level audio
+    if (scene.audio) {
+      const fullPath = scene.audio.startsWith("/")
+        ? scene.audio
+        : `/audios/${scene.audio}`;
+      
+      if (!audioList.find((a) => a.path === fullPath)) {
+        // Collect all transcripts and timings for this scene to help with duration calculation
+        const allTimings = [];
+        const allTexts = [];
+        
+        scene.dialogues.forEach(d => {
+          if (d.timings) allTimings.push(...d.timings);
+          if (d.text) allTexts.push(d.text);
+        });
+
+        audioList.push({
+          path: fullPath,
+          transcript: allTexts.join(" "),
+          timings: allTimings,
+        });
+      }
+    }
+
+    // Also keep checking for dialogue-level audio (backward compatibility or specific overrides)
     scene.dialogues.forEach((dialogue) => {
       if (dialogue.audio) {
         // Double check if not already in list or handle duplicates

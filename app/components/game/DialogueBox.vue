@@ -36,6 +36,19 @@ const isPensees = computed(() => {
   return props.dialogue?.speakerType === "pensees";
 });
 
+// Alignement (Droite pour les autres persos, Gauche pour Lucie)
+const isRightAligned = computed(() => {
+  if (!props.dialogue) return false;
+  if (isPensees.value) return false;
+  const speaker = props.dialogue.speaker.toLowerCase();
+  return !speaker.includes("lucie");
+});
+
+// Audio de la scene
+const sceneAudio = computed(() => {
+  return gameStore.currentScene?.audio;
+});
+
 // Est-ce qu'on est dans l'animation d'intro (premier dialogue de la scene initiale)
 const isInIntroAnimation = computed(() => {
   return gameStore.isFirstDialogueOfInitialScene && !gameStore.introPlayed;
@@ -121,12 +134,35 @@ const handleAudioEnded = () => {
 
 // Utiliser useSplitText pour decouper le texte en mots
 const split = useSplitText(textRef, {
-  splitBy: "lines, words",
+  splitBy: "lines,words",
   onComplete: (instance) => {
     // Initialiser tous les mots avec opacite reduite
     $gsap.set(instance.words, { opacity: 0.2 });
   },
 });
+
+// Helper pour jouer l'audio de maniere safe
+const ensureAudioPlaying = (path: string) => {
+  const currentItem = (audioStore.list as any[]).find(item => item.audio === audioStore.currentAudio);
+  
+  // Normalize paths for comparison (remove leading slash if present)
+  const normPath = path.startsWith("/") ? path.substring(1) : path;
+  const normCurrentPath = currentItem?.path.startsWith("/") ? currentItem.path.substring(1) : currentItem?.path;
+
+  // Check simple equality or if path ends with the other (handle relative/absolute confusion)
+  const isSamePath = normCurrentPath === normPath || 
+                     normCurrentPath?.endsWith(normPath) || 
+                     normPath?.endsWith(normCurrentPath || "___");
+
+  if (currentItem && isSamePath && audioStore.isPlaying) {
+     console.log("LOG_DEBUG: Audio already playing:", path);
+     return;
+  }
+  
+  const audioPath = path.startsWith('/') ? path : `/audios/${path}`;
+  console.log("LOG_DEBUG: Starting new audio:", audioPath);
+  audioStore.playAudio(audioPath);
+};
 
 // Animation des mots
 const animateWords = async () => {
@@ -152,7 +188,8 @@ const animateWords = async () => {
   }
 
   isAnimating.value = true;
-  console.log("LOG_DEBUG: animateWords starting. Dialogue Audio:", props.dialogue?.audio);
+  const audioToPlay = sceneAudio.value || props.dialogue.audio;
+  console.log("LOG_DEBUG: animateWords starting. Scene Audio:", audioToPlay);
 
   const timings = props.dialogue.timings;
   const words = split.words.value || [];
@@ -162,12 +199,9 @@ const animateWords = async () => {
   const wordTimeline = $gsap.timeline({
     onStart: () => {
       // Jouer l'audio si présent
-      // SAUF pour le premier dialogue de l'intro (déjà joué par Experience.vue)
-      if (props.dialogue?.audio && !isInIntroAnimation.value) {
-        const audioPath = props.dialogue.audio.startsWith("/")
-          ? props.dialogue.audio
-          : `/audios/${props.dialogue.audio}`;
-        audioStore.playAudio(audioPath);
+      // SAUF pour le premier dialogue de l'intro (déjà joué par Experience.vue - mais on verifie si c'est le meme)
+      if (audioToPlay && !isInIntroAnimation.value) {
+        ensureAudioPlaying(audioToPlay);
       }
       
       // Ajouter un listener pour avancer au dialogue suivant quand l'audio se termine
@@ -189,10 +223,10 @@ const animateWords = async () => {
   const getEffectiveEnd = (end: number | "end", start: number): number => {
     if (end === "end") {
       // Tenter de trouver la durée dans le store audio
-      if (props.dialogue?.audio) {
-        const audioPath = props.dialogue.audio.startsWith("/")
-          ? props.dialogue.audio
-          : `/audios/${props.dialogue.audio}`;
+      if (audioToPlay) {
+        const audioPath = audioToPlay.startsWith("/")
+          ? audioToPlay
+          : `/audios/${audioToPlay}`;
         const audioItem = (audioStore.list as any[]).find((item: any) => item.path === audioPath);
         
         // Si l'audio a une durée valide (chargée) et supérieure au start
@@ -299,14 +333,31 @@ const animateWords = async () => {
     });
   }
 
-  // Synchroniser la timeline avec la position actuelle de l'audio si c'est l'intro
-  // (l'audio a déjà commencé à jouer dans Experience.vue)
-  if (isInIntroAnimation.value && audioStore.currentAudio) {
-    const currentTime = (audioStore.currentAudio as HTMLAudioElement).currentTime || 0;
-    console.log("LOG_DEBUG: Syncing timeline to audio position:", currentTime);
-    wordTimeline.seek(currentTime, false);
-    
-    // Ajouter le listener de fin d'audio pour l'intro aussi
+  // Synchroniser la timeline avec la position actuelle de l'audio si disponible
+  // Cela permet de rattraper le retard si l'audio a deja commencé (cas de l'audio partagé par scene)
+  if (audioStore.currentAudio) {
+      // Petite verif pour savoir si c'est bien l'audio correspondant
+      const currentItem = (audioStore.list as any[]).find(item => item.audio === audioStore.currentAudio);
+      // audioToPlay defined in outer scope of this function
+      
+      if (audioToPlay && currentItem) {
+          const normPath = audioToPlay.startsWith("/") ? audioToPlay.substring(1) : audioToPlay;
+          const normCurrentPath = currentItem.path.startsWith("/") ? currentItem.path.substring(1) : currentItem.path;
+          
+          if (normCurrentPath.endsWith(normPath) || normPath.endsWith(normCurrentPath)) {
+               const currentTime = (audioStore.currentAudio as HTMLAudioElement).currentTime || 0;
+               if (currentTime > 0) {
+                    console.log("LOG_DEBUG: Syncing timeline to audio position:", currentTime);
+                    wordTimeline.seek(currentTime, false);
+               }
+          }
+      } else if (isInIntroAnimation.value) {
+          // Fallback for intro where we assume it's correct
+          const currentTime = (audioStore.currentAudio as HTMLAudioElement).currentTime || 0;
+          wordTimeline.seek(currentTime, false);
+      }
+
+    // Ajouter le listener de fin d'audio
     (audioStore.currentAudio as HTMLAudioElement).removeEventListener('ended', handleAudioEnded);
     (audioStore.currentAudio as HTMLAudioElement).addEventListener('ended', handleAudioEnded);
   }
@@ -439,13 +490,13 @@ watch(
 </script>
 
 <template>
-  <div v-if="dialogue" ref="contentRef" class="max-w-4xl px-8">
+  <div v-if="dialogue" ref="contentRef" class="w-full max-w-4xl px-8 flex flex-col" :class="{ 'items-end': isRightAligned, 'items-start': !isRightAligned }">
     <!-- Annotation (utilisée aussi pour les timings temporaires) -->
     <p
       v-if="showAnnotation"
       class="mb-6 font-serif text-primary/60 text-xl/7 transition-all duration-300"
       :class="[
-        annotationClasses
+        annotationClasses, isRightAligned ? 'text-right' : 'text-left'
       ]"
     >
       {{ displayAnnotation }}
@@ -454,7 +505,7 @@ watch(
     <!-- Speaker Name (caché via opacité pendant l'intro ou si showOnly est actif) -->
     <p
       class="text-primary font-medium font-satoshi text-xl/7 uppercase mb-2"
-      :class="{ 'opacity-0': !showDialogueContent }"
+      :class="[{ 'opacity-0': !showDialogueContent }, isRightAligned ? 'text-right' : 'text-left']"
     >
       {{ dialogue.speaker }}
       <span v-if="isPensees" class="font-serif text-primary/60 lowercase"
@@ -467,7 +518,7 @@ watch(
       ref="textRef"
       class="font-serif font-light text-2xl lg:text-[1.75rem] leading-normal text-primary"
       style="opacity: 0"
-      :class="{ 'opacity-0': !showDialogueContent || !isReady }"
+      :class="[{ 'opacity-0': !showDialogueContent || !isReady }, isRightAligned ? 'text-right' : 'text-left']"
     >
       {{ dialogue.text }}
     </p>
