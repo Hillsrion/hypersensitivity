@@ -5,6 +5,7 @@ import { useGameStore } from "~/stores/game";
 
 const props = defineProps<{
   dialogue: DialogueLine | null;
+  isSelecting?: boolean;
 }>();
 
 console.log("LOG_DEBUG: DialogueBox setup called", props.dialogue?.id);
@@ -22,6 +23,7 @@ onMounted(() => {
 const { $gsap } = useNuxtApp();
 const audioStore = useAudioStore();
 
+const contentRef = ref<HTMLElement | null>(null);
 const textRef = ref<HTMLElement | null>(null);
 const isAnimating = ref(false);
 const activeTimeline = ref<gsap.core.Timeline | null>(null);
@@ -310,6 +312,20 @@ const animateWords = async () => {
   }
 };
 
+// Watcher pour le signal de sélection (fade-out du dialogue)
+watch(
+  () => props.isSelecting,
+  (isSelecting) => {
+    if (isSelecting && contentRef.value) {
+      $gsap.to(contentRef.value, {
+        opacity: 0,
+        duration: 0.4,
+        ease: "power2.inOut",
+      });
+    }
+  }
+);
+
 // Observer les changements de dialogue
 watch(
   () => props.dialogue?.id,
@@ -323,7 +339,10 @@ watch(
       isAnimating.value = false;
       activeTimeline.value?.kill();
 
-      // Masquer le contenu texte temporairement pour éviter le flash de l'ancien texte
+      // Révéler le conteneur avec une légère animation
+      if (contentRef.value) {
+        $gsap.to(contentRef.value, { opacity: 1, duration: 0.3, ease: "power2.out" });
+      }
       if (textRef.value) {
         $gsap.set(textRef.value, { opacity: 0 });
       }
@@ -420,7 +439,7 @@ watch(
 </script>
 
 <template>
-  <div v-if="dialogue" class="max-w-4xl px-8">
+  <div v-if="dialogue" ref="contentRef" class="max-w-4xl px-8">
     <!-- Annotation (utilisée aussi pour les timings temporaires) -->
     <p
       v-if="showAnnotation"

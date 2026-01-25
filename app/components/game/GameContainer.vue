@@ -17,6 +17,7 @@ const { $gsap } = useNuxtApp();
 const containerRef = ref<HTMLElement | null>(null);
 const dialogueBoxRef = ref<InstanceType<typeof DialogueBox> | null>(null);
 const choicesRef = ref<HTMLElement | null>(null);
+const isChoiceSelecting = ref(false);
 
 // Computeds de visibilité
 const showAnnotation = computed(() => {
@@ -54,6 +55,7 @@ const handleInteraction = () => {
 
 // Gerer la selection d'un choix
 const handleChoiceSelect = (choice: any) => {
+  isChoiceSelecting.value = false;
   gameStore.selectChoice(choice);
 };
 
@@ -153,6 +155,7 @@ const showContent = computed(() => {
           :key="gameStore.currentDialogue?.id"
           ref="dialogueBoxRef"
           :dialogue="gameStore.currentDialogue"
+          :is-selecting="isChoiceSelecting"
           class="pointer-events-auto"
           @animation-complete="onDialogueAnimationComplete"
         />
@@ -160,11 +163,12 @@ const showContent = computed(() => {
     </div>
 
     <!-- Choice Buttons (bottom) -->
-    <Transition name="fade-up">
+    <Transition :name="isChoiceSelecting ? 'fade' : 'fade-up'">
       <ChoiceButtons
         v-if="gameStore.showChoices && showGameUI"
         ref="choicesRef"
         :choices="gameStore.availableChoices"
+        @selecting="isChoiceSelecting = true"
         @select="handleChoiceSelect"
       />
     </Transition>
