@@ -96,7 +96,26 @@ onUnmounted(() => {
   activeTimeline.value?.kill();
   currentTimedAnnotation.value = null;
   isShowingOnlyAnnotation.value = false;
+  // Nettoyer le listener de fin d'audio
+  if (audioStore.currentAudio) {
+    (audioStore.currentAudio as HTMLAudioElement).removeEventListener('ended', handleAudioEnded);
+  }
 });
+
+// Callback pour quand l'audio se termine - avance automatiquement au dialogue suivant
+// Sauf s'il y a des choix à faire (on laisse les choix s'afficher)
+const handleAudioEnded = () => {
+  console.log("LOG_DEBUG: Audio ended, checking if should advance");
+  // Si c'est le dernier dialogue et qu'il y a des choix, ne pas avancer automatiquement
+  // advanceDialogue() gérera l'affichage des choix
+  if (gameStore.isLastDialogue && gameStore.hasChoices) {
+    console.log("LOG_DEBUG: Last dialogue with choices, showing choices instead of advancing");
+    gameStore.showChoices = true;
+    return;
+  }
+  console.log("LOG_DEBUG: Advancing dialogue");
+  gameStore.advanceDialogue();
+};
 
 // Utiliser useSplitText pour decouper le texte en mots
 const split = useSplitText(textRef, {
@@ -141,12 +160,22 @@ const animateWords = async () => {
   const wordTimeline = $gsap.timeline({
     onStart: () => {
       // Jouer l'audio si présent
-      if (props.dialogue?.audio) {
+      // SAUF pour le premier dialogue de l'intro (déjà joué par Experience.vue)
+      if (props.dialogue?.audio && !isInIntroAnimation.value) {
         const audioPath = props.dialogue.audio.startsWith("/")
           ? props.dialogue.audio
           : `/audios/${props.dialogue.audio}`;
         audioStore.playAudio(audioPath);
       }
+      
+      // Ajouter un listener pour avancer au dialogue suivant quand l'audio se termine
+      // Attendre un petit délai pour que l'audio soit bien initialisé
+      setTimeout(() => {
+        if (audioStore.currentAudio) {
+          (audioStore.currentAudio as HTMLAudioElement).removeEventListener('ended', handleAudioEnded);
+          (audioStore.currentAudio as HTMLAudioElement).addEventListener('ended', handleAudioEnded);
+        }
+      }, 100);
     },
     onComplete: () => {
       isAnimating.value = false;
@@ -267,6 +296,18 @@ const animateWords = async () => {
       ease: "power2.out",
     });
   }
+
+  // Synchroniser la timeline avec la position actuelle de l'audio si c'est l'intro
+  // (l'audio a déjà commencé à jouer dans Experience.vue)
+  if (isInIntroAnimation.value && audioStore.currentAudio) {
+    const currentTime = (audioStore.currentAudio as HTMLAudioElement).currentTime || 0;
+    console.log("LOG_DEBUG: Syncing timeline to audio position:", currentTime);
+    wordTimeline.seek(currentTime, false);
+    
+    // Ajouter le listener de fin d'audio pour l'intro aussi
+    (audioStore.currentAudio as HTMLAudioElement).removeEventListener('ended', handleAudioEnded);
+    (audioStore.currentAudio as HTMLAudioElement).addEventListener('ended', handleAudioEnded);
+  }
 };
 
 // Observer les changements de dialogue
@@ -330,7 +371,10 @@ watch(
         } else {
           console.warn("LOG_DEBUG: Split timed out, forcing animation/audio start anyway.");
           // Fallback: lance quand meme l'animation (l'audio se jouera, le texte apparaitra peut-etre d'un bloc)
-          animateWords();
+          // SAUF si on est en intro, car l'intro est contrôlée par le watcher sur introBlurAmount
+          if (!isInIntroAnimation.value) {
+            animateWords();
+          }
         }
       };
       
@@ -343,18 +387,29 @@ watch(
 );
 
 // Watcher pour lancer l'animation pendant l'intro
+// Déclenche quand la phase passe à "revealing" car c'est à ce moment que DialogueBox est monté
 watch(
-  () => gameStore.introBlurAmount,
-  async (val) => {
-    console.log("LOG_DEBUG: introBlurAmount changed:", val, "isInIntro:", isInIntroAnimation.value, "isAnimating:", isAnimating.value);
-    if (val === 0 && isInIntroAnimation.value && !isAnimating.value) {
-      // S'assurer que les mots sont là avant de lancer
-      if (!split.words.value?.length) {
-        console.log("LOG_DEBUG: waiting for split in intro watcher");
-        await nextTick();
-      }
-      console.log("LOG_DEBUG: Launching animateWords from intro watcher");
-      animateWords();
+  () => gameStore.introAnimationPhase,
+  async (phase) => {
+    console.log("LOG_DEBUG: introAnimationPhase changed:", phase, "isInIntro:", isInIntroAnimation.value, "isAnimating:", isAnimating.value);
+    if (phase === "revealing" && isInIntroAnimation.value && !isAnimating.value) {
+      // Attendre que les mots soient prêts avec une boucle de retry
+      let attempts = 0;
+      const waitForSplit = async () => {
+        if (split.words.value?.length) {
+          console.log("LOG_DEBUG: Split ready, launching animateWords from intro watcher");
+          animateWords();
+        } else if (attempts < 30) { // 1.5 secondes max
+          attempts++;
+          await new Promise(resolve => setTimeout(resolve, 50));
+          waitForSplit();
+        } else {
+          console.warn("LOG_DEBUG: Split timed out in intro watcher, forcing animateWords");
+          animateWords();
+        }
+      };
+      await nextTick();
+      waitForSplit();
     }
   },
   { immediate: true }
