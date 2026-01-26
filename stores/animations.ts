@@ -41,6 +41,9 @@ export const useAnimationsStore = defineStore("animations", {
       audiowave: {
         variant: "dark" as "dark" | "light",
       },
+      scroll: {
+        locked: false,
+      },
     };
   },
   actions: {
@@ -77,6 +80,9 @@ export const useAnimationsStore = defineStore("animations", {
     },
     startIntroEntry() {
       this.landing.intro.entry.started = true;
+    },
+    setScrollLocked(locked: boolean) {
+      this.scroll.locked = locked;
     },
   },
 });

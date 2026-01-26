@@ -345,14 +345,16 @@ watch(
               onUpdate: () => gameStore.setIntroBlurAmount(blurState.amount),
             },
             "<"
-          )
-// La suite est gérée par le watcher sur introBlurAmount
-          .to({}, { duration: 1.5 }); // Pause finale dans le scroll
+          );
 
         mainTl.add(textTl, 0);
         mainTl.add(gradientTl, 0);
         mainTl.add(eyeTl, ">");
-        mainTl.to({}, { duration: 1 });
+        
+        // Callback to lock scroll when animation completes
+        mainTl.eventCallback("onComplete", () => {
+             animationsStore.setScrollLocked(true);
+        });
 
         mainTl.eventCallback("onUpdate", () => {
           const progress = mainTl.progress();

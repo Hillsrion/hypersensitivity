@@ -33,13 +33,19 @@ const introductionData = mainData.introduction;
 
 // Watch loading state and control Lenis scrolling
 watch(
-  () => animations.landing.intro.entry.completed,
-  (newState) => {
+  [
+    () => animations.landing.intro.entry.completed,
+    () => animations.scroll.locked,
+  ],
+  ([introCompleted, scrollLocked]) => {
     if (!lenisRef.value?.lenis) return;
 
-    if (newState) {
-      // Re-enable scrolling after loading is complete
+    if (introCompleted && !scrollLocked) {
+      // Re-enable scrolling after loading is complete and if not locked
       lenisRef.value.lenis.start();
+    } else {
+      // Locking scroll
+      lenisRef.value.lenis.stop();
     }
   },
   { immediate: true }
