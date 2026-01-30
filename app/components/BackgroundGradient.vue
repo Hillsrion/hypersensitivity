@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
 import { useAnimationsStore } from "~/stores/animations";
 import { storeToRefs } from "pinia";
 
@@ -22,17 +22,46 @@ watch(
   { immediate: true }
 );
 
+const auroraSteps = {
+  1: ["#C6FFE9", "#A2CCFD"],
+  2: ["#A2CCFD", "#DECAFE"],
+  3: ["#DECAFE", "#FFB8E4"],
+  4: ["#FFB8E4", "#FFC1C3"],
+  5: ["#FFC1C3", "#FAC087"],
+  6: ["#FAC087", "#FDEDB3"],
+  7: ["#FAC087", "#FDEDB3"],
+  8: ["#FDEDB3", "#C6FFE9"],
+  9: ["#C6FFE9", "#A2CCFD"],
+};
+
 onMounted(() => {
   const style = getComputedStyle(document.documentElement);
   const initialColor = style.getPropertyValue("--color-gradient-green").trim();
   if (initialColor && auroraInnerRef.value) {
-    // Set initial CSS variable
+    // Set initial CSS variables
+    auroraInnerRef.value.style.setProperty("--aurora-color-1", "#FFFFFF");
     auroraInnerRef.value.style.setProperty(
-      "--aurora-middle-color",
-      initialColor
+      "--aurora-color-2",
+      initialColor || "#C6FFE9"
     );
   }
 });
+
+// Watch for specific step changes (from Milestone Menu)
+watch(
+  () => animationsStore.aurora.colorStep,
+  (step) => {
+    const colors = auroraSteps[step as keyof typeof auroraSteps];
+    if (colors && auroraInnerRef.value) {
+      $gsap.to(auroraInnerRef.value, {
+        "--aurora-color-1": colors[0],
+        "--aurora-color-2": colors[1],
+        duration: 2,
+        ease: "power2.inOut",
+      });
+    }
+  }
+);
 
 watch(
   () => animationsStore.aurora.color,
@@ -42,9 +71,10 @@ watch(
       .getPropertyValue(`--color-gradient-${newColor}`)
       .trim();
     if (newHex && auroraInnerRef.value) {
-      // Animate the CSS variable directly
+      // Animate the CSS variable directly - fallback for single color usage
       $gsap.to(auroraInnerRef.value, {
-        "--aurora-middle-color": newHex,
+        "--aurora-color-1": newHex,
+        "--aurora-color-2": newHex,
         duration: 2,
         ease: "power2.inOut",
       });
@@ -97,7 +127,7 @@ watch(
         ref="auroraInnerRef"
         class="w-full h-full blur-[80px] scale-125 will-change-transform backface-hidden"
         :style="{
-          background: `linear-gradient(180deg, #ffffff 20%, var(--aurora-middle-color) 50%, #ffffff 80%)`,
+          background: `linear-gradient(180deg, #FFFFFF 0%, var(--aurora-color-1) 33%, var(--aurora-color-2) 66%, #FFFFFF 100%)`,
           transform: 'rotate(-3deg)',
         }"
       ></div>

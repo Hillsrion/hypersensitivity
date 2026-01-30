@@ -90,6 +90,7 @@ export interface GameState {
   isTransitioning: boolean;
   showChoices: boolean;
   isMenuOpen: boolean;
+  isMenuOpening: boolean;
   introPlayed: boolean;
   introAnimationPhase: IntroAnimationPhase;
   introBlurAmount: number;

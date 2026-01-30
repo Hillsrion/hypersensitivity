@@ -102,6 +102,18 @@ const onDialogueAnimationComplete = () => {
 const showContent = computed(() => {
   return gameStore.hasDialogues && gameStore.currentDialogue;
 });
+
+// Watch menu opening sequence
+watch(
+  () => gameStore.isMenuOpening,
+  (isOpening) => {
+    if (isOpening) {
+      setTimeout(() => {
+        gameStore.openMenu();
+      }, 400); // Wait for fade-out animation
+    }
+  }
+);
 </script>
 
 <template>
@@ -113,7 +125,7 @@ const showContent = computed(() => {
     <!-- Menu Icon (top left) -->
     <Transition name="fade">
       <button
-        v-if="showGameUI"
+        v-if="showGameUI && !gameStore.isMenuOpening && !gameStore.isMenuOpen"
         class="absolute top-10 left-18 z-50 text-primary"
         @click.stop="gameStore.toggleMenu()"
       >
@@ -123,13 +135,15 @@ const showContent = computed(() => {
 
     <!-- Header -->
     <Transition name="fade">
-      <GameHeader v-if="showGameUI" />
+      <GameHeader
+        v-if="showGameUI && !gameStore.isMenuOpening && !gameStore.isMenuOpen"
+      />
     </Transition>
 
     <!-- Energy Bar (right side) -->
     <Transition name="fade">
       <GameEnergyBar
-        v-if="showGameUI"
+        v-if="showGameUI && !gameStore.isMenuOpening && !gameStore.isMenuOpen"
         class="absolute top-1/2 left-18 -translate-y-1/2 z-40"
       />
     </Transition>
@@ -153,7 +167,12 @@ const showContent = computed(() => {
     >
       <Transition name="fade" mode="out-in">
         <DialogueBox
-          v-if="showContent && (showGameUI || !gameStore.isFirstDialogueOfInitialScene)"
+          v-if="
+            showContent &&
+            (showGameUI || !gameStore.isFirstDialogueOfInitialScene) &&
+            !gameStore.isMenuOpening &&
+            !gameStore.isMenuOpen
+          "
           :key="gameStore.currentDialogue?.id"
           ref="dialogueBoxRef"
           :dialogue="gameStore.currentDialogue"
@@ -167,7 +186,12 @@ const showContent = computed(() => {
     <!-- Choice Buttons (bottom) -->
     <Transition name="fade">
       <ChoiceButtons
-        v-if="(gameStore.showChoices || gameStore.selectedChoice) && showGameUI"
+        v-if="
+          (gameStore.showChoices || gameStore.selectedChoice) &&
+          showGameUI &&
+          !gameStore.isMenuOpening &&
+          !gameStore.isMenuOpen
+        "
         ref="choicesRef"
         :choices="activeChoices"
         @selecting="isChoiceSelecting = true"

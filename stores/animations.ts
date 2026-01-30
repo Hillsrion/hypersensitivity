@@ -34,6 +34,7 @@ export const useAnimationsStore = defineStore("animations", {
       aurora: {
         color: "green",
         visible: false,
+        colorStep: 1,
       },
       cursor: {
         variant: "light" as "dark" | "light",
@@ -58,6 +59,9 @@ export const useAnimationsStore = defineStore("animations", {
     },
     setAuroraVisibility(visible: boolean) {
       this.aurora.visible = visible;
+    },
+    setAuroraStep(step: number) {
+      this.aurora.colorStep = step;
     },
     onTitleEntryComplete() {
       this.landing.mainTitle.entry.completed = true;

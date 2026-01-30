@@ -43,6 +43,7 @@ export const useGameStore = defineStore("game", {
     isTransitioning: false,
     showChoices: false,
     isMenuOpen: false,
+    isMenuOpening: false,
     introPlayed: false,
     introAnimationPhase: "hidden",
     introBlurAmount: 8,
@@ -321,13 +322,26 @@ export const useGameStore = defineStore("game", {
       }
     },
 
-    // Toggle menu
-    toggleMenu() {
-      this.isMenuOpen = !this.isMenuOpen;
+    // Toggle menu with sequence
+    async toggleMenu() {
+      if (this.isMenuOpen) {
+        this.closeMenu();
+        return;
+      }
+
+      this.isMenuOpening = true;
+      // The actual opening (isMenuOpen = true) will be triggered by GameContainer
+      // after elements have faded out.
+    },
+
+    openMenu() {
+      this.isMenuOpening = false;
+      this.isMenuOpen = true;
     },
 
     closeMenu() {
       this.isMenuOpen = false;
+      this.isMenuOpening = false;
     },
   },
 });
