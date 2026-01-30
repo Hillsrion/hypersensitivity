@@ -114,7 +114,7 @@ const showContent = computed(() => {
     <Transition name="fade">
       <button
         v-if="showGameUI"
-        class="absolute top-10 left-6 z-50 text-primary"
+        class="absolute top-10 left-18 z-50 text-primary"
         @click.stop="gameStore.toggleMenu()"
       >
         <MenuIcon />
