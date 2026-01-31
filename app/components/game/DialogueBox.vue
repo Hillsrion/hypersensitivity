@@ -516,7 +516,7 @@ watch(
     <!-- Dialogue Text (caché via opacité pendant l'intro ou si showOnly est actif) -->
     <p
       ref="textRef"
-      class="font-serif font-light text-2xl lg:text-[1.75rem] leading-normal text-primary"
+      class="font-serif font-light text-2xl lg:text-title leading-normal text-primary"
       style="opacity: 0"
       :class="[{ 'opacity-0': !showDialogueContent || !isReady }, isRightAligned ? 'text-right' : 'text-left']"
     >

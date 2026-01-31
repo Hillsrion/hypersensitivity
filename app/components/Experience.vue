@@ -51,9 +51,9 @@ const isGameEnd = computed(() => gameStore.currentScene?.id === "gameEnd");
 
 watch(isGameEnd, (newVal) => {
   if (newVal) {
-    if (animationsStore.cursor.variant !== "dark") {
-        animationsStore.setCursorVariant("dark");
-        animationsStore.setAudiowaveVariant("dark");
+    if (animationsStore.cursor.variant !== "light") {
+        animationsStore.setCursorVariant("light");
+        animationsStore.setAudiowaveVariant("light");
     }
     
     $gsap.to(gradientState, {
@@ -380,9 +380,9 @@ watch(
         mainTl.eventCallback("onUpdate", () => {
           const progress = mainTl.progress();
           if (progress > 0.9) {
-            if (animationsStore.cursor.variant !== "dark") {
-              animationsStore.setCursorVariant("dark");
-              animationsStore.setAudiowaveVariant("dark");
+            if (animationsStore.cursor.variant !== "light") {
+              animationsStore.setCursorVariant("light");
+              animationsStore.setAudiowaveVariant("light");
             }
           } else if (progress > 0.4) {
             if (animationsStore.cursor.variant !== "light") {
@@ -475,7 +475,7 @@ const scrollToQuestionnaire = () => {
         <span
           v-for="(line, index) in lines"
           :key="index"
-          class="font-serif font-light text-[1.75rem] sm:text-2xl lg:text-[2.75rem] leading-[1.45] text-primary opacity-0 col-start-1 row-start-1 w-full"
+          class="font-serif font-light text-title sm:text-2xl lg:text-[2.75rem] leading-[1.45] text-primary opacity-0 col-start-1 row-start-1 w-full"
         >
           {{ line }}
         </span>

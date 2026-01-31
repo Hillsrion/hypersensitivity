@@ -1,8 +1,13 @@
 <script setup>
 const currentView = ref('intro');
 const currentQuestionIndex = ref(0);
+const elementRef = ref(null);
 
 import quizData from '@/app/data/hsp-quiz.json';
+import { useAnimationsStore } from "~/stores/animations";
+
+const { $gsap } = useNuxtApp();
+const animationsStore = useAnimationsStore();
 
 const { ratings, sections, questions, profiles } = quizData;
 const totalQuestions = questions.length;
@@ -25,25 +30,21 @@ const sensitivityLevel = computed(() => {
   if (score <= totalQuestions) {
     return {
       label: 'Sensibilité standard',
-      class: 'text-green-400',
       description: 'Vous gérez bien les stimuli et les émotions. Vous pouvez être sensible sur certains points précis, mais votre système nerveux filtre efficacement.'
     };
   } else if (score <= totalQuestions * 2) {
     return {
       label: 'Sensibilité modérée',
-      class: 'text-yellow-400',
       description: 'Sensibilité supérieure à la moyenne. Vous avez probablement développé de bonnes stratégies d\'adaptation, ou votre sensibilité ne concerne que certains domaines.'
     };
   } else if (score <= totalQuestions * 3) {
     return {
       label: 'Hypersensibilité avérée (HSP)',
-      class: 'text-orange-400',
       description: 'Profil classique de la haute sensibilité. Votre système nerveux traite les informations avec une profondeur inhabituelle. Comprendre ce fonctionnement vous aidera à mieux le vivre.'
     };
   } else {
     return {
       label: 'Ultra-sensibilité',
-      class: 'text-red-400',
       description: 'Perméabilité très élevée. Souvent associée à une grande créativité, mais le risque d\'épuisement est réel si l\'environnement n\'est pas adapté. Un accompagnement peut être bénéfique.'
     };
   }
@@ -101,18 +102,37 @@ function restart() {
   currentQuestionIndex.value = 0;
   answers.value = Array(totalQuestions).fill(null);
 }
+
+onMounted(() => {
+  $gsap.timeline({
+    scrollTrigger: {
+      trigger: elementRef.value,
+      start: "top 50%",
+      end: "bottom 50%",
+      onEnter: () => {
+        animationsStore.setCursorVariant("light");
+        animationsStore.setAudiowaveVariant("light");
+      },
+      onEnterBack: () => {
+        animationsStore.setCursorVariant("light");
+        animationsStore.setAudiowaveVariant("light");
+      }
+    }
+  });
+});
 </script>
 
 <template>
-  <div class="w-full h-screen relative flex flex-col items-center justify-center p-4 bg-primary text-white">
+  <div ref="elementRef" class="questionnaire-container w-full min-h-screen relative flex flex-col items-center justify-center p-4 bg-primary text-white">
     
     <!-- Intro Screen -->
     <div v-if="currentView === 'intro'" class="w-full max-w-3xl text-center">
-      <div class="mb-12 max-w-2xl mx-auto text-xl/7 leading-relaxed mb-8 font-serif space-y-4">
-        <p>
+      <div class="mb-8 max-w-2xl mx-auto text-xl/7 leading-relaxed space-y-4">
+        <h2 class="text-white uppercase">Avertissement</h2>
+        <p class="font-serif">
           Ce questionnaire est un outil d'auto-exploration, non un diagnostic clinique. Il s'appuie sur le modèle de la Haute Sensibilité (HSP) d'Elaine Aron.
         </p>
-        <p>
+        <p class="font-serif">
           Ce test mesure une <strong>intensité</strong>, pas une réponse binaire. Pour un accompagnement personnalisé, consultez un professionnel de santé mentale.
         </p>
       </div>
@@ -120,8 +140,8 @@ function restart() {
     
         
         <div class="flex items-center justify-center gap-8 text-gray-500 text-sm">
-          <span>{{ totalQuestions }} questions réparties en {{ sections.length }} sections</span>
-          <span>Durée estimée : 15-20 minutes</span>
+          <span class="font-serif p-4 rounded-full border border-white text-white text-base/5">{{ totalQuestions }} questions réparties en {{ sections.length }} sections</span>
+          <span class="font-serif p-4 rounded-full border border-white text-white text-base/5">Durée estimée : 10 minutes</span>
         </div>
       <button 
         class="absolute bottom-18 uppercase left-1/2 text-base/5 -translate-x-1/2 items-center justify-center font-medium text-white transition-all duration-300"
@@ -135,8 +155,9 @@ function restart() {
     <div v-if="currentView === 'quiz'" class="w-full max-w-4xl pt-24">
       <!-- Fixed Header -->
       <nav class="fixed top-0 left-0 w-full flex justify-between items-center px-8 md:px-12 py-8 z-50">
-        <div class="flex items-center gap-4">
-          <span class="font-satoshi font-medium text-base leading-[28px] uppercase text-white/50">Section {{ currentSectionIndex + 1 }}</span>
+        <div class="flex items-center">
+          <span class="font-satoshi font-medium text-base leading-[28px] uppercase">Section {{ currentSectionIndex + 1 }}</span>
+          <span class="mx-2">-</span>
           <span class="font-serif text-base leading-[28px] text-white">{{ currentSection.name }}</span>
         </div>
       </nav>
@@ -147,14 +168,14 @@ function restart() {
       </div>
       
       <!-- Question -->
-      <div class="min-h-[300px] flex flex-col justify-center mb-12">
-        <div class="flex items-center gap-4 mb-4">
-          <p class="font-satoshi font-medium text-xl/7 text-white/50">Question {{ currentQuestionIndex + 1 }} / {{ totalQuestions }}</p>
-          <div v-if="currentQuestion.inversed" class="bg-white text-black px-4 py-1.5 rounded-full text-[12px] font-medium uppercase tracking-wider">
-            Inversé
+      <div class="min-h-36 flex flex-col justify-center mb-6">
+        <div class="flex items-center h-16 gap-x-4">
+          <p class="font-satoshi font-medium text-white uppercase text-xl/7">Question {{ currentQuestionIndex + 1 }} / {{ totalQuestions }}</p>
+          <div v-if="currentQuestion.inversed" class="bg-white text-primary px-4 py-2 rounded-full text-xl font-medium">
+            Inversée
           </div>
         </div>
-        <p class="text-[28px] leading-[40px] text-white font-serif italic text-balance mb-4 transition-all duration-500">
+        <p class="text-2xl/7 leading-snug text-white font-serif italic mb-4 transition-all duration-500">
           {{ currentQuestion.text }}
         </p>
       </div>
@@ -195,18 +216,16 @@ function restart() {
     
     <!-- Results Screen -->
     <div v-if="currentView === 'results'" class="w-full max-w-5xl animate-fade-in">
-      <div class="text-center mb-16">
-        <h1 class="fl-text-4xl/6xl font-serif italic text-white mb-8">Vos Résultats</h1>
-        
-        <div class="inline-flex flex-col items-center justify-center bg-white/5 border border-white/10 rounded-3xl p-8 mb-8 backdrop-blur-sm">
-            <div class="flex items-baseline gap-2 mb-2">
-                <span class="fl-text-6xl/7xl font-bold text-white">{{ totalScore }}</span>
+      <div class="mb-16">        
+        <div class="flex-col items-center justify-center mb-8">
+            <div class="flex items-baseline gap-2 mb-2 text-white">
+                <span class="fl-text-4xl/5xl font-bold">{{ totalScore }}</span>
                 <span class="text-gray-500 text-xl">/ {{ totalQuestions * 4 }}</span>
             </div>
-            <div class="text-2xl font-medium mb-2" :class="sensitivityLevel.class">
+            <div class="text-[2.5rem] font-serif mb-2">
                 {{ sensitivityLevel.label }}
             </div>
-            <p class="text-gray-400 max-w-lg mx-auto text-balance leading-relaxed">
+            <p class="max-w-lg mx-auto text-balance text-title">
             {{ sensitivityLevel.description }}
             </p>
         </div>
