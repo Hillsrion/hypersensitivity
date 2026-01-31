@@ -7,6 +7,7 @@ import { useAudioStore } from "@/stores/audio";
 import { useAnimationsStore } from "~/stores/animations";
 import mainData from "./data/main.json";
 import TestimoniesSection from "./components/TestimoniesSection.vue";
+import HSPQuestionnaire from "./components/HSPQuestionnaire.vue";
 import { useCustomCursor } from "./composables/useCustomCursor";
 
 const { cursorRef } = useCustomCursor();
@@ -168,5 +169,6 @@ onMounted(async () => {
     </div>
     <TestimoniesSection id="testimonies" class="relative z-10" />
     <Experience id="experience" class="-mt-[35svh]" />
+    <HSPQuestionnaire id="hsp-questionnaire" class="relative z-10" />
   </div>
 </template>

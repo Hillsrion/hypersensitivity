@@ -963,6 +963,18 @@ const gameEnd: Scene = {
   day: 2,
   title: "Fin",
   dialogues: [],
+  choices: [
+    {
+      id: "evaluate_yes",
+      text: "OUI",
+      nextSceneId: "gameEnd", // Stay here, handeled by component
+    },
+    {
+      id: "evaluate_no",
+      text: "NON",
+      nextSceneId: "gameEnd",
+    },
+  ],
 };
 
 // ============================================

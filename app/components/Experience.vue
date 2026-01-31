@@ -43,7 +43,28 @@ const eyePaths = {
 };
 
 const backgroundGradient = computed(() => {
+  if (isGameEnd.value) return "var(--color-primary)";
   return `linear-gradient(180deg, ${gradientState.color1} ${gradientState.stop1}%, ${gradientState.color2} ${gradientState.stop2}%, ${gradientState.color3} ${gradientState.stop3}%, ${gradientState.color4} ${gradientState.stop4}%)`;
+});
+
+const isGameEnd = computed(() => gameStore.currentScene?.id === "gameEnd");
+
+watch(isGameEnd, (newVal) => {
+  if (newVal) {
+    if (animationsStore.cursor.variant !== "dark") {
+        animationsStore.setCursorVariant("dark");
+        animationsStore.setAudiowaveVariant("dark");
+    }
+    
+    $gsap.to(gradientState, {
+      color1: "#0b1018",
+      color2: "#0b1018",
+      color3: "#0b1018",
+      color4: "#0b1018",
+      duration: 2,
+      ease: "power2.inOut",
+    });
+  }
 });
 
 const lines = [
@@ -380,6 +401,14 @@ watch(
   },
   { immediate: true }
 );
+
+const scrollToQuestionnaire = () => {
+  $gsap.to(window, {
+    duration: 1.5,
+    scrollTo: "#hsp-questionnaire",
+    ease: "power2.inOut",
+  });
+};
 </script>
 
 <template>
@@ -397,9 +426,46 @@ watch(
       </svg>
 
       <!-- Game Container - Affiche dans l'oeil, l'annotation apparait avec l'animation -->
-      <div class="absolute inset-0 z-20 pointer-events-none">
+      <div 
+        class="absolute inset-0 z-20 pointer-events-none transition-opacity duration-1000"
+        :class="{ 'opacity-0': isGameEnd }"
+      >
         <GameContainer class="h-full pointer-events-auto" />
       </div>
+
+      <!-- End Screen Overlay -->
+      <Transition name="fade">
+        <div 
+          v-if="isGameEnd" 
+          class="absolute inset-0 z-30 flex flex-col items-center justify-center pointer-events-auto"
+        >
+          <div class="max-w-2xl px-6 text-center">
+            <h2 class="font-serif italic text-3xl md:text-5xl text-white mb-24 leading-tight">
+              Souhaitez-vous évaluer votre spectre de l'Hypersensibilité ?
+            </h2>
+            
+            <div class="flex items-center justify-center gap-12 text-sm tracking-[0.2em]">
+              <button 
+                class="text-white/60 hover:text-white transition-colors duration-300 uppercase cursor-pointer"
+                @click="scrollToQuestionnaire"
+              >
+                OUI
+              </button>
+              
+              <div class="w-12 h-12 rounded-full border border-white/20 flex items-center justify-center">
+                <div class="w-[1px] h-4 bg-white/40"></div>
+              </div>
+              
+              <button 
+                class="text-white/60 hover:text-white transition-colors duration-300 uppercase cursor-pointer"
+                @click="gameStore.resetGame()"
+              >
+                NON
+              </button>
+            </div>
+          </div>
+        </div>
+      </Transition>
 
       <!-- Content -->
       <h2

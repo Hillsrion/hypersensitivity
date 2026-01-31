@@ -68,6 +68,15 @@ const handleMilestoneClick = (milestoneId: string) => {
     gameStore.goToMilestone(milestoneId);
   }
 };
+
+const navigateToTest = () => {
+  gameStore.closeMenu();
+  $gsap.to(window, {
+    duration: 1.5,
+    scrollTo: "#hsp-questionnaire",
+    ease: "power2.inOut",
+  });
+};
 </script>
 
 <template>
@@ -198,10 +207,9 @@ const handleMilestoneClick = (milestoneId: string) => {
             RECOMMENCER LE QUESTIONNAIRE
           </button>
 
-          <NuxtLink
-            to="/test"
+          <div
             class="flex items-center gap-2 font-satoshi text-xs tracking-[0.2em] uppercase text-primary/60 hover:text-primary transition-colors cursor-pointer"
-            @click="gameStore.closeMenu()"
+            @click="navigateToTest"
           >
             TEST DU SPECTRE DE L'HYPERSENSIBILITÉ
             <svg
@@ -214,7 +222,7 @@ const handleMilestoneClick = (milestoneId: string) => {
             >
               <path d="M5 12h14M12 5l7 7-7 7" />
             </svg>
-          </NuxtLink>
+          </div>
         </div>
       </div>
     </div>
