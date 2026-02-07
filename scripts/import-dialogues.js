@@ -20,10 +20,14 @@ if (!jsonPath) {
 
 const speakerMap = {
   'Lucie': 'LUCIE',
+  'Speaker 0': 'LUCIE',
   'Lucas': 'Lucas',
   'Ines': 'Ines',
   'Inès': 'Ines',
   'InÈs': 'Ines',
+  'Jérémy': 'Ami',
+  'Amine': 'Amine',
+  'Femme sans-abri': 'Femme sdf',
 };
 
 function formatText(text) {

@@ -3,7 +3,9 @@ import { defineStore } from 'pinia';
 export const useAudioStore = defineStore('audio', {
   state: () => ({
     currentAudio: null,
+    currentTime: 0,
     fadeInterval: null,
+    progressInterval: null,
     isPlaying: false,
     list: [],
     volume: 0.8,
@@ -37,6 +39,11 @@ export const useAudioStore = defineStore('audio', {
       // Handle when audio ends naturally
       this.currentAudio.onended = () => {
         this.isPlaying = false;
+        this.currentTime = 0;
+        if (this.progressInterval) {
+          clearInterval(this.progressInterval);
+          this.progressInterval = null;
+        }
         // Don't nullify currentAudio immediately so currentAudio.volume can still be handled if needed
       };
 
@@ -45,6 +52,14 @@ export const useAudioStore = defineStore('audio', {
         console.log(`LOG_DEBUG: Audio playback started successfully: ${audioPath}`);
         this.isPlaying = true;
         this.fadeVolume(true);
+        
+        // Start tracking progress
+        if (this.progressInterval) clearInterval(this.progressInterval);
+        this.progressInterval = setInterval(() => {
+          if (this.currentAudio) {
+            this.currentTime = this.currentAudio.currentTime;
+          }
+        }, 100);
       } catch (err) {
         console.error(`LOG_DEBUG: Failed to play audio: ${audioPath}`, err);
       }
@@ -130,6 +145,11 @@ export const useAudioStore = defineStore('audio', {
           this.currentAudio.pause();
           this.currentAudio.currentTime = 0;
           this.isPlaying = false;
+          this.currentTime = 0;
+          if (this.progressInterval) {
+            clearInterval(this.progressInterval);
+            this.progressInterval = null;
+          }
         } else {
           console.log("LOG_DEBUG: Fast fade out triggered.");
           // Fast fade out separate from main flow
@@ -142,8 +162,14 @@ export const useAudioStore = defineStore('audio', {
             this.fadeResolve = null;
           }
 
+          if (this.progressInterval) {
+            clearInterval(this.progressInterval);
+            this.progressInterval = null;
+          }
+
           // Detach from store state immediately so playAudio can use the slot
           this.isPlaying = false;
+          this.currentTime = 0;
           // Note: we don't nullify this.currentAudio here because playAudio will overwrite it immediately.
           // If we nullify it, we might have a race condition where playAudio sees null before setting new.
           // But playAudio overwrites it synchronously, so it's fine.

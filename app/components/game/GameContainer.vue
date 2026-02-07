@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { useGameStore } from "~/stores/game";
 import { useAnimationsStore } from "~/stores/animations";
+import { useAudioStore } from "~/stores/audio";
 import GameHeader from "./GameHeader.vue";
 import GameEnergyBar from "./GameEnergyBar.vue";
 import DialogueBox from "./DialogueBox.vue";
@@ -12,6 +13,7 @@ import IntroAnnotation from "./IntroAnnotation.vue";
 
 const gameStore = useGameStore();
 const animationsStore = useAnimationsStore();
+const audioStore = useAudioStore();
 const { $gsap } = useNuxtApp();
 
 const containerRef = ref<HTMLElement | null>(null);
@@ -19,6 +21,17 @@ const dialogueBoxRef = ref<InstanceType<typeof DialogueBox> | null>(null);
 const choicesRef = ref<HTMLElement | null>(null);
 const isChoiceSelecting = ref(false);
 const activeChoices = ref<any[]>([]);
+
+// Progress tracking
+const audioProgressPercent = computed(() => {
+  const audio = audioStore.currentAudio as any;
+  if (!audio || !audioStore.isPlaying) return 0;
+  
+  const duration = audio.duration;
+  if (!duration || isNaN(duration) || duration === 0) return 0;
+  
+  return Math.min(100, (audioStore.currentTime / duration) * 100);
+});
 
 // Computeds de visibilité
 const showAnnotation = computed(() => {
@@ -230,6 +243,17 @@ watch(
         </button>
       </div>
     </Transition>
+
+    <!-- Fixed Progress Bar -->
+    <div
+      v-if="(showGameUI || audioStore.isPlaying) && !gameStore.isMenuOpening && !gameStore.isMenuOpen"
+      class="fixed bottom-0 left-0 w-full h-[4px] bg-white/10 z-50"
+    >
+      <div
+        class="h-full bg-white transition-all duration-500 ease-out"
+        :style="{ width: audioProgressPercent + '%' }"
+      ></div>
+    </div>
   </div>
 </template>
 
