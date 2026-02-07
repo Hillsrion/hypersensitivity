@@ -1,75 +1,74 @@
-# Nuxt Content Starter
+# Hypersensitivity
+### An Interactive Audio Journey into Sensory Perception
 
-Look at the [Nuxt Content documentation](https://content.nuxt.com) to learn more.
+**Hypersensitivity** is an immersive web experience designed to simulate the daily life of someone living with auditory hypersensitivity. Through a combination of interactive storytelling, reactive audio, and fluid visuals, this project invites users to step into a world where every sound matters.
 
-## Setup
+## 🎧 The Experience
 
-Make sure to install dependencies:
+This project is more than just a website; it's a narrative game where you navigate a day in the life of a hypersensitive individual.
+
+- **Immersive Audio:** Best experienced with headphones. The sound design plays a crucial role in conveying the feeling of sensory overload or relief.
+- **Interactive Narrative:** Make choices that impact your energy levels and relationships. Every decision counts.
+- **Reactive Visuals:** Experience a "breathing" interface with GSAP animations and smooth scrolling that mirrors the protagonist's internal state.
+- **Real Testimonies:** Listen to authentic stories from individuals who live with hypersensitivity.
+
+## 🚀 Getting Started
+
+Follow these instructions to set up the project locally for development or exploration.
+
+### Prerequisites
+
+- [Node.js](https://nodejs.org/) (Latest LTS recommended)
+- [pnpm](https://pnpm.io/) (Preferred package manager)
+
+### Installation
+
+1.  **Clone the repository:**
+    ```bash
+    git clone https://github.com/your-username/hypersensitivity-v2.git
+    cd hypersensitivity-v2
+    ```
+
+2.  **Install dependencies:**
+    ```bash
+    pnpm install
+    ```
+
+### Development Server
+
+Start the development server with hot-reload:
 
 ```bash
-# npm
-npm install
-
-# pnpm
-pnpm install
-
-# yarn
-yarn install
-
-# bun
-bun install
-```
-
-## Development Server
-
-Start the development server on `http://localhost:3000`:
-
-```bash
-# npm
-npm run dev
-
-# pnpm
 pnpm dev
-
-# yarn
-yarn dev
-
-# bun
-bun run dev
 ```
 
-## Production
+Visit `http://localhost:3000` to begin the experience.
 
-Build the application for production:
+### Production Build
+
+To build the application for production:
 
 ```bash
-# npm
-npm run build
-
-# pnpm
 pnpm build
-
-# yarn
-yarn build
-
-# bun
-bun run build
 ```
 
-Locally preview production build:
+To preview the production build locally:
 
 ```bash
-# npm
-npm run preview
-
-# pnpm
 pnpm preview
-
-# yarn
-yarn preview
-
-# bun
-bun run preview
 ```
 
-Check out the [deployment documentation](https://nuxt.com/docs/getting-started/deployment) for more information.
+## 🛠️ Built With
+
+This project utilizes a modern tech stack to deliver high-performance animations and seamless audio integration.
+
+- **[Nuxt 4](https://nuxt.com/)** - The Intuitive Vue Framework
+- **[Vue 3](https://vuejs.org/)** - Progressive JavaScript Framework
+- **[Tailwind CSS v4](https://tailwindcss.com/)** - With `fluid-tailwindcss` for responsive scaling
+- **[GSAP](https://greensock.com/gsap/)** - Professional-grade animation library
+- **[Lenis](https://lenis.darkroom.engineering/)** - Smooth scrolling
+- **[Pinia](https://pinia.vuejs.org/)** - Intuitive state management
+
+## 📄 License
+
+[MIT](LICENSE)
