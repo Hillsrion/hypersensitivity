@@ -27,6 +27,48 @@ const pensees = (
 });
 
 // ============================================
+// SCÈNES DE ROUTAGE (LOGIQUE INTERNE)
+// ============================================
+
+/**
+ * Ces scènes ne contiennent pas de contenu direct (dialogues vides).
+ * Elles servent de ponts logiques pour aiguiller automatiquement le joueur
+ * vers la variante correcte d'une scène en fonction des flags du jeu.
+ */
+
+/** 
+ * Point d'entrée du milestone "Retour" (Fin du Jour 1).
+ * Redirige vers la version audio correspondante à la tenue choisie.
+ */
+const dayOneEndGoodAssert: Scene = {
+  id: "dayOneEndGoodAssert",
+  day: 1,
+  title: "Retour",
+  dialogues: [],
+  autoChoice: {
+    condition: { flag: "outfitChoice", operator: "equals", value: "sexy" },
+    thenSceneId: "dayOneEndGoodAssertSexy",
+    elseSceneId: "dayOneEndGoodAssertComfort",
+  },
+};
+
+/**
+ * Transition vers le Jour 2.
+ * Redirige vers le réveil difficile ou normal selon si le joueur a fait un burn-out (crash).
+ */
+const dayTwoWakeup: Scene = {
+  id: "dayTwoWakeup",
+  day: 2,
+  title: "Reveil",
+  dialogues: [],
+  autoChoice: {
+    condition: { flag: "hadBreakdown", operator: "equals", value: true },
+    thenSceneId: "dayTwoWakeupCrash",
+    elseSceneId: "dayTwoWakeupGood",
+  },
+};
+
+// ============================================
 // SCENES JOUR 1
 // ============================================
 
@@ -1630,7 +1672,11 @@ const dayOneRefuseAssert: Scene = {
       "Mais bien sur que je l'ai bougee de la, mais c'est pas dans l'aprem je recois un mail du responsable pour un truc rien a voir ? Elle est allee me balancer parceque la semaine derniere je suis partie plus tot mardi pour regler des trucs perso c'te sorciere"
     ),
   ],
-  nextSceneId: "dayOneEndGood",
+  autoChoice: {
+    condition: { flag: "outfitChoice", operator: "equals", value: "sexy" },
+    thenSceneId: "dayOneEndGoodAssertSexy",
+    elseSceneId: "dayOneEndGoodAssertComfort",
+  },
 };
 
 const dayOneRefuseSubmit: Scene = {
@@ -1780,7 +1826,7 @@ const dayOneRefuseSubmit: Scene = {
   autoChoice: {
     condition: { flag: "outfitChoice", operator: "equals", value: "sexy" },
     thenSceneId: "dayOneEndGoodAssertSexy",
-    elseSceneId: "dayOneEndGood",
+    elseSceneId: "dayOneEndGoodReflect",
   },
 };
 
@@ -1832,37 +1878,9 @@ const dayOneEndCrash: Scene = {
   nextSceneId: "dayTwoWakeup",
 };
 
-const dayOneEndGood: Scene = {
-  id: "dayOneEndGood",
-  day: 1,
-  title: "Retour",
-  milestone: "retour",
-  dialogues: [
-    d(
-      "d1_48",
-      "Message",
-      "Je suis bien arrivee, merci pour la soiree",
-      { annotation: "Bruits de cles, porte qui s'ouvre, lumiere qui s'allume." }
-    ),
-  ],
-  autoChoice: {
-    condition: { flag: "conflictOutcome", operator: "equals", value: "assert" },
-    thenSceneId: "dayOneEndGoodAssert",
-    elseSceneId: "dayOneEndGoodReflect",
-  },
-};
 
-const dayOneEndGoodAssert: Scene = {
-  id: "dayOneEndGoodAssert",
-  day: 1,
-  title: "Retour",
-  dialogues: [],
-  autoChoice: {
-    condition: { flag: "outfitChoice", operator: "equals", value: "sexy" },
-    thenSceneId: "dayOneEndGoodAssertSexy",
-    elseSceneId: "dayOneEndGoodAssertComfort",
-  },
-};
+
+
 
 const dayOneEndGoodAssertSexy: Scene = {
   id: "dayOneEndGoodAssertSexy",
@@ -2218,17 +2236,7 @@ const dayOneEndGoodReflect: Scene = {
 // SCENES JOUR 2
 // ============================================
 
-const dayTwoWakeup: Scene = {
-  id: "dayTwoWakeup",
-  day: 2,
-  title: "Reveil",
-  dialogues: [],
-  autoChoice: {
-    condition: { flag: "hadBreakdown", operator: "equals", value: true },
-    thenSceneId: "dayTwoWakeupCrash",
-    elseSceneId: "dayTwoWakeupGood",
-  },
-};
+
 
 const dayTwoWakeupCrash: Scene = {
   id: "dayTwoWakeupCrash",
@@ -3214,7 +3222,7 @@ export const gameData: GameData = {
     { id: "trajet", label: "Trajet", sceneId: "dayOneMetroSexy", day: 1 },
     { id: "bureau", label: "Bureau", sceneId: "dayOneOffice", day: 1 },
     { id: "soiree", label: "Soiree", sceneId: "dayOnePartySexy", day: 1 },
-    { id: "retour", label: "Retour", sceneId: "dayOneEndGood", day: 1 },
+    { id: "retour", label: "Retour", sceneId: "dayOneEndGoodAssert", day: 1 },
     { id: "montagne", label: "Montagne", sceneId: "dayTwoMountain", day: 2 },
     { id: "demenagement", label: "Demenagement", sceneId: "dayTwoMoving", day: 2 },
   ],
@@ -3236,7 +3244,7 @@ export const gameData: GameData = {
     dayOneRefuseAssert,
     dayOneRefuseSubmit,
     dayOneEndCrash,
-    dayOneEndGood,
+
     dayOneEndGoodAssert,
     dayOneEndGoodReflect,
     dayTwoWakeup,
