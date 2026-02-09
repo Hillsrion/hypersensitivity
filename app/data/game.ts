@@ -2800,16 +2800,6 @@ const dayTwoMoving: Scene = {
         ],
       }
     ),
-  ],
-  nextSceneId: "dayTwoSdf",
-};
-
-const dayTwoSdf: Scene = {
-  id: "dayTwoSdf",
-  day: 2,
-  title: "Demenagement",
-  audio: "experience/J02_S03_Demenagement.mp3",
-  dialogues: [
     d(
       "d2_14",
       "Femme sdf",
@@ -3255,7 +3245,6 @@ export const gameData: GameData = {
     dayTwoRefuse,
     dayTwoMountain,
     dayTwoMoving,
-    dayTwoSdf,
     dayTwoSunset,
     gameEnd,
   },
