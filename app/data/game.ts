@@ -410,21 +410,26 @@ const dayOneOffice: Scene = {
       "d1_10",
       "Collegue",
       "Tu nous rejoins sur Meet ?",
-      { annotation: "Open space, bruits de clavier" }
+      {
+        annotation: "Lucie échange avec son collègue sur Slack",
+        timings: [{ start: 0.5, end: 4 }],
+      }
     ),
     d(
       "d1_11",
       "LUCIE",
-      "Mince je n'ai pas vu l'heure, j'arrive tout de suite, je vais juste m'installer dans la box de reu"
+      "Mince je n'ai pas vu l'heure, j'arrive tout de suite, je vais juste m'installer dans la box de reu",
+      {
+        timings: [{ start: 4.5, end: 8.5 }],
+      }
     ),
     d(
       "d1_12",
       "LUCIE",
-      "[bruit de clavier] Ah, salut Karen ! Je suis désolée, j'avais réservé la salle et j'ai une réunion importante avec le produit. Tu pourrais me laisser la bulle ?",
+      "Ah, salut Karen ! Je suis désolée, j'avais réservé la salle et j'ai une réunion importante avec le produit. Tu pourrais me laisser la bulle ?",
       {
         annotation: "Lucie arrive et voit Karen s'installer dans la box",
         timings: [
-          { word: "[bruit de clavier]", start: 0.099, end: 8.52 },
           { word: "Ah,", start: 8.539, end: 9.06 },
           { word: "salut", start: 9.119, end: 9.399 },
           { word: "Karen", start: 9.44, end: 9.819 },
@@ -551,7 +556,7 @@ const dayOneConflictSubmit: Scene = {
       "Oui, on comprend le point. Après, l'objectif reste quand même de tenir le sprint tel qu'il est prévu aujourd'hui. On est conscient que ça va demander un effort, mais on a besoin d'avancer et de montrer qu'on est capable d'absorber la charge. On fera un point d'avancement en milieu de sprint, on va voir si...",
       {
         annotation:
-          "Lucie retourne a son bureau dans l'open space plein de bruit. La reunion commence...",
+          "Lucie retourne a son bureau dans l'open space plein de bruit. La réunion commence...",
         timings: [
           { word: "Oui,", start: 11.34, end: 11.539 },
           { word: "on", start: 11.579, end: 11.659 },
@@ -633,7 +638,11 @@ const dayOneConflictSubmit: Scene = {
       }
     ),
   ],
-  nextSceneId: "dayOneParty",
+  autoChoice: {
+    condition: { flag: "outfitChoice", operator: "equals", value: "sexy" },
+    thenSceneId: "dayOnePartySexy",
+    elseSceneId: "dayOnePartyComfort",
+  },
 };
 
 const dayOneConflictAssert: Scene = {
@@ -759,17 +768,6 @@ const dayOneConflictAssert: Scene = {
       }
     ),
   ],
-  nextSceneId: "dayOneParty",
-};
-
-const dayOneParty: Scene = {
-  id: "dayOneParty",
-  day: 1,
-  title: "Soiree",
-  milestone: "soiree",
-  dialogues: [
-    d("d1_18", "Lucie + Ines", "Heyyyyy", { annotation: "Lucie toque a la porte." }),
-  ],
   autoChoice: {
     condition: { flag: "outfitChoice", operator: "equals", value: "sexy" },
     thenSceneId: "dayOnePartySexy",
@@ -777,10 +775,12 @@ const dayOneParty: Scene = {
   },
 };
 
+
 const dayOnePartySexy: Scene = {
   id: "dayOnePartySexy",
   day: 1,
   title: "Soiree",
+  milestone: "soiree",
   audio: "experience/J01_S05_Soiree_Tenue_Sexy.mp3",
   dialogues: [
     d(
@@ -870,6 +870,7 @@ const dayOnePartyComfort: Scene = {
   id: "dayOnePartyComfort",
   day: 1,
   title: "Soiree",
+  milestone: "soiree",
   audio: "experience/J01_S05_Soiree_Tenue_Confort.mp3",
   dialogues: [
     d(
@@ -2534,7 +2535,7 @@ export const gameData: GameData = {
     { id: "reveil", label: "Reveil", sceneId: "dayOneWakeup", day: 1 },
     { id: "trajet", label: "Trajet", sceneId: "dayOneMetroSexy", day: 1 },
     { id: "bureau", label: "Bureau", sceneId: "dayOneOffice", day: 1 },
-    { id: "soiree", label: "Soiree", sceneId: "dayOneParty", day: 1 },
+    { id: "soiree", label: "Soiree", sceneId: "dayOnePartySexy", day: 1 },
     { id: "retour", label: "Retour", sceneId: "dayOneEndGood", day: 1 },
     { id: "montagne", label: "Montagne", sceneId: "dayTwoMountain", day: 2 },
     { id: "demenagement", label: "Demenagement", sceneId: "dayTwoMoving", day: 2 },
@@ -2549,7 +2550,6 @@ export const gameData: GameData = {
     dayOneOffice,
     dayOneConflictSubmit,
     dayOneConflictAssert,
-    dayOneParty,
     dayOnePartySexy,
     dayOnePartyComfort,
     dayOneGameEvent,
