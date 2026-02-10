@@ -116,10 +116,12 @@ export const useGameStore = defineStore("game", {
       return this.currentSceneId === "game_end";
     },
 
-    // Getter pour l'annotation du premier dialogue (pour l'intro)
+    // Getter pour l'annotation d'entrée (pour l'intro ou transitions de scènes)
     firstDialogueAnnotation(): string | undefined {
-      const initialScene = gameData.scenes[gameData.initialSceneId];
-      return initialScene?.dialogues[0]?.annotation;
+      const scene = this.currentScene;
+      if (!scene) return undefined;
+      if (scene.entryAnnotation) return scene.entryAnnotation;
+      return scene.dialogues[0]?.annotation;
     },
 
     // Verifier si c'est le premier dialogue de la scene initiale
@@ -301,6 +303,19 @@ export const useGameStore = defineStore("game", {
         this.currentSceneId = sceneId;
         this.currentDialogueIndex = 0;
         this.isTransitioning = false;
+
+        // Si la scène a une annotation d'entrée, on déclenche la phase d'annotation
+        if (scene.entryAnnotation) {
+          this.introAnimationPhase = "annotation";
+          this.introBlurAmount = 0; // Pas de flou pour les annotations en cours de jeu
+          
+          // On revient à l'état complet après un délai
+          setTimeout(() => {
+            if (this.currentSceneId === sceneId) { // Vérifier qu'on n'a pas rechangé entre temps
+              this.introAnimationPhase = "complete";
+            }
+          }, 4000); 
+        }
 
         // Si pas de dialogues, gerer directement
         if (!scene.dialogues.length) {

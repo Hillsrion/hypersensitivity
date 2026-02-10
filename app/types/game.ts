@@ -58,6 +58,7 @@ export interface Scene {
   choices?: Choice[];
   nextSceneId?: string; // Scene suivante si pas de choix
   autoChoice?: AutoChoice; // Choix automatique base sur les flags
+  entryAnnotation?: string; // Annotation s'affichant avant les dialogues (transition de scène)
   audio?: string; // Audio global de la scene
   onEnter?: {
     energyChange?: number;

@@ -182,6 +182,7 @@ watch(
         <DialogueBox
           v-if="
             showContent &&
+            !showAnnotation &&
             (showGameUI || !gameStore.isFirstDialogueOfInitialScene) &&
             !gameStore.isMenuOpening &&
             !gameStore.isMenuOpen

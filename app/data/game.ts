@@ -823,18 +823,9 @@ const dayOnePartySexy: Scene = {
   day: 1,
   title: "Soiree",
   milestone: "soiree",
+  entryAnnotation: "Lucie arrive à la soirée",
   audio: "experience/J01_S05_Soiree_Tenue_Sexy.mp3",
   dialogues: [
-    d(
-      "d1_19a",
-      "Ines",
-      "[musique]",
-      {
-        timings: [
-          { word: "[musique]", start: 0.079, end: 5.559 },
-        ],
-      }
-    ),
     d(
       "d1_20a",
       "Ines",
@@ -913,6 +904,7 @@ const dayOnePartyComfort: Scene = {
   day: 1,
   title: "Soiree",
   milestone: "soiree",
+  entryAnnotation: "Lucie arrive à la soirée",
   audio: "experience/J01_S05_Soiree_Tenue_Confort.mp3",
   dialogues: [
     d(
@@ -2237,7 +2229,7 @@ const dayOneEndGoodReflect: Scene = {
 // ============================================
 
 
-
+// TODO: A reshooter
 const dayTwoWakeupCrash: Scene = {
   id: "dayTwoWakeupCrash",
   day: 2,
@@ -2252,6 +2244,7 @@ const dayTwoWakeupCrash: Scene = {
   nextSceneId: "dayTwoCall",
 };
 
+// TODO: A shooter
 const dayTwoWakeupGood: Scene = {
   id: "dayTwoWakeupGood",
   day: 2,
