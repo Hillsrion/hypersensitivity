@@ -46,6 +46,13 @@ defineEmits(['selectAnswer', 'next', 'previous']);
 
 const { $gsap } = useNuxtApp();
 const sectionNameRef = ref(null);
+const headerRef = ref(null);
+const progressBarRef = ref(null);
+const questionInfoRef = ref(null);
+const questionTextRef = ref(null);
+const answersRef = ref(null);
+const navRef = ref(null);
+
 const internalDisplaySectionName = ref(props.displaySectionName);
 
 watch(() => props.currentSectionIndex, (newIndex) => {
@@ -74,16 +81,92 @@ watch(() => props.currentSectionIndex, (newIndex) => {
   });
 });
 
-// We need to handle the animation in the parent or emit an event when section changes
-// to let the parent know we need to animate? 
-// Or better: the parent passes the displaySectionName, but the animation happens here.
-// But the current parent has a watch on currentSectionIndex to update displaySectionName.
+const enter = () => {
+  return new Promise((resolve) => {
+    // Initial state
+    $gsap.set(progressBarRef.value, { y: '100%' });
+    
+    const elements = [
+      headerRef.value,
+      questionInfoRef.value,
+      questionTextRef.value,
+      answersRef.value,
+      navRef.value
+    ];
+
+    $gsap.set(elements, {
+      opacity: 0,
+      filter: 'blur(5px)'
+    });
+
+    const tl = $gsap.timeline({
+      onComplete: resolve
+    });
+
+    // Animate Progress Bar
+    tl.to(progressBarRef.value, {
+      y: '0%',
+      duration: 0.6,
+      ease: 'power3.out'
+    }, 0);
+
+    // Stagger animate other elements
+    tl.to(elements, {
+      opacity: 1,
+      filter: 'blur(0px)',
+      duration: 0.5,
+      stagger: 0.1,
+      ease: 'power2.out'
+    }, 0.2);
+  });
+};
+
+const leave = () => {
+  return new Promise((resolve) => {
+    const tl = $gsap.timeline({
+      onComplete: resolve
+    });
+
+    const elements = [
+      headerRef.value,
+      questionInfoRef.value,
+      questionTextRef.value,
+      answersRef.value,
+      navRef.value
+    ];
+
+    // Animate Progress Bar
+    tl.to(progressBarRef.value, {
+      y: '100%',
+      duration: 0.5,
+      ease: 'power3.in'
+    }, 0);
+
+    // Stagger animate other elements
+    tl.to(elements, {
+      opacity: 0,
+      filter: 'blur(5px)',
+      duration: 0.4,
+      stagger: 0.05,
+      ease: 'power2.in'
+    }, 0);
+  });
+};
+
+onMounted(() => {
+  enter();
+});
+
+defineExpose({
+    enter,
+    leave
+});
 </script>
 
 <template>
   <div class="w-full max-w-4xl pt-24">
     <!-- Fixed Header -->
-    <nav class="fixed top-0 left-0 w-full flex justify-between items-center px-8 md:px-16 py-13 z-50">
+    <nav ref="headerRef" class="fixed top-0 left-0 w-full flex justify-between items-center px-8 md:px-16 py-13 z-50 opacity-0">
       <div class="flex items-center">
         <span class="font-satoshi font-medium text-base leading-[28px] uppercase">Section {{ currentSectionIndex + 1 }}</span>
         <span class="mx-2">-</span>
@@ -97,25 +180,25 @@ watch(() => props.currentSectionIndex, (newIndex) => {
     </nav>
 
     <!-- Fixed Progress Bar -->
-    <div class="fixed bottom-0 left-0 w-full h-[4px] bg-white/10 z-50">
+    <div ref="progressBarRef" class="fixed bottom-0 left-0 w-full h-[4px] bg-white/10 z-50 translate-y-full">
       <div class="h-full bg-white transition-all duration-500 ease-out" :style="{ width: progressPercent + '%' }"></div>
     </div>
     
     <!-- Question -->
     <div class="min-h-36 flex flex-col justify-center mb-6">
-      <div class="flex items-center h-16 gap-x-4">
+      <div ref="questionInfoRef" class="flex items-center h-16 gap-x-4 opacity-0">
         <p class="font-satoshi font-medium text-white uppercase text-xl/7">Question {{ currentQuestionIndex + 1 }} / {{ totalQuestions }}</p>
         <div v-if="currentQuestion.inversed" class="bg-white text-primary px-4 py-2 rounded-full text-xl font-medium">
           Inversée
         </div>
       </div>
-      <p class="text-2xl/7 leading-snug text-white font-serif italic mb-4 transition-all duration-500">
+      <p ref="questionTextRef" class="text-2xl/7 leading-snug text-white font-serif italic mb-4 transition-all duration-500 opacity-0">
         {{ currentQuestion.text }}
       </p>
     </div>
       
     <!-- Answers -->
-    <div class="grid grid-cols-2 md:grid-cols-5 gap-6 mb-16">
+    <div ref="answersRef" class="grid grid-cols-2 md:grid-cols-5 gap-6 mb-16 opacity-0">
       <button 
           v-for="rating in ratings" 
           :key="rating.value"
@@ -129,7 +212,7 @@ watch(() => props.currentSectionIndex, (newIndex) => {
     </div>
     
     <!-- Navigation -->
-    <div class="flex justify-between items-center border-t border-white/10 pt-8">
+    <div ref="navRef" class="flex justify-between items-center border-t border-white/10 pt-8 opacity-0">
       <button 
         class="text-gray-500 hover:text-white transition-colors duration-300 flex items-center gap-2 px-4 py-2 disabled:opacity-30 disabled:cursor-not-allowed" 
         @click="$emit('previous')" 

@@ -31,9 +31,42 @@ const {
   restart
 } = useHSPQuiz();
 
+
+const route = useRoute();
+const introRef = ref(null);
+const quizRef = ref(null);
+const resultsRef = ref(null);
 const elementRef = ref(null);
 
+const handleStart = async () => {
+    if (introRef.value) {
+        await introRef.value.leave();
+    }
+    startQuiz();
+};
+
+const handleNext = async () => {
+    if (isLastQuestion.value) {
+        if (quizRef.value) {
+            await quizRef.value.leave();
+        }
+    }
+    nextQuestion();
+};
+
+const handleRestart = async () => {
+    if (resultsRef.value) {
+        await resultsRef.value.leave();
+    }
+    restart();
+};
+
 onMounted(() => {
+  // Debug mode: jump straight to quiz
+  if (route.query.debug === 'quiz') {
+    startQuiz();
+  }
+
   $gsap.timeline({
     scrollTrigger: {
       trigger: elementRef.value,
@@ -57,15 +90,17 @@ onMounted(() => {
     
     <!-- Intro Screen -->
     <HSPIntro 
-      v-if="currentView === 'intro'" 
+      v-if="currentView === 'intro'"
+      ref="introRef"
       :total-questions="totalQuestions" 
       :sections-count="sections.length"
-      @start="startQuiz"
+      @start="handleStart"
     />
     
     <!-- Quiz Screen -->
     <HSPQuiz 
       v-if="currentView === 'quiz'"
+      ref="quizRef"
       :sections="sections"
       :current-question="currentQuestion"
       :current-question-index="currentQuestionIndex"
@@ -77,13 +112,14 @@ onMounted(() => {
       :progress-percent="progressPercent"
       :is-last-question="isLastQuestion"
       @select-answer="selectAnswer"
-      @next="nextQuestion"
+      @next="handleNext"
       @previous="previousQuestion"
     />
     
     <!-- Results Screen -->
     <HSPResults 
       v-if="currentView === 'results'"
+      ref="resultsRef"
       :total-score="totalScore"
       :total-questions="totalQuestions"
       :sensitivity-level="sensitivityLevel"
@@ -91,7 +127,7 @@ onMounted(() => {
       :section-scores="sectionScores"
       :questions-per-section="questionsPerSection"
       :dominant-profile="dominantProfile"
-      @restart="restart"
+      @restart="handleRestart"
     />
   </div>
 </template>
