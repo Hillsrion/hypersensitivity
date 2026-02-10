@@ -234,7 +234,7 @@ watch(
         <p
           class="font-serif text-xl text-primary/60 mb-12 text-center max-w-md"
         >
-          Merci d'avoir vecu cette experience avec Lucie.
+          Merci d'avoir vécu cette expérience avec Lucie.
         </p>
         <button
           class="px-8 py-4 border border-primary text-primary font-satoshi text-sm tracking-widest uppercase hover:bg-primary hover:text-white transition-colors"
