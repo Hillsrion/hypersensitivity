@@ -77,6 +77,7 @@ const dayOneWakeup: Scene = {
   day: 1,
   title: "Reveil",
   milestone: "reveil",
+  entryAnnotation: "Le réveil",
   audio: "experience/J01_S01_Reveil.mp3",
   dialogues: [
     pensees("d1_1", "Oh purée, un autre jour dans la France de Macron..", {
@@ -247,6 +248,7 @@ const dayOneMetroSexy: Scene = {
   id: "dayOneMetroSexy",
   day: 1,
   title: "Trajet",
+  entryAnnotation: "À la gare",
   audio: "experience/J01_S03_Trajet_A.mp3",
   dialogues: [
     d(
@@ -379,6 +381,7 @@ const dayOneMetroComfort: Scene = {
   id: "dayOneMetroComfort",
   day: 1,
   title: "Trajet",
+  entryAnnotation: "À la gare",
   audio: "experience/J01_S03_Trajet_B.mp3",
   dialogues: [
     d(
@@ -446,6 +449,7 @@ const dayOneOffice: Scene = {
   day: 1,
   title: "Bureau",
   milestone: "bureau",
+  entryAnnotation: "Au bureau",
   audio: "experience/J01_C02_Bureau_Base.mp3",
   dialogues: [
     d(
@@ -1827,6 +1831,7 @@ const dayOneEndCrash: Scene = {
   day: 1,
   title: "Retour",
   milestone: "retour",
+  entryAnnotation: "De retour chez soi",
   audio: "experience/J01_S06_Retour.mp3",
   dialogues: [
     pensees(
@@ -1878,6 +1883,7 @@ const dayOneEndGoodAssertSexy: Scene = {
   id: "dayOneEndGoodAssertSexy",
   day: 1,
   title: "Retour",
+  entryAnnotation: "De retour chez soi",
   audio: "experience/J01_S06_Retour_NoBreakdown_Raffinee.mp3",
   dialogues: [
     pensees(
@@ -2000,6 +2006,7 @@ const dayOneEndGoodAssertComfort: Scene = {
   id: "dayOneEndGoodAssertComfort",
   day: 1,
   title: "Retour",
+  entryAnnotation: "De retour chez soi",
   audio: "experience/J01_S06_Retour_NoBreakdown.mp3",
   dialogues: [
     pensees(
@@ -2234,6 +2241,7 @@ const dayTwoWakeupCrash: Scene = {
   id: "dayTwoWakeupCrash",
   day: 2,
   title: "Reveil",
+  entryAnnotation: "Le réveil",
   dialogues: [
     pensees(
       "d2_1a",
@@ -2249,6 +2257,7 @@ const dayTwoWakeupGood: Scene = {
   id: "dayTwoWakeupGood",
   day: 2,
   title: "Reveil",
+  entryAnnotation: "Le réveil",
   dialogues: [
     pensees(
       "d2_1b",
@@ -2523,6 +2532,7 @@ const dayTwoMountain: Scene = {
   day: 2,
   title: "Montagne",
   milestone: "montagne",
+  entryAnnotation: "En montagne",
   audio: "experience/J02_S02_Montagne.mp3",
   dialogues: [
     d(
@@ -2772,6 +2782,7 @@ const dayTwoMoving: Scene = {
   day: 2,
   title: "Demenagement",
   milestone: "demenagement",
+  entryAnnotation: "Le déménagement",
   audio: "experience/J02_S03_Demenagement.mp3",
   dialogues: [
     pensees(
@@ -3130,6 +3141,7 @@ const dayTwoSunset: Scene = {
   id: "dayTwoSunset",
   day: 2,
   title: "Coucher de soleil",
+  entryAnnotation: "Le calme après l'effort",
   audio: "experience/J02_S03_Demenagement.mp3",
   dialogues: [
     pensees(
