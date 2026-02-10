@@ -12,14 +12,42 @@ const animationsStore = useAnimationsStore();
 const { ratings, sections, questions, profiles } = quizData;
 const totalQuestions = questions.length;
 const isLastQuestion = computed(() => currentQuestionIndex.value === totalQuestions - 1);
-
 const answers = ref(Array(totalQuestions).fill(null));
+
+const sectionNameRef = ref(null);
+const displaySectionName = ref(sections[0].name);
 
 const questionsPerSection = totalQuestions / sections.length;
 const currentQuestion = computed(() => questions[currentQuestionIndex.value]);
 const currentSectionIndex = computed(() => Math.floor(currentQuestionIndex.value / questionsPerSection));
 const currentSection = computed(() => sections[currentSectionIndex.value]);
 const progressPercent = computed(() => Math.round((currentQuestionIndex.value + 1) / totalQuestions * 100));
+
+watch(currentSectionIndex, (newIndex) => {
+  if (!sectionNameRef.value) {
+    displaySectionName.value = sections[newIndex].name;
+    return;
+  }
+
+  const tl = $gsap.timeline();
+
+  tl.to(sectionNameRef.value, {
+    opacity: 0,
+    filter: "blur(12px)",
+    duration: 0.4,
+    ease: "power2.inOut",
+    onComplete: () => {
+      displaySectionName.value = sections[newIndex].name;
+    },
+  });
+
+  tl.to(sectionNameRef.value, {
+    opacity: 1,
+    filter: "blur(0px)",
+    duration: 0.4,
+    ease: "power2.out",
+  });
+});
 
 const totalScore = computed(() => {
   return answers.value.reduce((sum, val) => sum + (val ?? 0), 0);
@@ -158,7 +186,12 @@ onMounted(() => {
         <div class="flex items-center">
           <span class="font-satoshi font-medium text-base leading-[28px] uppercase">Section {{ currentSectionIndex + 1 }}</span>
           <span class="mx-2">-</span>
-          <span class="font-serif text-base leading-[28px] text-white">{{ currentSection.name }}</span>
+          <span
+            ref="sectionNameRef"
+            class="font-serif text-base leading-[28px] text-white inline-block"
+          >
+            {{ displaySectionName }}
+          </span>
         </div>
       </nav>
 
