@@ -77,7 +77,6 @@ const dayOneWakeup: Scene = {
   day: 1,
   title: "Reveil",
   milestone: "reveil",
-  entryAnnotation: "Le réveil",
   audio: "experience/J01_S01_Reveil.mp3",
   dialogues: [
     pensees("d1_1", "Oh purée, un autre jour dans la France de Macron..", {
@@ -1831,7 +1830,7 @@ const dayOneEndCrash: Scene = {
   day: 1,
   title: "Retour",
   milestone: "retour",
-  entryAnnotation: "De retour chez soi",
+  entryAnnotation: "De retour à la maison",
   audio: "experience/J01_S06_Retour.mp3",
   dialogues: [
     pensees(
@@ -1883,7 +1882,7 @@ const dayOneEndGoodAssertSexy: Scene = {
   id: "dayOneEndGoodAssertSexy",
   day: 1,
   title: "Retour",
-  entryAnnotation: "De retour chez soi",
+  entryAnnotation: "De retour à la maison",
   audio: "experience/J01_S06_Retour_NoBreakdown_Raffinee.mp3",
   dialogues: [
     pensees(
@@ -2006,7 +2005,7 @@ const dayOneEndGoodAssertComfort: Scene = {
   id: "dayOneEndGoodAssertComfort",
   day: 1,
   title: "Retour",
-  entryAnnotation: "De retour chez soi",
+  entryAnnotation: "De retour à la maison",
   audio: "experience/J01_S06_Retour_NoBreakdown.mp3",
   dialogues: [
     pensees(
@@ -2241,7 +2240,7 @@ const dayTwoWakeupCrash: Scene = {
   id: "dayTwoWakeupCrash",
   day: 2,
   title: "Reveil",
-  entryAnnotation: "Le réveil",
+  entryAnnotation: "Lucie se réveille",
   dialogues: [
     pensees(
       "d2_1a",
@@ -2257,7 +2256,7 @@ const dayTwoWakeupGood: Scene = {
   id: "dayTwoWakeupGood",
   day: 2,
   title: "Reveil",
-  entryAnnotation: "Le réveil",
+  entryAnnotation: "Lucie se réveille",
   dialogues: [
     pensees(
       "d2_1b",
@@ -2532,7 +2531,7 @@ const dayTwoMountain: Scene = {
   day: 2,
   title: "Montagne",
   milestone: "montagne",
-  entryAnnotation: "En montagne",
+  entryAnnotation: "À la montagne",
   audio: "experience/J02_S02_Montagne.mp3",
   dialogues: [
     d(
@@ -3141,7 +3140,6 @@ const dayTwoSunset: Scene = {
   id: "dayTwoSunset",
   day: 2,
   title: "Coucher de soleil",
-  entryAnnotation: "Le calme après l'effort",
   audio: "experience/J02_S03_Demenagement.mp3",
   dialogues: [
     pensees(
