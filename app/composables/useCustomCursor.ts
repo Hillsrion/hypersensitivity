@@ -49,6 +49,9 @@ export const useCustomCursor = () => {
   };
 
   onMounted(() => {
+    const isDesktop = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
+    if (!isDesktop) return;
+
     document.addEventListener("mousemove", onMouseMove);
 
     // Initialize cursor position at center
@@ -65,13 +68,17 @@ export const useCustomCursor = () => {
     });
   });
 
+
   onUnmounted(() => {
-    document.removeEventListener("mousemove", onMouseMove);
+    if (window.matchMedia("(hover: hover) and (pointer: fine)").matches) {
+      document.removeEventListener("mousemove", onMouseMove);
+    }
     if (rafId !== null) {
       cancelAnimationFrame(rafId);
     }
     isAnimating = false;
   });
+
 
   return {
     cursorRef,

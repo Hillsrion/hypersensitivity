@@ -48,11 +48,20 @@
 }
 
 /* Custom Cursor */
-html,
-body {
-  cursor: none !important;
+.custom-cursor {
+  display: none;
 }
 
-* {
-  cursor: none !important;
+@media (hover: hover) and (pointer: fine) {
+  .custom-cursor {
+    display: block;
+  }
+
+  html,
+  body,
+  * {
+    cursor: none !important;
+  }
 }
+
+

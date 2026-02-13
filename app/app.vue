@@ -141,9 +141,11 @@ onMounted(async () => {
     <!-- Custom Cursor -->
     <div
       ref="cursorRef"
-      class="fixed top-0 left-0 w-4 h-4 rounded-full pointer-events-none z-99999 transition-colors duration-300 ease-in-out will-change-transform"
+      class="custom-cursor fixed top-0 left-0 w-4 h-4 rounded-full pointer-events-none z-99999 transition-colors duration-300 ease-in-out will-change-transform"
       :class="animations.cursor.variant === 'dark' ? 'bg-primary' : 'bg-white'"
     />
+
+
     <VueLenis root ref="lenisRef" />
     <BackgroundGradient />
     <LoadingSection />

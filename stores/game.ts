@@ -113,7 +113,7 @@ export const useGameStore = defineStore("game", {
     },
 
     isGameEnded(): boolean {
-      return this.currentSceneId === "game_end";
+      return this.currentSceneId === "gameEnd";
     },
 
     // Getter pour l'annotation d'entrée (pour l'intro ou transitions de scènes)
@@ -265,10 +265,12 @@ export const useGameStore = defineStore("game", {
 
     // Aller a une scene
     goToScene(sceneId: string) {
-      const oldDay = this.currentDay;
       this.isTransitioning = true;
       this.showChoices = false;
+      this.selectedChoice = null;
 
+      const oldDay = this.currentDay;
+      
       // Petit delai pour la transition
       setTimeout(() => {
         const scene = gameData.scenes[sceneId];
@@ -295,11 +297,6 @@ export const useGameStore = defineStore("game", {
           this.reachedMilestones.push(scene.milestone);
         }
 
-        // Si le jour change, on peut éventuellement reset le choix affiché
-        if (scene.day !== oldDay) {
-          this.selectedChoice = null;
-        }
-
         this.currentSceneId = sceneId;
         this.currentDialogueIndex = 0;
         this.isTransitioning = false;
@@ -314,7 +311,7 @@ export const useGameStore = defineStore("game", {
             if (this.currentSceneId === sceneId) { // Vérifier qu'on n'a pas rechangé entre temps
               this.introAnimationPhase = "complete";
             }
-          }, 4000); 
+          }, 3000); 
         }
 
         // Si pas de dialogues, gerer directement

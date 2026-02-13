@@ -105,6 +105,16 @@ watch(
   }
 );
 
+// Nettoyer les choix lors d'une transition
+watch(
+  () => gameStore.isTransitioning,
+  (isTransitioning) => {
+    if (isTransitioning) {
+      activeChoices.value = [];
+    }
+  }
+);
+
 // Animation quand le dialogue change
 const onDialogueAnimationComplete = () => {
   // Le dialogue a fini son animation
