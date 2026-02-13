@@ -125,19 +125,18 @@ const navItemClasses =
         </div>
 
         <!-- Middle Section: Timeline -->
-        <div class="relative w-full h-full flex items-center overflow-hidden pointer-events-auto">
-          <!-- Median Line -->
-          <div
-            class="absolute top-[55%] left-0 w-full h-px bg-primary/10"
-          />
-
+        <div class="relative w-screen h-full flex items-center overflow-hidden pointer-events-auto">
           <!-- Milestones Container (Horizontal Scroll) -->
           <div
-            class="relative w-full h-full flex overflow-x-auto scrollbar-hide snap-x snap-mandatory px-[12vw]"
+            class="relative w-full h-full flex scrollbar-hide snap-x snap-mandatory px-[12vw]"
           >
             <div
-              class="flex items-center min-w-full"
+              class="flex items-center min-w-full relative"
             >
+              <!-- Median Line -->
+              <div
+                class="absolute top-1/2 -left-1/2 w-[150vw] h-px bg-primary/10"
+              />
               <div
                 v-for="milestone in visibleMilestones"
                 :key="milestone.id"
@@ -146,12 +145,12 @@ const navItemClasses =
               >
                 <!-- Milestone Point Container -->
                 <button 
-                  class="absolute top-[55%] left-1/2 -translate-x-1/2 -translate-y-1/2 w-4 h-4 group cursor-pointer outline-none"
                   @click="handleMilestoneClick(milestone.id)"
+                  class="origin-bottom-left -rotate-45"
                 >
                   <!-- Title -->
                   <div
-                    class="absolute left-1/2 bottom-1/2 whitespace-nowrap text-xl/7 origin-bottom-left -rotate-45 flex items-center"
+                    class="whitespace-nowrap text-xl/7 flex items-center"
                   >
                     <!-- Dot -->
                     <div
