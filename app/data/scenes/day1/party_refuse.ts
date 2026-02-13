@@ -1,0 +1,284 @@
+import type { Scene } from "../../../types/game";
+import { SCENE_IDS } from "../../constants";
+import { d, pensees } from "../../helpers";
+
+export const dayOneRefuse: Scene = {
+  id: SCENE_IDS.DAY_ONE_REFUSE,
+  day: 1,
+  title: "Soiree",
+  audio: "experience/J01_C03B_Discussion.mp3",
+  dialogues: [
+    d(
+      "d1_36",
+      "LUCIE",
+      "Je vais plutôt en profiter pour discuter avec Inès. Ça fait longtemps.",
+      {
+        timings: [
+          { word: "Je", start: 0.359, end: 0.399 },
+          { word: "vais", start: 0.419, end: 0.579 },
+          { word: "plutôt", start: 0.6, end: 0.859 },
+          { word: "en", start: 0.879, end: 0.959 },
+          { word: "profiter", start: 0.98, end: 1.419 },
+          { word: "pour", start: 1.439, end: 1.559 },
+          { word: "discuter", start: 1.579, end: 1.959 },
+          { word: "avec", start: 1.979, end: 2.139 },
+          { word: "Inès.", start: 2.22, end: 2.819 },
+          { word: "Ça", start: 2.839, end: 2.959 },
+          { word: "fait", start: 2.98, end: 3.079 },
+          { word: "longtemps.", start: 3.099, end: 3.579 },
+        ],
+      }
+    ),
+    d(
+      "d1_37",
+      "Lucas",
+      "T'inquiète, pas de soucis. Bon, du coup, presque consensus.",
+      {
+        timings: [
+          { word: "T'inquiète,", start: 4.259, end: 4.699 },
+          { word: "pas", start: 4.719, end: 4.799 },
+          { word: "de", start: 4.799, end: 4.879 },
+          { word: "soucis.", start: 4.9, end: 5.299 },
+          { word: "Bon,", start: 5.559, end: 5.759 },
+          { word: "du", start: 5.779, end: 5.879 },
+          { word: "coup,", start: 5.879, end: 6.099 },
+          { word: "presque", start: 6.119, end: 6.339 },
+          { word: "consensus.", start: 6.42, end: 7.119 },
+        ],
+      }
+    ),
+    d(
+      "d1_38",
+      "LUCIE",
+      "Non, mais il faut que je te raconte un truc là, qui s'est passé tout à l'heure avec la vieille meuf aigrie de mon taf.",
+      {
+        timings: [
+          { word: "Non,", start: 7.679, end: 7.839 },
+          { word: "mais", start: 7.839, end: 7.939 },
+          { word: "il", start: 7.94, end: 7.98 },
+          { word: "faut", start: 7.98, end: 8.058 },
+          { word: "que", start: 8.06, end: 8.099 },
+          { word: "je", start: 8.1, end: 8.138 },
+          { word: "te", start: 8.18, end: 8.26 },
+          { word: "raconte", start: 8.279, end: 8.64 },
+          { word: "un", start: 8.659, end: 8.739 },
+          { word: "truc", start: 8.8, end: 9.019 },
+          { word: "là,", start: 9.079, end: 9.18 },
+          { word: "qui", start: 9.239, end: 9.3 },
+          { word: "s'est", start: 9.319, end: 9.479 },
+          { word: "passé", start: 9.5, end: 9.719 },
+          { word: "tout", start: 9.72, end: 9.86 },
+          { word: "à", start: 9.94, end: 9.94 },
+          { word: "l'heure", start: 9.98, end: 10.139 },
+          { word: "avec", start: 10.199, end: 10.34 },
+          { word: "la", start: 10.38, end: 10.46 },
+          { word: "vieille", start: 10.559, end: 10.82 },
+          { word: "meuf", start: 10.88, end: 11.039 },
+          { word: "aigrie", start: 11.039, end: 11.14 },
+          { word: "de", start: 11.42, end: 11.48 },
+          { word: "mon", start: 11.5, end: 11.659 },
+          { word: "taf.", start: 11.699, end: 12.039 },
+        ],
+      }
+    ),
+    d(
+      "d1_39",
+      "Ines",
+      "Vas-y, raconte.",
+      {
+        timings: [
+          { word: "Vas-y,", start: 12.559, end: 12.839 },
+          { word: "raconte.", start: 12.84, end: 13.38 },
+        ],
+      }
+    ),
+  ],
+  choices: [
+    {
+      id: "refuse_submit",
+      text: "SE LAISSER FAIRE",
+      nextSceneId: SCENE_IDS.DAY_ONE_REFUSE_SUBMIT,
+      effects: {
+        energy: -20,
+        flags: { refuseOutcome: "submit" },
+      },
+    },
+    {
+      id: "refuse_assert",
+      text: "S'AFFIRMER",
+      nextSceneId: SCENE_IDS.DAY_ONE_REFUSE_ASSERT,
+      effects: {
+        flags: { refuseOutcome: "assert" },
+      },
+    },
+  ],
+};
+
+export const dayOneRefuseAssert: Scene = {
+  id: SCENE_IDS.DAY_ONE_REFUSE_ASSERT,
+  day: 1,
+  title: "Soiree",
+  dialogues: [
+    d(
+      "d1_42a",
+      "LUCIE",
+      "Mais bien sur que je l'ai bougee de la, mais c'est pas dans l'aprem je recois un mail du responsable pour un truc rien a voir ? Elle est allee me balancer parceque la semaine derniere je suis partie plus tot mardi pour regler des trucs perso c'te sorciere"
+    ),
+  ],
+  autoChoice: {
+    condition: { flag: "outfitChoice", operator: "equals", value: "sexy" },
+    thenSceneId: SCENE_IDS.DAY_ONE_END_GOOD_ASSERT_SEXY,
+    elseSceneId: SCENE_IDS.DAY_ONE_END_GOOD_ASSERT_COMFORT,
+  },
+};
+
+export const dayOneRefuseSubmit: Scene = {
+  id: SCENE_IDS.DAY_ONE_REFUSE_SUBMIT,
+  day: 1,
+  title: "Soiree",
+  audio: "experience/J01_C03B_Discussion_Calme.mp3",
+  dialogues: [
+    d(
+      "d1_42b",
+      "LUCIE",
+      "J'ai pas eu la force de me battre encore, cette fois pour cette putain de cabine. Ces derniers temps, je suis usée. Le pire, c'est que ça me dégoûte. Je sais quoi faire. Mais tu sais pourquoi ces gens, ils font ça ? Parce qu'ils sont pas encore tombés sur quelqu'un qui va les choquer.",
+      {
+        timings: [
+          { word: "J'ai", start: 0.5, end: 0.599 },
+          { word: "pas", start: 0.599, end: 0.699 },
+          { word: "eu", start: 0.699, end: 0.779 },
+          { word: "la", start: 0.8, end: 0.919 },
+          { word: "force", start: 0.939, end: 1.12 },
+          { word: "de", start: 1.139, end: 1.219 },
+          { word: "me", start: 1.24, end: 1.34 },
+          { word: "battre", start: 1.36, end: 1.579 },
+          { word: "encore,", start: 1.599, end: 2.119 },
+          { word: "cette", start: 2.159, end: 2.299 },
+          { word: "fois", start: 2.319, end: 2.459 },
+          { word: "pour", start: 2.48, end: 2.579 },
+          { word: "cette", start: 2.599, end: 2.839 },
+          { word: "putain", start: 2.859, end: 3.199 },
+          { word: "de", start: 3.199, end: 3.299 },
+          { word: "cabine.", start: 3.339, end: 4.019 },
+          { word: "Ces", start: 4.038, end: 4.139 },
+          { word: "derniers", start: 4.179, end: 4.4 },
+          { word: "temps,", start: 4.44, end: 4.619 },
+          { word: "je", start: 4.619, end: 4.699 },
+          { word: "suis", start: 4.699, end: 4.839 },
+          { word: "usée.", start: 4.92, end: 5.819 },
+          { word: "Le", start: 5.859, end: 5.999 },
+          { word: "pire,", start: 6.039, end: 6.239 },
+          { word: "c'est", start: 6.299, end: 6.379 },
+          { word: "que", start: 6.379, end: 6.439 },
+          { word: "ça", start: 6.48, end: 6.559 },
+          { word: "me", start: 6.579, end: 6.719 },
+          { word: "dégoûte.", start: 6.779, end: 7.379 },
+          { word: "Je", start: 7.419, end: 7.579 },
+          { word: "sais", start: 7.599, end: 7.779 },
+          { word: "quoi", start: 7.819, end: 7.979 },
+          { word: "faire.", start: 8.039, end: 8.8 },
+          { word: "Mais", start: 8.819, end: 8.92 },
+          { word: "tu", start: 8.96, end: 9.02 },
+          { word: "sais", start: 9.079, end: 9.22 },
+          { word: "pourquoi", start: 9.239, end: 9.439 },
+          { word: "ces", start: 9.5, end: 9.579 },
+          { word: "gens,", start: 9.619, end: 9.72 },
+          { word: "ils", start: 9.739, end: 9.82 },
+          { word: "font", start: 9.86, end: 10 },
+          { word: "ça", start: 10.019, end: 10.14 },
+          { word: "?", start: 10.559, end: 10.579 },
+          { word: "Parce", start: 10.579, end: 10.68 },
+          { word: "qu'ils", start: 10.68, end: 10.82 },
+          { word: "sont", start: 10.84, end: 10.98 },
+          { word: "pas", start: 11, end: 11.079 },
+          { word: "encore", start: 11.079, end: 11.319 },
+          { word: "tombés", start: 11.34, end: 11.579 },
+          { word: "sur", start: 11.599, end: 11.72 },
+          { word: "quelqu'un", start: 11.739, end: 11.94 },
+          { word: "qui", start: 12, end: 12.06 },
+          { word: "va", start: 12.1, end: 12.159 },
+          { word: "les", start: 12.199, end: 12.38 },
+          { word: "choquer.", start: 12.399, end: 13.899 },
+        ],
+      }
+    ),
+    d(
+      "d1_43b",
+      "Ines",
+      "On peut pas gagner toutes les batailles. Vas-y step by step. Si tu veux, ce week-end, on t'aidera à trouver les mots pour mettre tes limites.",
+      {
+        timings: [
+          { word: "On", start: 13.94, end: 13.98 },
+          { word: "peut", start: 14.039, end: 14.119 },
+          { word: "pas", start: 14.159, end: 14.239 },
+          { word: "gagner", start: 14.259, end: 14.579 },
+          { word: "toutes", start: 14.599, end: 14.8 },
+          { word: "les", start: 14.819, end: 14.9 },
+          { word: "batailles.", start: 14.92, end: 15.42 },
+          { word: "Vas-y", start: 15.439, end: 15.68 },
+          { word: "step", start: 15.699, end: 15.92 },
+          { word: "by", start: 15.96, end: 16.1 },
+          { word: "step.", start: 16.139, end: 16.739 },
+          { word: "Si", start: 16.76, end: 16.879 },
+          { word: "tu", start: 16.899, end: 16.979 },
+          { word: "veux,", start: 17.02, end: 17.1 },
+          { word: "ce", start: 17.139, end: 17.2 },
+          { word: "week-end,", start: 17.22, end: 17.479 },
+          { word: "on", start: 17.5, end: 17.54 },
+          { word: "t'aidera", start: 17.579, end: 17.78 },
+          { word: "à", start: 17.859, end: 17.879 },
+          { word: "trouver", start: 17.899, end: 18.18 },
+          { word: "les", start: 18.2, end: 18.28 },
+          { word: "mots", start: 18.319, end: 18.44 },
+          { word: "pour", start: 18.44, end: 18.559 },
+          { word: "mettre", start: 18.579, end: 18.719 },
+          { word: "tes", start: 18.719, end: 18.819 },
+          { word: "limites.", start: 18.859, end: 19.959 },
+        ],
+      }
+    ),
+    d(
+      "d1_44b",
+      "LUCIE",
+      "Ah genre, tu vas la RP ? Trop bien, on fera ça. Merci d'être là.",
+      {
+        timings: [
+          { word: "Ah", start: 20.039, end: 20.2 },
+          { word: "genre,", start: 20.279, end: 20.54 },
+          { word: "tu", start: 20.579, end: 20.639 },
+          { word: "vas", start: 20.68, end: 20.78 },
+          { word: "la RP", start: 20.8, end: 21.34 },
+          { word: "?", start: 21.36, end: 21.819 },
+          { word: "Trop", start: 22.059, end: 22.28 },
+          { word: "bien,", start: 22.3, end: 22.519 },
+          { word: "on", start: 22.579, end: 22.68 },
+          { word: "fera", start: 22.7, end: 22.92 },
+          { word: "ça.", start: 22.959, end: 23.459 },
+          { word: "Merci", start: 23.479, end: 23.78 },
+          { word: "d'être", start: 23.84, end: 24.059 },
+          { word: "là.", start: 24.1, end: 24.8 },
+        ],
+      }
+    ),
+    d(
+      "d1_45b",
+      "Ines",
+      "Mais c'est normal, avec plaisir !",
+      {
+        timings: [
+          { word: "Mais", start: 24.84, end: 24.96 },
+          { word: "c'est", start: 25.019, end: 25.12 },
+          { word: "normal,", start: 25.159, end: 25.579 },
+          { word: "avec", start: 25.619, end: 25.799 },
+          { word: "plaisir", start: 25.84, end: 26.26 },
+          { word: "!", start: 26.28, end: 27.699 },
+        ],
+      }
+    ),
+  ],
+  autoChoice: {
+    condition: { flag: "outfitChoice", operator: "equals", value: "sexy" },
+    thenSceneId: SCENE_IDS.DAY_ONE_END_GOOD_ASSERT_SEXY,
+    elseSceneId: SCENE_IDS.DAY_ONE_END_GOOD_REFLECT,
+  },
+};
