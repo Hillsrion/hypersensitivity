@@ -96,4 +96,5 @@ export interface GameState {
   introAnimationPhase: IntroAnimationPhase;
   introBlurAmount: number;
   selectedChoice: Choice | null;
+  showQuestionnaire: boolean;
 }

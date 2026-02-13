@@ -9,6 +9,7 @@ import mainData from "./data/main.json";
 import TestimoniesSection from "./components/TestimoniesSection.vue";
 import HSPQuestionnaire from "./components/HSPQuestionnaire.vue";
 import { useCustomCursor } from "./composables/useCustomCursor";
+import { useGameStore } from "~/stores/game";
 
 const { cursorRef } = useCustomCursor();
 
@@ -17,6 +18,7 @@ const lenisRef = ref(null);
 
 const audioStore = useAudioStore();
 const animations = useAnimationsStore();
+const gameStore = useGameStore();
 
 const { data: page } = await useAsyncData("page-" + route.path, () => {
   return queryCollection("content").path(route.path).first();
@@ -173,6 +175,6 @@ onMounted(async () => {
     </div>
     <TestimoniesSection id="testimonies" class="relative z-10" />
     <Experience id="experience" class="-mt-[35svh]" />
-    <HSPQuestionnaire id="hsp-questionnaire" class="relative z-10" />
+    <HSPQuestionnaire v-if="gameStore.isGameEnded && gameStore.showQuestionnaire" id="hsp-questionnaire" class="relative z-10" />
   </div>
 </template>

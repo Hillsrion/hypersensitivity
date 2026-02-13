@@ -50,6 +50,7 @@ export const useGameStore = defineStore("game", {
     introAnimationPhase: "hidden",
     introBlurAmount: 8,
     selectedChoice: null,
+    showQuestionnaire: false,
   }),
 
   getters: {
@@ -198,6 +199,7 @@ export const useGameStore = defineStore("game", {
       this.introPlayed = false;
       this.introAnimationPhase = "hidden";
       this.selectedChoice = null;
+      this.showQuestionnaire = false;
       this.saveGame();
     },
 
@@ -213,6 +215,10 @@ export const useGameStore = defineStore("game", {
 
     setIntroBlurAmount(amount: number) {
       this.introBlurAmount = amount;
+    },
+    
+    setShowQuestionnaire(show: boolean) {
+      this.showQuestionnaire = show;
     },
 
     // Avancer dans les dialogues
