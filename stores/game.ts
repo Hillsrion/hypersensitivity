@@ -169,8 +169,11 @@ export const useGameStore = defineStore("game", {
       if (saved) {
         try {
           const state = JSON.parse(saved) as GameState;
-          // On ne restaure que les milestones pour le menu, mais on recommence le jeu
-          this.reachedMilestones = state.reachedMilestones || [];
+          // On restaure les milestones pour le menu
+          this.reachedMilestones = state.reachedMilestones || ["reveil"];
+          if (!this.reachedMilestones.includes("reveil")) {
+            this.reachedMilestones.unshift("reveil");
+          }
           this.currentSceneId = gameData.initialSceneId;
           this.currentDialogueIndex = 0;
           this.flags = { ...gameData.initialFlags };
@@ -192,7 +195,7 @@ export const useGameStore = defineStore("game", {
       this.currentSceneId = gameData.initialSceneId;
       this.currentDialogueIndex = 0;
       this.flags = { ...gameData.initialFlags };
-      // On garde reachedMilestones pour le menu des chapitres
+      this.reachedMilestones = ["reveil"];
       this.isTransitioning = false;
       this.showChoices = false;
       this.isMenuOpen = false;
