@@ -55,6 +55,7 @@ export const dayOneEndGoodAssertSexy: Scene = {
   id: SCENE_IDS.DAY_ONE_END_GOOD_ASSERT_SEXY,
   day: 1,
   title: "Retour",
+  milestone: "retour",
   entryAnnotation: "De retour à la maison",
   audio: "experience/J01_S06_Retour_NoBreakdown_Raffinee.mp3",
   dialogues: [
@@ -178,6 +179,7 @@ export const dayOneEndGoodAssertComfort: Scene = {
   id: SCENE_IDS.DAY_ONE_END_GOOD_ASSERT_COMFORT,
   day: 1,
   title: "Retour",
+  milestone: "retour",
   entryAnnotation: "De retour à la maison",
   audio: "experience/J01_S06_Retour_NoBreakdown.mp3",
   dialogues: [
@@ -293,6 +295,7 @@ export const dayOneEndGoodReflect: Scene = {
   id: SCENE_IDS.DAY_ONE_END_GOOD_REFLECT,
   day: 1,
   title: "Retour",
+  milestone: "retour",
   audio: "experience/J01_S06_Retour_NoBreakdown.mp3",
   dialogues: [
     pensees(

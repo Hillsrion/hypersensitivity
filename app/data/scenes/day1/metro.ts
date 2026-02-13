@@ -6,6 +6,7 @@ export const dayOneMetroSexy: Scene = {
   id: SCENE_IDS.DAY_ONE_METRO_SEXY,
   day: 1,
   title: "Trajet",
+  milestone: "trajet",
   entryAnnotation: "À la gare",
   audio: "experience/J01_S03_Trajet_A.mp3",
   dialogues: [
@@ -139,6 +140,7 @@ export const dayOneMetroComfort: Scene = {
   id: SCENE_IDS.DAY_ONE_METRO_COMFORT,
   day: 1,
   title: "Trajet",
+  milestone: "trajet",
   entryAnnotation: "À la gare",
   audio: "experience/J01_S03_Trajet_B.mp3",
   dialogues: [

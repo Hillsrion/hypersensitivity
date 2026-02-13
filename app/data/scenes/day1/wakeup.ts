@@ -5,7 +5,7 @@ import { pensees } from "../../helpers";
 export const dayOneWakeup: Scene = {
   id: SCENE_IDS.DAY_ONE_WAKEUP,
   day: 1,
-  title: "Reveil",
+  title: "Réveil",
   milestone: "reveil",
   audio: "experience/J01_S01_Reveil.mp3",
   dialogues: [
@@ -32,7 +32,7 @@ export const dayOneWakeup: Scene = {
 export const dayOneBathroom: Scene = {
   id: SCENE_IDS.DAY_ONE_BATHROOM,
   day: 1,
-  title: "Reveil",
+  title: "Réveil",
   audio: "experience/J01_C01_Tenue_base.mp3",
   dialogues: [
     pensees(
@@ -104,7 +104,7 @@ export const dayOneBathroom: Scene = {
 export const dayOneOutfitSexy: Scene = {
   id: SCENE_IDS.DAY_ONE_OUTFIT_SEXY,
   day: 1,
-  title: "Reveil",
+  title: "Réveil",
   audio: "experience/J01_C01_TenueA.mp3",
   dialogues: [
     pensees(
@@ -137,7 +137,7 @@ export const dayOneOutfitSexy: Scene = {
 export const dayOneOutfitComfort: Scene = {
   id: SCENE_IDS.DAY_ONE_OUTFIT_COMFORT,
   day: 1,
-  title: "Reveil",
+  title: "Réveil",
   audio: "experience/J01_C01_TenueB.mp3",
   dialogues: [
     pensees(

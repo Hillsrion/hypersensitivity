@@ -5,7 +5,8 @@ import { d, pensees } from "../../helpers";
 export const dayTwoWakeupCrash: Scene = {
   id: SCENE_IDS.DAY_TWO_WAKEUP_CRASH,
   day: 2,
-  title: "Reveil",
+  title: "Réveil",
+  milestone: "reveil2",
   entryAnnotation: "Lucie se réveille",
   dialogues: [
     pensees(
@@ -23,7 +24,8 @@ export const dayTwoWakeupCrash: Scene = {
 export const dayTwoWakeupGood: Scene = {
   id: SCENE_IDS.DAY_TWO_WAKEUP_GOOD,
   day: 2,
-  title: "Reveil",
+  title: "Réveil",
+  milestone: "reveil2",
   entryAnnotation: "Lucie se réveille",
   dialogues: [
     pensees(
