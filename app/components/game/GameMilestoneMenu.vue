@@ -77,13 +77,16 @@ const navigateToTest = () => {
     ease: "power2.inOut",
   });
 };
+
+const navItemClasses =
+  "flex items-center gap-2 font-satoshi text-base/7 uppercase hover:text-primary transition-colors cursor-pointer";
 </script>
 
 <template>
   <Transition name="fade">
     <div
       v-if="gameStore.isMenuOpen"
-      class="fixed inset-0 z-[60]"
+      class="fixed inset-0 z-60"
       @click.self="gameStore.closeMenu()"
     >
       <!-- Backdrop -->
@@ -119,32 +122,13 @@ const navigateToTest = () => {
             </svg>
           </button>
 
-          <!-- Wave Icon -->
-          <div
-            class="w-12 h-12 rounded-full border border-primary/20 flex items-center justify-center text-primary/40"
-          >
-            <svg
-              width="24"
-              height="24"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="1"
-            >
-              <path d="M3 12c3-1.5 3-4.5 6-4.5s3 3 6 3 3-3 6-4.5" />
-              <path
-                d="M3 12c3 1.5 3 4.5 6 4.5s3-3 6-3 3 3 6 4.5"
-                opacity="0.3"
-              />
-            </svg>
-          </div>
         </div>
 
         <!-- Middle Section: Timeline -->
         <div class="relative w-full h-full flex items-center overflow-hidden pointer-events-auto">
           <!-- Median Line -->
           <div
-            class="absolute top-[55%] left-0 w-full h-[1px] bg-primary/10"
+            class="absolute top-[55%] left-0 w-full h-px bg-primary/10"
           />
 
           <!-- Milestones Container (Horizontal Scroll) -->
@@ -160,26 +144,31 @@ const navigateToTest = () => {
                 ref="itemsRef"
                 class="relative flex-none w-1/4 min-w-[250px] flex flex-col items-center snap-center"
               >
-                <!-- Title -->
-                <div
-                  class="absolute bottom-6 left-1/2 -translate-x-1/2 whitespace-nowrap text-xl/7 origin-bottom-left -rotate-45"
+                <!-- Milestone Point Container -->
+                <button 
+                  class="absolute top-[55%] left-1/2 -translate-x-1/2 -translate-y-1/2 w-4 h-4 group cursor-pointer outline-none"
+                  @click="handleMilestoneClick(milestone.id)"
                 >
-                  <button
-                    class="font-satoshi transition-all duration-300 text-primary hover:text-primary/70 cursor-pointer"
-                    @click="handleMilestoneClick(milestone.id)"
+                  <!-- Title -->
+                  <div
+                    class="absolute left-1/2 bottom-1/2 whitespace-nowrap text-xl/7 origin-bottom-left -rotate-45 flex items-center"
                   >
-                    <span class="uppercase mr-1 font-medium"
-                      >JOUR {{ milestone.day }}</span
+                    <!-- Dot -->
+                    <div
+                      class="size-4 rounded-full border border-primary bg-white transition-all duration-500"
+                    />
+                    <div
+                      class="font-satoshi pl-4 transition-all duration-300 text-primary group-hover:text-primary/70"
                     >
-                    <span class="mx-1 font-serif">-</span>
-                    <span class="font-serif">{{ milestone.label }}</span>
-                  </button>
-                </div>
+                      <span class="uppercase mr-1 font-medium"
+                        >JOUR {{ milestone.day }}</span
+                      >
+                      <span class="mx-1 font-serif">-</span>
+                      <span class="font-serif">{{ milestone.label }}</span>
+                    </div>
+                  </div>
 
-                <!-- Circle -->
-                <div
-                  class="absolute top-[55vh] -translate-y-1/2 w-4 h-4 rounded-full border border-primary bg-primary transition-all duration-500 shadow-[0_0_20px_rgba(var(--color-primary-rgb),0.3)]"
-                />
+                </button>
               </div>
             </div>
           </div>
@@ -190,7 +179,7 @@ const navigateToTest = () => {
           class="w-full h-32 flex items-center justify-between px-12 md:px-18 pointer-events-auto"
         >
           <button
-            class="flex items-center gap-2 font-satoshi text-xs tracking-[0.2em] uppercase text-primary/60 hover:text-primary transition-colors cursor-pointer"
+            :class="navItemClasses"
             @click="gameStore.resetGame()"
           >
             <svg
@@ -208,7 +197,7 @@ const navigateToTest = () => {
           </button>
 
           <div
-            class="flex items-center gap-2 font-satoshi text-xs tracking-[0.2em] uppercase text-primary/60 hover:text-primary transition-colors cursor-pointer"
+            :class="navItemClasses"
             @click="navigateToTest"
           >
             TEST DU SPECTRE DE L'HYPERSENSIBILITÉ
