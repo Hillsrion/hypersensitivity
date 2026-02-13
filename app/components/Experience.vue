@@ -1,16 +1,12 @@
 <script setup lang="ts">
 import { useAnimationsStore } from "~/stores/animations";
 import { useGameStore } from "~/stores/game";
-import { useAudioStore } from "~/stores/audio";
-import { useExperienceAnimations } from "~/composables/useExperienceAnimations";
-import MenuIcon from "./MenuIcon.vue";
-import EnergyBar from "./EnergyBar.vue";
+import { useExperienceAnimations } from "~/app/composables/useExperienceAnimations";
 import GameContainer from "./game/GameContainer.vue";
 
 const { $gsap } = useNuxtApp();
 const gameStore = useGameStore();
 const animationsStore = useAnimationsStore();
-const audioStore = useAudioStore();
 
 const container = ref<HTMLElement | null>(null);
 const textContainer = ref<HTMLElement | null>(null);
