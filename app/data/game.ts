@@ -1088,7 +1088,7 @@ const dayOneGameEvent: Scene = {
       text: "JOUER",
       nextSceneId: "dayOnePlay",
       effects: {
-        energy: -100,
+        energy: -85,
         flags: { gameEventChoice: "play", hadBreakdown: true },
       },
     },
@@ -3208,7 +3208,7 @@ export const gameData: GameData = {
     conflictOutcome: null,
     gameEventChoice: null,
     hadBreakdown: false,
-    energy: 75,
+    energy: 100,
   },
   milestones: [
     { id: "reveil", label: "Reveil", sceneId: "dayOneWakeup", day: 1 },
