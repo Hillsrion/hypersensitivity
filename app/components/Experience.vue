@@ -164,7 +164,9 @@ watch(
   { immediate: true }
 );
 
-const scrollToQuestionnaire = () => {
+const scrollToQuestionnaire = async () => {
+  gameStore.setShowQuestionnaire(true);
+  await nextTick();
   $gsap.to(window, {
     duration: 1.5,
     scrollTo: "#hsp-questionnaire",
