@@ -6,7 +6,6 @@ export const dayOneOffice: Scene = {
   id: SCENE_IDS.DAY_ONE_OFFICE,
   day: 1,
   title: "Bureau",
-  milestone: "bureau",
   entryAnnotation: "Au bureau",
   audio: "experience/J01_C02_Bureau_Base.mp3",
   dialogues: [

@@ -12,6 +12,7 @@ import type {
 import { gameData } from "../app/data/game";
 import { devConfig } from "../app/config/dev";
 import { useAudioStore } from "./audio"; // We will need this
+import { MILESTONES, getMilestoneForScene } from "../app/data/milestones";
 
 const STORAGE_KEY = "hypersensitivity-game-state";
 
@@ -56,7 +57,6 @@ export const useGameStore = defineStore("game", {
   getters: {
     currentScene(): Scene | null {
       const scene = gameData.scenes[this.currentSceneId] ?? null;
-      console.log(`LOG_DEBUG: currentScene getter called. ID: ${this.currentSceneId}, Found: ${!!scene}`);
       return scene;
     },
 
@@ -108,11 +108,11 @@ export const useGameStore = defineStore("game", {
     },
 
     milestones(): Milestone[] {
-      return gameData.milestones;
+      return Object.values(MILESTONES);
     },
 
     reachedMilestonesList(): Milestone[] {
-      return gameData.milestones.filter((m) =>
+      return Object.values(MILESTONES).filter((m) =>
         this.reachedMilestones.includes(m.id)
       );
     },
@@ -328,9 +328,10 @@ export const useGameStore = defineStore("game", {
           }
         }
 
-        // Enregistrer le milestone si present
-        if (scene.milestone && !this.reachedMilestones.includes(scene.milestone)) {
-          this.reachedMilestones.push(scene.milestone);
+        // Enregistrer le milestone si trouvé via le mapping
+        const milestone = getMilestoneForScene(sceneId);
+        if (milestone && !this.reachedMilestones.includes(milestone.id)) {
+          this.reachedMilestones.push(milestone.id);
         }
 
         this.currentSceneId = sceneId;
@@ -361,11 +362,11 @@ export const useGameStore = defineStore("game", {
 
     // Aller a un milestone
     goToMilestone(milestoneId: string) {
-      const milestone = gameData.milestones.find((m) => m.id === milestoneId);
+      const milestone = MILESTONES[milestoneId];
       if (milestone && this.reachedMilestones.includes(milestoneId)) {
         this.introPlayed = true;
         this.introAnimationPhase = "complete";
-        this.goToScene(milestone.sceneId);
+        this.goToScene(milestone.entrySceneId);
         this.isMenuOpen = false;
       }
     },

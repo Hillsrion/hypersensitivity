@@ -6,7 +6,6 @@ export const dayTwoMoving: Scene = {
   id: SCENE_IDS.DAY_TWO_MOVING,
   day: 2,
   title: "Demenagement",
-  milestone: "demenagement",
   entryAnnotation: "Au déménagement",
   audio: "experience/J02_S02_Demenagement.mp3",
   dialogues: [

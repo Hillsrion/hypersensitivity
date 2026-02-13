@@ -6,7 +6,6 @@ export const dayOneWakeup: Scene = {
   id: SCENE_IDS.DAY_ONE_WAKEUP,
   day: 1,
   title: "Réveil",
-  milestone: "reveil",
   audio: "experience/J01_S01_Reveil.mp3",
   dialogues: [
     pensees("d1_1", "Oh purée, un autre jour dans la France de Macron..", {

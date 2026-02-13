@@ -53,7 +53,6 @@ export interface Scene {
   id: string;
   day: 1 | 2;
   title: string; // "Reveil", "Trajet", "Appel", etc.
-  milestone?: string; // ID milestone pour navigation (ex: "trajet", "bureau")
   dialogues: DialogueLine[];
   choices?: Choice[];
   nextSceneId?: string; // Scene suivante si pas de choix
@@ -69,7 +68,7 @@ export interface Scene {
 export interface Milestone {
   id: string;
   label: string;
-  sceneId: string;
+  entrySceneId: string;
   day: 1 | 2;
 }
 
@@ -77,7 +76,6 @@ export interface GameData {
   scenes: Record<string, Scene>;
   initialSceneId: string;
   initialFlags: GameFlags;
-  milestones: Milestone[];
 }
 
 // Phases de l'animation d'intro

@@ -1,8 +1,8 @@
-import type { GameData, Scene } from "../types/game";
+import type { GameData } from "../types/game";
 import { SCENE_IDS } from "./constants";
 import { dayOneWakeup, dayOneBathroom, dayOneOutfitSexy, dayOneOutfitComfort, dayOneMetroSexy, dayOneMetroComfort, dayOneOffice, dayOneConflictSubmit, dayOneConflictAssert, dayOnePartySexy, dayOnePartyComfort, dayOneGameEvent, dayOnePlay, dayOneRefuse, dayOneRefuseSubmit, dayOneRefuseAssert, dayOneEndCrash, dayOneEndGoodAssertSexy, dayOneEndGoodAssertComfort, dayOneEndGoodReflect } from "./scenes/day1";
 import { dayTwoWakeupCrash, dayTwoWakeupGood, dayTwoCall, dayTwoAccept, dayTwoRefuse, dayTwoMountain, dayTwoMoving, dayTwoSunset, gameEnd } from "./scenes/day2";
-import { dayOneEndGoodAssert, dayTwoWakeup } from "./scenes/routing";
+import { dayOneEndGoodAssert, dayTwoWakeup, dayOneMetroRouting, dayOnePartyRouting, dayOneEndRouting } from "./scenes/routing";
 
 // ============================================
 // EXPORT
@@ -17,18 +17,11 @@ export const gameData: GameData = {
     hadBreakdown: false,
     energy: 100,
   },
-  milestones: [
-    { id: "reveil", label: "Réveil", sceneId: SCENE_IDS.DAY_ONE_WAKEUP, day: 1 },
-    { id: "trajet", label: "Trajet", sceneId: SCENE_IDS.DAY_ONE_METRO_SEXY, day: 1 },
-    { id: "bureau", label: "Bureau", sceneId: SCENE_IDS.DAY_ONE_OFFICE, day: 1 },
-    { id: "soiree", label: "Soirée", sceneId: SCENE_IDS.DAY_ONE_PARTY_SEXY, day: 1 },
-    { id: "retour", label: "Retour", sceneId: SCENE_IDS.DAY_ONE_END_CRASH, day: 1 },
-    { id: "reveil2", label: "Réveil", sceneId: SCENE_IDS.DAY_TWO_WAKEUP, day: 2 },
-    { id: "demenagement", label: "Déménagement", sceneId: SCENE_IDS.DAY_TWO_MOVING, day: 2 },
-    { id: "montagne", label: "Montagne", sceneId: SCENE_IDS.DAY_TWO_MOUNTAIN, day: 2 },
-  ],
   scenes: {
     // Routing
+    [SCENE_IDS.DAY_ONE_METRO_ROUTING]: dayOneMetroRouting,
+    [SCENE_IDS.DAY_ONE_PARTY_ROUTING]: dayOnePartyRouting,
+    [SCENE_IDS.DAY_ONE_END_ROUTING]: dayOneEndRouting,
     [SCENE_IDS.DAY_ONE_END_GOOD_ASSERT]: dayOneEndGoodAssert,
     [SCENE_IDS.DAY_TWO_WAKEUP]: dayTwoWakeup,
 

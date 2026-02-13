@@ -6,7 +6,6 @@ export const dayOnePartySexy: Scene = {
   id: SCENE_IDS.DAY_ONE_PARTY_SEXY,
   day: 1,
   title: "Soiree",
-  milestone: "soiree",
   entryAnnotation: "Lucie arrive à la soirée",
   audio: "experience/J01_S05_Soiree_Tenue_Sexy.mp3",
   dialogues: [
@@ -87,7 +86,6 @@ export const dayOnePartyComfort: Scene = {
   id: SCENE_IDS.DAY_ONE_PARTY_COMFORT,
   day: 1,
   title: "Soiree",
-  milestone: "soiree",
   entryAnnotation: "Lucie arrive à la soirée",
   audio: "experience/J01_S05_Soiree_Tenue_Confort.mp3",
   dialogues: [

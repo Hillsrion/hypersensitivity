@@ -6,7 +6,6 @@ export const dayTwoMountain: Scene = {
   id: SCENE_IDS.DAY_TWO_MOUNTAIN,
   day: 2,
   title: "Montagne",
-  milestone: "montagne",
   entryAnnotation: "Arrivée à la montagne",
   audio: "experience/J02_S02_Montagne_Intro.mp3",
   dialogues: [

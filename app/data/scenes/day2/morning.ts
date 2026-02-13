@@ -6,7 +6,6 @@ export const dayTwoWakeupCrash: Scene = {
   id: SCENE_IDS.DAY_TWO_WAKEUP_CRASH,
   day: 2,
   title: "Réveil",
-  milestone: "reveil2",
   entryAnnotation: "Lucie se réveille",
   dialogues: [
     pensees(
@@ -25,7 +24,6 @@ export const dayTwoWakeupGood: Scene = {
   id: SCENE_IDS.DAY_TWO_WAKEUP_GOOD,
   day: 2,
   title: "Réveil",
-  milestone: "reveil2",
   entryAnnotation: "Lucie se réveille",
   dialogues: [
     pensees(
