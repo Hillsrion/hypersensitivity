@@ -157,12 +157,38 @@ const ensureAudioPlaying = (path: string) => {
 
   if (currentItem && isSamePath && audioStore.isPlaying) {
      console.log("LOG_DEBUG: Audio already playing:", path);
+     
+     // NEW: If shared audio, ensure we are at the right position if just switched
+     const timings = props.dialogue?.timings;
+     const firstTiming = timings?.find(t => t.start !== undefined);
+
+     if (firstTiming) {
+        const audio = audioStore.currentAudio as any;
+        
+        // If we are significantly behind the first timing, seek to it
+        // This handles "skipping" to the next dialogue segment in a shared audio file
+        if (audio && audio.currentTime < (firstTiming.start - 0.5)) {
+           console.log("LOG_DEBUG: Seeking shared audio to:", firstTiming.start);
+           audio.currentTime = firstTiming.start;
+        }
+     }
      return;
   }
   
   const audioPath = path.startsWith('/') ? path : `/audios/${path}`;
   console.log("LOG_DEBUG: Starting new audio:", audioPath);
   audioStore.playAudio(audioPath);
+  
+  // Seek if we have timings and just started
+  const firstTiming = props.dialogue?.timings?.find(t => t.start !== undefined);
+  if (firstTiming) {
+      setTimeout(() => {
+          const audio = audioStore.currentAudio as any;
+          if (audio && audio.currentTime < firstTiming.start) {
+              audio.currentTime = firstTiming.start;
+          }
+      }, 50);
+  }
 };
 
 // Animation des mots

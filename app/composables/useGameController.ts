@@ -55,8 +55,16 @@ export const useGameController = () => {
 
   // Gerer le clic pour avancer dans les dialogues
   const handleInteraction = () => {
+    // Si on est en train d'afficher une annotation d'entrée (milestone)
+    // le premier clic permet de la passer pour voir le dialogue
+    if (gameStore.introAnimationPhase === "annotation") {
+        console.log("LOG_DEBUG: Skipping entry annotation via click");
+        gameStore.setIntroAnimationPhase("complete");
+        return;
+    }
+
     if (
-      !showGameUI.value || // Pas d'interaction pendant l'intro
+      (!showGameUI.value && !gameStore.introPlayed) || // Bloquer seulement si l'intro globale n'est pas jouée
       gameStore.showChoices ||
       gameStore.isTransitioning ||
       gameStore.isMenuOpen
@@ -116,8 +124,36 @@ export const useGameController = () => {
 
   // Animation quand le dialogue change
   const onDialogueAnimationComplete = () => {
-    // Logic for dialogue animation completion
+    console.log("LOG_DEBUG: onDialogueAnimationComplete called");
+    // On ne fait plus d'avance automatique ici pour les audios partagés
+    // car cela cause un effet "machine gun" si on est un peu en avance.
+    // On utilise maintenant le watcher sur audioStore.currentTime pour plus de précision.
   };
+
+  // Synchronisation pour les audios partagés (progression automatique)
+  watch(
+    () => audioStore.currentTime,
+    (time) => {
+      // Uniquement si on a un audio de scène (partagé)
+      const scene = gameStore.currentScene;
+      if (!scene || !scene.audio) return;
+      if (gameStore.isLastDialogue || gameStore.showChoices || gameStore.isTransitioning) return;
+      
+      const nextDialogue = scene.dialogues[gameStore.currentDialogueIndex + 1];
+      const nextTimings = nextDialogue?.timings;
+      if (nextTimings && nextTimings.length > 0) {
+        // On cherche le premier timing qui a un start (mot ou annotation)
+        const nextStart = nextTimings[0].start;
+        
+        // Si l'audio a atteint le début du dialogue suivant
+        // on laisse une petite marge de 0.1s pour éviter les micro-coupures
+        if (time >= nextStart - 0.1) {
+          console.log("LOG_DEBUG: Auto-advancing shared audio via currentTime watcher", { time, nextStart });
+          gameStore.advanceDialogue();
+        }
+      }
+    }
+  );
 
   // Watch menu opening sequence
   watch(
