@@ -162,17 +162,17 @@ const navigateToTest = () => {
               >
                 <!-- Title -->
                 <div
-                  class="absolute bottom-6 left-1/2 -translate-x-1/2 whitespace-nowrap origin-bottom-left -rotate-45"
+                  class="absolute bottom-6 left-1/2 -translate-x-1/2 whitespace-nowrap text-xl/7 origin-bottom-left -rotate-45"
                 >
                   <button
-                    class="font-satoshi font-medium text-xl/8 transition-all duration-300 text-primary hover:text-primary/70 cursor-pointer"
+                    class="font-satoshi transition-all duration-300 text-primary hover:text-primary/70 cursor-pointer"
                     @click="handleMilestoneClick(milestone.id)"
                   >
-                    <span class="text-xs tracking-widest uppercase opacity-40 mr-1"
+                    <span class="uppercase mr-1 font-medium"
                       >JOUR {{ milestone.day }}</span
                     >
-                    <span class="mx-1 opacity-20">-</span>
-                    <span>{{ milestone.label }}</span>
+                    <span class="mx-1 font-serif">-</span>
+                    <span class="font-serif">{{ milestone.label }}</span>
                   </button>
                 </div>
 
