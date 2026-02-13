@@ -18,13 +18,13 @@ export const gameData: GameData = {
     energy: 100,
   },
   milestones: [
-    { id: "reveil", label: "Reveil", sceneId: SCENE_IDS.DAY_ONE_WAKEUP, day: 1 },
+    { id: "reveil", label: "Réveil", sceneId: SCENE_IDS.DAY_ONE_WAKEUP, day: 1 },
     { id: "trajet", label: "Trajet", sceneId: SCENE_IDS.DAY_ONE_METRO_SEXY, day: 1 },
     { id: "bureau", label: "Bureau", sceneId: SCENE_IDS.DAY_ONE_OFFICE, day: 1 },
-    { id: "soiree", label: "Soiree", sceneId: SCENE_IDS.DAY_ONE_PARTY_SEXY, day: 1 },
+    { id: "soiree", label: "Soirée", sceneId: SCENE_IDS.DAY_ONE_PARTY_SEXY, day: 1 },
     { id: "retour", label: "Retour", sceneId: SCENE_IDS.DAY_ONE_END_CRASH, day: 1 },
-    { id: "reveil2", label: "Reveil", sceneId: SCENE_IDS.DAY_TWO_WAKEUP, day: 2 },
-    { id: "demenagement", label: "Demenagement", sceneId: SCENE_IDS.DAY_TWO_MOVING, day: 2 },
+    { id: "reveil2", label: "Réveil", sceneId: SCENE_IDS.DAY_TWO_WAKEUP, day: 2 },
+    { id: "demenagement", label: "Déménagement", sceneId: SCENE_IDS.DAY_TWO_MOVING, day: 2 },
     { id: "montagne", label: "Montagne", sceneId: SCENE_IDS.DAY_TWO_MOUNTAIN, day: 2 },
   ],
   scenes: {

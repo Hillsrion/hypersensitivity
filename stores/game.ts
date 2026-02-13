@@ -41,7 +41,7 @@ export const useGameStore = defineStore("game", {
     currentSceneId: gameData.initialSceneId,
     currentDialogueIndex: 0,
     flags: { ...gameData.initialFlags },
-    reachedMilestones: [],
+    reachedMilestones: ["reveil"],
     isTransitioning: false,
     showChoices: false,
     isMenuOpen: false,
