@@ -110,6 +110,168 @@ watch(
   }
 );
 
+const isDayTransition = ref(false);
+
+const playCloseEyeAnimation = () => {
+  return new Promise<void>((resolve) => {
+    if (!eyePath.value) {
+      resolve();
+      return;
+    }
+
+    const tl = $gsap.timeline({
+      onComplete: resolve,
+    });
+    const duration = 0.3;
+
+    // Start from Open State (Scale 5, Step 4)
+    tl.to(eyePath.value, {
+      scale: 1,
+      duration: duration * 3,
+      ease: "power2.inOut",
+    })
+      .to(eyePath.value, {
+        attr: { d: eyePaths.step3 },
+        y: 1,
+        duration: duration,
+        ease: "power1.inOut",
+      })
+      .to(
+        eyePath.value,
+        {
+          attr: { d: eyePaths.step2 },
+          y: 126.5,
+          duration: duration,
+          ease: "power1.inOut",
+        },
+        ">"
+      )
+      .to(
+        eyePath.value,
+        {
+          attr: { d: eyePaths.step1 },
+          y: 239.08,
+          duration: duration,
+          ease: "power1.inOut",
+        },
+        ">"
+      )
+      .to(
+        eyePath.value,
+        {
+          attr: { d: eyePaths.base },
+          y: 299.74,
+          duration: duration,
+          ease: "power1.inOut",
+        },
+        ">"
+      )
+      .to(
+        eyePath.value,
+        {
+          attr: { d: eyePaths.closed },
+          duration: duration,
+          ease: "power1.inOut",
+        },
+        ">"
+      )
+      .call(() => {
+        animationsStore.setCursorVariant("light");
+        animationsStore.setAudiowaveVariant("light");
+      });
+  });
+};
+
+const playOpenEyeAnimation = () => {
+  return new Promise<void>((resolve) => {
+    if (!eyePath.value) {
+      resolve();
+      return;
+    }
+
+    const tl = $gsap.timeline({
+      onComplete: resolve,
+    });
+    const duration = 0.3;
+
+    tl.to(eyePath.value, {
+      attr: { d: eyePaths.base },
+      duration: duration,
+      ease: "power1.inOut",
+    })
+      .to(
+        eyePath.value,
+        {
+          attr: { d: eyePaths.step1 },
+          y: 239.08,
+          duration: duration,
+          ease: "power1.inOut",
+        },
+        ">"
+      )
+      .to(
+        eyePath.value,
+        {
+          attr: { d: eyePaths.step2 },
+          y: 126.5,
+          duration: duration,
+          ease: "power1.inOut",
+        },
+        ">"
+      )
+      .to(
+        eyePath.value,
+        {
+          attr: { d: eyePaths.step3 },
+          y: 1,
+          duration: duration,
+          ease: "power1.inOut",
+        },
+        ">"
+      )
+      .to(
+        eyePath.value,
+        {
+          attr: { d: eyePaths.step4 },
+          y: 1,
+          scale: 5,
+          duration: duration * 3,
+          ease: "power1.inOut",
+        },
+        ">"
+      )
+      .call(() => {
+        animationsStore.setCursorVariant("dark");
+        animationsStore.setAudiowaveVariant("dark");
+      });
+  });
+};
+
+watch(
+  () => gameStore.currentDay,
+  async (newDay, oldDay) => {
+    if (oldDay === 1 && newDay === 2) {
+      // 1. Hide Game UI
+      isDayTransition.value = true;
+
+      // Wait for UI to fade out
+      await new Promise((resolve) => setTimeout(resolve, 1000));
+
+      // 2. Play Close Eye Animation
+      await playCloseEyeAnimation();
+      
+      // Small pause closed
+      await new Promise((resolve) => setTimeout(resolve, 500));
+
+      // 3. Play Open Eye Animation
+      await playOpenEyeAnimation();
+
+      // 4. Show Game UI
+      isDayTransition.value = false;
+    }
+  }
+);
+
 onMounted(() => {
   if (!container.value) return;
 });
@@ -428,7 +590,7 @@ const scrollToQuestionnaire = () => {
       <!-- Game Container - Affiche dans l'oeil, l'annotation apparait avec l'animation -->
       <div 
         class="absolute inset-0 z-20 pointer-events-none transition-opacity duration-1000"
-        :class="{ 'opacity-0': isGameEnd }"
+        :class="{ 'opacity-0': isGameEnd || isDayTransition }"
       >
         <GameContainer class="h-full pointer-events-auto" />
       </div>
@@ -453,7 +615,7 @@ const scrollToQuestionnaire = () => {
               </button>
               
               <div class="w-12 h-12 rounded-full border border-white/20 flex items-center justify-center">
-                <div class="w-[1px] h-4 bg-white/40"></div>
+                <div class="w-px h-4 bg-white/40"></div>
               </div>
               
               <button 
