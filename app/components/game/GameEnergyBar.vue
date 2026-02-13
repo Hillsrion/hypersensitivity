@@ -4,21 +4,18 @@ import { useGameStore } from "~/stores/game";
 const gameStore = useGameStore();
 const { $gsap } = useNuxtApp();
 
-const fillRef = useTemplateRef(null);
-const previousEnergy = ref(gameStore.energyPercentage);
+const fillRef = useTemplateRef('fillRef');
+const animatedEnergy = ref(gameStore.energyPercentage);
 
 // Animation de la barre d'energie quand elle change
 watch(
   () => gameStore.energyPercentage,
   (newEnergy) => {
-    if (fillRef.value && newEnergy !== previousEnergy.value) {
-      $gsap.to(fillRef.value, {
-        height: `${newEnergy}%`,
-        duration: 0.8,
-        ease: "power2.out",
-      });
-      previousEnergy.value = newEnergy;
-    }
+    $gsap.to(animatedEnergy, {
+      value: newEnergy,
+      duration: 1.5,
+      ease: "expo.out",
+    });
   }
 );
 </script>
@@ -30,7 +27,7 @@ watch(
         <div
           ref="fillRef"
           class="absolute bottom-0 left-0 rounded-full w-full bg-current"
-          :style="{ height: `${gameStore.energyPercentage}%` }"
+          :style="{ height: `${animatedEnergy}%` }"
         />
       </div>
     </div>
