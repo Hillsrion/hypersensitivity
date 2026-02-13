@@ -113,11 +113,11 @@ watch(
   }
 );
 
-// Nettoyer les choix lors d'une transition
+// Nettoyer les choix quand ils ne sont plus nécessaires
 watch(
-  () => gameStore.isTransitioning,
-  (isTransitioning) => {
-    if (isTransitioning) {
+  () => gameStore.selectedChoice,
+  (choice) => {
+    if (!choice && !gameStore.showChoices) {
       activeChoices.value = [];
     }
   }

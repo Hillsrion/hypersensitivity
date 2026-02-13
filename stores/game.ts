@@ -290,7 +290,6 @@ export const useGameStore = defineStore("game", {
     goToScene(sceneId: string) {
       this.isTransitioning = true;
       this.showChoices = false;
-      this.selectedChoice = null;
 
       const oldDay = this.currentDay;
       
@@ -300,6 +299,11 @@ export const useGameStore = defineStore("game", {
         if (!scene) {
           this.isTransitioning = false;
           return;
+        }
+
+        // On ne réinitialise le choix sélectionné que s'il y a un changement de milestone (annotation d'entrée)
+        if (scene.entryAnnotation) {
+          this.selectedChoice = null;
         }
 
         // Appliquer les effets d'entree

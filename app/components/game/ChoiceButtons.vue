@@ -32,6 +32,17 @@ onMounted(() => {
   }
 });
 
+// Reset l'état quand on doit réafficher les choix
+watch(
+  () => gameStore.showChoices,
+  (show) => {
+    if (show) {
+      isSelecting.value = false;
+      selectedIndex.value = null;
+    }
+  }
+);
+
 const handleSelect = async (choice: Choice, index: number) => {
   if (gameStore.isChoiceDisabled(choice) || isSelecting.value) return;
 
