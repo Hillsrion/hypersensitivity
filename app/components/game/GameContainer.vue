@@ -46,7 +46,15 @@ const showGameUI = computed(() => {
 });
 
 const annotationText = computed(() => {
-  return gameStore.firstDialogueAnnotation || "";
+  const text = gameStore.firstDialogueAnnotation || "";
+  console.log("LOG_DEBUG: annotationText computed:", text);
+  return text;
+});
+
+const showContent = computed(() => {
+  const has = gameStore.hasDialogues && !!gameStore.currentDialogue;
+  console.log("LOG_DEBUG: GameContainer showContent:", has, "currentDialogueIdx:", gameStore.currentDialogueIndex);
+  return has;
 });
 
 // Initialiser le jeu au montage
@@ -120,11 +128,6 @@ const onDialogueAnimationComplete = () => {
   // Le dialogue a fini son animation
   // On peut maintenant permettre de cliquer pour avancer
 };
-
-// Computed pour savoir si on affiche le contenu
-const showContent = computed(() => {
-  return gameStore.hasDialogues && gameStore.currentDialogue;
-});
 
 // Watch menu opening sequence
 watch(

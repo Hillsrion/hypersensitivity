@@ -71,8 +71,9 @@ const autoRevealStarted = ref(false);
 watch(
   () => gameStore.introBlurAmount,
   (val) => {
+    console.log("LOG_DEBUG: Experience introBlurAmount watch", val, "Phase:", gameStore.introAnimationPhase);
     if (
-      val === 0 &&
+      val <= 0.01 &&
       !autoRevealStarted.value &&
       gameStore.introAnimationPhase === "annotation"
     ) {
@@ -82,14 +83,17 @@ watch(
 
 
 
-      // Le minuteur de 6 secondes
+      // Le minuteur de 3 secondes
+      console.log("LOG_DEBUG: Starting 3s reveal timer");
       revealTl.to(
         {},
         {
-          duration: 6,
+          duration: 3,
           onComplete: () => {
+            console.log("LOG_DEBUG: Reveal timer complete. Setting phase to revealing");
             gameStore.setIntroAnimationPhase("revealing");
             $gsap.delayedCall(1, () => {
+              console.log("LOG_DEBUG: Moving to complete phase");
               gameStore.setIntroAnimationPhase("complete");
               gameStore.setIntroPlayed();
             });

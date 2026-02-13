@@ -136,6 +136,7 @@ const handleAudioEnded = () => {
 const split = useSplitText(textRef, {
   splitBy: "lines,words",
   onComplete: (instance) => {
+    console.log("LOG_DEBUG: useSplitText onComplete. Words found:", instance.words?.length);
     // Initialiser tous les mots avec opacite reduite
     $gsap.set(instance.words, { opacity: 0.2 });
   },
@@ -443,9 +444,8 @@ watch(
           attempts++;
           setTimeout(checkSplit, 50);
         } else {
-          console.warn("LOG_DEBUG: Split timed out, forcing animation/audio start anyway.");
-          // Fallback: lance quand meme l'animation (l'audio se jouera, le texte apparaitra peut-etre d'un bloc)
-          // SAUF si on est en intro, car l'intro est contrôlée par le watcher sur introBlurAmount
+          console.warn("LOG_DEBUG: Split timed out, forcing visibility and animation start anyway.");
+          isReady.value = true; // Fallback: show the text anyway
           if (!isInIntroAnimation.value) {
             animateWords();
           }

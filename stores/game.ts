@@ -54,7 +54,9 @@ export const useGameStore = defineStore("game", {
 
   getters: {
     currentScene(): Scene | null {
-      return gameData.scenes[this.currentSceneId] ?? null;
+      const scene = gameData.scenes[this.currentSceneId] ?? null;
+      console.log(`LOG_DEBUG: currentScene getter called. ID: ${this.currentSceneId}, Found: ${!!scene}`);
+      return scene;
     },
 
     currentDialogue(): DialogueLine | null {

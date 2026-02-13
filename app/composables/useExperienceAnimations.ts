@@ -330,17 +330,22 @@ export const useExperienceAnimations = () => {
     gameStore.setIntroBlurAmount(8);
 
     eyeTl
+      .call(() => {
+        console.log("LOG_DEBUG: eyeTl started, setting phase to annotation");
+        gameStore.setIntroAnimationPhase("annotation");
+      })
       .to(eyePath.value, {
         attr: { d: eyePaths.base },
         duration: eyeStepDuration,
         ease: "power1.inOut",
       })
       .call(() => {
-        gameStore.setIntroAnimationPhase("annotation");
         // Lancer l'audio du premier dialogue maintenant car DialogueBox n'est pas encore monté
         const currentScene = gameStore.currentScene;
         const audioToPlay =
           currentScene?.audio || gameStore.currentDialogue?.audio;
+
+        console.log("LOG_DEBUG: eyeTl mid call. Scene:", currentScene?.id, "Audio:", audioToPlay);
 
         if (audioToPlay) {
           const audioPath = audioToPlay.startsWith("/")
