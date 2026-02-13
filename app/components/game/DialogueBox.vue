@@ -218,6 +218,10 @@ const animateWords = async () => {
       emit("animationComplete");
     },
   });
+  
+  // Sync animation speed with audio playback rate
+  wordTimeline.timeScale(audioStore.playbackRate);
+  
   activeTimeline.value = wordTimeline;
   
   const getEffectiveEnd = (end: number | "end", start: number): number => {

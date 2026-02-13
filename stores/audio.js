@@ -9,6 +9,7 @@ export const useAudioStore = defineStore('audio', {
     isPlaying: false,
     list: [],
     volume: 0.8,
+    playbackRate: 1.0,
   }),
 
   actions: {
@@ -16,6 +17,13 @@ export const useAudioStore = defineStore('audio', {
       this.volume = val;
       if (this.currentAudio && !this.fadeInterval) {
         this.currentAudio.volume = val;
+      }
+    },
+
+    setPlaybackRate(rate) {
+      this.playbackRate = rate;
+      if (this.currentAudio) {
+        this.currentAudio.playbackRate = rate;
       }
     },
 
@@ -35,6 +43,7 @@ export const useAudioStore = defineStore('audio', {
       this.currentAudio = item.audio;
       this.currentAudio.volume = 0;
       this.currentAudio.currentTime = 0;
+      this.currentAudio.playbackRate = this.playbackRate;
       
       // Handle when audio ends naturally
       this.currentAudio.onended = () => {

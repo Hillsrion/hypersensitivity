@@ -10,6 +10,8 @@ import type {
   IntroAnimationPhase,
 } from "../app/types/game";
 import { gameData } from "../app/data/game";
+import { devConfig } from "../app/config/dev";
+import { useAudioStore } from "./audio"; // We will need this
 
 const STORAGE_KEY = "hypersensitivity-game-state";
 
@@ -139,6 +141,25 @@ export const useGameStore = defineStore("game", {
       if (forceReset) {
         this.resetGame();
         return;
+      }
+
+      // Dev Config Override
+      if (import.meta.env.DEV && devConfig.enabled && devConfig.initialSceneId) {
+        console.log("LOG_DEBUG: Applying Dev Config", devConfig);
+        this.currentSceneId = devConfig.initialSceneId;
+        this.currentDialogueIndex = 0;
+        this.flags = { ...gameData.initialFlags, ...devConfig.initialFlags };
+        this.introPlayed = true;
+        this.introAnimationPhase = "complete";
+        
+        // Also set audio playback rate if specified
+        if (devConfig.playbackRate) {
+           // We'll handle this in audio store or here if we access it?
+           // Accessing outside store inside action:
+           const audioStore = useAudioStore();
+           audioStore.setPlaybackRate(devConfig.playbackRate);
+        }
+        return; 
       }
 
       const saved = localStorage.getItem(STORAGE_KEY);
