@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { useAnimationsStore } from "~/stores/animations";
 import { useGameStore } from "~/stores/game";
-import { useExperienceAnimations } from "~/app/composables/useExperienceAnimations";
+import { useExperienceAnimations, gradientSteps } from "~/app/composables/useExperienceAnimations";
 import GameContainer from "./game/GameContainer.vue";
 
 const { $gsap } = useNuxtApp();
@@ -24,11 +24,12 @@ const {
 // Initial state managed by composable
 
 const backgroundGradient = computed(() => {
-  if (isGameEnd.value) return "var(--color-primary)";
+  // We want the gradient to run during the end sequence
   return `linear-gradient(180deg, ${gradientState.color1} ${gradientState.stop1}%, ${gradientState.color2} ${gradientState.stop2}%, ${gradientState.color3} ${gradientState.stop3}%, ${gradientState.color4} ${gradientState.stop4}%)`;
 });
 
 const isGameEnd = computed(() => gameStore.currentScene?.id === "gameEnd");
+const showEndContent = ref(false);
 
 watch(isGameEnd, (newVal) => {
   if (newVal) {
@@ -37,14 +38,22 @@ watch(isGameEnd, (newVal) => {
         animationsStore.setAudiowaveVariant("light");
     }
     
-    $gsap.to(gradientState, {
-      color1: "#0b1018",
-      color2: "#0b1018",
-      color3: "#0b1018",
-      color4: "#0b1018",
-      duration: 2,
-      ease: "power2.inOut",
+    const tl = $gsap.timeline();
+    const stepDuration = 0.5;
+
+    gradientSteps.forEach((step) => {
+      tl.to(gradientState, {
+        ...step,
+        duration: stepDuration,
+        ease: "none",
+      });
     });
+
+    tl.call(() => {
+      showEndContent.value = true;
+    });
+  } else {
+    showEndContent.value = false;
   }
 });
 
@@ -185,7 +194,7 @@ const scrollToQuestionnaire = () => {
       <!-- End Screen Overlay -->
       <Transition name="fade">
         <div 
-          v-if="isGameEnd" 
+          v-if="showEndContent" 
           class="absolute inset-0 z-30 flex flex-col items-center justify-center pointer-events-auto"
         >
           <div class="max-w-2xl px-6 text-center">

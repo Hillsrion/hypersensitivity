@@ -3,6 +3,70 @@ import { useAnimationsStore } from "~/stores/animations";
 import { useAudioStore } from "~/stores/audio";
 // Note: We need to import gsap from useNuxtApp inside the function as it's not available in module scope
 
+export interface GradientStep {
+  color1: string;
+  color2: string;
+  color3: string;
+  color4: string;
+}
+
+export const gradientSteps: GradientStep[] = [
+  {
+    color1: "#C2D6E6",
+    color2: "#ffffff",
+    color3: "#ffffff",
+    color4: "#ffffff",
+  },
+  {
+    color1: "#A4BBD6",
+    color2: "#C2D6E6",
+    color3: "#ffffff",
+    color4: "#ffffff",
+  },
+  {
+    color1: "#627EA4",
+    color2: "#A4BBD6",
+    color3: "#C2D6E6",
+    color4: "#ffffff",
+  },
+  {
+    color1: "#2B3E5F",
+    color2: "#627EA4",
+    color3: "#A4BBD6",
+    color4: "#C2D6E6",
+  },
+  {
+    color1: "#1C2032",
+    color2: "#2B3E5F",
+    color3: "#627EA4",
+    color4: "#A4BBD6",
+  },
+  {
+    color1: "#0B1018",
+    color2: "#1C2032",
+    color3: "#2B3E5F",
+    color4: "#627EA4",
+  },
+  {
+    color1: "#0B1018",
+    color2: "#0B1018",
+    color3: "#1C2032",
+    color4: "#2B3E5F",
+  },
+  {
+    color1: "#0B1018",
+    color2: "#0B1018",
+    color3: "#0B1018",
+    color4: "#1C2032",
+  },
+  {
+    color1: "#0B1018",
+    color2: "#0B1018",
+    color3: "#0B1018",
+    color4: "#0B1018",
+  },
+];
+
 export const useExperienceAnimations = () => {
   const { $gsap } = useNuxtApp();
   const gameStore = useGameStore();
@@ -220,62 +284,7 @@ export const useExperienceAnimations = () => {
     });
 
     const totalDuration = textTl.duration();
-    const gradientSteps = [
-      {
-        color1: "#C2D6E6",
-        color2: "#ffffff",
-        color3: "#ffffff",
-        color4: "#ffffff",
-      },
-      {
-        color1: "#A4BBD6",
-        color2: "#C2D6E6",
-        color3: "#ffffff",
-        color4: "#ffffff",
-      },
-      {
-        color1: "#627EA4",
-        color2: "#A4BBD6",
-        color3: "#C2D6E6",
-        color4: "#ffffff",
-      },
-      {
-        color1: "#2B3E5F",
-        color2: "#627EA4",
-        color3: "#A4BBD6",
-        color4: "#C2D6E6",
-      },
-      {
-        color1: "#1C2032",
-        color2: "#2B3E5F",
-        color3: "#627EA4",
-        color4: "#A4BBD6",
-      },
-      {
-        color1: "#0B1018",
-        color2: "#1C2032",
-        color3: "#2B3E5F",
-        color4: "#627EA4",
-      },
-      {
-        color1: "#0B1018",
-        color2: "#0B1018",
-        color3: "#1C2032",
-        color4: "#2B3E5F",
-      },
-      {
-        color1: "#0B1018",
-        color2: "#0B1018",
-        color3: "#0B1018",
-        color4: "#1C2032",
-      },
-      {
-        color1: "#0B1018",
-        color2: "#0B1018",
-        color3: "#0B1018",
-        color4: "#0B1018",
-      },
-    ];
+
 
     const stepDuration = totalDuration / gradientSteps.length;
     const gradientTl = $gsap.timeline();
