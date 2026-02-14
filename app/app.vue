@@ -137,7 +137,13 @@ onMounted(async () => {
     setTimeout(() => {
       const element = document.getElementById(String(target));
       if (element && lenisRef.value?.lenis) {
-        lenisRef.value.lenis.scrollTo(element, { immediate: true });
+        // If target is experience, we scroll to its bottom for easier debugging
+        const options = { immediate: true };
+        if (target === "experience") {
+          lenisRef.value.lenis.scrollTo(element, { ...options, offset: element.offsetHeight });
+        } else {
+          lenisRef.value.lenis.scrollTo(element, options);
+        }
       }
     }, 500);
   }

@@ -157,6 +157,7 @@ export const useGameStore = defineStore("game", {
         this.flags = { ...gameData.initialFlags, ...devConfig.initialFlags };
         this.introPlayed = true;
         this.introAnimationPhase = "complete";
+        this.introBlurAmount = 0; 
         
         // Ensure cursor is correctly set when skipping intro
         const animationsStore = useAnimationsStore();
