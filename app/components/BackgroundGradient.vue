@@ -113,25 +113,40 @@ watch(
 watch(
   () => animationsStore.aurora.color,
   (newColor) => {
+    // console.log("LOG_DEBUG: BackgroundGradient color watcher:", newColor);
     if (newColor === "aurora" || newColor === "rainbow") return; // Handled by isRainbowMode
 
     const style = getComputedStyle(document.documentElement);
-    const newHex = style
+    let newHex = style
       .getPropertyValue(`--color-gradient-${newColor}`)
       .trim();
     
+    // Fallback map if CSS var is missing
+    if (!newHex) {
+      const colorMap: Record<string, string> = {
+        red: "#ffc1c3",
+        pink: "#ffb8e4",
+        blue: "#a2ccfd",
+        green: "#c6ffe9",
+        yellow: "#fdedb3",
+        violet: "#decafe"
+      };
+      newHex = colorMap[newColor] || "";
+      if (newHex) {
+         console.warn(`LOG_DEBUG: CSS var for ${newColor} missing, using fallback: ${newHex}`);
+      }
+    }
+
     if (newHex && auroraInnerRef.value) {
-      // If we are switching away from rainbow mode, we might want to ensure the timeline is stopped
-      // But isRainbowMode watcher should handle that.
-      // Here we just apply the single color.
-      
-      // Animate the CSS variable directly - fallback for single color usage
+      // console.log("LOG_DEBUG: Animating Aurora to color:", newHex);
       $gsap.to(auroraInnerRef.value, {
         "--aurora-color-1": newHex,
         "--aurora-color-2": newHex,
         duration: 2,
         ease: "power2.inOut",
       });
+    } else {
+       console.error("LOG_DEBUG: Could not determine color for", newColor);
     }
   }
 );

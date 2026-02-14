@@ -1,7 +1,9 @@
 <script setup lang="ts">
+import { storeToRefs } from "pinia";
 import { useAnimationsStore } from "~/stores/animations";
 import { useGameStore } from "~/stores/game";
 import { useExperienceAnimations, gradientSteps } from "~/app/composables/useExperienceAnimations";
+// GameContainer reference is used in template
 import GameContainer from "./game/GameContainer.vue";
 
 const { $gsap } = useNuxtApp();
@@ -24,7 +26,13 @@ const {
 // Initial state managed by composable
 
 const backgroundGradient = computed(() => {
-  if (animationsStore.aurora.visible && animationsStore.aurora.zIndex > 0) {
+  const visible = animationsStore.aurora.visible;
+  const zIndex = animationsStore.aurora.zIndex;
+  
+  // console.log("LOG_DEBUG: Experience backgroundGradient check. Visible:", visible, "ZIndex:", zIndex);
+  
+  if (visible && zIndex > 0) {
+    console.log("LOG_DEBUG: Experience applying transparent background");
     return "transparent";
   }
   // We want the gradient to run during the end sequence
@@ -145,8 +153,22 @@ watch(
   }
 );
 
+watch(
+  () => animationsStore.aurora.visible,
+  (val) => {
+    console.log("LOG_DEBUG: Experience watcher - aurora.visible changed:", val);
+  }
+);
+watch(
+  () => animationsStore.aurora.zIndex,
+  (val) => {
+    console.log("LOG_DEBUG: Experience watcher - aurora.zIndex changed:", val);
+  }
+);
+
 onMounted(() => {
   if (!container.value) return;
+  console.log("LOG_DEBUG: Experience Mounted");
 });
 
 onUnmounted(() => {

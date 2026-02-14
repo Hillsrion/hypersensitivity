@@ -412,19 +412,23 @@ export function useDialogueBox(
 
         // Handle Aurora borealis effect
         if (dialogue.value?.color) {
+          console.log("LOG_DEBUG: Dialogue has color, setting Aurora visible/color:", dialogue.value.color);
           animationsStore.setAuroraZIndex(1); // Set to 1 so it's behind Experience (z-10) but triggering transparency
           animationsStore.setAuroraVisibility(true);
           // For dialogues, we don't auto-animate 'aurore', that's for the menu.
           // We keep 'rainbow' if intended, strictly following user request to reserve 'aurore' behavior for menu largely.
           if (dialogue.value.color === 'rainbow') {
+            console.log("LOG_DEBUG: Setting Rainbow Mode");
             animationsStore.setAuroraAutoAnimate(true);
           } else {
+            console.log("LOG_DEBUG: Setting Specific Color Mode");
             animationsStore.setAuroraAutoAnimate(false);
             animationsStore.setAuroraColor(dialogue.value.color);
           }
         } else {
           // Only reset if we're not in the menu (which also controls aurora)
           if (!gameStore.isMenuOpen) {
+            console.log("LOG_DEBUG: No dialogue color, possibly hiding Aurora");
             animationsStore.setAuroraVisibility(false);
             animationsStore.setAuroraAutoAnimate(false);
             animationsStore.setAuroraZIndex(0);

@@ -1,14 +1,13 @@
 import tailwindcss from '@tailwindcss/vite'
-import { fileURLToPath } from 'url'
+import { fileURLToPath } from 'node:url'
 
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
   modules: [
+    '@pinia/nuxt',
     '@nuxt/content',
     '@nuxtjs/google-fonts',
-    'nuxt-split-type',
     '@hypernym/nuxt-gsap',
-    '@pinia/nuxt',
   ],
 
   gsap: {
@@ -36,5 +35,5 @@ export default defineNuxtConfig({
   },
 
   devtools: { enabled: true },
-  compatibilityDate: '2024-04-03',
+  compatibilityDate: '2025-02-14',
 })
