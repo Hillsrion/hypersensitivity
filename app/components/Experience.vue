@@ -2,7 +2,8 @@
 import { storeToRefs } from "pinia";
 import { useAnimationsStore } from "~/stores/animations";
 import { useGameStore } from "~/stores/game";
-import { useExperienceAnimations, gradientSteps } from "~/app/composables/useExperienceAnimations";
+import { useExperienceAnimations } from "~/app/composables/useExperienceAnimations";
+import { gradientSteps } from "~/app/constants/gradients";
 // GameContainer reference is used in template
 import GameContainer from "./game/GameContainer.vue";
 
