@@ -349,8 +349,8 @@ const animateWords = async () => {
     if (wordIndex < words.length && !isEndingInShowOnly) {
       wordTimeline.to(words.slice(wordIndex), {
         opacity: 1,
-        duration: 0.5,
-        stagger: 0.05,
+        duration: 0.3,
+        stagger: 0.03,
         ease: "power2.out",
       }, ">");
     }
@@ -358,8 +358,8 @@ const animateWords = async () => {
     // Animation par defaut avec stagger (pas de timings)
     wordTimeline.to(words, {
       opacity: 1,
-      duration: 0.5,
-      stagger: 0.05,
+      duration: 0.3,
+      stagger: 0.03,
       ease: "power2.out",
     });
   }
@@ -401,7 +401,7 @@ watch(
     if (isSelecting && contentRef.value) {
       $gsap.to(contentRef.value, {
         opacity: 0,
-        duration: 0.4,
+        duration: 0.2,
         ease: "power2.inOut",
       });
     }
@@ -423,7 +423,7 @@ watch(
 
       // Révéler le conteneur avec une légère animation
       if (contentRef.value) {
-        $gsap.to(contentRef.value, { opacity: 1, duration: 0.3, ease: "power2.out" });
+        $gsap.to(contentRef.value, { opacity: 1, duration: 0.15, ease: "power2.out" });
       }
       if (textRef.value) {
         $gsap.set(textRef.value, { opacity: 0 });
@@ -461,14 +461,11 @@ watch(
 
           if (!isInIntroAnimation.value) {
              console.log("LOG_DEBUG: Calling animateWords from checkSplit success");
-             // Small delay to ensure DOM is ready before animating
-             setTimeout(() => {
-                animateWords();
-             }, 50);
+             setTimeout(animateWords, 20);
           }
         } else if (attempts < 60) { // Increased to 60 (3s)
           attempts++;
-          setTimeout(checkSplit, 50);
+          setTimeout(checkSplit, 25);
         } else {
           console.warn("LOG_DEBUG: Split timed out, forcing visibility and animation start anyway.");
           isReady.value = true; // Fallback: show the text anyway
@@ -501,7 +498,7 @@ watch(
           animateWords();
         } else if (attempts < 30) { // 1.5 secondes max
           attempts++;
-          await new Promise(resolve => setTimeout(resolve, 50));
+          await new Promise(resolve => setTimeout(resolve, 25));
           waitForSplit();
         } else {
           console.warn("LOG_DEBUG: Split timed out in intro watcher, forcing animateWords");
