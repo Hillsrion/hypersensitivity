@@ -16,6 +16,7 @@ export const dayOneOffice: Scene = {
       {
         annotation: "Lucie échange avec son collègue sur Slack",
         timings: [{ start: 0.5, end: 4 }],
+        isChat: true,
       }
     ),
     d(
@@ -24,6 +25,7 @@ export const dayOneOffice: Scene = {
       "Mince je n'ai pas vu l'heure, j'arrive tout de suite, je vais juste m'installer dans la box de reu",
       {
         timings: [{ start: 4.5, end: 8.5 }],
+        isChat: true,
       }
     ),
     d(

@@ -30,6 +30,14 @@ const activeTimeline = ref<gsap.core.Timeline | null>(null);
 const currentTimedAnnotation = ref<string | null>(null);
 const isShowingOnlyAnnotation = ref(false);
 const isReady = ref(false); // Controls visibility of the text to prevent FOUC
+const fallbackTimer = ref<ReturnType<typeof setTimeout> | null>(null);
+
+const clearFallbackTimer = () => {
+  if (fallbackTimer.value) {
+    clearTimeout(fallbackTimer.value);
+    fallbackTimer.value = null;
+  }
+};
 
 // Est-ce que c'est une pensée ?
 const isPensees = computed(() => {
@@ -111,6 +119,7 @@ onUnmounted(() => {
   activeTimeline.value?.kill();
   currentTimedAnnotation.value = null;
   isShowingOnlyAnnotation.value = false;
+  clearFallbackTimer();
   // Nettoyer le listener de fin d'audio
   if (audioStore.currentAudio) {
     (audioStore.currentAudio as HTMLAudioElement).removeEventListener('ended', handleAudioEnded);
@@ -120,7 +129,9 @@ onUnmounted(() => {
 // Callback pour quand l'audio se termine - avance automatiquement au dialogue suivant
 // Sauf s'il y a des choix à faire (on laisse les choix s'afficher)
 const handleAudioEnded = () => {
-  console.log("LOG_DEBUG: Audio ended, checking if should advance");
+  console.log("LOG_DEBUG: handleAudioEnded called");
+  clearFallbackTimer();
+  
   // Si c'est le dernier dialogue et qu'il y a des choix, ne pas avancer automatiquement
   // advanceDialogue() gérera l'affichage des choix
   if (gameStore.isLastDialogue && gameStore.hasChoices) {
@@ -193,7 +204,8 @@ const ensureAudioPlaying = (path: string) => {
 
 // Animation des mots
 const animateWords = async () => {
-  if (!props.dialogue || (!split.words.value?.length && !props.dialogue.timings?.length)) {
+  const dialogue = props.dialogue;
+  if (!dialogue || (!split.words.value?.length && !dialogue.timings?.length)) {
     emit("animationComplete");
     return;
   }
@@ -215,20 +227,35 @@ const animateWords = async () => {
   }
 
   isAnimating.value = true;
-  const audioToPlay = sceneAudio.value || props.dialogue.audio;
+  const audioToPlay = sceneAudio.value || dialogue.audio;
   console.log("LOG_DEBUG: animateWords starting. Scene Audio:", audioToPlay);
 
-  const timings = props.dialogue.timings;
+  const timings = dialogue.timings;
   const words = split.words.value || [];
 
   // Creer la timeline d'animation
   activeTimeline.value?.kill();
+  clearFallbackTimer();
+
   const wordTimeline = $gsap.timeline({
     onStart: () => {
       // Jouer l'audio si présent
       // SAUF pour le premier dialogue de l'intro (déjà joué par Experience.vue - mais on verifie si c'est le meme)
       if (audioToPlay && !isInIntroAnimation.value) {
         ensureAudioPlaying(audioToPlay);
+        
+        // Vérifier si l'audio existe réellement dans la liste
+        const audioPath = audioToPlay.startsWith('/') ? audioToPlay : `/audios/${audioToPlay}`;
+        const item = (audioStore.list as any[]).find(i => i.path === audioPath || i.path?.endsWith(audioToPlay));
+        
+        if (!item && !isInIntroAnimation.value) {
+          console.log("LOG_DEBUG: Audio item missing from list, starting 3s fallback timer");
+          fallbackTimer.value = setTimeout(handleAudioEnded, 3000);
+        }
+      } else if (!isInIntroAnimation.value) {
+        // Fallback si pas d'audio : attendre 3 secondes et avancer
+        console.log("LOG_DEBUG: No audio to play, starting 3s fallback timer");
+        fallbackTimer.value = setTimeout(handleAudioEnded, 3000);
       }
       
       // Ajouter un listener pour avancer au dialogue suivant quand l'audio se termine
@@ -246,10 +273,15 @@ const animateWords = async () => {
     },
   });
   
-  // Sync animation speed with audio playback rate
+  // Synchroniser la timeline avec la vitesse de lecture
   wordTimeline.timeScale(audioStore.playbackRate);
   
   activeTimeline.value = wordTimeline;
+
+  // Mode Chat: Affichage immédiat des mots
+  if (dialogue.isChat) {
+    wordTimeline.set(words, { opacity: 1 }, 0);
+  }
   
   const getEffectiveEnd = (end: number | "end", start: number): number => {
     if (end === "end") {
@@ -322,8 +354,8 @@ const animateWords = async () => {
                  emit("animationComplete");
              }, [], effectiveEnd);
         }
-      } else {
-        // C'est un mot
+      } else if (!dialogue.isChat) {
+        // C'est un mot et on n'est pas en mode chat
         const wordEl = words[wordIndex];
         if (wordEl) {
           const effectiveEnd = getEffectiveEnd(timing.end, timing.start);
@@ -338,6 +370,9 @@ const animateWords = async () => {
           );
           wordIndex++;
         }
+      } else {
+        // Mode Chat + timing non-annotation : on incrémente juste l'index si nécessaire
+        wordIndex++;
       }
     });
 
@@ -346,7 +381,7 @@ const animateWords = async () => {
     const lastTiming = timings[timings.length - 1];
     const isEndingInShowOnly = lastTiming?.annotation && lastTiming?.showOnly && lastTiming?.end === "end";
 
-    if (wordIndex < words.length && !isEndingInShowOnly) {
+    if (wordIndex < words.length && !isEndingInShowOnly && !dialogue.isChat) {
       wordTimeline.to(words.slice(wordIndex), {
         opacity: 1,
         duration: 0.3,
@@ -354,8 +389,8 @@ const animateWords = async () => {
         ease: "power2.out",
       }, ">");
     }
-  } else if (words.length > 0) {
-    // Animation par defaut avec stagger (pas de timings)
+  } else if (words.length > 0 && !dialogue.isChat) {
+    // Animation par defaut avec stagger (pas de timings) et pas mode chat
     wordTimeline.to(words, {
       opacity: 1,
       duration: 0.3,
@@ -420,6 +455,7 @@ watch(
       isShowingOnlyAnnotation.value = false;
       isAnimating.value = false;
       activeTimeline.value?.kill();
+      clearFallbackTimer();
 
       // Révéler le conteneur avec une légère animation
       if (contentRef.value) {
