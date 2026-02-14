@@ -31,16 +31,15 @@ const { hoveredIndex, isSelecting, selectedIndex, handleSelect } =
       <button
         :ref="(el: any) => { if (el) buttonRefs[index] = el as HTMLElement }"
         class="group relative py-4 font-satoshi font-semibold text-xl/7 uppercase flex flex-col items-center"
-        :class="[
-          !isSelecting ? 'transition-[color,opacity] duration-300' : 'transition-[color] duration-300',
-          gameStore.isChoiceDisabled(choice)
-            ? 'text-primary/30 cursor-not-allowed'
-            : 'text-primary',
-          !isSelecting && hoveredIndex !== null && hoveredIndex !== index
-            ? 'opacity-20'
-            : 'opacity-100',
-          isSelecting && selectedIndex !== index ? 'opacity-0' : '',
-        ]"
+        :class="{
+          'transition-[color,opacity] duration-300': !isSelecting,
+          'transition-[color] duration-300': isSelecting,
+          'text-primary/30 cursor-not-allowed': gameStore.isChoiceDisabled(choice),
+          'text-primary': !gameStore.isChoiceDisabled(choice),
+          'opacity-20': !isSelecting && hoveredIndex !== null && hoveredIndex !== index,
+          'opacity-0': isSelecting && selectedIndex !== index,
+          'opacity-100': (!isSelecting && (hoveredIndex === null || hoveredIndex === index)) || (isSelecting && selectedIndex === index)
+        }"
         :disabled="gameStore.isChoiceDisabled(choice) || isSelecting"
         @mouseenter="hoveredIndex = index"
         @mouseleave="hoveredIndex = null"
