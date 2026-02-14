@@ -16,6 +16,7 @@ export const dayTwoMountain: Scene = {
       "J'adore le bruit de la nature, je vais faire de la musique avec.",
       {
         annotation: "Bruit de vent, d'oiseaux, de pas dans l'herbe",
+        color: "green",
         timings: [
           { word: "J'adore", start: 14.199, end: 14.599 },
           { word: "le", start: 14.639, end: 14.739 },
@@ -39,6 +40,7 @@ export const dayTwoMountain: Scene = {
       "Merde, y'a un groupe de vieux qui arrive, ils font trop de bruit.",
       {
         annotation: "Bruit de groupe de randonneurs qui approche",
+        color: "red",
         timings: [
           { word: "Merde,", start: 20.899, end: 21.259 },
           { word: "y'a", start: 21.319, end: 21.459 },
@@ -61,6 +63,7 @@ export const dayTwoMountain: Scene = {
       "Randonneur",
       "Bonjour ! Il fait beau hein ?",
       {
+        color: "yellow",
         timings: [
           { word: "Bonjour", start: 29.5, end: 29.879 },
           { word: "!", start: 29.899, end: 30.279 },
@@ -76,6 +79,7 @@ export const dayTwoMountain: Scene = {
       "d2_10",
       "Vos gueules.",
       {
+        color: "red",
         timings: [
           { word: "Vos", start: 32.799, end: 33.159 },
           { word: "gueules.", start: 33.22, end: 33.68 },

@@ -31,6 +31,7 @@ export const dayOneGameEvent: Scene = {
       "d1_23",
       "Mon Dieu, la dernière fois, j'ai rien compris. Je me suis trompée quatre fois devant tout le monde et je sentais bien qu'ils étaient saoulés. Je me suis sentie trop conne !",
       {
+        color: "violet",
         timings: [
           { word: "Mon", start: 3.319, end: 3.459 },
           { word: "Dieu,", start: 3.619, end: 4.239 },
@@ -100,6 +101,7 @@ export const dayOnePlay: Scene = {
       "LUCIE",
       "Vas-yyyyy",
       {
+        color: "yellow",
         timings: [
           { word: "Vas-yyyyy", start: 0.62, end: 1.499 },
         ],
@@ -290,6 +292,7 @@ export const dayOnePlay: Scene = {
       "d1_28",
       "Je comprends rien.",
       {
+        color: "violet",
         timings: [
           { word: "Je", start: 39.34, end: 39.399 },
           { word: "comprends", start: 39.439, end: 39.88 },
@@ -350,6 +353,7 @@ export const dayOnePlay: Scene = {
       "LUCIE",
       "Je me sens pas bien. Je reviens.",
       {
+        color: "red",
         timings: [
           { word: "Je", start: 48.68, end: 48.72 },
           { word: "me", start: 48.76, end: 48.819 },
@@ -365,6 +369,7 @@ export const dayOnePlay: Scene = {
       "d1_31",
       "[respiration] Tout va bien. Ça va aller, c'est rien. C'est rien.",
       {
+        color: "red",
         timings: [
           { word: "[respiration]", start: 55.939, end: 56.2 },
           { word: "Tout", start: 56.219, end: 56.319 },
@@ -397,6 +402,7 @@ export const dayOnePlay: Scene = {
       "Ines",
       "Luci.. Hey, t'es partie d'un coup et t'es toute pâle. Ça va ?",
       {
+        color: "blue",
         timings: [
           { word: "Luci..", start: 64.919, end: 65.199 },
           { word: "Hey,", start: 66.799, end: 67.019 },
@@ -419,6 +425,7 @@ export const dayOnePlay: Scene = {
       "LUCIE",
       "Non, j'ai vraiment eu une sale journée. Je suis au bout, là. Je peux plus. Faut que je rentre.",
       {
+        color: "blue",
         timings: [
           { word: "Non,", start: 69.879, end: 70.039 },
           { word: "j'ai", start: 70.08, end: 70.179 },
@@ -447,6 +454,7 @@ export const dayOnePlay: Scene = {
       "Ines",
       "Ok, je comprends. Assieds-toi dans ma chambre, je t'appelle un Uber.",
       {
+        color: "green",
         timings: [
           { word: "Ok,", start: 74.98, end: 75.199 },
           { word: "je", start: 75.22, end: 75.259 },
@@ -467,6 +475,7 @@ export const dayOnePlay: Scene = {
       "LUCIE",
       "Merci ma douce..",
       {
+        color: "green",
         timings: [
           { word: "Merci", start: 78.379, end: 78.639 },
           { word: "ma", start: 78.72, end: 78.799 },

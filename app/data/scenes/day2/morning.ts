@@ -15,6 +15,7 @@ export const dayTwoWakeupCrash: Scene = {
       {
         annotation:
           "Le reveil sonne, les oiseaux chantent, bruits de couette",
+        color: "blue",
       }
     ),
   ],
@@ -33,6 +34,7 @@ export const dayTwoWakeupGood: Scene = {
       {
         annotation:
           "Le reveil sonne, les oiseaux chantent, bruits de couette",
+        color: "green",
       }
     ),
   ],
@@ -69,6 +71,7 @@ export const dayTwoCall: Scene = {
       "Mere",
       "Ecoute, ton frere demenage aujourd'hui, il a besoin de bras, tu peux venir l'aider?",
       {
+        color: "red",
         timings: [
           { word: "Ecoute,", start: 6.639, end: 6.959 },
           { word: "ton", start: 6.979, end: 7.079 },
@@ -143,6 +146,7 @@ export const dayTwoRefuse: Scene = {
   audio: "experience/J02_S01_Appel_Non.mp3",
   dialogues: [
     d("d2_5b", "LUCIE", "Deso, j'ai prevu un truc.", {
+      color: "green",
       timings: [
         { word: "Deso,", start: 0.44, end: 0.899 },
         { word: "j'ai", start: 0.939, end: 1.059 },
@@ -152,6 +156,7 @@ export const dayTwoRefuse: Scene = {
       ],
     }),
     d("d2_6b", "Mere", "Tant pis.", {
+      color: "blue",
       timings: [
         { word: "Tant", start: 2.22, end: 2.539 },
         { word: "pis.", start: 2.539, end: 2.96 },

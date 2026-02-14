@@ -10,6 +10,7 @@ export const dayOneWakeup: Scene = {
   dialogues: [
     pensees("d1_1", "Oh purée, un autre jour dans la France de Macron..", {
       annotation: "Le réveil sonne, les oiseaux chantent, bruits de couette qui bouge, bruits de pas",
+      color: "violet",
       timings: [
         { word: "Oh", start: 7.279, end: 7.46 },
         { word: "purée,", start: 7.5, end: 7.98 },
@@ -37,6 +38,7 @@ export const dayOneBathroom: Scene = {
       "d1_2",
       "OK, alors soit la robe qui me serre avec cette foutue étiquette dedans, mais je suis maxi fraîche, soit je mets pantalon oversize avec une chemise, mais je suis maxi confort pour la journée de taf",
       {
+        color: "red",
         timings: [
           { word: "OK,", start: 0.219, end: 0.8 },
           { word: "alors", start: 0.839, end: 1.018 },
@@ -110,6 +112,7 @@ export const dayOneOutfitSexy: Scene = {
       "d1_3a",
       "Vas-y, one life, ça va le faire ! Je coupe les étiquettes et c'est carré.",
       {
+        color: "green",
         timings: [
           { word: "Vas-y,", start: 0.079, end: 0.56 },
           { word: "one", start: 0.659, end: 0.879 },
@@ -144,6 +147,7 @@ export const dayOneOutfitComfort: Scene = {
       "d1_3b",
       "déjà que j'ai c'te réu de deux heures trente qui va me faire mal à la tête, autant être confort.",
       {
+        color: "blue",
         timings: [
           { word: "déjà", start: 0.099, end: 0.239 },
           { word: "que", start: 0.259, end: 0.319 },

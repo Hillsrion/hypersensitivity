@@ -52,6 +52,7 @@ export const dayOneRefuse: Scene = {
       "LUCIE",
       "Non, mais il faut que je te raconte un truc là, qui s'est passé tout à l'heure avec la vieille meuf aigrie de mon taf.",
       {
+        color: "red",
         timings: [
           { word: "Non,", start: 7.679, end: 7.839 },
           { word: "mais", start: 7.839, end: 7.939 },
@@ -140,6 +141,7 @@ export const dayOneRefuseSubmit: Scene = {
       "LUCIE",
       "J'ai pas eu la force de me battre encore, cette fois pour cette putain de cabine. Ces derniers temps, je suis usée. Le pire, c'est que ça me dégoûte. Je sais quoi faire. Mais tu sais pourquoi ces gens, ils font ça ? Parce qu'ils sont pas encore tombés sur quelqu'un qui va les choquer.",
       {
+        color: "blue",
         timings: [
           { word: "J'ai", start: 0.5, end: 0.599 },
           { word: "pas", start: 0.599, end: 0.699 },
@@ -204,6 +206,7 @@ export const dayOneRefuseSubmit: Scene = {
       "Ines",
       "On peut pas gagner toutes les batailles. Vas-y step by step. Si tu veux, ce week-end, on t'aidera à trouver les mots pour mettre tes limites.",
       {
+        color: "green",
         timings: [
           { word: "On", start: 13.94, end: 13.98 },
           { word: "peut", start: 14.039, end: 14.119 },
@@ -239,6 +242,7 @@ export const dayOneRefuseSubmit: Scene = {
       "LUCIE",
       "Ah genre, tu vas la RP ? Trop bien, on fera ça. Merci d'être là.",
       {
+        color: "green",
         timings: [
           { word: "Ah", start: 20.039, end: 20.2 },
           { word: "genre,", start: 20.279, end: 20.54 },
@@ -262,6 +266,7 @@ export const dayOneRefuseSubmit: Scene = {
       "Ines",
       "Mais c'est normal, avec plaisir !",
       {
+        color: "green",
         timings: [
           { word: "Mais", start: 24.84, end: 24.96 },
           { word: "c'est", start: 25.019, end: 25.12 },

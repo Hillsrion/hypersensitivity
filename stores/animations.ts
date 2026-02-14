@@ -35,6 +35,8 @@ export const useAnimationsStore = defineStore("animations", {
         color: "green",
         visible: false,
         colorStep: 1,
+        autoAnimate: false,
+        zIndex: 0,
       },
       cursor: {
         variant: "dark" as "dark" | "light",
@@ -62,6 +64,12 @@ export const useAnimationsStore = defineStore("animations", {
     },
     setAuroraStep(step: number) {
       this.aurora.colorStep = step;
+    },
+    setAuroraAutoAnimate(enabled: boolean) {
+      this.aurora.autoAnimate = enabled;
+    },
+    setAuroraZIndex(zIndex: number) {
+      this.aurora.zIndex = zIndex;
     },
     onTitleEntryComplete() {
       this.landing.mainTitle.entry.completed = true;

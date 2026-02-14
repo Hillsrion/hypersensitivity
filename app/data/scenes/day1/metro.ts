@@ -15,6 +15,7 @@ export const dayOneMetroSexy: Scene = {
       "Annonce",
       "En raison d'un bagage abandonné, les métros A et B-",
       {
+        color: "red",
         timings: [
           { word: "En", start: 0.079, end: 1.24 },
           { word: "raison", start: 1.259, end: 1.499 },
@@ -33,6 +34,7 @@ export const dayOneMetroSexy: Scene = {
       "d1a_5",
       "Mais qu'est-ce que je fous là ? C'est trop !",
       {
+        color: "red",
         timings: [
           { word: "Mais", start: 4.279, end: 4.42 },
           { word: "qu'est-ce", start: 4.5, end: 4.719 },
@@ -51,6 +53,7 @@ export const dayOneMetroSexy: Scene = {
       "d1a_6",
       "Je vais aller prendre un vélo et je vais me faire siffler cinq fois sur le chemin. Super.",
       {
+        color: "blue",
         timings: [
           { word: "Je", start: 8.52, end: 8.559 },
           { word: "vais", start: 8.579, end: 8.659 },
@@ -78,6 +81,7 @@ export const dayOneMetroSexy: Scene = {
       "Inconnue",
       "Coucou, je voulais juste te dire que t'es trop belle. C'est quoi la ref de ta robe ?",
       {
+        color: "green",
         timings: [
           { word: "Coucou,", start: 13.14, end: 13.699 },
           { word: "je", start: 13.719, end: 13.779 },
@@ -105,6 +109,7 @@ export const dayOneMetroSexy: Scene = {
       "LUCIE",
       "Oh, merci beaucoup ! C'est une robe Maje, la patineuse à col montant.",
       {
+        color: "green",
         timings: [
           { word: "Oh,", start: 17.479, end: 17.679 },
           { word: "merci", start: 17.719, end: 17.98 },
@@ -148,6 +153,7 @@ export const dayOneMetroComfort: Scene = {
       "Annonce",
       "En raison d'un bagage abandonné, le métro A et B-",
       {
+        color: "red",
         timings: [
           { word: "En", start: 0.079, end: 1.24 },
           { word: "raison", start: 1.259, end: 1.519 },
@@ -166,6 +172,7 @@ export const dayOneMetroComfort: Scene = {
       "d1b_5",
       "Mais qu'est-ce que je fous là ? C'est trop !",
       {
+        color: "red",
         timings: [
           { word: "Mais", start: 4.279, end: 4.48 },
           { word: "qu'est-ce", start: 4.5, end: 4.719 },
@@ -184,6 +191,7 @@ export const dayOneMetroComfort: Scene = {
       "d1b_6",
       "Bah, [souffle] vélo hein, ça aurait été relou avec la robe.",
       {
+        color: "green",
         timings: [
           { word: "Bah,", start: 8.819, end: 9.1 },
           { word: "[souffle]", start: 9.619, end: 9.619 },

@@ -15,6 +15,7 @@ export const dayOnePartySexy: Scene = {
       "Ines",
       "Hey! Ça fait plaisir de te voir. En plus, tu viens en re-sta. Epouse-moi.",
       {
+        color: "green",
         timings: [
           { word: "Hey!", start: 7.46, end: 8.819 },
           { word: "Ça", start: 8.88, end: 8.96 },
@@ -38,6 +39,7 @@ export const dayOnePartySexy: Scene = {
       "LUCIE",
       "Mais c'est à moi de te dire ça. Regarde-toi, t'es toute mimi.",
       {
+        color: "green",
         timings: [
           { word: "Mais", start: 14.039, end: 14.159 },
           { word: "c'est", start: 14.179, end: 14.26 },
@@ -59,6 +61,7 @@ export const dayOnePartySexy: Scene = {
       "Ines",
       "Bah tiens, pose ta veste et va prendre un verre. Je te rejoins dans le salon.",
       {
+        color: "green",
         timings: [
           { word: "Bah", start: 17.34, end: 17.44 },
           { word: "tiens,", start: 17.52, end: 17.76 },
@@ -95,6 +98,7 @@ export const dayOnePartyComfort: Scene = {
       "Ines",
       "Hey, ça fait plaisir de te voir !",
       {
+        color: "green",
         timings: [
           { word: "Hey,", start: 7.199, end: 7.579 },
           { word: "ça", start: 7.619, end: 7.739 },
@@ -112,6 +116,7 @@ export const dayOnePartyComfort: Scene = {
       "LUCIE",
       "Mais moi aussi, ça me fait plaisir.",
       {
+        color: "green",
         timings: [
           { word: "Mais", start: 9.159, end: 9.28 },
           { word: "moi", start: 9.32, end: 9.42 },
@@ -128,6 +133,7 @@ export const dayOnePartyComfort: Scene = {
       "Ines",
       "Comment il va, le petit monstre? Ça fait longtemps que je ne l'ai pas vu, lui non plus.",
       {
+        color: "green",
         timings: [
           { word: "Comment", start: 10.859, end: 11.1 },
           { word: "il", start: 11.14, end: 11.239 },
@@ -155,6 +161,7 @@ export const dayOnePartyComfort: Scene = {
       "LUCIE",
       "Ben, ça va, il va bien hein.",
       {
+        color: "green",
         timings: [
           { word: "Ben,", start: 14.359, end: 14.52 },
           { word: "ça", start: 14.56, end: 14.639 },
@@ -171,6 +178,7 @@ export const dayOnePartyComfort: Scene = {
       "Ines",
       "Ah bah super alors. Bah viens, rentre, prends un verre et je te rejoins dans le salon.",
       {
+        color: "green",
         timings: [
           { word: "Ah", start: 16.039, end: 16.158 },
           { word: "bah", start: 16.219, end: 16.318 },

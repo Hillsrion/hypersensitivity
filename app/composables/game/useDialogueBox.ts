@@ -1,6 +1,7 @@
 import type { DialogueLine } from "../../types/game";
 import { useAudioStore } from "~/stores/audio";
 import { useGameStore } from "~/stores/game";
+import { useAnimationsStore } from "~/stores/animations";
 
 export function useDialogueBox(
   dialogue: Ref<DialogueLine | null>,
@@ -14,6 +15,7 @@ export function useDialogueBox(
   const { $gsap } = useNuxtApp();
   const audioStore = useAudioStore();
   const gameStore = useGameStore();
+  const animationsStore = useAnimationsStore();
 
   // State
   const isAnimating = ref(false);
@@ -405,12 +407,29 @@ export function useDialogueBox(
     async (newId, oldId) => {
       console.log("LOG_DEBUG: Watch dialogue ID fired. New:", newId, "Old:", oldId);
       if (newId && newId !== oldId) {
-        isReady.value = false;
-        currentTimedAnnotation.value = null;
-        isShowingOnlyAnnotation.value = false;
-        isAnimating.value = false;
         activeTimeline.value?.kill();
         clearFallbackTimer();
+
+        // Handle Aurora borealis effect
+        if (dialogue.value?.color) {
+          animationsStore.setAuroraZIndex(1); // Set to 1 so it's behind Experience (z-10) but triggering transparency
+          animationsStore.setAuroraVisibility(true);
+          // For dialogues, we don't auto-animate 'aurore', that's for the menu.
+          // We keep 'rainbow' if intended, strictly following user request to reserve 'aurore' behavior for menu largely.
+          if (dialogue.value.color === 'rainbow') {
+            animationsStore.setAuroraAutoAnimate(true);
+          } else {
+            animationsStore.setAuroraAutoAnimate(false);
+            animationsStore.setAuroraColor(dialogue.value.color);
+          }
+        } else {
+          // Only reset if we're not in the menu (which also controls aurora)
+          if (!gameStore.isMenuOpen) {
+            animationsStore.setAuroraVisibility(false);
+            animationsStore.setAuroraAutoAnimate(false);
+            animationsStore.setAuroraZIndex(0);
+          }
+        }
 
         if (contentRef.value) {
           $gsap.to(contentRef.value, { opacity: 1, duration: 0.15, ease: "power2.out" });

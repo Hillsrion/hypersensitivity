@@ -24,6 +24,9 @@ const {
 // Initial state managed by composable
 
 const backgroundGradient = computed(() => {
+  if (animationsStore.aurora.visible && animationsStore.aurora.zIndex > 0) {
+    return "transparent";
+  }
   // We want the gradient to run during the end sequence
   return `linear-gradient(180deg, ${gradientState.color1} ${gradientState.stop1}%, ${gradientState.color2} ${gradientState.stop2}%, ${gradientState.color3} ${gradientState.stop3}%, ${gradientState.color4} ${gradientState.stop4}%)`;
 });

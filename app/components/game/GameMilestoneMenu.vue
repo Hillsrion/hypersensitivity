@@ -23,14 +23,10 @@ watch(
     if (!menuRef.value) return;
 
     if (isOpen) {
-      // Show Aurora
+      // Show Aurora with auto-animation and high z-index
+      animationsStore.setAuroraZIndex(55); // Below menu z-60 but above experience
       animationsStore.setAuroraVisibility(true);
-
-      // Aurora color sequence (steps 1-9)
-      const auroraTl = $gsap.timeline({ repeat: -1 });
-      [1, 2, 3, 4, 5, 6, 7, 8, 9].forEach((step, index) => {
-        auroraTl.call(() => animationsStore.setAuroraStep(step), [], index * 3);
-      });
+      animationsStore.setAuroraAutoAnimate(true);
 
       $gsap.fromTo(
         menuRef.value,
@@ -53,8 +49,10 @@ watch(
         );
       }
     } else {
-      // Hide Aurora
+      // Hide Aurora and reset state
       animationsStore.setAuroraVisibility(false);
+      animationsStore.setAuroraAutoAnimate(false);
+      animationsStore.setAuroraZIndex(0);
     }
   }
 );

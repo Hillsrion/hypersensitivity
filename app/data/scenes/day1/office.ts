@@ -34,6 +34,7 @@ export const dayOneOffice: Scene = {
       "Ah, salut Karen ! Je suis désolée, j'avais réservé la salle et j'ai une réunion importante avec le produit. Tu pourrais me laisser la bulle ?",
       {
         annotation: "Lucie arrive et voit Karen s'installer dans la box",
+        color: "red",
         timings: [
           { word: "Ah,", start: 8.539, end: 9.06 },
           { word: "salut", start: 9.119, end: 9.399 },
@@ -69,6 +70,7 @@ export const dayOneOffice: Scene = {
       "Karen",
       "Ah, j'ai encore oublié... La mienne va commencer là. Il y en a d'autres de libres.",
       {
+        color: "red",
         timings: [
           { word: "Ah,", start: 15.659, end: 15.88 },
           { word: "j'ai", start: 15.939, end: 16.04 },
@@ -119,6 +121,7 @@ export const dayOneConflictSubmit: Scene = {
   audio: "experience/J01_C02_Bureau_A.mp3",
   dialogues: [
     d("d1_14a", "LUCIE", "Oui, oui, pas de souci.", {
+      color: "blue",
       timings: [
         { word: "Oui,", start: 0.599, end: 0.839 },
         { word: "oui,", start: 0.899, end: 1.159 },
@@ -131,6 +134,7 @@ export const dayOneConflictSubmit: Scene = {
       "d1_15a",
       "Tu sais très bien que c'est tout rempli à cette heure-là. C'est la troisième fois que tu me fais le coup.",
       {
+        color: "red",
         timings: [
           { word: "Tu", start: 2.98, end: 3.099 },
           { word: "sais", start: 3.139, end: 3.259 },
@@ -163,6 +167,7 @@ export const dayOneConflictSubmit: Scene = {
       {
         annotation:
           "Lucie retourne a son bureau dans l'open space plein de bruit. La réunion commence...",
+        color: "blue",
         timings: [
           { word: "Oui,", start: 11.34, end: 11.539 },
           { word: "on", start: 11.579, end: 11.659 },
@@ -228,6 +233,7 @@ export const dayOneConflictSubmit: Scene = {
       "Mais allez jouer ailleurs ! J'arrive même pas à me concentrer.",
       {
         annotation: "Bruits de nerf, projectiles qui stoppent le dialogue",
+        color: "red",
         timings: [
           { word: "Mais", start: 26.34, end: 26.42 },
           { word: "allez", start: 26.44, end: 26.62 },
@@ -258,6 +264,7 @@ export const dayOneConflictAssert: Scene = {
       "LUCIE",
       "Écoute, il y en a pas d'autres à cette heure-là et tu le sais très bien. On n'a pas mis les résas des bulles en place pour rien, donc tu vas faire comme moi les deux dernières fois et tu vas aller faire ta réu dans l'open space.",
       {
+        color: "red",
         timings: [
           { word: "Écoute,", start: 0.099, end: 0.459 },
           { word: "il", start: 0.659, end: 0.759 },
@@ -311,6 +318,7 @@ export const dayOneConflictAssert: Scene = {
       }
     ),
     d("d1_15b", "Karen", "Ça y est, ça y est, ça va, Pas besoin de taper une crise.", {
+      color: "red",
       timings: [
         { word: "Ça", start: 9.1, end: 9.199 },
         { word: "y", start: 9.239, end: 9.319 },
@@ -329,6 +337,7 @@ export const dayOneConflictAssert: Scene = {
       ],
     }),
     pensees("d1_16b", "Et puis quoi encore ?", {
+      color: "red",
       timings: [
         { word: "Et", start: 12.26, end: 12.3 },
         { word: "puis", start: 12.359, end: 12.519 },
@@ -343,6 +352,7 @@ export const dayOneConflictAssert: Scene = {
       "Je pense que c'est juste pas réalisable qu'on boucle ce sprint dans les temps. Je comprends qu'on doive avancer sur la roadmap..",
       {
         annotation: "La reunion commence, Lucie participe activement.",
+        color: "blue",
         timings: [
           { word: "Je", start: 14.979, end: 15.02 },
           { word: "pense", start: 15.06, end: 15.239 },

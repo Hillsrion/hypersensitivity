@@ -11,6 +11,7 @@ export const dayTwoMoving: Scene = {
   dialogues: [
     d("d2_11", "Mere", "Allez, on se motive ! Il reste plus que le canapé !", {
       annotation: "Bruits de demenagement, cartons, pas",
+      color: "red",
       timings: [
         { word: "Allez,", start: 8.76, end: 9.14 },
         { word: "on", start: 9.18, end: 9.259 },
@@ -31,6 +32,7 @@ export const dayTwoMoving: Scene = {
       "Frere",
       "Lucie, tu peux m'aider a porter le frigo apres ?",
       {
+        color: "red",
         timings: [
           { word: "Lucie,", start: 13.92, end: 14.34 },
           { word: "tu", start: 14.359, end: 14.42 },
@@ -46,6 +48,7 @@ export const dayTwoMoving: Scene = {
       }
     ),
     d("d2_13", "LUCIE", "Attends, je fais une pause la, j'en peux plus.", {
+      color: "blue",
       timings: [
         { word: "Attends,", start: 17.519, end: 17.899 },
         { word: "je", start: 17.919, end: 17.98 },
@@ -62,6 +65,7 @@ export const dayTwoMoving: Scene = {
       "d2_14",
       "J'ai mal partout, il y a trop de bruit, trop de monde. Je vais exploser.",
       {
+        color: "red",
         timings: [
           { word: "J'ai", start: 22.019, end: 22.18 },
           { word: "mal", start: 22.2, end: 22.46 },
@@ -93,6 +97,7 @@ export const dayTwoSunset: Scene = {
   dialogues: [
     d("d2_15", "LUCIE", "C'est beau...", {
       annotation: "Musique douce et vent, Lucie regarde le coucher de soleil",
+      color: "violet",
       timings: [
         { word: "C'est", start: 5.619, end: 5.86 },
         { word: "beau...", start: 5.899, end: 6.919 },
@@ -102,6 +107,7 @@ export const dayTwoSunset: Scene = {
       "d2_16",
       "Finalement, c'est pas si mal d'être sensible. Je ressens tout plus fort, le moche comme le beau. C'est à moi de choisir ce que je garde.",
       {
+        color: "violet",
         timings: [
           { word: "Finalement,", start: 9.34, end: 9.879 },
           { word: "c'est", start: 10.039, end: 10.159 },

@@ -112,12 +112,39 @@ watch(
     }
   }
 );
+
+let autoRotateTl: any = null;
+
+watch(
+  () => animationsStore.aurora.autoAnimate,
+  (autoAnimate) => {
+    if (autoAnimate && auroraInnerRef.value) {
+      if (autoRotateTl) autoRotateTl.kill();
+      autoRotateTl = $gsap.timeline({ repeat: -1 });
+
+      // Cycle through all steps
+      Object.values(auroraSteps).forEach((colors) => {
+        autoRotateTl.to(auroraInnerRef.value, {
+          "--aurora-color-1": colors[0],
+          "--aurora-color-2": colors[1],
+          duration: 3,
+          ease: "power2.inOut",
+        });
+      });
+    } else {
+      if (autoRotateTl) {
+        autoRotateTl.kill();
+        autoRotateTl = null;
+      }
+    }
+  }
+);
 </script>
 
 <template>
   <div
-    class="fixed inset-0 pointer-events-none z-0"
-    :style="{ background: backgroundGradient }"
+    class="fixed inset-0 pointer-events-none"
+    :style="{ background: backgroundGradient, zIndex: animationsStore.aurora.zIndex }"
   >
     <div
       ref="auroraRef"
