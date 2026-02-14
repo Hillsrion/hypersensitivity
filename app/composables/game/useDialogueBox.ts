@@ -234,7 +234,7 @@ export function useDialogueBox(
     
     activeTimeline.value = wordTimeline;
 
-    if (currentDialogue.isChat) {
+    if (currentDialogue.isChat && (!timings || timings.length === 0)) {
       wordTimeline.set(words, { opacity: 1 }, 0);
     }
     
@@ -332,6 +332,11 @@ export function useDialogueBox(
             wordIndex++;
           }
         } else {
+          // Cas isChat avec timings
+          wordTimeline.set(words, { opacity: 1 }, timing.start);
+          const effectiveEnd = getEffectiveEnd(timing.end, timing.start);
+          // Étendre la timeline jusqu'à la fin prévue sans animer
+          wordTimeline.to({}, { duration: 0.1 }, effectiveEnd - 0.1);
           wordIndex++;
         }
       });

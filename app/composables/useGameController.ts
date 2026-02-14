@@ -125,6 +125,15 @@ export const useGameController = () => {
   // Animation quand le dialogue change
   const onDialogueAnimationComplete = () => {
     console.log("LOG_DEBUG: onDialogueAnimationComplete called");
+    
+    // Pour les dialogues type "chat", on respecte purement les timings définis
+    // donc quand l'animation (timeline) est finie, on passe à la suite
+    if (gameStore.currentDialogue?.isChat) {
+      console.log("LOG_DEBUG: Chat dialogue completed, advancing");
+      gameStore.advanceDialogue();
+      return;
+    }
+
     // On ne fait plus d'avance automatique ici pour les audios partagés
     // car cela cause un effet "machine gun" si on est un peu en avance.
     // On utilise maintenant le watcher sur audioStore.currentTime pour plus de précision.
