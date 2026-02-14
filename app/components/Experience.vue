@@ -29,10 +29,7 @@ const backgroundGradient = computed(() => {
   const visible = animationsStore.aurora.visible;
   const zIndex = animationsStore.aurora.zIndex;
   
-  // console.log("LOG_DEBUG: Experience backgroundGradient check. Visible:", visible, "ZIndex:", zIndex);
-  
   if (visible && zIndex > 0) {
-    console.log("LOG_DEBUG: Experience applying transparent background");
     return "transparent";
   }
   // We want the gradient to run during the end sequence
@@ -82,7 +79,6 @@ const autoRevealStarted = ref(false);
 watch(
   () => gameStore.introBlurAmount,
   (val) => {
-    console.log("LOG_DEBUG: Experience introBlurAmount watch", val, "Phase:", gameStore.introAnimationPhase);
     if (
       val <= 0.01 &&
       !autoRevealStarted.value &&
@@ -153,22 +149,8 @@ watch(
   }
 );
 
-watch(
-  () => animationsStore.aurora.visible,
-  (val) => {
-    console.log("LOG_DEBUG: Experience watcher - aurora.visible changed:", val);
-  }
-);
-watch(
-  () => animationsStore.aurora.zIndex,
-  (val) => {
-    console.log("LOG_DEBUG: Experience watcher - aurora.zIndex changed:", val);
-  }
-);
-
 onMounted(() => {
   if (!container.value) return;
-  console.log("LOG_DEBUG: Experience Mounted");
 });
 
 onUnmounted(() => {
@@ -219,7 +201,8 @@ const scrollToQuestionnaire = async () => {
     >
       <!-- Eye Animation -->
       <svg
-        class="absolute top-1/2 left-0 w-full h-auto -translate-y-1/2 pointer-events-none z-0 overflow-visible blur-sm"
+        class="absolute top-1/2 left-0 w-full h-auto -translate-y-1/2 pointer-events-none z-0 overflow-visible blur-sm transition-opacity duration-1000"
+        :class="{ 'opacity-0': animationsStore.aurora.visible }"
         viewBox="0 0 1366 769"
       >
         <path ref="eyePath" :d="eyePaths.closed" fill="white" />

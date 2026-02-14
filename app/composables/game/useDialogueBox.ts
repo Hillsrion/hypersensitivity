@@ -24,12 +24,12 @@ export function useDialogueBox(
   const isShowingOnlyAnnotation = ref(false);
   const isReady = ref(false); // Controls visibility of the text to prevent FOUC
   const fallbackTimer = ref<ReturnType<typeof setTimeout> | null>(null);
+  const auroraRafId = ref<number | null>(null);
 
   // Split Text
   const split = useSplitText(textRef, {
     splitBy: "lines,words",
     onComplete: (instance: any) => {
-      console.log("LOG_DEBUG: useSplitText onComplete. Words found:", instance.words?.length);
       // Initialiser tous les mots avec opacite reduite
       if (instance.words) {
         $gsap.set(instance.words, { opacity: 0.2 });
@@ -407,28 +407,35 @@ export function useDialogueBox(
     async (newId, oldId) => {
       console.log("LOG_DEBUG: Watch dialogue ID fired. New:", newId, "Old:", oldId);
       if (newId && newId !== oldId) {
+        if (auroraRafId.value !== null) {
+          cancelAnimationFrame(auroraRafId.value);
+          auroraRafId.value = null;
+        }
         activeTimeline.value?.kill();
         clearFallbackTimer();
 
         // Handle Aurora borealis effect
         if (dialogue.value?.color) {
-          console.log("LOG_DEBUG: Dialogue has color, setting Aurora visible/color:", dialogue.value.color);
           animationsStore.setAuroraZIndex(1); // Set to 1 so it's behind Experience (z-10) but triggering transparency
-          animationsStore.setAuroraVisibility(true);
-          // For dialogues, we don't auto-animate 'aurore', that's for the menu.
-          // We keep 'rainbow' if intended, strictly following user request to reserve 'aurore' behavior for menu largely.
+          
           if (dialogue.value.color === 'rainbow') {
-            console.log("LOG_DEBUG: Setting Rainbow Mode");
             animationsStore.setAuroraAutoAnimate(true);
+            animationsStore.setAuroraVisibility(true);
           } else {
-            console.log("LOG_DEBUG: Setting Specific Color Mode");
+            // Set color BEFORE visibility to ensure immediate application if it was hidden
             animationsStore.setAuroraAutoAnimate(false);
             animationsStore.setAuroraColor(dialogue.value.color);
+            
+            // Use requestAnimationFrame to ensure the color watcher has processed (and set duration 0)
+            // before we toggle visibility to true.
+            auroraRafId.value = requestAnimationFrame(() => {
+               animationsStore.setAuroraVisibility(true);
+               auroraRafId.value = null;
+            });
           }
         } else {
           // Only reset if we're not in the menu (which also controls aurora)
           if (!gameStore.isMenuOpen) {
-            console.log("LOG_DEBUG: No dialogue color, possibly hiding Aurora");
             animationsStore.setAuroraVisibility(false);
             animationsStore.setAuroraAutoAnimate(false);
             animationsStore.setAuroraZIndex(0);
@@ -447,11 +454,8 @@ export function useDialogueBox(
         // Attendre un peu pour que split soit peuplé
         let attempts = 0;
         const checkSplit = () => {
-          console.log("LOG_DEBUG: checkSplit check", attempts, split.words.value?.length);
-          
           if (split.words.value?.length) {
             const words = split.words.value;
-            console.log("LOG_DEBUG: Split ready with words:", words.length);
 
             if (isInIntroAnimation.value) {
               $gsap.set(words, { opacity: 0.2 });
@@ -468,14 +472,12 @@ export function useDialogueBox(
             isReady.value = true; 
 
             if (!isInIntroAnimation.value) {
-               console.log("LOG_DEBUG: Calling animateWords from checkSplit success");
                setTimeout(animateWords, 20);
             }
           } else if (attempts < 60) {
             attempts++;
             setTimeout(checkSplit, 25);
           } else {
-            console.warn("LOG_DEBUG: Split timed out, forcing visibility and animation start anyway.");
             isReady.value = true;
             if (!isInIntroAnimation.value) {
               animateWords();
@@ -483,7 +485,6 @@ export function useDialogueBox(
           }
         };
         
-        console.log("LOG_DEBUG: Starting checkSplit for new dialogue ID:", newId);
         checkSplit();
         return;
       }
@@ -518,6 +519,10 @@ export function useDialogueBox(
   );
 
   onUnmounted(() => {
+    if (auroraRafId.value !== null) {
+      cancelAnimationFrame(auroraRafId.value);
+      auroraRafId.value = null;
+    }
     activeTimeline.value?.kill();
     currentTimedAnnotation.value = null;
     isShowingOnlyAnnotation.value = false;

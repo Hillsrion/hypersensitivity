@@ -113,7 +113,6 @@ watch(
 watch(
   () => animationsStore.aurora.color,
   (newColor) => {
-    // console.log("LOG_DEBUG: BackgroundGradient color watcher:", newColor);
     if (newColor === "aurora" || newColor === "rainbow") return; // Handled by isRainbowMode
 
     const style = getComputedStyle(document.documentElement);
@@ -132,21 +131,19 @@ watch(
         violet: "#decafe"
       };
       newHex = colorMap[newColor] || "";
-      if (newHex) {
-         console.warn(`LOG_DEBUG: CSS var for ${newColor} missing, using fallback: ${newHex}`);
-      }
     }
 
     if (newHex && auroraInnerRef.value) {
-      // console.log("LOG_DEBUG: Animating Aurora to color:", newHex);
+      // If the aurora is not currently visible, we set the color immediately 
+      // so it's ready when the opacity animation starts.
+      const isCurrentlyVisible = animationsStore.aurora.visible;
+      
       $gsap.to(auroraInnerRef.value, {
         "--aurora-color-1": newHex,
         "--aurora-color-2": newHex,
-        duration: 2,
+        duration: isCurrentlyVisible ? 2 : 0,
         ease: "power2.inOut",
       });
-    } else {
-       console.error("LOG_DEBUG: Could not determine color for", newColor);
     }
   }
 );
