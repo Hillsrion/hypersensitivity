@@ -1,7 +1,10 @@
 import type { DialogueLine } from "../../types/game";
-import { useAudioStore } from "~/stores/audio";
-import { useGameStore } from "~/stores/game";
 import { useAnimationsStore } from "~/stores/animations";
+import { useGameStore } from "~/stores/game";
+import { useDialogueDisplay } from "./useDialogueDisplay";
+import { useDialogueAudio } from "./useDialogueAudio";
+import { useDialogueAurora } from "./useDialogueAurora";
+import { useDialogueAnimator } from "./useDialogueAnimator";
 
 export function useDialogueBox(
   dialogue: Ref<DialogueLine | null>,
@@ -13,18 +16,10 @@ export function useDialogueBox(
   emit: (event: "animationComplete", ...args: any[]) => void
 ) {
   const { $gsap } = useNuxtApp();
-  const audioStore = useAudioStore();
   const gameStore = useGameStore();
   const animationsStore = useAnimationsStore();
 
-  // State
-  const isAnimating = ref(false);
-  const activeTimeline = ref<gsap.core.Timeline | null>(null);
-  const currentTimedAnnotation = ref<string | null>(null);
-  const isShowingOnlyAnnotation = ref(false);
   const isReady = ref(false); // Controls visibility of the text to prevent FOUC
-  const fallbackTimer = ref<ReturnType<typeof setTimeout> | null>(null);
-  const auroraRafId = ref<number | null>(null);
 
   // Split Text
   const split = useSplitText(textRef, {
@@ -37,442 +32,110 @@ export function useDialogueBox(
     },
   });
 
-  const clearFallbackTimer = () => {
-    if (fallbackTimer.value) {
-      clearTimeout(fallbackTimer.value);
-      fallbackTimer.value = null;
-    }
-  };
+  // Sub-composables
+  const {
+    isPensees,
+    isRightAligned,
+    isInIntroAnimation,
+    showAnnotation: getShowAnnotation,
+    showDialogueContent: getShowDialogueContent,
+    annotationClasses,
+  } = useDialogueDisplay(dialogue);
+
+  const {
+    fallbackTimer,
+    clearFallbackTimer,
+    handleAudioEnded,
+    ensureAudioPlaying,
+  } = useDialogueAudio(dialogue);
+
+  const { handleAuroraEffect, clearAuroraRaf } = useDialogueAurora(dialogue);
+
+  const {
+    isAnimating,
+    currentTimedAnnotation,
+    isShowingOnlyAnnotation,
+    animateWords,
+  } = useDialogueAnimator(
+    dialogue,
+    textRef,
+    contentRef,
+    annotationRef,
+    speakerRef,
+    split,
+    emit,
+    handleAudioEnded,
+    ensureAudioPlaying,
+    clearFallbackTimer,
+    fallbackTimer
+  );
 
   // Computed
-  const isPensees = computed(() => {
-    return dialogue.value?.speakerType === "pensees";
-  });
+  // Computed
+  const showDialogueContent = getShowDialogueContent(
+    isShowingOnlyAnnotation,
+    currentTimedAnnotation
+  );
 
-  const isRightAligned = computed(() => {
-    if (!dialogue.value) return false;
-    if (isPensees.value) return false;
-    const speaker = dialogue.value.speaker.toLowerCase();
-    return !speaker.includes("lucie");
-  });
-
-  const sceneAudio = computed(() => {
-    return gameStore.currentScene?.audio;
-  });
-
-  const isInIntroAnimation = computed(() => {
-    return gameStore.isFirstDialogueOfInitialScene && !gameStore.introPlayed;
-  });
+  const showAnnotation = getShowAnnotation(currentTimedAnnotation);
 
   const displayAnnotation = computed(() => {
     return currentTimedAnnotation.value || dialogue.value?.annotation || "";
   });
 
-  const showAnnotation = computed(() => {
-    if (currentTimedAnnotation.value) return true;
-    if (!dialogue.value?.annotation) return false;
-
-    if (gameStore.isFirstDialogueOfInitialScene) {
-      return false;
-    }
-
-    return true;
-  });
-
-  const showDialogueContent = computed(() => {
-    if (isShowingOnlyAnnotation.value && currentTimedAnnotation.value) return false;
-    
-    if (!isInIntroAnimation.value) return true;
-    return (
-      gameStore.introAnimationPhase === "revealing" ||
-      gameStore.introAnimationPhase === "complete"
-    );
-  });
-
-  const annotationClasses = computed(() => {
-    const phase = gameStore.introAnimationPhase;
-    return {
-      "blur-xs":
-        isInIntroAnimation.value &&
-        (phase === "annotation" ||
-          (phase !== "revealing" && phase !== "complete")),
-      "opacity-100":
-        isInIntroAnimation.value &&
-        (phase === "annotation" || phase === "revealing" || phase === "complete"),
-      "blur-0":
-        isInIntroAnimation.value &&
-        (phase === "revealing" || phase === "complete"),
-      "opacity-0":
-        isInIntroAnimation.value &&
-        phase !== "annotation" &&
-        phase !== "revealing" &&
-        phase !== "complete",
-    };
-  });
-
-  // Methods
-  const handleAudioEnded = () => {
-    console.log("LOG_DEBUG: handleAudioEnded called");
-    clearFallbackTimer();
-    
-    if (gameStore.isLastDialogue && gameStore.hasChoices) {
-      console.log("LOG_DEBUG: Last dialogue with choices, showing choices instead of advancing");
-      gameStore.showChoices = true;
-      return;
-    }
-    console.log("LOG_DEBUG: Advancing dialogue");
-    gameStore.advanceDialogue();
-  };
-
-  const ensureAudioPlaying = (path: string) => {
-    const currentItem = (audioStore.list as any[]).find(item => item.audio === audioStore.currentAudio);
-    
-    // Normalize paths for comparison (remove leading slash if present)
-    const normPath = path.startsWith("/") ? path.substring(1) : path;
-    const normCurrentPath = currentItem?.path.startsWith("/") ? currentItem.path.substring(1) : currentItem?.path;
-
-    // Check simple equality or if path ends with the other (handle relative/absolute confusion)
-    const isSamePath = normCurrentPath === normPath || 
-                       normCurrentPath?.endsWith(normPath) || 
-                       normPath?.endsWith(normCurrentPath || "___");
-
-    if (currentItem && isSamePath && audioStore.isPlaying) {
-       console.log("LOG_DEBUG: Audio already playing:", path);
-       
-       // NEW: If shared audio, ensure we are at the right position if just switched
-       const timings = dialogue.value?.timings;
-       const firstTiming = timings?.find((t) => t.start !== undefined);
-
-       if (firstTiming) {
-          const audio = audioStore.currentAudio as any;
-          
-          if (audio && audio.currentTime < (firstTiming.start - 0.5)) {
-             console.log("LOG_DEBUG: Seeking shared audio to:", firstTiming.start);
-             audio.currentTime = firstTiming.start;
-          }
-       }
-       return;
-    }
-    
-    const audioPath = path.startsWith('/') ? path : `/audios/${path}`;
-    console.log("LOG_DEBUG: Starting new audio:", audioPath);
-    audioStore.playAudio(audioPath);
-    
-    // Seek if we have timings and just started
-    const firstTiming = dialogue.value?.timings?.find((t) => t.start !== undefined);
-    if (firstTiming) {
-        setTimeout(() => {
-            const audio = audioStore.currentAudio as any;
-            if (audio && audio.currentTime < firstTiming.start) {
-                audio.currentTime = firstTiming.start;
-            }
-        }, 50);
-    }
-  };
-
-  const animateWords = async () => {
-    const currentDialogue = dialogue.value;
-    if (!currentDialogue || (!split.words.value?.length && !currentDialogue.timings?.length)) {
-      emit("animationComplete");
-      return;
-    }
-
-    // Ensure audio store is ready
-    if (audioStore.list.length === 0) {
-        console.log("LOG_DEBUG: Audio store empty, waiting...");
-        const waitForAudio = () => {
-            if (audioStore.list.length > 0) {
-                console.log("LOG_DEBUG: Audio store ready, calling animateWords");
-                animateWords();
-            } else {
-                setTimeout(waitForAudio, 100);
-            }
-        };
-        setTimeout(waitForAudio, 100);
-        return; 
-    }
-
-    isAnimating.value = true;
-    const audioToPlay = sceneAudio.value || currentDialogue.audio;
-    console.log("LOG_DEBUG: animateWords starting. Scene Audio:", audioToPlay);
-
-    const timings = currentDialogue.timings;
-    const words = split.words.value || [];
-
-    activeTimeline.value?.kill();
-    clearFallbackTimer();
-
-    const wordTimeline = $gsap.timeline({
-      onStart: () => {
-        if (audioToPlay && !isInIntroAnimation.value) {
-          ensureAudioPlaying(audioToPlay);
-          
-          const audioPath = audioToPlay.startsWith('/') ? audioToPlay : `/audios/${audioToPlay}`;
-          const item = (audioStore.list as any[]).find(i => i.path === audioPath || i.path?.endsWith(audioToPlay));
-          
-          if (!item && !isInIntroAnimation.value) {
-            console.log("LOG_DEBUG: Audio item missing from list, starting 3s fallback timer");
-            fallbackTimer.value = setTimeout(handleAudioEnded, 3000);
-          }
-        } else if (!isInIntroAnimation.value) {
-          console.log("LOG_DEBUG: No audio to play, starting 3s fallback timer");
-          fallbackTimer.value = setTimeout(handleAudioEnded, 3000);
-        }
-        
-        setTimeout(() => {
-          if (audioStore.currentAudio) {
-            (audioStore.currentAudio as HTMLAudioElement).removeEventListener('ended', handleAudioEnded);
-            (audioStore.currentAudio as HTMLAudioElement).addEventListener('ended', handleAudioEnded);
-          }
-        }, 100);
-      },
-      onComplete: () => {
-        isAnimating.value = false;
-        emit("animationComplete");
-      },
-    });
-    
-    wordTimeline.timeScale(audioStore.playbackRate);
-    
-    activeTimeline.value = wordTimeline;
-
-    if (currentDialogue.isChat && (!timings || timings.length === 0)) {
-      wordTimeline.set(words, { opacity: 1 }, 0);
-    }
-    
-    const getEffectiveEnd = (end: number | "end", start: number): number => {
-      if (end === "end") {
-        if (audioToPlay) {
-          const audioPath = audioToPlay.startsWith("/")
-            ? audioToPlay
-            : `/audios/${audioToPlay}`;
-          const audioItem = (audioStore.list as any[]).find((item: any) => item.path === audioPath);
-          
-          if (audioItem?.audio?.duration && !isNaN(audioItem.audio.duration) && audioItem.audio.duration > start) {
-             return audioItem.audio.duration;
-          }
-          if (audioItem?.duration && audioItem.duration > start) {
-              return audioItem.duration;
-          }
-        }
-        return start + 5;
-      }
-      return end;
-    };
-
-    if (timings && timings.length > 0) {
-      let wordIndex = 0;
-      timings.forEach((timing) => {
-        if (timing.annotation) {
-          if (timing.showOnly) {
-             const fadeOutDuration = 0.2; // Faster transition as requested
-             const elementsToFadeOut: HTMLElement[] = [];
-             
-             if (textRef.value) elementsToFadeOut.push(textRef.value);
-             if (speakerRef.value) elementsToFadeOut.push(speakerRef.value);
-             // Also fade out current annotation if visible, to prepare for new one
-             if (annotationRef.value && showAnnotation.value) elementsToFadeOut.push(annotationRef.value);
-
-             if (elementsToFadeOut.length > 0) {
-                 // Force remove CSS transitions to prevent interference with GSAP
-                 wordTimeline.set(elementsToFadeOut, { transition: 'none' }, timing.start);
-                 wordTimeline.to(elementsToFadeOut, { opacity: 0, duration: fadeOutDuration }, timing.start);
-             }
-
-             // Update state after fade out
-             wordTimeline.call(() => {
-                 currentTimedAnnotation.value = timing.annotation || null;
-                 isShowingOnlyAnnotation.value = true;
-             }, [], timing.start + fadeOutDuration);
-
-             // Fade in new annotation
-             if (annotationRef.value) {
-                  wordTimeline.set(annotationRef.value, { transition: 'none' }, timing.start + fadeOutDuration);
-                  wordTimeline.fromTo(annotationRef.value, 
-                      { opacity: 0 }, 
-                      { opacity: 1, duration: 0.3 }, 
-                      timing.start + fadeOutDuration
-                  );
-                  // Restore transitions after animation (optional, but good practice if reused)
-                  wordTimeline.set([annotationRef.value, ...elementsToFadeOut], { clearProps: 'transition' }, ">");
-             }
-          } else {
-              wordTimeline.call(() => {
-                currentTimedAnnotation.value = timing.annotation || null;
-                isShowingOnlyAnnotation.value = !!timing.showOnly;
-              }, [], timing.start);
-          }
-          
-          const effectiveEnd = getEffectiveEnd(timing.end, timing.start);
-          
-          if (timing.end !== "end") {
-            wordTimeline.call(() => {
-              if (currentTimedAnnotation.value === timing.annotation) {
-                currentTimedAnnotation.value = null;
-                isShowingOnlyAnnotation.value = false;
-              }
-            }, [], effectiveEnd);
-          } else {
-               wordTimeline.call(() => {
-                   isAnimating.value = false;
-                   emit("animationComplete");
-               }, [], effectiveEnd);
-          }
-        } else if (!currentDialogue.isChat) {
-          const wordEl = words[wordIndex];
-          if (wordEl) {
-            const effectiveEnd = getEffectiveEnd(timing.end, timing.start);
-            wordTimeline.to(
-              wordEl,
-              {
-                opacity: 1,
-                duration: Math.max(0.1, effectiveEnd - timing.start),
-                ease: "none",
-              },
-              timing.start
-            );
-            wordIndex++;
-          }
-        } else {
-          // Cas isChat avec timings
-          wordTimeline.set(words, { opacity: 1 }, timing.start);
-          const effectiveEnd = getEffectiveEnd(timing.end, timing.start);
-          // Étendre la timeline jusqu'à la fin prévue sans animer
-          wordTimeline.to({}, { duration: 0.1 }, effectiveEnd - 0.1);
-          wordIndex++;
-        }
-      });
-
-
-      const lastTiming = timings[timings.length - 1];
-      const isEndingInShowOnly = lastTiming?.annotation && lastTiming?.showOnly && lastTiming?.end === "end";
-
-      if (wordIndex < words.length && !isEndingInShowOnly && !currentDialogue.isChat) {
-        wordTimeline.to(words.slice(wordIndex), {
-          opacity: 1,
-          duration: 0.3,
-          stagger: 0.03,
-          ease: "power2.out",
-        }, ">");
-      }
-    } else if (words.length > 0 && !currentDialogue.isChat) {
-      wordTimeline.to(words, {
-        opacity: 1,
-        duration: 0.3,
-        stagger: 0.03,
-        ease: "power2.out",
-      });
-    }
-
-    if (audioStore.currentAudio) {
-        const currentItem = (audioStore.list as any[]).find(item => item.audio === audioStore.currentAudio);
-        
-        if (audioToPlay && currentItem) {
-            const normPath = audioToPlay.startsWith("/") ? audioToPlay.substring(1) : audioToPlay;
-            const normCurrentPath = currentItem.path.startsWith("/") ? currentItem.path.substring(1) : currentItem.path;
-            
-            if (normCurrentPath.endsWith(normPath) || normPath.endsWith(normCurrentPath)) {
-                 const currentTime = (audioStore.currentAudio as HTMLAudioElement).currentTime || 0;
-                 if (currentTime > 0) {
-                      console.log("LOG_DEBUG: Syncing timeline to audio position:", currentTime);
-                      wordTimeline.seek(currentTime, false);
-                 }
-            }
-        } else if (isInIntroAnimation.value) {
-            const currentTime = (audioStore.currentAudio as HTMLAudioElement).currentTime || 0;
-            wordTimeline.seek(currentTime, false);
-        }
-
-      (audioStore.currentAudio as HTMLAudioElement).removeEventListener('ended', handleAudioEnded);
-      (audioStore.currentAudio as HTMLAudioElement).addEventListener('ended', handleAudioEnded);
-    }
-  };
-
   // Watchers
-  watch(
-    isSelecting,
-    (selecting) => {
-      if (selecting && contentRef.value) {
-        $gsap.to(contentRef.value, {
-          opacity: 0,
-          duration: 0.2,
-          ease: "power2.inOut",
-        });
-      }
+  watch(isSelecting, (selecting) => {
+    if (selecting && contentRef.value) {
+      $gsap.to(contentRef.value, {
+        opacity: 0,
+        duration: 0.2,
+        ease: "power2.inOut",
+      });
     }
-  );
+  });
 
   watch(
     () => dialogue.value?.id,
     async (newId, oldId) => {
-      console.log("LOG_DEBUG: Watch dialogue ID fired. New:", newId, "Old:", oldId);
+      console.log(
+        "LOG_DEBUG: Watch dialogue ID fired. New:",
+        newId,
+        "Old:",
+        oldId
+      );
       if (newId && newId !== oldId) {
-        if (auroraRafId.value !== null) {
-          cancelAnimationFrame(auroraRafId.value);
-          auroraRafId.value = null;
-        }
-        activeTimeline.value?.kill();
-        clearFallbackTimer();
-
-        // Handle Aurora borealis effect
-        if (dialogue.value?.color) {
-          animationsStore.setAuroraZIndex(1); // Set to 1 so it's behind Experience (z-10) but triggering transparency
-          
-          if (dialogue.value.color === 'rainbow') {
-            animationsStore.setAuroraAutoAnimate(true);
-            animationsStore.setAuroraVisibility(true);
-          } else {
-            // Set color BEFORE visibility to ensure immediate application if it was hidden
-            animationsStore.setAuroraAutoAnimate(false);
-            animationsStore.setAuroraColor(dialogue.value.color);
-            
-            // Use requestAnimationFrame to ensure the color watcher has processed (and set duration 0)
-            // before we toggle visibility to true.
-            auroraRafId.value = requestAnimationFrame(() => {
-               animationsStore.setAuroraVisibility(true);
-               auroraRafId.value = null;
-            });
-          }
-        } else {
-          // Only reset if we're not in the menu (which also controls aurora)
-          if (!gameStore.isMenuOpen) {
-            animationsStore.setAuroraVisibility(false);
-            animationsStore.setAuroraAutoAnimate(false);
-            animationsStore.setAuroraZIndex(0);
-          }
-        }
+        handleAuroraEffect();
 
         if (contentRef.value) {
-          $gsap.to(contentRef.value, { opacity: 1, duration: 0.15, ease: "power2.out" });
+          $gsap.to(contentRef.value, {
+            opacity: 1,
+            duration: 0.15,
+            ease: "power2.out",
+          });
         }
         if (textRef.value) {
           $gsap.set(textRef.value, { opacity: 0 });
         }
 
         await nextTick();
-        
+
         // Attendre un peu pour que split soit peuplé
         let attempts = 0;
         const checkSplit = () => {
           if (split.words.value?.length) {
             const words = split.words.value;
-
-            if (isInIntroAnimation.value) {
-              $gsap.set(words, { opacity: 0.2 });
-            } else {
-               $gsap.set(words, { opacity: 0.2 });
-            }
+            $gsap.set(words, { opacity: 0.2 });
 
             if (textRef.value) {
-               $gsap.to(textRef.value, { opacity: 1, duration: 0.2 });
+              $gsap.to(textRef.value, { opacity: 1, duration: 0.2 });
             }
-            currentTimedAnnotation.value = null; 
+            currentTimedAnnotation.value = null;
             isShowingOnlyAnnotation.value = false;
-            
-            isReady.value = true; 
+
+            isReady.value = true;
 
             if (!isInIntroAnimation.value) {
-               setTimeout(animateWords, 20);
+              setTimeout(animateWords, 20);
             }
           } else if (attempts < 60) {
             attempts++;
@@ -484,7 +147,7 @@ export function useDialogueBox(
             }
           }
         };
-        
+
         checkSplit();
         return;
       }
@@ -495,19 +158,34 @@ export function useDialogueBox(
   watch(
     () => gameStore.introAnimationPhase,
     async (phase) => {
-      console.log("LOG_DEBUG: introAnimationPhase changed:", phase, "isInIntro:", isInIntroAnimation.value, "isAnimating:", isAnimating.value);
-      if (phase === "revealing" && isInIntroAnimation.value && !isAnimating.value) {
+      console.log(
+        "LOG_DEBUG: introAnimationPhase changed:",
+        phase,
+        "isInIntro:",
+        isInIntroAnimation.value,
+        "isAnimating:",
+        isAnimating.value
+      );
+      if (
+        phase === "revealing" &&
+        isInIntroAnimation.value &&
+        !isAnimating.value
+      ) {
         let attempts = 0;
         const waitForSplit = async () => {
           if (split.words.value?.length) {
-            console.log("LOG_DEBUG: Split ready, launching animateWords from intro watcher");
+            console.log(
+              "LOG_DEBUG: Split ready, launching animateWords from intro watcher"
+            );
             animateWords();
           } else if (attempts < 30) {
             attempts++;
-            await new Promise(resolve => setTimeout(resolve, 25));
+            await new Promise((resolve) => setTimeout(resolve, 25));
             waitForSplit();
           } else {
-            console.warn("LOG_DEBUG: Split timed out in intro watcher, forcing animateWords");
+            console.warn(
+              "LOG_DEBUG: Split timed out in intro watcher, forcing animateWords"
+            );
             animateWords();
           }
         };
@@ -519,17 +197,8 @@ export function useDialogueBox(
   );
 
   onUnmounted(() => {
-    if (auroraRafId.value !== null) {
-      cancelAnimationFrame(auroraRafId.value);
-      auroraRafId.value = null;
-    }
-    activeTimeline.value?.kill();
-    currentTimedAnnotation.value = null;
-    isShowingOnlyAnnotation.value = false;
+    clearAuroraRaf();
     clearFallbackTimer();
-    if (audioStore.currentAudio) {
-      (audioStore.currentAudio as HTMLAudioElement).removeEventListener('ended', handleAudioEnded);
-    }
   });
 
   return {
@@ -540,9 +209,9 @@ export function useDialogueBox(
     showDialogueContent,
     annotationClasses,
     isReady,
-    animateWords, // Exposed in case needed, but mainly handled internally
-    split, // Exposing split result if needed, though mostly internal
+    animateWords,
+    split,
     currentTimedAnnotation,
-    isShowingOnlyAnnotation
+    isShowingOnlyAnnotation,
   };
 }
