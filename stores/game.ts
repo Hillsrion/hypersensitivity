@@ -319,10 +319,17 @@ export const useGameStore = defineStore("game", {
         // On ne réinitialise le choix sélectionné que s'il y a un changement de milestone (annotation d'entrée)
         if (scene.entryAnnotation) {
           this.selectedChoice = null;
-          this.introAnimationPhase = "annotation";
+          
+          // Si l'intro (Reveil) est déjà passée, on utilise le style "dialogue" (showOnly)
+          // Sinon on utilise le style "intro" (écran flou)
+          if (this.introPlayed) {
+             this.introAnimationPhase = "milestoneAnnotation";
+          } else {
+             this.introAnimationPhase = "annotation";
+          }
 
           setTimeout(() => {
-            if (this.introAnimationPhase === "annotation") {
+            if (this.introAnimationPhase === "annotation" || this.introAnimationPhase === "milestoneAnnotation") {
               this.introAnimationPhase = "complete";
             }
           }, 3000);

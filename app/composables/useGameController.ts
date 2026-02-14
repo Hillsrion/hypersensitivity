@@ -29,6 +29,10 @@ export const useGameController = () => {
     return gameStore.introAnimationPhase === "annotation";
   });
 
+  const isMilestoneAnnotation = computed(() => {
+    return gameStore.introAnimationPhase === "milestoneAnnotation";
+  });
+
   const showGameUI = computed(() => {
     return (
       gameStore.introAnimationPhase === "revealing" ||
@@ -57,8 +61,10 @@ export const useGameController = () => {
   const handleInteraction = () => {
     // Si on est en train d'afficher une annotation d'entrée (milestone)
     // le premier clic permet de la passer pour voir le dialogue
-    if (gameStore.introAnimationPhase === "annotation") {
+    if (gameStore.introAnimationPhase === "annotation" || gameStore.introAnimationPhase === "milestoneAnnotation") {
         console.log("LOG_DEBUG: Skipping entry annotation via click");
+        // Si c'etait une milestoneAnnotation, on s'assure de passer a complete
+        // Pour l'annotation normale, ca reste pareil
         gameStore.setIntroAnimationPhase("complete");
         return;
     }
@@ -87,6 +93,7 @@ export const useGameController = () => {
     }
 
     // Force hide if we're in an entry annotation (chapter/milestone transition)
+    // Note: For milestoneAnnotation, we let the aurora behave normally based on the dialogue color
     if (gameStore.introAnimationPhase === "annotation") {
       animationsStore.setAuroraVisibility(false);
       return;
@@ -126,6 +133,9 @@ export const useGameController = () => {
       }
     } else {
       if (!gameStore.isMenuOpen) {
+        // Don't hide aurora during milestone annotation (to avoid fade to black)
+        if (gameStore.introAnimationPhase === "milestoneAnnotation") return;
+
         animationsStore.setAuroraVisibility(false);
         animationsStore.setAuroraAutoAnimate(false);
         animationsStore.setAuroraZIndex(0);
@@ -235,6 +245,7 @@ export const useGameController = () => {
     activeChoices,
     audioProgressPercent,
     showAnnotation,
+    isMilestoneAnnotation,
     showGameUI,
     annotationText,
     showContent,

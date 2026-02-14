@@ -79,7 +79,7 @@ export interface GameData {
 }
 
 // Phases de l'animation d'intro
-export type IntroAnimationPhase = "hidden" | "annotation" | "revealing" | "complete";
+export type IntroAnimationPhase = "hidden" | "annotation" | "milestoneAnnotation" | "revealing" | "complete";
 
 export interface GameState {
   currentSceneId: string;

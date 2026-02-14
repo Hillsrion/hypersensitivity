@@ -19,6 +19,7 @@ const {
   activeChoices,
   audioProgressPercent,
   showAnnotation,
+  isMilestoneAnnotation,
   showGameUI,
   annotationText,
   showContent,
@@ -64,7 +65,7 @@ watch(audioProgressPercent, (newVal) => {
     <!-- Menu Icon (top left) -->
     <Transition name="fade">
       <button
-        v-if="showGameUI && !gameStore.isMenuOpening && !gameStore.isMenuOpen"
+        v-if="showGameUI && !gameStore.isMenuOpening && !gameStore.isMenuOpen && !isMilestoneAnnotation"
         class="absolute top-10 left-18 z-50 text-primary"
         @click.stop="gameStore.toggleMenu()"
       >
@@ -75,14 +76,14 @@ watch(audioProgressPercent, (newVal) => {
     <!-- Header -->
     <Transition name="fade">
       <GameHeader
-        v-if="showGameUI && !gameStore.isMenuOpening && !gameStore.isMenuOpen"
+        v-if="showGameUI && !gameStore.isMenuOpening && !gameStore.isMenuOpen && !isMilestoneAnnotation"
       />
     </Transition>
 
     <!-- Energy Bar (right side) -->
     <Transition name="fade">
       <GameEnergyBar
-        v-if="showGameUI && !gameStore.isMenuOpening && !gameStore.isMenuOpen"
+        v-if="(showGameUI || isMilestoneAnnotation) && !gameStore.isMenuOpening && !gameStore.isMenuOpen"
         class="absolute top-1/2 left-18 -translate-y-1/2 z-40"
       />
     </Transition>
@@ -109,13 +110,20 @@ watch(audioProgressPercent, (newVal) => {
           v-if="
             showContent &&
             !showAnnotation &&
-            (showGameUI || !gameStore.isFirstDialogueOfInitialScene) &&
+            (showGameUI || !gameStore.isFirstDialogueOfInitialScene || isMilestoneAnnotation) &&
             !gameStore.isMenuOpening &&
             !gameStore.isMenuOpen
           "
-          :key="gameStore.currentDialogue?.id"
+          :key="isMilestoneAnnotation ? 'milestone-anno' : gameStore.currentDialogue?.id"
           ref="dialogueBoxRef"
-          :dialogue="gameStore.currentDialogue"
+          :dialogue="isMilestoneAnnotation ? {
+            id: 'milestone-entry',
+            speaker: '',
+            speakerType: 'normal',
+            text: '',
+            annotation: gameStore.currentScene?.entryAnnotation || '',
+            isChat: false
+          } : gameStore.currentDialogue"
           :is-selecting="isChoiceSelecting"
           class="pointer-events-auto"
           @animation-complete="onDialogueAnimationComplete"
@@ -130,7 +138,8 @@ watch(audioProgressPercent, (newVal) => {
           (gameStore.showChoices || gameStore.selectedChoice) &&
           showGameUI &&
           !gameStore.isMenuOpening &&
-          !gameStore.isMenuOpen
+          !gameStore.isMenuOpen &&
+          !isMilestoneAnnotation
         "
         ref="choicesRef"
         :choices="activeChoices"

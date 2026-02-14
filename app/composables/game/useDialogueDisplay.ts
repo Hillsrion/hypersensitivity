@@ -11,6 +11,7 @@ export function useDialogueDisplay(dialogue: Ref<DialogueLine | null>) {
   const isRightAligned = computed(() => {
     if (!dialogue.value) return false;
     if (isPensees.value) return false;
+    if (dialogue.value.id === "milestone-entry") return false;
     const speaker = dialogue.value.speaker.toLowerCase();
     return !speaker.includes("lucie");
   });
@@ -24,6 +25,7 @@ export function useDialogueDisplay(dialogue: Ref<DialogueLine | null>) {
   const showAnnotation = (currentTimedAnnotation?: Ref<string | null>) =>
     computed(() => {
       if (currentTimedAnnotation?.value) return true;
+      if (dialogue.value?.id === "milestone-entry") return true;
       if (!dialogue.value?.annotation) return false;
       if (gameStore.isFirstDialogueOfInitialScene) return false;
       return true;
@@ -46,6 +48,15 @@ export function useDialogueDisplay(dialogue: Ref<DialogueLine | null>) {
 
   const annotationClasses = computed(() => {
     const phase = gameStore.introAnimationPhase;
+    
+    // For milestone annotations (standard dialogue box style), we function normally
+    if (phase === "milestoneAnnotation") {
+      return {
+        "opacity-100": true,
+        "blur-0": true
+      };
+    }
+
     return {
       "blur-xs":
         isInIntroAnimation.value &&
@@ -62,6 +73,7 @@ export function useDialogueDisplay(dialogue: Ref<DialogueLine | null>) {
       "opacity-0":
         isInIntroAnimation.value &&
         phase !== "annotation" &&
+        phase !== "milestoneAnnotation" &&
         phase !== "revealing" &&
         phase !== "complete",
     };
