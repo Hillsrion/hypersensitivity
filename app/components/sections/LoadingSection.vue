@@ -40,17 +40,6 @@ const onBottomElementClick = () => {
       <p class="text-white uppercase leading-5">Cliquer pour écouter</p>
       <CircleAudiowave class="w-18 h-18" :animating="isHovered" />
     </button>
-    <div
-      class="absolute top-10 right-16 transition-opacity duration-500"
-      :class="{
-        'opacity-0': !landing.intro.entry.started,
-      }"
-    >
-      <CircleAudiowave
-        class="w-14 h-14"
-        :primary="animationsStore.audiowave.variant === 'dark'"
-        :animating="isPlaying"
-      />
-    </div>
+
   </div>
 </template>

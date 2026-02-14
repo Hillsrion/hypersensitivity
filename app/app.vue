@@ -13,12 +13,14 @@ import { useGameStore } from "~/stores/game";
 
 const { cursorRef } = useCustomCursor();
 
-const route = useRoute();
-const lenisRef = ref(null);
-
 const audioStore = useAudioStore();
 const animations = useAnimationsStore();
 const gameStore = useGameStore();
+
+const { isPlaying } = storeToRefs(audioStore);
+
+const route = useRoute();
+const lenisRef = ref(null);
 
 const { data: page } = await useAsyncData("page-" + route.path, () => {
   return queryCollection("content").path(route.path).first();
@@ -148,6 +150,15 @@ onMounted(async () => {
       class="custom-cursor fixed top-0 left-0 w-4 h-4 rounded-full pointer-events-none z-99999 transition-colors duration-300 ease-in-out will-change-transform"
       :class="animations.cursor.variant === 'dark' ? 'bg-primary' : 'bg-white'"
     />
+
+    <!-- Global Audiowave -->
+    <div class="fixed top-10 right-16 z-100 pointer-events-none transition-opacity duration-500">
+      <CircleAudiowave
+        class="w-14 h-14"
+        :primary="animations.audiowave.variant === 'dark'"
+        :animating="isPlaying"
+      />
+    </div>
 
 
     <VueLenis root ref="lenisRef" />
