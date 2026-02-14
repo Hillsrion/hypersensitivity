@@ -6,6 +6,8 @@ export function useDialogueBox(
   dialogue: Ref<DialogueLine | null>,
   textRef: Ref<HTMLElement | null>,
   contentRef: Ref<HTMLElement | null>,
+  annotationRef: Ref<HTMLElement | null>,
+  speakerRef: Ref<HTMLElement | null>,
   isSelecting: Ref<boolean | undefined>,
   emit: (event: "animationComplete", ...args: any[]) => void
 ) {
@@ -260,20 +262,44 @@ export function useDialogueBox(
       let wordIndex = 0;
       timings.forEach((timing) => {
         if (timing.annotation) {
-          wordTimeline.call(() => {
-            currentTimedAnnotation.value = timing.annotation || null;
-            isShowingOnlyAnnotation.value = !!timing.showOnly;
-            
-            if (timing.showOnly && textRef.value) {
-              $gsap.set(textRef.value, { opacity: 0 });
-            }
+          if (timing.showOnly) {
+             const fadeOutDuration = 0.2; // Faster transition as requested
+             const elementsToFadeOut: HTMLElement[] = [];
+             
+             if (textRef.value) elementsToFadeOut.push(textRef.value);
+             if (speakerRef.value) elementsToFadeOut.push(speakerRef.value);
+             // Also fade out current annotation if visible, to prepare for new one
+             if (annotationRef.value && showAnnotation.value) elementsToFadeOut.push(annotationRef.value);
 
-            if (timing.end === "end") {
-               console.log("LOG_DEBUG: Force unlocking animation for 'end' annotation", timing);
-               isAnimating.value = false;
-               emit("animationComplete");
-            }
-          }, [], timing.start);
+             if (elementsToFadeOut.length > 0) {
+                 // Force remove CSS transitions to prevent interference with GSAP
+                 wordTimeline.set(elementsToFadeOut, { transition: 'none' }, timing.start);
+                 wordTimeline.to(elementsToFadeOut, { opacity: 0, duration: fadeOutDuration }, timing.start);
+             }
+
+             // Update state after fade out
+             wordTimeline.call(() => {
+                 currentTimedAnnotation.value = timing.annotation || null;
+                 isShowingOnlyAnnotation.value = true;
+             }, [], timing.start + fadeOutDuration);
+
+             // Fade in new annotation
+             if (annotationRef.value) {
+                  wordTimeline.set(annotationRef.value, { transition: 'none' }, timing.start + fadeOutDuration);
+                  wordTimeline.fromTo(annotationRef.value, 
+                      { opacity: 0 }, 
+                      { opacity: 1, duration: 0.3 }, 
+                      timing.start + fadeOutDuration
+                  );
+                  // Restore transitions after animation (optional, but good practice if reused)
+                  wordTimeline.set([annotationRef.value, ...elementsToFadeOut], { clearProps: 'transition' }, ">");
+             }
+          } else {
+              wordTimeline.call(() => {
+                currentTimedAnnotation.value = timing.annotation || null;
+                isShowingOnlyAnnotation.value = !!timing.showOnly;
+              }, [], timing.start);
+          }
           
           const effectiveEnd = getEffectiveEnd(timing.end, timing.start);
           
@@ -406,7 +432,7 @@ export function useDialogueBox(
             }
 
             if (textRef.value) {
-               $gsap.set(textRef.value, { opacity: 1 });
+               $gsap.to(textRef.value, { opacity: 1, duration: 0.2 });
             }
             currentTimedAnnotation.value = null; 
             isShowingOnlyAnnotation.value = false;

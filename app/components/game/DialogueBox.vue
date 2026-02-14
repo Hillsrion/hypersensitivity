@@ -22,6 +22,8 @@ onMounted(() => {
 
 const contentRef = ref<HTMLElement | null>(null);
 const textRef = ref<HTMLElement | null>(null);
+const annotationRef = ref<HTMLElement | null>(null);
+const speakerRef = ref<HTMLElement | null>(null);
 
 const { 
   isPensees,
@@ -37,6 +39,8 @@ const {
   toRef(props, 'dialogue'),
   textRef,
   contentRef,
+  annotationRef,
+  speakerRef,
   toRef(props, 'isSelecting'),
   emit
 );
@@ -46,7 +50,8 @@ const {
   <div v-if="dialogue" ref="contentRef" class="w-full max-w-4xl px-8 flex flex-col transition-all duration-500" :class="{ 'items-end': isRightAligned, 'items-start': !isRightAligned, 'justify-center': isShowingOnlyAnnotation }">
     <!-- Annotation (utilisée aussi pour les timings temporaires) -->
     <p
-      v-if="showAnnotation"
+      v-show="showAnnotation"
+      ref="annotationRef"
       class="font-serif text-primary/60 text-xl/7 transition-all duration-300"
       :class="[
         annotationClasses, isRightAligned ? 'text-right' : 'text-left'
@@ -58,6 +63,7 @@ const {
     <!-- Speaker Name (caché via opacité pendant l'intro ou si showOnly est actif) -->
     <p
       v-show="!isShowingOnlyAnnotation"
+      ref="speakerRef"
       class="text-primary font-medium font-satoshi text-xl/7 uppercase transition-all duration-300"
       :class="[
         { 'opacity-0': !showDialogueContent, 'mt-6': showAnnotation }, 
