@@ -45,11 +45,7 @@ export interface Choice {
   disabledReason?: string; // Ex: "(Energie insuffisante)" si condition non remplie
 }
 
-export interface AutoChoice {
-  condition: ChoiceCondition;
-  thenSceneId: string;
-  elseSceneId: string;
-}
+
 
 export interface Scene {
   id: string;
@@ -60,7 +56,7 @@ export interface Scene {
   nextSceneId?: string; // Scene suivante si pas de choix
   condition?: ChoiceCondition; // Condition pour jouer cette scene (si fausse, on passe a la suivante)
   conditions?: ChoiceCondition[]; // Multiple conditions (AND logic)
-  autoChoice?: AutoChoice; // Choix automatique base sur les flags
+
   entryAnnotation?: string; // Annotation s'affichant avant les dialogues (transition de scène)
   audio?: string; // Audio global de la scene
   onEnter?: {

@@ -50,10 +50,47 @@ The engine supports three types of transitions:
     - Presents buttons to the user.
     - Each choice has a `nextSceneId` and optional `effects` (e.g., modifying energy or setting flags).
     
-3.  **Conditional Auto-Routing (`autoChoice`)**:
-    - Used for branching paths based on previous decisions (flags) without user intervention.
-    - Checks a `flag`, `operator` (equals), and `value`.
-    - Routes to `thenSceneId` if true, `elseSceneId` if false.
+3.  **Milestone-Driven Navigation (`goToNextScene`)**:
+    - If no explicit routing is defined (`nextSceneId` or `choices`), the engine follows the natural order of scenes within the current **Milestone**.
+    - When the last scene of a milestone is reached, the game automatically transitions to the first valid scene of the next milestone in `MILESTONE_ORDER`.
+
+## 🏁 Milestone-Driven Navigation
+
+
+Milestones serve as both "chapters" in the narrative and "checkpoints" for the navigation menu.
+
+### Definition (`app/data/milestones.ts`)
+
+A milestone group together several scenes that logically belong to the same narrative arc:
+
+```ts
+export const MILESTONES: Record<string, MilestoneDef> = {
+  reveil: {
+    id: "reveil",
+    label: "Réveil",
+    day: 1,
+    scenes: [SCENE_IDS.DAY_ONE_WAKEUP, SCENE_IDS.DAY_ONE_BATHROOM, ...],
+  },
+  // ...
+};
+```
+
+### The "Playlist" Logic
+
+The engine uses a "playlist" approach implemented in `stores/game.ts`:
+
+- **`goToNextScene()`**: 
+    1. Looks for the current scene in the current milestone's `scenes` array.
+    2. Moves to the next valid scene (checking `condition` and `conditions`).
+    3. If no more scenes are found, it identifies the next milestone via `MILESTONE_ORDER` and moves to its first valid scene.
+- **`goToMilestone(id)`**:
+    - Used by the navigation menu. It jumps to the first valid scene of the specified milestone.
+    - Only "reached" milestones (stored in `reachedMilestones`) are accessible in the UI.
+
+### Progress Tracking
+
+As the player advances, reached milestones are added to the `reachedMilestones` state. This persists across sessions and allows the player to jump back to key moments via the **GameMilestoneMenu**.
+
 
 ## 🗣️ Audio & Dialogue Workflow
 

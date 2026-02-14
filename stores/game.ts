@@ -255,17 +255,7 @@ export const useGameStore = defineStore("game", {
         return;
       }
 
-      // Si auto-choice, l'evaluer
-      if (scene.autoChoice) {
-        const nextSceneId = evaluateCondition(
-          scene.autoChoice.condition,
-          this.flags
-        )
-          ? scene.autoChoice.thenSceneId
-          : scene.autoChoice.elseSceneId;
-        this.goToScene(nextSceneId);
-        return;
-      }
+
 
       // Override manuel via nextSceneId
       if (scene.nextSceneId) {
@@ -328,6 +318,7 @@ export const useGameStore = defineStore("game", {
         // 1. Chercher dans le milestone actuel après la scène courante
         for (let i = currentIndex + 1; i < currentMilestone.scenes.length; i++) {
           const nextSceneId = currentMilestone.scenes[i];
+          if (!nextSceneId) continue;
           const nextScene = gameData.scenes[nextSceneId];
           
           if (nextScene) {
