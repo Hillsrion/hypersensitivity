@@ -26,6 +26,33 @@ const {
   handleChoiceSelect,
   onDialogueAnimationComplete,
 } = useGameController();
+
+const visualProgress = ref(0);
+const barTransformOrigin = ref('left');
+
+watch(
+  () => audioStore.isPlaying,
+  (playing) => {
+    if (playing) {
+      if (barTransformOrigin.value !== 'left') {
+        barTransformOrigin.value = 'left';
+      }
+    } else {
+      // Audio stopped - trigger exit animation
+      visualProgress.value = 100;
+      barTransformOrigin.value = 'right';
+      setTimeout(() => {
+        visualProgress.value = 0;
+      }, 50);
+    }
+  }
+);
+
+watch(audioProgressPercent, (newVal) => {
+  if (audioStore.isPlaying) {
+    visualProgress.value = newVal;
+  }
+});
 </script>
 
 <template>
@@ -150,8 +177,11 @@ const {
       class="fixed bottom-0 left-0 w-full h-[4px] bg-primary/10 z-50"
     >
       <div
-        class="h-full bg-primary transition-all duration-500 ease-out"
-        :style="{ width: audioProgressPercent + '%' }"
+        class="w-full h-full bg-primary transition-transform duration-500 ease-out"
+        :style="{
+          transform: `scaleX(${visualProgress / 100})`,
+          transformOrigin: barTransformOrigin,
+        }"
       ></div>
     </div>
   </div>
