@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import type { Choice } from "../../types/game";
 import { useGameStore } from "~/stores/game";
+import { useChoiceButtons } from "../../composables/game/useChoiceButtons";
 
 const props = defineProps<{
   choices: Choice[];
@@ -11,81 +12,13 @@ const emit = defineEmits<{
   selecting: [];
 }>();
 
-const { $gsap } = useNuxtApp();
 const gameStore = useGameStore();
-
-const hoveredIndex = ref<number | null>(null);
-const isSelecting = ref(false);
-const selectedIndex = ref<number | null>(null);
 
 const iconRef = ref<HTMLElement | null>(null);
 const buttonRefs = ref<HTMLElement[]>([]);
 
-// Si un choix est déjà sélectionné dans le store au montage
-onMounted(() => {
-  if (gameStore.selectedChoice) {
-    const index = props.choices.findIndex(c => c.id === gameStore.selectedChoice?.id);
-    if (index !== -1) {
-      selectedIndex.value = index;
-      isSelecting.value = true;
-    }
-  }
-});
-
-// Reset l'état quand on doit réafficher les choix
-watch(
-  () => gameStore.showChoices,
-  (show) => {
-    if (show) {
-      isSelecting.value = false;
-      selectedIndex.value = null;
-    }
-  }
-);
-
-const handleSelect = async (choice: Choice, index: number) => {
-  if (gameStore.isChoiceDisabled(choice) || isSelecting.value) return;
-
-  isSelecting.value = true;
-  selectedIndex.value = index;
-  emit("selecting");
-
-  const tl = $gsap.timeline({
-    onComplete: () => {
-      emit("select", choice);
-    },
-  });
-
-  // Fade out icon and non-selected choice
-  const elementsToFade = [
-    iconRef.value,
-    ...buttonRefs.value.filter((_, i) => i !== index),
-  ];
-
-  tl.to(elementsToFade, {
-    opacity: 0,
-    duration: 0.4,
-    ease: "power2.inOut",
-  });
-
-  // Move selected choice to center horizontal
-  const selectedBtn = buttonRefs.value[index];
-  if (selectedBtn) {
-    const rect = selectedBtn.getBoundingClientRect();
-    const centerX = window.innerWidth / 2;
-    const btnCenterX = rect.left + rect.width / 2;
-    const xMove = centerX - btnCenterX;
-
-    tl.to(
-      selectedBtn,
-      {
-        x: xMove,
-        duration: 0.85,
-        ease: "power3.inOut",
-      }
-    );
-  }
-};
+const { hoveredIndex, isSelecting, selectedIndex, handleSelect } =
+  useChoiceButtons(toRef(props, "choices"), buttonRefs, iconRef, emit);
 </script>
 
 <template>
@@ -96,7 +29,7 @@ const handleSelect = async (choice: Choice, index: number) => {
     <template v-for="(choice, index) in choices" :key="choice.id">
       <!-- CHOICE BUTTON -->
       <button
-        :ref="(el) => { if (el) buttonRefs[index] = el as HTMLElement }"
+        :ref="(el: any) => { if (el) buttonRefs[index] = el as HTMLElement }"
         class="group relative py-4 font-satoshi font-semibold text-xl/7 uppercase flex flex-col items-center"
         :class="[
           !isSelecting ? 'transition-[color,opacity] duration-300' : 'transition-[color] duration-300',
