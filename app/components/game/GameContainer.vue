@@ -147,10 +147,10 @@ const {
     <!-- Fixed Progress Bar -->
     <div
       v-if="(showGameUI || audioStore.isPlaying) && !gameStore.isMenuOpening && !gameStore.isMenuOpen"
-      class="fixed bottom-0 left-0 w-full h-[4px] bg-white/10 z-50"
+      class="fixed bottom-0 left-0 w-full h-[4px] bg-primary/10 z-50"
     >
       <div
-        class="h-full bg-white transition-all duration-500 ease-out"
+        class="h-full bg-primary transition-all duration-500 ease-out"
         :style="{ width: audioProgressPercent + '%' }"
       ></div>
     </div>
