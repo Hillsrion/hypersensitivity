@@ -78,21 +78,70 @@ export const useGameController = () => {
   const handleChoiceSelect = (choice: any) => {
     isChoiceSelecting.value = false;
     gameStore.selectChoice(choice);
-  };
+  };  // Aurora management (stable, doesn't remount on dialogue change)
+  const handleAuroraEffect = () => {
+    // If we are currently switching scenes, we keep the current aurora state
+    // to avoid a blink during the 300ms transition.
+    if (gameStore.isTransitioning && animationsStore.aurora.visible) {
+      return;
+    }
 
-  // Gerer l'effet Aurora quand le dialogue a une couleur
-  watch(
-    () => gameStore.currentDialogue?.color,
-    (color) => {
-      if (color) {
-        animationsStore.setAuroraColor(color);
+    // Force hide if we're in an entry annotation (chapter/milestone transition)
+    if (gameStore.introAnimationPhase === "annotation") {
+      animationsStore.setAuroraVisibility(false);
+      return;
+    }
+
+    const dialogue = gameStore.currentDialogue;
+    if (dialogue?.color) {
+      animationsStore.setAuroraZIndex(1);
+
+      if (dialogue.color === "rainbow") {
+        if (animationsStore.aurora.autoAnimate && animationsStore.aurora.visible) return;
+        animationsStore.setAuroraAutoAnimate(true);
         animationsStore.setAuroraVisibility(true);
       } else {
-        animationsStore.setAuroraVisibility(false);
+        const currentColor = animationsStore.aurora.color;
+        const isVisible = animationsStore.aurora.visible;
+
+        if (isVisible && currentColor === dialogue.color && !animationsStore.aurora.autoAnimate) {
+          return;
+        }
+
+        animationsStore.setAuroraAutoAnimate(false);
+        animationsStore.setAuroraColor(dialogue.color);
+        
+        // If not visible, we wait a frame to ensure the color is applied before fading in
+        if (!isVisible) {
+          if (import.meta.client) {
+            requestAnimationFrame(() => {
+              animationsStore.setAuroraVisibility(true);
+            });
+          } else {
+            animationsStore.setAuroraVisibility(true);
+          }
+        } else {
+          animationsStore.setAuroraVisibility(true);
+        }
       }
+    } else {
+      if (!gameStore.isMenuOpen) {
+        animationsStore.setAuroraVisibility(false);
+        animationsStore.setAuroraAutoAnimate(false);
+        animationsStore.setAuroraZIndex(0);
+      }
+    }
+  };
+
+  // Watch for dialogue or phase changes to update Aurora
+  watch(
+    [() => gameStore.currentDialogue?.id, () => gameStore.introAnimationPhase],
+    () => {
+      handleAuroraEffect();
     },
     { immediate: true }
   );
+
 
   // Animation des choix quand ils apparaissent
   watch(

@@ -3,7 +3,6 @@ import { useAnimationsStore } from "~/stores/animations";
 import { useGameStore } from "~/stores/game";
 import { useDialogueDisplay } from "./useDialogueDisplay";
 import { useDialogueAudio } from "./useDialogueAudio";
-import { useDialogueAurora } from "./useDialogueAurora";
 import { useDialogueAnimator } from "./useDialogueAnimator";
 
 export function useDialogueBox(
@@ -49,7 +48,6 @@ export function useDialogueBox(
     ensureAudioPlaying,
   } = useDialogueAudio(dialogue);
 
-  const { handleAuroraEffect, clearAuroraRaf } = useDialogueAurora(dialogue);
 
   const {
     isAnimating,
@@ -104,7 +102,6 @@ export function useDialogueBox(
         oldId
       );
       if (newId && newId !== oldId) {
-        handleAuroraEffect();
 
         if (contentRef.value) {
           $gsap.to(contentRef.value, {
@@ -197,7 +194,6 @@ export function useDialogueBox(
   );
 
   onUnmounted(() => {
-    clearAuroraRaf();
     clearFallbackTimer();
   });
 

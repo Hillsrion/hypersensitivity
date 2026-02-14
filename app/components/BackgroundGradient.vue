@@ -158,7 +158,8 @@ watch(
         ease: "power2.inOut",
       });
     }
-  }
+  },
+  { immediate: true }
 );
 
 watch(
@@ -187,8 +188,7 @@ watch(
   >
     <div
       ref="auroraRef"
-      class="absolute inset-0 flex items-center justify-center pointer-events-none z-0 overflow-hidden will-change-opacity backface-hidden"
-      :class="{ 'opacity-100': animationsStore.aurora.visible, 'opacity-0': !animationsStore.aurora.visible }"
+      class="absolute inset-0 flex items-center justify-center pointer-events-none z-0 overflow-hidden will-change-opacity backface-hidden opacity-0"
     >
       <div
         ref="auroraInnerRef"

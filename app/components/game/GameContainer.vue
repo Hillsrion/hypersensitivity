@@ -139,13 +139,6 @@ watch(audioProgressPercent, (newVal) => {
       />
     </Transition>
 
-    <!-- Scene Transition Overlay -->
-    <Transition name="fade">
-      <div
-        v-if="gameStore.isTransitioning"
-        class="absolute inset-0 bg-white/50 z-30 pointer-events-none"
-      />
-    </Transition>
 
     <!-- Milestone Menu - removed from here as it Teleports itself -->
     <!-- <GameMilestoneMenu /> -->
