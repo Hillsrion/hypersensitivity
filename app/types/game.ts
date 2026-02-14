@@ -93,6 +93,7 @@ export interface GameState {
   introPlayed: boolean;
   introAnimationPhase: IntroAnimationPhase;
   introBlurAmount: number;
+  isAutoScrolling: boolean;
   selectedChoice: Choice | null;
   showQuestionnaire: boolean;
 }

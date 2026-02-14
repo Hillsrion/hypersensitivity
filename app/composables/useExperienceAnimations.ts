@@ -88,6 +88,8 @@ export const useExperienceAnimations = () => {
     stop4: 100,
   });
 
+  const audioTriggered = ref(false);
+
   const eyePaths = {
     closed:
       "M1366 84.76C1129.12 84.76 912 84.76 683 84.76C454 84.76 236.88 84.76 0 84.76C236.88 84.76 454 84.76 683 84.76C912 84.76 1129.12 84.76 1366 84.76Z",
@@ -352,6 +354,8 @@ export const useExperienceAnimations = () => {
             ? audioToPlay
             : `/audios/${audioToPlay}`;
           audioStore.playAudio(audioPath);
+          audioTriggered.value = true;
+          console.log("LOG_DEBUG: audioTriggered set to true");
         }
       })
       .to(
@@ -461,7 +465,6 @@ export const useExperienceAnimations = () => {
           animationsStore.setAudiowaveVariant("light");
         }
       } 
-      // Phase 1: Le début est sur fond blanc
       else {
         if (animationsStore.cursor.variant !== "dark") {
           animationsStore.setCursorVariant("dark");
@@ -469,6 +472,46 @@ export const useExperienceAnimations = () => {
         }
       }
     });
+
+    // Auto-scroll logic if user is too slow
+    watch(
+      () => audioStore.currentTime,
+      (time) => {
+        if (
+          !audioTriggered.value ||
+          gameStore.introPlayed ||
+          gameStore.isAutoScrolling ||
+          mainTl.progress() > 0.99
+        )
+          return;
+
+        const firstDialogue = gameStore.currentScene?.dialogues[0];
+        if (!firstDialogue) return;
+
+        const firstWordStart = firstDialogue.timings?.[0]?.start;
+        if (typeof firstWordStart !== "number") return;
+
+        const scrollDuration = 1.5;
+        // Si on arrive à (durée + 0.5s) avant le début du premier dialogue
+        if (time >= firstWordStart - (scrollDuration + 0.2)) {
+          console.log("LOG_DEBUG: Auto-scrolling to bottom (user too slow)");
+          gameStore.isAutoScrolling = true;
+
+          $gsap.to(window, {
+            scrollTo: {
+              y: containerEl.offsetTop + 7 * window.innerHeight,
+            },
+            duration: scrollDuration,
+            ease: "power2.inOut",
+            onComplete: () => {
+              gameStore.isAutoScrolling = false;
+              gameStore.setIntroAnimationPhase("complete");
+              gameStore.setIntroPlayed();
+            },
+          });
+        }
+      }
+    );
 
     return scrollTriggerInstance;
   };

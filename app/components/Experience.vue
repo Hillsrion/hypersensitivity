@@ -79,6 +79,17 @@ watch(
     ) {
       autoRevealStarted.value = true;
 
+      // Si on est en auto-scroll, on skip le timer de 3s
+      if (gameStore.isAutoScrolling) {
+        console.log("LOG_DEBUG: Auto-scrolling detected, skipping reveal timer");
+        gameStore.setIntroAnimationPhase("revealing");
+        $gsap.delayedCall(0.5, () => {
+          gameStore.setIntroAnimationPhase("complete");
+          gameStore.setIntroPlayed();
+        });
+        return;
+      }
+
       const revealTl = $gsap.timeline();
 
 

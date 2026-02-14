@@ -52,6 +52,7 @@ export const useGameStore = defineStore("game", {
     introPlayed: false,
     introAnimationPhase: "hidden",
     introBlurAmount: 8,
+    isAutoScrolling: false,
     selectedChoice: null,
     showQuestionnaire: false,
   }),
