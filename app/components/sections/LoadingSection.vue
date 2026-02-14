@@ -6,7 +6,8 @@ import { storeToRefs } from "pinia";
 const animationsStore = useAnimationsStore();
 const audioStore = useAudioStore();
 const { landing } = storeToRefs(animationsStore);
-const { isPlaying } = storeToRefs(audioStore);
+// Keep audioStore usage direct
+// const { isPlaying } = storeToRefs(audioStore);
 const bottomElement = useTemplateRef("bottomElement");
 const containerElement = useTemplateRef("containerElement");
 const isHovered = ref(false);

@@ -17,7 +17,8 @@ const audioStore = useAudioStore();
 const animations = useAnimationsStore();
 const gameStore = useGameStore();
 
-const { isPlaying } = storeToRefs(audioStore);
+// Keep audioStore usage direct to avoid potential storeToRefs issues with null effects
+// const { isPlaying } = storeToRefs(audioStore);
 
 const route = useRoute();
 const lenisRef = ref(null);
@@ -156,7 +157,7 @@ onMounted(async () => {
       <CircleAudiowave
         class="w-14 h-14"
         :primary="animations.audiowave.variant === 'dark'"
-        :animating="isPlaying"
+        :animating="audioStore.isPlaying"
       />
     </div>
 
