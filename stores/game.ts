@@ -12,7 +12,8 @@ import type {
 import { gameData } from "../app/data/game";
 import { SCENE_IDS } from "../app/data/constants";
 import { devConfig } from "../app/config/dev";
-import { useAudioStore } from "./audio"; // We will need this
+import { useAudioStore } from "./audio";
+import { useAnimationsStore } from "./animations";
 import { MILESTONES, MILESTONE_ORDER, getMilestoneForScene } from "../app/data/milestones";
 
 const STORAGE_KEY = "hypersensitivity-game-state";
@@ -156,10 +157,13 @@ export const useGameStore = defineStore("game", {
         this.introPlayed = true;
         this.introAnimationPhase = "complete";
         
+        // Ensure cursor is correctly set when skipping intro
+        const animationsStore = useAnimationsStore();
+        animationsStore.setCursorVariant("dark");
+        animationsStore.setAudiowaveVariant("dark");
+        
         // Also set audio playback rate if specified
         if (devConfig.playbackRate) {
-           // We'll handle this in audio store or here if we access it?
-           // Accessing outside store inside action:
            const audioStore = useAudioStore();
            audioStore.setPlaybackRate(devConfig.playbackRate);
         }

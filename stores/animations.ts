@@ -37,7 +37,7 @@ export const useAnimationsStore = defineStore("animations", {
         colorStep: 1,
       },
       cursor: {
-        variant: "light" as "dark" | "light",
+        variant: "dark" as "dark" | "light",
       },
       audiowave: {
         variant: "dark" as "dark" | "light",

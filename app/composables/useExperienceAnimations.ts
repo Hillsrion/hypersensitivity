@@ -443,18 +443,26 @@ export const useExperienceAnimations = () => {
     });
 
     mainTl.eventCallback("onUpdate", () => {
+      if (gameStore.introPlayed) return;
       const progress = mainTl.progress();
-      if (progress > 0.9) {
+      
+      // Phase 3: L'oeil s'ouvre et révèle un fond blanc (eye fill="white")
+      // L'oeil commence à s'ouvrir vers 0.8 et est grand ouvert à 1.0
+      if (progress > 0.82) {
+        if (animationsStore.cursor.variant !== "dark") {
+          animationsStore.setCursorVariant("dark");
+          animationsStore.setAudiowaveVariant("dark");
+        }
+      } 
+      // Phase 2: Le gradient devient sombre pendant les phrases d'intro
+      else if (progress > 0.4) {
         if (animationsStore.cursor.variant !== "light") {
           animationsStore.setCursorVariant("light");
           animationsStore.setAudiowaveVariant("light");
         }
-      } else if (progress > 0.4) {
-        if (animationsStore.cursor.variant !== "light") {
-          animationsStore.setCursorVariant("light");
-          animationsStore.setAudiowaveVariant("light");
-        }
-      } else {
+      } 
+      // Phase 1: Le début est sur fond blanc
+      else {
         if (animationsStore.cursor.variant !== "dark") {
           animationsStore.setCursorVariant("dark");
           animationsStore.setAudiowaveVariant("dark");
