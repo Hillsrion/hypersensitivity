@@ -279,7 +279,10 @@ export const useGameStore = defineStore("game", {
       // Appliquer les effets
       if (choice.effects) {
         if (choice.effects.energy) {
-          this.flags.energy += choice.effects.energy;
+          this.flags.energy = Math.max(
+            0,
+            Math.min(100, this.flags.energy + choice.effects.energy)
+          );
         }
         if (choice.effects.flags) {
           this.flags = { ...this.flags, ...choice.effects.flags };
@@ -300,17 +303,29 @@ export const useGameStore = defineStore("game", {
 
     // Trouve et va à la prochaine scène valide
     goToScene(sceneId: string) {
+      if (this.isTransitioning) return;
+
       const scene = gameData.scenes[sceneId];
       if (!scene) {
         console.error(`Scene not found: ${sceneId}`);
         return;
       }
 
-      this.currentSceneId = sceneId;
-      this.currentDialogueIndex = 0;
-      this.showChoices = false;
-      this.selectedChoice = null; // Reset choice selection
-      this.saveGame();
+      this.isTransitioning = true;
+
+      // Petit delai pour la transition
+      setTimeout(() => {
+        // On ne réinitialise le choix sélectionné que s'il y a un changement de milestone (annotation d'entrée)
+        if (scene.entryAnnotation) {
+          this.selectedChoice = null;
+        }
+
+        this.currentSceneId = sceneId;
+        this.currentDialogueIndex = 0;
+        this.showChoices = false;
+        this.isTransitioning = false;
+        this.saveGame();
+      }, 300);
     },
 
     goToNextScene() {
