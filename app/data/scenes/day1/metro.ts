@@ -7,6 +7,7 @@ export const dayOneMetroSexy: Scene = {
   day: 1,
   title: "Trajet",
   entryAnnotation: "À la gare",
+  condition: { flag: "outfitChoice", operator: "equals", value: "sexy" },
   audio: "experience/J01_S03_Trajet_A.mp3",
   dialogues: [
     d(
@@ -132,7 +133,6 @@ export const dayOneMetroSexy: Scene = {
       }
     ),
   ],
-  nextSceneId: SCENE_IDS.DAY_ONE_OFFICE,
 };
 
 export const dayOneMetroComfort: Scene = {
@@ -140,6 +140,7 @@ export const dayOneMetroComfort: Scene = {
   day: 1,
   title: "Trajet",
   entryAnnotation: "À la gare",
+  condition: { flag: "outfitChoice", operator: "equals", value: "comfort" },
   audio: "experience/J01_S03_Trajet_B.mp3",
   dialogues: [
     d(
@@ -199,5 +200,4 @@ export const dayOneMetroComfort: Scene = {
       }
     ),
   ],
-  nextSceneId: SCENE_IDS.DAY_ONE_OFFICE,
 };

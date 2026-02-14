@@ -10,9 +10,10 @@ import type {
   IntroAnimationPhase,
 } from "../app/types/game";
 import { gameData } from "../app/data/game";
+import { SCENE_IDS } from "../app/data/constants";
 import { devConfig } from "../app/config/dev";
 import { useAudioStore } from "./audio"; // We will need this
-import { MILESTONES, getMilestoneForScene } from "../app/data/milestones";
+import { MILESTONES, MILESTONE_ORDER, getMilestoneForScene } from "../app/data/milestones";
 
 const STORAGE_KEY = "hypersensitivity-game-state";
 
@@ -266,108 +267,130 @@ export const useGameStore = defineStore("game", {
         return;
       }
 
-      // Sinon, aller a la scene suivante
+      // Override manuel via nextSceneId
       if (scene.nextSceneId) {
         this.goToScene(scene.nextSceneId);
+        return;
       }
+
+      // Sinon, navigation automatique via la playlist du milestone
+      this.goToNextScene();
     },
 
     // Selectionner un choix
     selectChoice(choice: Choice) {
-      if (this.isChoiceDisabled(choice)) return;
-
       this.selectedChoice = choice;
+      this.showChoices = false;
 
       // Appliquer les effets
       if (choice.effects) {
-        if (choice.effects.energy !== undefined) {
-          this.flags.energy = Math.max(
-            0,
-            Math.min(100, this.flags.energy + choice.effects.energy)
-          );
+        if (choice.effects.energy) {
+          this.flags.energy += choice.effects.energy;
         }
         if (choice.effects.flags) {
-          Object.assign(this.flags, choice.effects.flags);
+          this.flags = { ...this.flags, ...choice.effects.flags };
         }
       }
 
-      // Aller a la scene suivante
-      this.goToScene(choice.nextSceneId);
+      this.saveGame();
+
+      // Navigation apres choix
+      if (choice.nextSceneId) {
+        this.goToScene(choice.nextSceneId);
+      } else {
+        // Fallback si pas de nextSceneId défini sur le choix
+        // On essaie de continuer la playlist
+        this.goToNextScene();
+      }
     },
 
-    // Aller a une scene
+    // Trouve et va à la prochaine scène valide
     goToScene(sceneId: string) {
-      this.isTransitioning = true;
+      const scene = gameData.scenes[sceneId];
+      if (!scene) {
+        console.error(`Scene not found: ${sceneId}`);
+        return;
+      }
+
+      this.currentSceneId = sceneId;
+      this.currentDialogueIndex = 0;
       this.showChoices = false;
-
-      const oldDay = this.currentDay;
-      
-      // Petit delai pour la transition
-      setTimeout(() => {
-        const scene = gameData.scenes[sceneId];
-        if (!scene) {
-          this.isTransitioning = false;
-          return;
-        }
-
-        // On ne réinitialise le choix sélectionné que s'il y a un changement de milestone (annotation d'entrée)
-        if (scene.entryAnnotation) {
-          this.selectedChoice = null;
-        }
-
-        // Appliquer les effets d'entree
-        if (scene.onEnter) {
-          if (scene.onEnter.energyChange !== undefined) {
-            this.flags.energy = Math.max(
-              0,
-              Math.min(100, this.flags.energy + scene.onEnter.energyChange)
-            );
-          }
-          if (scene.onEnter.setFlags) {
-            Object.assign(this.flags, scene.onEnter.setFlags);
-          }
-        }
-
-        // Enregistrer le milestone si trouvé via le mapping
-        const milestone = getMilestoneForScene(sceneId);
-        if (milestone && !this.reachedMilestones.includes(milestone.id)) {
-          this.reachedMilestones.push(milestone.id);
-        }
-
-        this.currentSceneId = sceneId;
-        this.currentDialogueIndex = 0;
-        this.isTransitioning = false;
-
-        // Si la scène a une annotation d'entrée, on déclenche la phase d'annotation
-        if (scene.entryAnnotation) {
-          this.introAnimationPhase = "annotation";
-          this.introBlurAmount = 0; // Pas de flou pour les annotations en cours de jeu
-          
-          // On revient à l'état complet après un délai
-          setTimeout(() => {
-            if (this.currentSceneId === sceneId) { // Vérifier qu'on n'a pas rechangé entre temps
-              this.introAnimationPhase = "complete";
-            }
-          }, 3000); 
-        }
-
-        // Si pas de dialogues, gerer directement
-        if (!scene.dialogues.length) {
-          this.handleEndOfDialogues();
-        }
-
-        this.saveGame();
-      }, 300);
+      this.selectedChoice = null; // Reset choice selection
+      this.saveGame();
     },
 
-    // Aller a un milestone
+    goToNextScene() {
+      const currentMilestone = getMilestoneForScene(this.currentSceneId);
+      
+      if (currentMilestone) {
+        const currentIndex = currentMilestone.scenes.indexOf(this.currentSceneId);
+        
+        // 1. Chercher dans le milestone actuel après la scène courante
+        for (let i = currentIndex + 1; i < currentMilestone.scenes.length; i++) {
+          const nextSceneId = currentMilestone.scenes[i];
+          const nextScene = gameData.scenes[nextSceneId];
+          
+          if (nextScene) {
+            // Si pas de condition ou condition respectée
+            let isValid = true;
+            if (nextScene.condition && !evaluateCondition(nextScene.condition, this.flags)) {
+              isValid = false;
+            }
+            if (nextScene.conditions && nextScene.conditions.some((c: ChoiceCondition) => !evaluateCondition(c, this.flags))) {
+              isValid = false;
+            }
+
+            if (isValid) {
+              this.goToScene(nextSceneId);
+              return;
+            }
+          }
+        }
+
+        // 2. Si rien trouvé, passer au milestone suivant
+        const currentMilestoneIndex = MILESTONE_ORDER.indexOf(currentMilestone.id);
+        if (currentMilestoneIndex !== -1 && currentMilestoneIndex < MILESTONE_ORDER.length - 1) {
+          const nextMilestoneId = MILESTONE_ORDER[currentMilestoneIndex + 1];
+          if (nextMilestoneId) {
+             this.goToMilestone(nextMilestoneId);
+             return;
+          }
+        }
+      }
+
+      // Si on est ici et que c'est la fin du jeu ou qu'on ne trouve rien
+      if (this.currentSceneId !== SCENE_IDS.GAME_END) {
+         // Fallback ou fin de jeu explicite si nécessaire
+         // Pour l'instant on ne fait rien ou on log une erreur
+         console.warn("No next scene found.");
+      }
+    },
+
+    // Aller a un milestone (trouve la première scène valide)
     goToMilestone(milestoneId: string) {
       const milestone = MILESTONES[milestoneId];
       if (milestone && this.reachedMilestones.includes(milestoneId)) {
-        this.introPlayed = true;
-        this.introAnimationPhase = "complete";
-        this.goToScene(milestone.entrySceneId);
-        this.isMenuOpen = false;
+        // Chercher la première scène valide du milestone
+        for (const sceneId of milestone.scenes) {
+          const scene = gameData.scenes[sceneId];
+          if (scene) {
+             let isValid = true;
+             if (scene.condition && !evaluateCondition(scene.condition, this.flags)) {
+               isValid = false;
+             }
+             if (scene.conditions && scene.conditions.some((c: ChoiceCondition) => !evaluateCondition(c, this.flags))) {
+               isValid = false;
+             }
+
+             if (isValid) {
+                this.introPlayed = true;
+                this.introAnimationPhase = "complete";
+                this.goToScene(sceneId);
+                this.isMenuOpen = false;
+                return;
+             }
+          }
+        }
       }
     },
 

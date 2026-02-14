@@ -18,17 +18,14 @@ export const SCENE_IDS = {
   DAY_ONE_REFUSE_ASSERT: "dayOneRefuseAssert",
   DAY_ONE_END_CRASH: "dayOneEndCrash",
   DAY_ONE_END_GOOD_REFLECT: "dayOneEndGoodReflect",
-  DAY_ONE_END_GOOD_ASSERT: "dayOneEndGoodAssert",
+
   DAY_ONE_END_GOOD_ASSERT_SEXY: "dayOneEndGoodAssertSexy",
   DAY_ONE_END_GOOD_ASSERT_COMFORT: "dayOneEndGoodAssertComfort",
   
-  // Routing (Milestone Entry Points)
-  DAY_ONE_METRO_ROUTING: "dayOneMetroRouting",
-  DAY_ONE_PARTY_ROUTING: "dayOnePartyRouting",
-  DAY_ONE_END_ROUTING: "dayOneEndRouting",
+
 
   // Day 2
-  DAY_TWO_WAKEUP: "dayTwoWakeup",
+
   DAY_TWO_WAKEUP_CRASH: "dayTwoWakeupCrash",
   DAY_TWO_WAKEUP_GOOD: "dayTwoWakeupGood",
   DAY_TWO_CALL: "dayTwoCall",

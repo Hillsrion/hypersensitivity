@@ -7,6 +7,7 @@ export const dayTwoWakeupCrash: Scene = {
   day: 2,
   title: "Réveil",
   entryAnnotation: "Lucie se réveille",
+  condition: { flag: "hadBreakdown", operator: "equals", value: true },
   dialogues: [
     pensees(
       "d2_1a",
@@ -17,7 +18,6 @@ export const dayTwoWakeupCrash: Scene = {
       }
     ),
   ],
-  nextSceneId: SCENE_IDS.DAY_TWO_CALL,
 };
 
 export const dayTwoWakeupGood: Scene = {
@@ -25,6 +25,7 @@ export const dayTwoWakeupGood: Scene = {
   day: 2,
   title: "Réveil",
   entryAnnotation: "Lucie se réveille",
+  condition: { flag: "hadBreakdown", operator: "equals", value: false },
   dialogues: [
     pensees(
       "d2_1b",
@@ -35,7 +36,6 @@ export const dayTwoWakeupGood: Scene = {
       }
     ),
   ],
-  nextSceneId: SCENE_IDS.DAY_TWO_CALL,
 };
 
 export const dayTwoCall: Scene = {
@@ -95,6 +95,7 @@ export const dayTwoCall: Scene = {
       nextSceneId: SCENE_IDS.DAY_TWO_ACCEPT,
       effects: {
         energy: -20,
+        flags: { callChoice: "accept" },
       },
     },
     {
@@ -103,6 +104,7 @@ export const dayTwoCall: Scene = {
       nextSceneId: SCENE_IDS.DAY_TWO_REFUSE,
       effects: {
         energy: 10,
+        flags: { callChoice: "refuse" },
       },
     },
   ],
@@ -112,6 +114,7 @@ export const dayTwoAccept: Scene = {
   id: SCENE_IDS.DAY_TWO_ACCEPT,
   day: 2,
   title: "Appel",
+  condition: { flag: "callChoice", operator: "equals", value: "accept" },
   audio: "experience/J02_S01_Appel_Oui.mp3",
   dialogues: [
     d("d2_5a", "LUCIE", "Ok, je passe.", {
@@ -130,13 +133,13 @@ export const dayTwoAccept: Scene = {
       ],
     }),
   ],
-  nextSceneId: SCENE_IDS.DAY_TWO_MOVING,
 };
 
 export const dayTwoRefuse: Scene = {
   id: SCENE_IDS.DAY_TWO_REFUSE,
   day: 2,
   title: "Appel",
+  condition: { flag: "callChoice", operator: "equals", value: "refuse" },
   audio: "experience/J02_S01_Appel_Non.mp3",
   dialogues: [
     d("d2_5b", "LUCIE", "Deso, j'ai prevu un truc.", {
@@ -155,5 +158,4 @@ export const dayTwoRefuse: Scene = {
       ],
     }),
   ],
-  nextSceneId: SCENE_IDS.DAY_TWO_MOUNTAIN,
 };

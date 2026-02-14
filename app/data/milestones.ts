@@ -5,8 +5,18 @@ export interface MilestoneDef {
   label: string;
   day: 1 | 2;
   scenes: string[];
-  entrySceneId: string;
 }
+
+export const MILESTONE_ORDER = [
+  "reveil",
+  "trajet",
+  "bureau",
+  "soiree",
+  "retour",
+  "reveil2",
+  "demenagement",
+  "montagne",
+];
 
 export const MILESTONES: Record<string, MilestoneDef> = {
   reveil: {
@@ -19,7 +29,6 @@ export const MILESTONES: Record<string, MilestoneDef> = {
       SCENE_IDS.DAY_ONE_OUTFIT_SEXY,
       SCENE_IDS.DAY_ONE_OUTFIT_COMFORT,
     ],
-    entrySceneId: SCENE_IDS.DAY_ONE_WAKEUP,
   },
   trajet: {
     id: "trajet",
@@ -29,7 +38,6 @@ export const MILESTONES: Record<string, MilestoneDef> = {
       SCENE_IDS.DAY_ONE_METRO_SEXY,
       SCENE_IDS.DAY_ONE_METRO_COMFORT,
     ],
-    entrySceneId: SCENE_IDS.DAY_ONE_METRO_ROUTING,
   },
   bureau: {
     id: "bureau",
@@ -40,7 +48,6 @@ export const MILESTONES: Record<string, MilestoneDef> = {
       SCENE_IDS.DAY_ONE_CONFLICT_SUBMIT,
       SCENE_IDS.DAY_ONE_CONFLICT_ASSERT,
     ],
-    entrySceneId: SCENE_IDS.DAY_ONE_OFFICE,
   },
   soiree: {
     id: "soiree",
@@ -55,7 +62,6 @@ export const MILESTONES: Record<string, MilestoneDef> = {
       SCENE_IDS.DAY_ONE_REFUSE_SUBMIT,
       SCENE_IDS.DAY_ONE_REFUSE_ASSERT,
     ],
-    entrySceneId: SCENE_IDS.DAY_ONE_PARTY_ROUTING,
   },
   retour: {
     id: "retour",
@@ -63,26 +69,22 @@ export const MILESTONES: Record<string, MilestoneDef> = {
     day: 1,
     scenes: [
       SCENE_IDS.DAY_ONE_END_CRASH,
-      SCENE_IDS.DAY_ONE_END_GOOD_ASSERT, // This one is a routing scene but might be currentSceneId briefly
       SCENE_IDS.DAY_ONE_END_GOOD_ASSERT_SEXY,
       SCENE_IDS.DAY_ONE_END_GOOD_ASSERT_COMFORT,
       SCENE_IDS.DAY_ONE_END_GOOD_REFLECT,
     ],
-    entrySceneId: SCENE_IDS.DAY_ONE_END_ROUTING,
   },
   reveil2: {
     id: "reveil2",
     label: "Réveil",
     day: 2,
     scenes: [
-      SCENE_IDS.DAY_TWO_WAKEUP, // Routing scene
       SCENE_IDS.DAY_TWO_WAKEUP_CRASH,
       SCENE_IDS.DAY_TWO_WAKEUP_GOOD,
       SCENE_IDS.DAY_TWO_CALL,
       SCENE_IDS.DAY_TWO_ACCEPT,
       SCENE_IDS.DAY_TWO_REFUSE,
     ],
-    entrySceneId: SCENE_IDS.DAY_TWO_WAKEUP,
   },
   demenagement: {
     id: "demenagement",
@@ -91,7 +93,6 @@ export const MILESTONES: Record<string, MilestoneDef> = {
     scenes: [
       SCENE_IDS.DAY_TWO_MOVING,
     ],
-    entrySceneId: SCENE_IDS.DAY_TWO_MOVING,
   },
   montagne: {
     id: "montagne",
@@ -99,8 +100,8 @@ export const MILESTONES: Record<string, MilestoneDef> = {
     day: 2,
     scenes: [
       SCENE_IDS.DAY_TWO_MOUNTAIN,
+      SCENE_IDS.DAY_TWO_SUNSET,
     ],
-    entrySceneId: SCENE_IDS.DAY_TWO_MOUNTAIN,
   },
 };
 

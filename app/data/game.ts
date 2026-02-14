@@ -2,7 +2,7 @@ import type { GameData } from "../types/game";
 import { SCENE_IDS } from "./constants";
 import { dayOneWakeup, dayOneBathroom, dayOneOutfitSexy, dayOneOutfitComfort, dayOneMetroSexy, dayOneMetroComfort, dayOneOffice, dayOneConflictSubmit, dayOneConflictAssert, dayOnePartySexy, dayOnePartyComfort, dayOneGameEvent, dayOnePlay, dayOneRefuse, dayOneRefuseSubmit, dayOneRefuseAssert, dayOneEndCrash, dayOneEndGoodAssertSexy, dayOneEndGoodAssertComfort, dayOneEndGoodReflect } from "./scenes/day1";
 import { dayTwoWakeupCrash, dayTwoWakeupGood, dayTwoCall, dayTwoAccept, dayTwoRefuse, dayTwoMountain, dayTwoMoving, dayTwoSunset, gameEnd } from "./scenes/day2";
-import { dayOneEndGoodAssert, dayTwoWakeup, dayOneMetroRouting, dayOnePartyRouting, dayOneEndRouting } from "./scenes/routing";
+
 
 // ============================================
 // EXPORT
@@ -14,17 +14,12 @@ export const gameData: GameData = {
     outfitChoice: null,
     conflictOutcome: null,
     gameEventChoice: null,
+    callChoice: null,
+    refuseOutcome: null,
     hadBreakdown: false,
     energy: 100,
   },
   scenes: {
-    // Routing
-    [SCENE_IDS.DAY_ONE_METRO_ROUTING]: dayOneMetroRouting,
-    [SCENE_IDS.DAY_ONE_PARTY_ROUTING]: dayOnePartyRouting,
-    [SCENE_IDS.DAY_ONE_END_ROUTING]: dayOneEndRouting,
-    [SCENE_IDS.DAY_ONE_END_GOOD_ASSERT]: dayOneEndGoodAssert,
-    [SCENE_IDS.DAY_TWO_WAKEUP]: dayTwoWakeup,
-
     // Day 1
     [SCENE_IDS.DAY_ONE_WAKEUP]: dayOneWakeup,
     [SCENE_IDS.DAY_ONE_BATHROOM]: dayOneBathroom,

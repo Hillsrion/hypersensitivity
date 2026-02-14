@@ -7,6 +7,7 @@ export const dayOnePartySexy: Scene = {
   day: 1,
   title: "Soiree",
   entryAnnotation: "Lucie arrive à la soirée",
+  condition: { flag: "outfitChoice", operator: "equals", value: "sexy" },
   audio: "experience/J01_S05_Soiree_Tenue_Sexy.mp3",
   dialogues: [
     d(
@@ -79,7 +80,6 @@ export const dayOnePartySexy: Scene = {
       }
     ),
   ],
-  nextSceneId: SCENE_IDS.DAY_ONE_GAME_EVENT,
 };
 
 export const dayOnePartyComfort: Scene = {
@@ -87,6 +87,7 @@ export const dayOnePartyComfort: Scene = {
   day: 1,
   title: "Soiree",
   entryAnnotation: "Lucie arrive à la soirée",
+  condition: { flag: "outfitChoice", operator: "equals", value: "comfort" },
   audio: "experience/J01_S05_Soiree_Tenue_Confort.mp3",
   dialogues: [
     d(
@@ -192,5 +193,4 @@ export const dayOnePartyComfort: Scene = {
       }
     ),
   ],
-  nextSceneId: SCENE_IDS.DAY_ONE_GAME_EVENT,
 };

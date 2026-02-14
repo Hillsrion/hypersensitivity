@@ -9,6 +9,8 @@ export interface GameFlags {
   conflictOutcome: ConflictOutcome;
   gameEventChoice: GameEventChoice;
   hadBreakdown: boolean;
+  callChoice: "accept" | "refuse" | null;
+  refuseOutcome: "submit" | "assert" | null;
   energy: number; // 0-100
 }
 
@@ -56,6 +58,8 @@ export interface Scene {
   dialogues: DialogueLine[];
   choices?: Choice[];
   nextSceneId?: string; // Scene suivante si pas de choix
+  condition?: ChoiceCondition; // Condition pour jouer cette scene (si fausse, on passe a la suivante)
+  conditions?: ChoiceCondition[]; // Multiple conditions (AND logic)
   autoChoice?: AutoChoice; // Choix automatique base sur les flags
   entryAnnotation?: string; // Annotation s'affichant avant les dialogues (transition de scène)
   audio?: string; // Audio global de la scene
@@ -68,7 +72,6 @@ export interface Scene {
 export interface Milestone {
   id: string;
   label: string;
-  entrySceneId: string;
   day: 1 | 2;
 }
 

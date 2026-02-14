@@ -118,6 +118,7 @@ export const dayOneRefuseAssert: Scene = {
   id: SCENE_IDS.DAY_ONE_REFUSE_ASSERT,
   day: 1,
   title: "Soiree",
+  condition: { flag: "refuseOutcome", operator: "equals", value: "assert" },
   dialogues: [
     d(
       "d1_42a",
@@ -125,17 +126,13 @@ export const dayOneRefuseAssert: Scene = {
       "Mais bien sur que je l'ai bougee de la, mais c'est pas dans l'aprem je recois un mail du responsable pour un truc rien a voir ? Elle est allee me balancer parceque la semaine derniere je suis partie plus tot mardi pour regler des trucs perso c'te sorciere"
     ),
   ],
-  autoChoice: {
-    condition: { flag: "outfitChoice", operator: "equals", value: "sexy" },
-    thenSceneId: SCENE_IDS.DAY_ONE_END_GOOD_ASSERT_SEXY,
-    elseSceneId: SCENE_IDS.DAY_ONE_END_GOOD_ASSERT_COMFORT,
-  },
 };
 
 export const dayOneRefuseSubmit: Scene = {
   id: SCENE_IDS.DAY_ONE_REFUSE_SUBMIT,
   day: 1,
   title: "Soiree",
+  condition: { flag: "refuseOutcome", operator: "equals", value: "submit" },
   audio: "experience/J01_C03B_Discussion_Calme.mp3",
   dialogues: [
     d(
@@ -276,9 +273,4 @@ export const dayOneRefuseSubmit: Scene = {
       }
     ),
   ],
-  autoChoice: {
-    condition: { flag: "outfitChoice", operator: "equals", value: "sexy" },
-    thenSceneId: SCENE_IDS.DAY_ONE_END_GOOD_ASSERT_SEXY,
-    elseSceneId: SCENE_IDS.DAY_ONE_END_GOOD_REFLECT,
-  },
 };

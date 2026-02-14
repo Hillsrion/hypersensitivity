@@ -25,7 +25,6 @@ export const dayOneWakeup: Scene = {
       ],
     }),
   ],
-  nextSceneId: SCENE_IDS.DAY_ONE_BATHROOM,
 };
 
 export const dayOneBathroom: Scene = {
@@ -104,6 +103,7 @@ export const dayOneOutfitSexy: Scene = {
   id: SCENE_IDS.DAY_ONE_OUTFIT_SEXY,
   day: 1,
   title: "Réveil",
+  condition: { flag: "outfitChoice", operator: "equals", value: "sexy" },
   audio: "experience/J01_C01_TenueA.mp3",
   dialogues: [
     pensees(
@@ -137,6 +137,7 @@ export const dayOneOutfitComfort: Scene = {
   id: SCENE_IDS.DAY_ONE_OUTFIT_COMFORT,
   day: 1,
   title: "Réveil",
+  condition: { flag: "outfitChoice", operator: "equals", value: "comfort" },
   audio: "experience/J01_C01_TenueB.mp3",
   dialogues: [
     pensees(

@@ -7,6 +7,7 @@ export const dayTwoMountain: Scene = {
   day: 2,
   title: "Montagne",
   entryAnnotation: "Arrivée à la montagne",
+  condition: { flag: "callChoice", operator: "equals", value: "refuse" },
   audio: "experience/J02_S02_Montagne_Intro.mp3",
   dialogues: [
     d(
@@ -82,5 +83,4 @@ export const dayTwoMountain: Scene = {
       }
     ),
   ],
-  nextSceneId: SCENE_IDS.DAY_TWO_SUNSET,
 };

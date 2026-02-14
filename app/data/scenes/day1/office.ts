@@ -113,6 +113,7 @@ export const dayOneConflictSubmit: Scene = {
   id: SCENE_IDS.DAY_ONE_CONFLICT_SUBMIT,
   day: 1,
   title: "Bureau",
+  condition: { flag: "conflictOutcome", operator: "equals", value: "submit" },
   audio: "experience/J01_C02_Bureau_A.mp3",
   dialogues: [
     d("d1_14a", "LUCIE", "Oui, oui, pas de souci.", {
@@ -241,17 +242,13 @@ export const dayOneConflictSubmit: Scene = {
       }
     ),
   ],
-  autoChoice: {
-    condition: { flag: "outfitChoice", operator: "equals", value: "sexy" },
-    thenSceneId: SCENE_IDS.DAY_ONE_PARTY_SEXY,
-    elseSceneId: SCENE_IDS.DAY_ONE_PARTY_COMFORT,
-  },
 };
 
 export const dayOneConflictAssert: Scene = {
   id: SCENE_IDS.DAY_ONE_CONFLICT_ASSERT,
   day: 1,
   title: "Bureau",
+  condition: { flag: "conflictOutcome", operator: "equals", value: "assert" },
   audio: "experience/J01_C02_Bureau_B.mp3",
   dialogues: [
     d(
@@ -360,9 +357,4 @@ export const dayOneConflictAssert: Scene = {
       }
     ),
   ],
-  autoChoice: {
-    condition: { flag: "outfitChoice", operator: "equals", value: "sexy" },
-    thenSceneId: SCENE_IDS.DAY_ONE_PARTY_SEXY,
-    elseSceneId: SCENE_IDS.DAY_ONE_PARTY_COMFORT,
-  },
 };

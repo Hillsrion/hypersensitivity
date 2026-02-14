@@ -7,6 +7,7 @@ export const dayOneEndCrash: Scene = {
   day: 1,
   title: "Retour",
   entryAnnotation: "De retour à la maison",
+  condition: { flag: "hadBreakdown", operator: "equals", value: true },
   audio: "experience/J01_S06_Retour.mp3",
   dialogues: [
     pensees(
@@ -47,7 +48,6 @@ export const dayOneEndCrash: Scene = {
       }
     ),
   ],
-  nextSceneId: SCENE_IDS.DAY_TWO_WAKEUP,
 };
 
 export const dayOneEndGoodAssertSexy: Scene = {
@@ -55,6 +55,11 @@ export const dayOneEndGoodAssertSexy: Scene = {
   day: 1,
   title: "Retour",
   entryAnnotation: "De retour à la maison",
+  conditions: [
+    { flag: "hadBreakdown", operator: "equals", value: false },
+    { flag: "outfitChoice", operator: "equals", value: "sexy" },
+    { flag: "conflictOutcome", operator: "equals", value: "assert" },
+  ],
   audio: "experience/J01_S06_Retour_NoBreakdown_Raffinee.mp3",
   dialogues: [
     pensees(
@@ -170,7 +175,6 @@ export const dayOneEndGoodAssertSexy: Scene = {
       }
     )
   ],
-  nextSceneId: SCENE_IDS.DAY_TWO_WAKEUP,
 };
 
 export const dayOneEndGoodAssertComfort: Scene = {
@@ -178,6 +182,11 @@ export const dayOneEndGoodAssertComfort: Scene = {
   day: 1,
   title: "Retour",
   entryAnnotation: "De retour à la maison",
+  conditions: [
+    { flag: "hadBreakdown", operator: "equals", value: false },
+    { flag: "outfitChoice", operator: "equals", value: "comfort" },
+    { flag: "conflictOutcome", operator: "equals", value: "assert" },
+  ],
   audio: "experience/J01_S06_Retour_NoBreakdown.mp3",
   dialogues: [
     pensees(
@@ -285,13 +294,16 @@ export const dayOneEndGoodAssertComfort: Scene = {
       }
     )
   ],
-  nextSceneId: SCENE_IDS.DAY_TWO_WAKEUP,
-};
 
+};
 export const dayOneEndGoodReflect: Scene = {
   id: SCENE_IDS.DAY_ONE_END_GOOD_REFLECT,
   day: 1,
   title: "Retour",
+  conditions: [
+    { flag: "hadBreakdown", operator: "equals", value: false },
+    { flag: "conflictOutcome", operator: "notEquals", value: "assert" },
+  ],
   audio: "experience/J01_S06_Retour_NoBreakdown.mp3",
   dialogues: [
     pensees(
@@ -399,5 +411,5 @@ export const dayOneEndGoodReflect: Scene = {
       }
     )
   ],
-  nextSceneId: SCENE_IDS.DAY_TWO_WAKEUP,
+
 };
