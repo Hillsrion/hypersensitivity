@@ -20,38 +20,40 @@ const visibleMilestones = computed(() => {
 watch(
   () => gameStore.isMenuOpen,
   (isOpen) => {
-    if (!menuRef.value) return;
-
     if (isOpen) {
-      // Show Aurora with auto-animation and high z-index
+      // Show Aurora with rainbow color "aurora" and high z-index
       animationsStore.setAuroraZIndex(55); // Below menu z-60 but above experience
       animationsStore.setAuroraVisibility(true);
-      animationsStore.setAuroraAutoAnimate(true);
-
-      $gsap.fromTo(
-        menuRef.value,
-        { opacity: 0 },
-        { opacity: 1, duration: 0.5, ease: "power2.out" }
-      );
-
-      if (itemsRef.value.length) {
+      animationsStore.setAuroraColor("aurora");
+      
+      nextTick(() => {
+        if (!menuRef.value) return;
+        
         $gsap.fromTo(
-          itemsRef.value,
-          { opacity: 0, y: 20 },
-          {
-            opacity: 1,
-            y: 0,
-            duration: 0.5,
-            stagger: 0.1,
-            ease: "power2.out",
-            delay: 0.2,
-          }
+          menuRef.value,
+          { opacity: 0 },
+          { opacity: 1, duration: 0.5, ease: "power2.out" }
         );
-      }
+
+        if (itemsRef.value.length) {
+          $gsap.fromTo(
+            itemsRef.value,
+            { opacity: 0, y: 20 },
+            {
+              opacity: 1,
+              y: 0,
+              duration: 0.5,
+              stagger: 0.1,
+              ease: "power2.out",
+              delay: 0.2,
+            }
+          );
+        }
+      });
     } else {
       // Hide Aurora and reset state
       animationsStore.setAuroraVisibility(false);
-      animationsStore.setAuroraAutoAnimate(false);
+      // We don't necessarily need to reset color as it will be set by the next interaction
       animationsStore.setAuroraZIndex(0);
     }
   }
@@ -81,138 +83,140 @@ const navItemClasses =
 </script>
 
 <template>
-  <Transition name="fade">
-    <div
-      v-if="gameStore.isMenuOpen"
-      class="fixed inset-0 z-60"
-      @click.self="gameStore.closeMenu()"
-    >
-      <!-- Backdrop -->
+  <Teleport to="body">
+    <Transition name="fade">
       <div
-        class="absolute inset-0 backdrop-blur-xl"
-        @click="gameStore.closeMenu()"
-      />
-
-      <!-- Menu Content -->
-      <div
-        ref="menuRef"
-        class="absolute inset-0 flex flex-col items-center justify-between pointer-events-none"
+        v-if="gameStore.isMenuOpen"
+        class="fixed inset-0 z-60"
+        @click.self="gameStore.closeMenu()"
       >
-        <!-- Top Toolbar -->
+        <!-- Backdrop -->
         <div
-          class="w-full h-32 flex items-center justify-between px-12 md:px-18 pointer-events-auto"
+          class="absolute inset-0"
+          @click="gameStore.closeMenu()"
+        />
+
+        <!-- Menu Content -->
+        <div
+          ref="menuRef"
+          class="absolute inset-0 flex flex-col items-center justify-between pointer-events-none"
         >
-          <!-- Close Button -->
-          <button
-            class="text-primary hover:scale-110 transition-transform cursor-pointer"
-            @click="gameStore.closeMenu()"
-          >
-            <svg
-              width="24"
-              height="24"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="1.5"
-            >
-              <line x1="18" y1="6" x2="6" y2="18" />
-              <line x1="6" y1="6" x2="18" y2="18" />
-            </svg>
-          </button>
-
-        </div>
-
-        <!-- Middle Section: Timeline -->
-        <div class="relative w-screen h-full flex items-center overflow-hidden pointer-events-auto">
-          <!-- Milestones Container (Horizontal Scroll) -->
+          <!-- Top Toolbar -->
           <div
-            class="relative w-full h-full flex scrollbar-hide snap-x snap-mandatory px-[12vw]"
+            class="w-full h-32 flex items-center justify-between px-12 md:px-18 pointer-events-auto"
           >
-            <div
-              class="flex items-center min-w-full relative"
+            <!-- Close Button -->
+            <button
+              class="text-primary hover:scale-110 transition-transform cursor-pointer"
+              @click="gameStore.closeMenu()"
             >
-              <!-- Median Line -->
-              <div
-                class="absolute top-1/2 -left-1/2 w-[150vw] h-px bg-primary/10"
-              />
-              <div
-                v-for="milestone in visibleMilestones"
-                :key="milestone.id"
-                ref="itemsRef"
-                class="relative flex-none w-1/4 min-w-[250px] flex flex-col items-center snap-center"
+              <svg
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.5"
               >
-                <!-- Milestone Point Container -->
-                <button 
-                  @click="handleMilestoneClick(milestone.id)"
-                  class="origin-bottom-left -rotate-45"
-                >
-                  <!-- Title -->
-                  <div
-                    class="whitespace-nowrap text-xl/7 flex items-center"
-                  >
-                    <!-- Dot -->
-                    <div
-                      class="size-4 rounded-full border border-primary bg-white transition-all duration-500"
-                    />
-                    <div
-                      class="font-satoshi pl-4 transition-all duration-300 text-primary group-hover:text-primary/70"
-                    >
-                      <span class="uppercase mr-1 font-medium"
-                        >JOUR {{ milestone.day }}</span
-                      >
-                      <span class="mx-1 font-serif">-</span>
-                      <span class="font-serif">{{ milestone.label }}</span>
-                    </div>
-                  </div>
+                <line x1="18" y1="6" x2="6" y2="18" />
+                <line x1="6" y1="6" x2="18" y2="18" />
+              </svg>
+            </button>
 
-                </button>
+          </div>
+
+          <!-- Middle Section: Timeline -->
+          <div class="relative w-screen h-full flex items-center overflow-hidden pointer-events-auto">
+            <!-- Milestones Container (Horizontal Scroll) -->
+            <div
+              class="relative w-full h-full flex scrollbar-hide snap-x snap-mandatory px-[12vw]"
+            >
+              <div
+                class="flex items-center min-w-full relative"
+              >
+                <!-- Median Line -->
+                <div
+                  class="absolute top-1/2 -left-1/2 w-[150vw] h-px bg-primary/10"
+                />
+                <div
+                  v-for="milestone in visibleMilestones"
+                  :key="milestone.id"
+                  ref="itemsRef"
+                  class="relative flex-none w-1/4 min-w-[250px] flex flex-col items-center snap-center"
+                >
+                  <!-- Milestone Point Container -->
+                  <button 
+                    @click="handleMilestoneClick(milestone.id)"
+                    class="origin-bottom-left -rotate-45"
+                  >
+                    <!-- Title -->
+                    <div
+                      class="whitespace-nowrap text-xl/7 flex items-center"
+                    >
+                      <!-- Dot -->
+                      <div
+                        class="size-4 rounded-full border border-primary bg-white transition-all duration-500"
+                      />
+                      <div
+                        class="font-satoshi pl-4 transition-all duration-300 text-primary group-hover:text-primary/70"
+                      >
+                        <span class="uppercase mr-1 font-medium"
+                          >JOUR {{ milestone.day }}</span
+                        >
+                        <span class="mx-1 font-serif">-</span>
+                        <span class="font-serif">{{ milestone.label }}</span>
+                      </div>
+                    </div>
+
+                  </button>
+                </div>
               </div>
             </div>
           </div>
-        </div>
 
-        <!-- Bottom Navigation -->
-        <div
-          class="w-full h-32 flex items-center justify-between px-12 md:px-18 pointer-events-auto"
-        >
-          <button
-            :class="navItemClasses"
-            @click="gameStore.resetGame()"
-          >
-            <svg
-              width="14"
-              height="14"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-            >
-              <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8" />
-              <path d="M3 3v5h5" />
-            </svg>
-            RECOMMENCER LE JEU
-          </button>
-
+          <!-- Bottom Navigation -->
           <div
-            :class="navItemClasses"
-            @click="navigateToTest"
+            class="w-full h-32 flex items-center justify-between px-12 md:px-18 pointer-events-auto"
           >
-            TEST DU SPECTRE DE L'HYPERSENSIBILITÉ
-            <svg
-              width="14"
-              height="14"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
+            <button
+              :class="navItemClasses"
+              @click="gameStore.resetGame()"
             >
-              <path d="M5 12h14M12 5l7 7-7 7" />
-            </svg>
+              <svg
+                width="14"
+                height="14"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8" />
+                <path d="M3 3v5h5" />
+              </svg>
+              RECOMMENCER LE JEU
+            </button>
+
+            <div
+              :class="navItemClasses"
+              @click="navigateToTest"
+            >
+              TEST DU SPECTRE DE L'HYPERSENSIBILITÉ
+              <svg
+                width="14"
+                height="14"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <path d="M5 12h14M12 5l7 7-7 7" />
+              </svg>
+            </div>
           </div>
         </div>
       </div>
-    </div>
-  </Transition>
+    </Transition>
+  </Teleport>
 </template>
 
 <style scoped>

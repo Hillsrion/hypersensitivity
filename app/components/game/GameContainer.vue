@@ -147,8 +147,8 @@ watch(audioProgressPercent, (newVal) => {
       />
     </Transition>
 
-    <!-- Milestone Menu -->
-    <GameMilestoneMenu />
+    <!-- Milestone Menu - removed from here as it Teleports itself -->
+    <!-- <GameMilestoneMenu /> -->
 
     <!-- Game End Screen -->
     <Transition name="fade">

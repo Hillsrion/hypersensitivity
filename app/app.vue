@@ -10,6 +10,7 @@ import TestimoniesSection from "./components/TestimoniesSection.vue";
 import HSPQuestionnaire from "./components/HSPQuestionnaire.vue";
 import { useCustomCursor } from "./composables/useCustomCursor";
 import { useGameStore } from "~/stores/game";
+import GameMilestoneMenu from "~/app/components/game/GameMilestoneMenu.vue";
 
 const { cursorRef } = useCustomCursor();
 
@@ -164,6 +165,7 @@ onMounted(async () => {
 
     <VueLenis root ref="lenisRef" />
     <BackgroundGradient />
+    <GameMilestoneMenu />
     <LoadingSection />
     <SoundIntroduction
       :text="introductionData.content"

@@ -63,14 +63,68 @@ watch(
   }
 );
 
+// Consolidated Rainbow/Auto-Animation Logic
+let autoRotateTl: any = null;
+
+const startRainbowSequence = () => {
+  if (!auroraInnerRef.value) return;
+  
+  if (autoRotateTl) autoRotateTl.kill();
+  autoRotateTl = $gsap.timeline({ repeat: -1 });
+
+  // Cycle through all steps
+  Object.values(auroraSteps).forEach((colors) => {
+    autoRotateTl.to(auroraInnerRef.value, {
+      "--aurora-color-1": colors[0],
+      "--aurora-color-2": colors[1],
+      duration: 3,
+      ease: "power2.inOut",
+    });
+  });
+};
+
+const stopRainbowSequence = () => {
+  if (autoRotateTl) {
+    autoRotateTl.kill();
+    autoRotateTl = null;
+  }
+};
+
+const isRainbowMode = computed(() => {
+  return (
+    animationsStore.aurora.autoAnimate ||
+    animationsStore.aurora.color === "aurora" ||
+    animationsStore.aurora.color === "rainbow"
+  );
+});
+
+watch(
+  isRainbowMode,
+  (active) => {
+    if (active) {
+      startRainbowSequence();
+    } else {
+      stopRainbowSequence();
+    }
+  },
+  { immediate: true }
+);
+
 watch(
   () => animationsStore.aurora.color,
   (newColor) => {
+    if (newColor === "aurora" || newColor === "rainbow") return; // Handled by isRainbowMode
+
     const style = getComputedStyle(document.documentElement);
     const newHex = style
       .getPropertyValue(`--color-gradient-${newColor}`)
       .trim();
+    
     if (newHex && auroraInnerRef.value) {
+      // If we are switching away from rainbow mode, we might want to ensure the timeline is stopped
+      // But isRainbowMode watcher should handle that.
+      // Here we just apply the single color.
+      
       // Animate the CSS variable directly - fallback for single color usage
       $gsap.to(auroraInnerRef.value, {
         "--aurora-color-1": newHex,
@@ -112,33 +166,6 @@ watch(
     }
   }
 );
-
-let autoRotateTl: any = null;
-
-watch(
-  () => animationsStore.aurora.autoAnimate,
-  (autoAnimate) => {
-    if (autoAnimate && auroraInnerRef.value) {
-      if (autoRotateTl) autoRotateTl.kill();
-      autoRotateTl = $gsap.timeline({ repeat: -1 });
-
-      // Cycle through all steps
-      Object.values(auroraSteps).forEach((colors) => {
-        autoRotateTl.to(auroraInnerRef.value, {
-          "--aurora-color-1": colors[0],
-          "--aurora-color-2": colors[1],
-          duration: 3,
-          ease: "power2.inOut",
-        });
-      });
-    } else {
-      if (autoRotateTl) {
-        autoRotateTl.kill();
-        autoRotateTl = null;
-      }
-    }
-  }
-);
 </script>
 
 <template>
@@ -148,7 +175,8 @@ watch(
   >
     <div
       ref="auroraRef"
-      class="absolute inset-0 flex items-center justify-center pointer-events-none opacity-0 z-0 overflow-hidden will-change-opacity backface-hidden"
+      class="absolute inset-0 flex items-center justify-center pointer-events-none z-0 overflow-hidden will-change-opacity backface-hidden"
+      :class="{ 'opacity-100': animationsStore.aurora.visible, 'opacity-0': !animationsStore.aurora.visible }"
     >
       <div
         ref="auroraInnerRef"
