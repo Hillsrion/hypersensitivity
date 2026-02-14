@@ -318,6 +318,13 @@ export const useGameStore = defineStore("game", {
         // On ne réinitialise le choix sélectionné que s'il y a un changement de milestone (annotation d'entrée)
         if (scene.entryAnnotation) {
           this.selectedChoice = null;
+          this.introAnimationPhase = "annotation";
+
+          setTimeout(() => {
+            if (this.introAnimationPhase === "annotation") {
+              this.introAnimationPhase = "complete";
+            }
+          }, 3000);
         }
 
         this.currentSceneId = sceneId;

@@ -93,7 +93,7 @@ export const dayOneOffice: Scene = {
   choices: [
     {
       id: "conflict_submit",
-      text: "SE SOUMETTRE",
+      text: "Se résigner",
       nextSceneId: SCENE_IDS.DAY_ONE_CONFLICT_SUBMIT,
       effects: {
         energy: -10,
