@@ -12,6 +12,23 @@ defineProps<Props>();
 defineEmits<{
   (e: "click", milestoneId: string): void;
 }>();
+
+const dotRef = ref<HTMLElement | null>(null);
+const labelRef = ref<HTMLElement | null>(null);
+
+const { $gsap } = useNuxtApp();
+
+// Set initial hidden state immediately at mount to prevent flash
+onMounted(() => {
+  if (labelRef.value) {
+    $gsap.set(labelRef.value, { opacity: 0, y: 20 });
+  }
+});
+
+defineExpose({
+  dotRef,
+  labelRef
+});
 </script>
 
 <template>
@@ -26,11 +43,13 @@ defineEmits<{
       <div class="whitespace-nowrap text-xl/7 flex items-center">
         <!-- Dot -->
         <div
+          ref="dotRef"
           class="size-4 rounded-full border border-primary transition-all duration-500"
           :class="isReached ? 'bg-white' : 'bg-primary/20 scale-75'"
         />
         <div
-          class="font-satoshi pl-4 transition-all duration-300 text-primary group-hover:text-primary/70"
+          ref="labelRef"
+          class="font-satoshi pl-4 transition-colors duration-300 text-primary group-hover:text-primary/70"
         >
           <span class="uppercase mr-1 font-medium">JOUR {{ milestone.day }}</span>
           <span class="mx-1 font-serif">-</span>

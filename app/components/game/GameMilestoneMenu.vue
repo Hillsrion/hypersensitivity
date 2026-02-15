@@ -9,6 +9,7 @@ const { $gsap } = useNuxtApp();
 
 const menuRef = ref<HTMLElement | null>(null);
 const itemsRef = ref<HTMLElement[]>([]);
+const itemComponents = ref<any[]>([]);
 const isMenuOpen = computed(() => gameStore.isMenuOpen);
 
 // Filtered milestones (only reached)
@@ -43,10 +44,12 @@ watch(
           { opacity: 1, duration: 0.5, ease: "power2.out" }
         );
 
-        if (itemsRef.value.length) {
-          $gsap.fromTo(
-            itemsRef.value,
-            { opacity: 0, y: 20 },
+        if (itemComponents.value.length) {
+          const labels = itemComponents.value.map(c => c.labelRef).filter(Boolean);
+
+          // Animate labels (initial state already set by child onMounted)
+          $gsap.to(
+            labels,
             {
               opacity: 1,
               y: 0,
@@ -55,9 +58,10 @@ watch(
               ease: "power2.out",
               delay: 0.2,
               onComplete: () => {
-                // Clear the entrance animation transforms before starting loop
-                $gsap.set(itemsRef.value, { clearProps: "y,opacity" });
-                startLoop();
+                $gsap.set(labels, { clearProps: "y,opacity" });
+                if (isMenuOpen.value) {
+                  startLoop();
+                }
               }
             }
           );
@@ -153,7 +157,12 @@ const navItemClasses =
               <GameMilestoneItem
                 v-for="(milestone, index) in visibleMilestones"
                 :key="milestone.id"
-                :ref="el => { if (el) itemsRef[index] = (el as any).$el }"
+                :ref="el => { 
+                  if (el) {
+                    itemsRef[index] = (el as any).$el;
+                    itemComponents[index] = el;
+                  }
+                }"
                 :milestone="milestone"
                 :is-reached="isMilestoneReached(milestone.id)"
                 @click="handleMilestoneClick"
