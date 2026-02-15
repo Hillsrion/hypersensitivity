@@ -35,6 +35,7 @@ export const useGameController = () => {
 
   const showGameUI = computed(() => {
     return (
+      gameStore.forceShowUI ||
       gameStore.introAnimationPhase === "revealing" ||
       gameStore.introAnimationPhase === "complete"
     );

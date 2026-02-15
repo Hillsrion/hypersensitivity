@@ -110,6 +110,16 @@ const skipToGame = () => {
       >
         Skip to Game
       </button>
+
+      <div class="h-px bg-white/10 my-1"></div>
+
+      <button 
+        class="px-2 py-1 rounded text-left transition-colors"
+        :class="gameStore.forceShowUI ? 'bg-orange-500/40 text-orange-200 outline outline-1 outline-orange-500' : 'bg-white/10 hover:bg-white/20'"
+        @click="gameStore.toggleForceShowUI()"
+      >
+        UI: {{ gameStore.forceShowUI ? 'Forcée' : 'Par défaut' }}
+      </button>
     </div>
   </div>
 </template>

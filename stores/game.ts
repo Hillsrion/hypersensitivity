@@ -55,6 +55,7 @@ export const useGameStore = defineStore("game", {
     isAutoScrolling: false,
     selectedChoice: null,
     showQuestionnaire: false,
+    forceShowUI: false,
   }),
 
   getters: {
@@ -447,5 +448,9 @@ export const useGameStore = defineStore("game", {
       const audioStore = useAudioStore();
       audioStore.resumeAudio();
     },
+    
+    toggleForceShowUI() {
+      this.forceShowUI = !this.forceShowUI;
+    }
   },
 });

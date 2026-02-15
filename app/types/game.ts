@@ -96,4 +96,5 @@ export interface GameState {
   isAutoScrolling: boolean;
   selectedChoice: Choice | null;
   showQuestionnaire: boolean;
+  forceShowUI: boolean;
 }
