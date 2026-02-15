@@ -395,7 +395,9 @@ export const useGameStore = defineStore("game", {
     // Aller a un milestone (trouve la première scène valide)
     goToMilestone(milestoneId: string) {
       const milestone = MILESTONES[milestoneId];
-      if (milestone && this.reachedMilestones.includes(milestoneId)) {
+      const isReached = this.reachedMilestones.includes(milestoneId) || import.meta.env.DEV;
+
+      if (milestone && isReached) {
         // Chercher la première scène valide du milestone
         for (const sceneId of milestone.scenes) {
           const scene = gameData.scenes[sceneId];

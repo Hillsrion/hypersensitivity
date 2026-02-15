@@ -11,6 +11,8 @@ const itemsRef = ref<HTMLElement[]>([]);
 
 // Filtered milestones (only reached)
 const visibleMilestones = computed(() => {
+  if (import.meta.dev) return gameStore.milestones;
+  
   return gameStore.milestones.filter((m: any) =>
     gameStore.reachedMilestones.includes(m.id)
   );
@@ -57,6 +59,7 @@ watch(
 );
 
 const isMilestoneReached = (milestoneId: string) => {
+  if (import.meta.dev) return true;
   return gameStore.reachedMilestones.includes(milestoneId);
 };
 
