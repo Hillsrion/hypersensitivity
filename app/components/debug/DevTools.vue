@@ -6,6 +6,7 @@ import { useAudioStore } from "~/stores/audio";
 const gameStore = useGameStore();
 const animationsStore = useAnimationsStore();
 const audioStore = useAudioStore();
+const route = useRoute();
 
 const scrollTo = (position: 'top' | 'bottom') => {
   const experienceEl = document.getElementById('experience');
@@ -74,6 +75,22 @@ const skipToGame = () => {
         }
     }, 100);
 }
+
+onMounted(() => {
+  // Dev shortcut: scroll to a specific component on pageload
+  const target = route.query.scroll || (import.meta.env.DEV ? "experience" : null);
+  if (target) {
+    // We wait a bit for Lenis and ScrollTrigger to be fully initialized and for the page to render
+    setTimeout(() => {
+      const element = document.getElementById(String(target));
+      // @ts-ignore
+      if (element && window.lenis) {
+        // @ts-ignore
+        window.lenis.scrollTo(element, { immediate: true });
+      }
+    }, 500);
+  }
+});
 </script>
 
 <template>

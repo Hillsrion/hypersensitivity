@@ -133,23 +133,6 @@ onMounted(async () => {
 
   audioStore.preloadList(audioList);
 
-  // Dev shortcut: scroll to a specific component on pageload
-  const target = route.query.scroll || (import.meta.dev ? "experience" : null);
-  if (target) {
-    // We wait a bit for Lenis and ScrollTrigger to be fully initialized and for the page to render
-    setTimeout(() => {
-      const element = document.getElementById(String(target));
-      if (element && lenisRef.value?.lenis) {
-        // If target is experience, we scroll to its bottom for easier debugging
-        const options = { immediate: true };
-        if (target === "experience") {
-          lenisRef.value.lenis.scrollTo(element, { ...options });
-        } else {
-          lenisRef.value.lenis.scrollTo(element, options);
-        }
-      }
-    }, 500);
-  }
 
   // Expose Lenis to window for DevTools
   if (import.meta.dev && import.meta.client) {
