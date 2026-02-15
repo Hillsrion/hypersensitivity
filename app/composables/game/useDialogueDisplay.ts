@@ -11,7 +11,7 @@ export function useDialogueDisplay(dialogue: Ref<DialogueLine | null>) {
   const isRightAligned = computed(() => {
     if (!dialogue.value) return false;
     if (isPensees.value) return false;
-    if (dialogue.value.id === "milestone-entry") return false;
+    if (dialogue.value.id === "milestone-entry" || dialogue.value.id === "intro-anno") return false;
     const speaker = dialogue.value.speaker.toLowerCase();
     return !speaker.includes("lucie");
   });
@@ -25,7 +25,7 @@ export function useDialogueDisplay(dialogue: Ref<DialogueLine | null>) {
   const showAnnotation = (currentTimedAnnotation?: Ref<string | null>) =>
     computed(() => {
       if (currentTimedAnnotation?.value) return true;
-      if (dialogue.value?.id === "milestone-entry") return true;
+      if (dialogue.value?.id === "milestone-entry" || dialogue.value?.id === "intro-anno") return true;
       if (!dialogue.value?.annotation) return false;
       if (gameStore.isFirstDialogueOfInitialScene) return false;
       return true;

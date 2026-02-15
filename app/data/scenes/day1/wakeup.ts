@@ -7,9 +7,9 @@ export const dayOneWakeup: Scene = {
   day: 1,
   title: "Réveil",
   audio: "experience/J01_S01_Reveil.mp3",
+  entryAnnotation: "Le réveil sonne, les oiseaux chantent, bruits de couette qui bouge, bruits de pas",
   dialogues: [
     pensees("d1_1", "Oh purée, un autre jour dans la France de Macron..", {
-      annotation: "Le réveil sonne, les oiseaux chantent, bruits de couette qui bouge, bruits de pas",
       color: "violet",
       timings: [
         { word: "Oh", start: 7.279, end: 7.46 },

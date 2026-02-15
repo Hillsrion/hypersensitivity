@@ -11,6 +11,9 @@ import HSPQuestionnaire from "./components/HSPQuestionnaire.vue";
 import { useCustomCursor } from "./composables/useCustomCursor";
 import { useGameStore } from "~/stores/game";
 import GameMilestoneMenu from "~/app/components/game/GameMilestoneMenu.vue";
+import DevTools from "~/app/components/debug/DevTools.vue";
+
+const isDev = import.meta.dev;
 
 const { cursorRef } = useCustomCursor();
 
@@ -140,12 +143,26 @@ onMounted(async () => {
         // If target is experience, we scroll to its bottom for easier debugging
         const options = { immediate: true };
         if (target === "experience") {
-          lenisRef.value.lenis.scrollTo(element, { ...options, offset: element.offsetHeight });
+          lenisRef.value.lenis.scrollTo(element, { ...options });
         } else {
           lenisRef.value.lenis.scrollTo(element, options);
         }
       }
     }, 500);
+  }
+
+  // Expose Lenis to window for DevTools
+  if (import.meta.dev && import.meta.client) {
+    watch(
+      () => lenisRef.value?.lenis,
+      (lenis) => {
+        if (lenis) {
+          // @ts-ignore
+          window.lenis = lenis;
+        }
+      },
+      { immediate: true }
+    );
   }
 });
 </script>
@@ -196,5 +213,7 @@ onMounted(async () => {
     <TestimoniesSection id="testimonies" class="relative z-10" />
     <Experience id="experience" class="-mt-[35svh]" />
     <HSPQuestionnaire v-if="gameStore.isGameEnded && gameStore.showQuestionnaire" id="hsp-questionnaire" class="relative z-10" />
+
+    <DevTools v-if="isDev" />
   </div>
 </template>

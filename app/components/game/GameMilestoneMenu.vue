@@ -120,23 +120,8 @@ const navItemClasses =
           <div
             class="w-full h-32 flex items-center justify-between px-12 md:px-18 pointer-events-auto"
           >
-            <!-- Close Button -->
-            <button
-              class="text-primary hover:scale-110 transition-transform cursor-pointer"
-              @click="gameStore.closeMenu()"
-            >
-              <svg
-                width="24"
-                height="24"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="1.5"
-              >
-                <line x1="18" y1="6" x2="6" y2="18" />
-                <line x1="6" y1="6" x2="18" y2="18" />
-              </svg>
-            </button>
+            <!-- Close Button (Removed - handled by GameContainer) -->
+            <div class="w-6 h-6"></div>
 
           </div>
 

@@ -5,8 +5,9 @@ import DialogueBox from "./DialogueBox.vue";
 import ChoiceButtons from "./ChoiceButtons.vue";
 import GameMilestoneMenu from "./GameMilestoneMenu.vue";
 import MenuIcon from "../MenuIcon.vue";
-import IntroAnnotation from "./IntroAnnotation.vue";
 import { useGameController } from "~/app/composables/useGameController";
+
+const { $gsap } = useNuxtApp();
 
 const containerRef = ref<HTMLElement | null>(null);
 
@@ -65,11 +66,11 @@ watch(audioProgressPercent, (newVal) => {
     <!-- Menu Icon (top left) -->
     <Transition name="fade">
       <button
-        v-if="showGameUI && !gameStore.isMenuOpening && !gameStore.isMenuOpen && !isMilestoneAnnotation"
-        class="absolute top-10 left-18 z-50 text-primary"
+        v-if="showGameUI && !gameStore.isMenuOpening && !isMilestoneAnnotation"
+        class="absolute top-10 left-18 z-70 text-primary cursor-pointer"
         @click.stop="gameStore.toggleMenu()"
       >
-        <MenuIcon />
+        <MenuIcon :is-open="gameStore.isMenuOpen" />
       </button>
     </Transition>
 
@@ -88,15 +89,33 @@ watch(audioProgressPercent, (newVal) => {
       />
     </Transition>
 
-    <!-- Intro Annotation -->
-    <Transition name="fade">
+    <!-- Intro Annotation handled by DialogueBox now -->
+    <Transition
+      :css="false"
+      @leave="(el, done) => {
+        $gsap.to(el, {
+          opacity: 0,
+          duration: 0.2,
+          ease: 'power2.inOut',
+          onComplete: done
+        });
+      }"
+    >
       <div
         v-if="showAnnotation"
         class="absolute inset-0 flex flex-col items-center justify-center pointer-events-none z-50"
       >
-        <IntroAnnotation
-          :text="annotationText"
+        <DialogueBox
+          :dialogue="{
+            id: 'intro-anno',
+            speaker: '',
+            speakerType: 'normal',
+            text: '',
+            annotation: annotationText,
+            isChat: false
+          }"
           :blur-amount="gameStore.introBlurAmount"
+          class="pointer-events-auto"
         />
       </div>
     </Transition>

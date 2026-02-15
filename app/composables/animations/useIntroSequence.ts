@@ -27,6 +27,9 @@ export const useIntroSequence = (eyePathRef: Ref<SVGPathElement | null>) => {
     textContainerEl: HTMLElement,
     lineElements: HTMLCollection
   ) => {
+    // Reset internal state on setup (useful for dev tools reset)
+    audioTriggered.value = false;
+
     const mainTl = $gsap.timeline({
       scrollTrigger: {
         trigger: containerEl,
@@ -108,6 +111,7 @@ export const useIntroSequence = (eyePathRef: Ref<SVGPathElement | null>) => {
     }
 
     // Initialiser le blur (mais garder l'annotation cachée)
+    // On force la valeur initiale pour le reset
     gameStore.setIntroBlurAmount(8);
 
     eyeTl
@@ -214,6 +218,37 @@ export const useIntroSequence = (eyePathRef: Ref<SVGPathElement | null>) => {
           onUpdate: () => gameStore.setIntroBlurAmount(blurState.amount),
         },
         "<"
+      )
+      .to(
+        {}, 
+        { 
+          duration: eyeStepDuration * 3, 
+          onComplete: () => {
+             console.log("LOG_DEBUG: Intro timeline buffer complete");
+             
+             // Check if we need to wait for audio
+             const firstDialogue = gameStore.currentScene?.dialogues[0];
+             const firstWordStart = firstDialogue?.timings?.[0]?.start || 0;
+             const currentTime = audioStore.currentTime;
+
+             if (currentTime < firstWordStart) {
+                 console.log("LOG_DEBUG: Waiting for audio to catch up...", { currentTime, firstWordStart });
+                 const unwatch = watch(
+                     () => audioStore.currentTime,
+                     (time) => {
+                         if (time >= firstWordStart) {
+                             console.log("LOG_DEBUG: Audio caught up, setting revealing");
+                             gameStore.setIntroAnimationPhase("revealing");
+                             unwatch();
+                         }
+                     }
+                 );
+             } else {
+                 console.log("LOG_DEBUG: Audio ready, setting revealing immediately");
+                 gameStore.setIntroAnimationPhase("revealing");
+             }
+          }
+        }
       );
 
     mainTl.add(textTl, 0);

@@ -77,51 +77,8 @@ const autoRevealStarted = ref(false);
 
 
 
-watch(
-  () => gameStore.introBlurAmount,
-  (val) => {
-    if (
-      val <= 0.01 &&
-      !autoRevealStarted.value &&
-      gameStore.introAnimationPhase === "annotation"
-    ) {
-      autoRevealStarted.value = true;
-
-      // Si on est en auto-scroll, on skip le timer de 3s
-      if (gameStore.isAutoScrolling) {
-        console.log("LOG_DEBUG: Auto-scrolling detected, skipping reveal timer");
-        gameStore.setIntroAnimationPhase("revealing");
-        $gsap.delayedCall(0.5, () => {
-          gameStore.setIntroAnimationPhase("complete");
-          gameStore.setIntroPlayed();
-        });
-        return;
-      }
-
-      const revealTl = $gsap.timeline();
-
-
-
-      // Le minuteur de 3 secondes
-      console.log("LOG_DEBUG: Starting 3s reveal timer");
-      revealTl.to(
-        {},
-        {
-          duration: 3,
-          onComplete: () => {
-            console.log("LOG_DEBUG: Reveal timer complete. Setting phase to revealing");
-            gameStore.setIntroAnimationPhase("revealing");
-            $gsap.delayedCall(1, () => {
-              console.log("LOG_DEBUG: Moving to complete phase");
-              gameStore.setIntroAnimationPhase("complete");
-              gameStore.setIntroPlayed();
-            });
-          },
-        }
-      );
-    }
-  }
-);
+// Logic moved to useIntroSequence.ts to sync with audio
+// This watcher is no longer needed as the timeline handles the phases
 
 
 
