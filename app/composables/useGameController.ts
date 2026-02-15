@@ -87,6 +87,11 @@ export const useGameController = () => {
     gameStore.selectChoice(choice);
   };  // Aurora management (stable, doesn't remount on dialogue change)
   const handleAuroraEffect = () => {
+    // If the menu is open or opening, the menu component handles the Aurora (rainbow color)
+    if (gameStore.isMenuOpen || gameStore.isMenuOpening) {
+      return;
+    }
+
     // If we are currently switching scenes, we keep the current aurora state
     // to avoid a blink during the 300ms transition.
     if (gameStore.isTransitioning && animationsStore.aurora.visible) {
@@ -146,7 +151,7 @@ export const useGameController = () => {
 
   // Watch for dialogue or phase changes to update Aurora
   watch(
-    [() => gameStore.currentDialogue?.id, () => gameStore.introAnimationPhase],
+    [() => gameStore.currentDialogue?.id, () => gameStore.introAnimationPhase, () => gameStore.isMenuOpen],
     () => {
       handleAuroraEffect();
     },

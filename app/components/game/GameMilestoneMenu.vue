@@ -51,10 +51,7 @@ watch(
         }
       });
     } else {
-      // Hide Aurora and reset state
-      animationsStore.setAuroraVisibility(false);
-      // We don't necessarily need to reset color as it will be set by the next interaction
-      animationsStore.setAuroraZIndex(0);
+      // Main game controller will handle Aurora restoration when menu closes
     }
   }
 );
