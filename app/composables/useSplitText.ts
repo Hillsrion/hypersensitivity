@@ -4,13 +4,14 @@ import SplitType from 'split-type'
 export interface SplitTextOptions {
   splitBy?: string
   onComplete?: (instance: SplitType) => void
+  shouldRevert?: boolean
 }
 
 export function useSplitText(
   target: Ref<HTMLElement | null>,
   options: SplitTextOptions = {}
 ) {
-  const { splitBy = 'lines,words,chars', onComplete } = options
+  const { splitBy = 'lines,words,chars', onComplete, shouldRevert = true } = options
   
   const instance = ref<SplitType | null>(null)
   const lines = ref<HTMLElement[]>([])
@@ -69,7 +70,9 @@ export function useSplitText(
   }
 
   onUnmounted(() => {
-    revert()
+    if (shouldRevert) {
+        revert()
+    }
   })
 
   return {

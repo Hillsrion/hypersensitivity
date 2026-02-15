@@ -12,8 +12,7 @@ export function useDialogueAnimator(
   emit: (event: "animationComplete", ...args: any[]) => void,
   handleAudioEnded: () => void,
   ensureAudioPlaying: (path: string) => void,
-  clearFallbackTimer: () => void,
-  fallbackTimer: Ref<ReturnType<typeof setTimeout> | null>
+  clearFallbackTimer: () => void
 ) {
   const { $gsap } = useNuxtApp();
   const audioStore = useAudioStore();
@@ -118,13 +117,13 @@ export function useDialogueAnimator(
             console.log(
               "LOG_DEBUG: Audio item missing from list, starting 3s fallback timer"
             );
-            fallbackTimer.value = setTimeout(handleAudioEnded, 3000);
+            wordTimeline.add($gsap.delayedCall(3, handleAudioEnded), 0);
           }
         } else if (!isInIntroAnimation.value) {
           console.log(
             "LOG_DEBUG: No audio to play, starting 3s fallback timer"
           );
-          fallbackTimer.value = setTimeout(handleAudioEnded, 3000);
+          wordTimeline.add($gsap.delayedCall(3, handleAudioEnded), 0);
         }
 
         setTimeout(() => {
@@ -348,7 +347,24 @@ export function useDialogueAnimator(
         handleAudioEnded
       );
     }
+
+    // New: If menu is already open when starting animation (rare but possible), pause it
+    if (gameStore.isMenuOpen) {
+      wordTimeline.pause();
+    }
   };
+
+  // Sync GSAP timeline with menu state
+  watch(
+    () => gameStore.isMenuOpen,
+    (isOpen) => {
+      if (isOpen) {
+        activeTimeline.value?.pause();
+      } else {
+        activeTimeline.value?.resume();
+      }
+    }
+  );
 
   onUnmounted(() => {
     activeTimeline.value?.kill();

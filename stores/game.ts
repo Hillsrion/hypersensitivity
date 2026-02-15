@@ -435,11 +435,15 @@ export const useGameStore = defineStore("game", {
     openMenu() {
       this.isMenuOpening = false;
       this.isMenuOpen = true;
+      const audioStore = useAudioStore();
+      audioStore.pauseAudio();
     },
 
     closeMenu() {
       this.isMenuOpen = false;
       this.isMenuOpening = false;
+      const audioStore = useAudioStore();
+      audioStore.resumeAudio();
     },
   },
 });

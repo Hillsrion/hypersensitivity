@@ -10,6 +10,7 @@ export const useAudioStore = defineStore('audio', {
     list: [],
     volume: 0.8,
     playbackRate: 1.0,
+    isPaused: false,
   }),
 
   actions: {
@@ -60,6 +61,7 @@ export const useAudioStore = defineStore('audio', {
         await this.currentAudio.play();
         console.log(`LOG_DEBUG: Audio playback started successfully: ${audioPath}`);
         this.isPlaying = true;
+        this.isPaused = false;
         this.fadeVolume(true);
         
         // Start tracking progress
@@ -133,6 +135,22 @@ export const useAudioStore = defineStore('audio', {
       });
     },
 
+    pauseAudio() {
+      if (this.currentAudio && this.isPlaying && !this.isPaused) {
+        console.log("LOG_DEBUG: pauseAudio called");
+        this.currentAudio.pause();
+        this.isPaused = true;
+      }
+    },
+
+    resumeAudio() {
+      if (this.currentAudio && this.isPlaying && this.isPaused) {
+        console.log("LOG_DEBUG: resumeAudio called");
+        this.currentAudio.play();
+        this.isPaused = false;
+      }
+    },
+
     async analyzeTimings() {
       const audioTimingAnalyzer = new AudioTimingAnalyzer();
       for (const item of this.list) {
@@ -203,6 +221,7 @@ export const useAudioStore = defineStore('audio', {
       } else {
           // If not playing or no current audio, ensure state is clean
           this.isPlaying = false;
+          this.isPaused = false;
       }
     },
 

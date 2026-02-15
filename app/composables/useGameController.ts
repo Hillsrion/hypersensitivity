@@ -73,7 +73,8 @@ export const useGameController = () => {
       (!showGameUI.value && !gameStore.introPlayed) || // Bloquer seulement si l'intro globale n'est pas jouée
       gameStore.showChoices ||
       gameStore.isTransitioning ||
-      gameStore.isMenuOpen
+      gameStore.isMenuOpen ||
+      gameStore.isMenuOpening
     ) {
       return;
     }

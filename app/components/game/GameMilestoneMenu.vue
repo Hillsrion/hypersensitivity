@@ -11,7 +11,7 @@ const itemsRef = ref<HTMLElement[]>([]);
 
 // Filtered milestones (only reached)
 const visibleMilestones = computed(() => {
-  return gameStore.milestones.filter((m) =>
+  return gameStore.milestones.filter((m: any) =>
     gameStore.reachedMilestones.includes(m.id)
   );
 });
@@ -65,6 +65,10 @@ const isMilestoneReached = (milestoneId: string) => {
 
 const handleMilestoneClick = (milestoneId: string) => {
   if (isMilestoneReached(milestoneId)) {
+    // We don't need to manually resume here as goToMilestone will handle closing the menu
+    // which in turn calls closeMenu() -> audioStore.resumeAudio()
+    // However, if we transition to a NEW scene, we want the NEW audio to start.
+    // goToMilestone calls goToScene which calls stopCurrentAudio(false) eventually.
     gameStore.goToMilestone(milestoneId);
   }
 };
@@ -88,12 +92,11 @@ const navItemClasses =
       <div
         v-if="gameStore.isMenuOpen"
         class="fixed inset-0 z-60"
-        @click.self="gameStore.closeMenu()"
+        @click.self.stop="gameStore.closeMenu()"
       >
-        <!-- Backdrop -->
         <div
           class="absolute inset-0"
-          @click="gameStore.closeMenu()"
+          @click.stop="gameStore.closeMenu()"
         />
 
         <!-- Menu Content -->

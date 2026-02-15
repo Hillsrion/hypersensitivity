@@ -23,6 +23,7 @@ export function useDialogueBox(
   // Split Text
   const split = useSplitText(textRef, {
     splitBy: "lines,words",
+    shouldRevert: false, // Prevent flash of unstyled text on unmount (e.g. menu open)
     onComplete: (instance: any) => {
       // Initialiser tous les mots avec opacite reduite
       if (instance.words) {
@@ -64,8 +65,7 @@ export function useDialogueBox(
     emit,
     handleAudioEnded,
     ensureAudioPlaying,
-    clearFallbackTimer,
-    fallbackTimer
+    clearFallbackTimer
   );
 
   // Computed
