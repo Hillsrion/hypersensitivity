@@ -91,6 +91,7 @@ export interface GameState {
   showChoices: boolean;
   isMenuOpen: boolean;
   isMenuOpening: boolean;
+  isMenuClosing: boolean;
   introPlayed: boolean;
   introAnimationPhase: IntroAnimationPhase;
   introBlurAmount: number;

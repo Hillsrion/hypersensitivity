@@ -75,7 +75,8 @@ export const useGameController = () => {
       gameStore.showChoices ||
       gameStore.isTransitioning ||
       gameStore.isMenuOpen ||
-      gameStore.isMenuOpening
+      gameStore.isMenuOpening ||
+      gameStore.isMenuClosing
     ) {
       return;
     }

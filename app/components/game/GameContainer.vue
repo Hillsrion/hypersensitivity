@@ -79,14 +79,14 @@ watch(audioProgressPercent, (newVal) => {
     <!-- Header -->
     <Transition name="fade">
       <GameHeader
-        v-if="showGameUI && !gameStore.isMenuOpening && !gameStore.isMenuOpen && !isMilestoneAnnotation"
+        v-if="showGameUI && !gameStore.isMenuOpening && !gameStore.isMenuOpen && !gameStore.isMenuClosing && !isMilestoneAnnotation"
       />
     </Transition>
 
     <!-- Energy Bar (right side) -->
     <Transition name="fade">
       <GameEnergyBar
-        v-if="(showGameUI || isMilestoneAnnotation) && !gameStore.isMenuOpening && !gameStore.isMenuOpen"
+        v-if="(showGameUI || isMilestoneAnnotation) && !gameStore.isMenuOpening && !gameStore.isMenuOpen && !gameStore.isMenuClosing"
         class="absolute top-1/2 left-18 -translate-y-1/2 z-40"
       />
     </Transition>
@@ -133,7 +133,8 @@ watch(audioProgressPercent, (newVal) => {
             !showAnnotation &&
             (showGameUI || !gameStore.isFirstDialogueOfInitialScene || isMilestoneAnnotation) &&
             !gameStore.isMenuOpening &&
-            !gameStore.isMenuOpen
+            !gameStore.isMenuOpen &&
+            !gameStore.isMenuClosing
           "
           :key="isMilestoneAnnotation ? 'milestone-anno' : gameStore.currentDialogue?.id"
           ref="dialogueBoxRef"
@@ -160,6 +161,7 @@ watch(audioProgressPercent, (newVal) => {
           showGameUI &&
           !gameStore.isMenuOpening &&
           !gameStore.isMenuOpen &&
+          !gameStore.isMenuClosing &&
           !isMilestoneAnnotation
         "
         ref="choicesRef"

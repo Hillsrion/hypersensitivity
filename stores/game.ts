@@ -40,7 +40,7 @@ const evaluateCondition = (
 };
 
 export const useGameStore = defineStore("game", {
-  state: (): GameState => ({
+  state: () => ({
     currentSceneId: gameData.initialSceneId,
     currentDialogueIndex: 0,
     flags: { ...gameData.initialFlags },
@@ -49,11 +49,12 @@ export const useGameStore = defineStore("game", {
     showChoices: false,
     isMenuOpen: false,
     isMenuOpening: false,
+    isMenuClosing: false,
     introPlayed: false,
-    introAnimationPhase: "hidden",
+    introAnimationPhase: "hidden" as IntroAnimationPhase,
     introBlurAmount: 8,
     isAutoScrolling: false,
-    selectedChoice: null,
+    selectedChoice: null as Choice | null,
     showQuestionnaire: false,
     forceShowUI: false,
   }),
@@ -501,6 +502,13 @@ export const useGameStore = defineStore("game", {
     closeMenu() {
       this.isMenuOpen = false;
       this.isMenuOpening = false;
+      this.isMenuClosing = true;
+
+      // Wait for menu/icon closing animations (approx 500-700ms)
+      setTimeout(() => {
+        this.isMenuClosing = false;
+      }, 700);
+
       const audioStore = useAudioStore();
       audioStore.resumeAudio();
     },
