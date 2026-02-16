@@ -8,6 +8,7 @@ import type {
   ChoiceCondition,
   Milestone,
   IntroAnimationPhase,
+  MenuStatus,
 } from "../app/types/game";
 import { gameData } from "../app/data/game";
 import { SCENE_IDS } from "../app/data/constants";
@@ -40,107 +41,112 @@ const evaluateCondition = (
 };
 
 export const useGameStore = defineStore("game", {
-  state: () => ({
+  state: (): GameState => ({
     currentSceneId: gameData.initialSceneId,
     currentDialogueIndex: 0,
     flags: { ...gameData.initialFlags },
     reachedMilestones: ["reveil"],
     isTransitioning: false,
     showChoices: false,
-    isMenuOpen: false,
-    isMenuOpening: false,
-    isMenuClosing: false,
+    menuStatus: "closed",
     introPlayed: false,
-    introAnimationPhase: "hidden" as IntroAnimationPhase,
+    introAnimationPhase: "hidden",
     introBlurAmount: 8,
     isAutoScrolling: false,
-    selectedChoice: null as Choice | null,
+    selectedChoice: null,
     showQuestionnaire: false,
     forceShowUI: false,
   }),
 
   getters: {
-    currentScene(): Scene | null {
-      const scene = gameData.scenes[this.currentSceneId] ?? null;
+    currentScene(state): Scene | null {
+      const scene = gameData.scenes[state.currentSceneId] ?? null;
       return scene;
     },
 
-    currentDialogue(): DialogueLine | null {
-      const scene = this.currentScene;
+    currentDialogue(state): DialogueLine | null {
+      const scene = gameData.scenes[state.currentSceneId];
       if (!scene || scene.dialogues.length === 0) return null;
-      return scene.dialogues[this.currentDialogueIndex] ?? null;
+      return scene.dialogues[state.currentDialogueIndex] ?? null;
     },
 
-    isLastDialogue(): boolean {
-      const scene = this.currentScene;
+    isLastDialogue(state): boolean {
+      const scene = gameData.scenes[state.currentSceneId];
       if (!scene) return true;
-      return this.currentDialogueIndex >= scene.dialogues.length - 1;
+      return state.currentDialogueIndex >= scene.dialogues.length - 1;
     },
 
-    hasDialogues(): boolean {
-      const scene = this.currentScene;
+    hasDialogues(state): boolean {
+      const scene = gameData.scenes[state.currentSceneId];
       return !!scene && scene.dialogues.length > 0;
     },
 
-    hasChoices(): boolean {
-      const scene = this.currentScene;
+    hasChoices(state): boolean {
+      const scene = gameData.scenes[state.currentSceneId];
       return !!scene?.choices && scene.choices.length > 0;
     },
 
-    availableChoices(): Choice[] {
-      const scene = this.currentScene;
+    availableChoices(state): Choice[] {
+      const scene = gameData.scenes[state.currentSceneId];
       if (!scene?.choices) return [];
       return scene.choices;
     },
 
-    isChoiceDisabled(): (choice: Choice) => boolean {
+    isChoiceDisabled(state): (choice: Choice) => boolean {
       return (choice: Choice) => {
         if (!choice.condition) return false;
-        return !evaluateCondition(choice.condition, this.flags);
+        return !evaluateCondition(choice.condition, state.flags);
       };
     },
 
-    energyPercentage(): number {
-      return Math.max(0, Math.min(100, this.flags.energy));
+    energyPercentage(state): number {
+      return Math.max(0, Math.min(100, state.flags.energy));
     },
 
-    currentDay(): 1 | 2 {
-      return this.currentScene?.day ?? 1;
+    currentDay(state): 1 | 2 {
+      const scene = gameData.scenes[state.currentSceneId];
+      return scene?.day ?? 1;
     },
 
-    currentTitle(): string {
-      return this.currentScene?.title ?? "";
+    currentTitle(state): string {
+      const scene = gameData.scenes[state.currentSceneId];
+      return scene?.title ?? "";
     },
 
     milestones(): Milestone[] {
       return Object.values(MILESTONES);
     },
 
-    reachedMilestonesList(): Milestone[] {
+    reachedMilestonesList(state): Milestone[] {
       return Object.values(MILESTONES).filter((m) =>
-        this.reachedMilestones.includes(m.id)
+        state.reachedMilestones.includes(m.id)
       );
     },
 
-    isGameEnded(): boolean {
-      return this.currentSceneId === "gameEnd";
+    isGameEnded(state): boolean {
+      return state.currentSceneId === "gameEnd";
     },
 
     // Getter pour l'annotation d'entrée (pour l'intro ou transitions de scènes)
-    firstDialogueAnnotation(): string | undefined {
-      const scene = this.currentScene;
+    firstDialogueAnnotation(state): string | undefined {
+      const scene = gameData.scenes[state.currentSceneId];
       if (!scene) return undefined;
       if (scene.entryAnnotation) return scene.entryAnnotation;
       return scene.dialogues[0]?.annotation;
     },
 
     // Verifier si c'est le premier dialogue de la scene initiale
-    isFirstDialogueOfInitialScene(): boolean {
+    isFirstDialogueOfInitialScene(state): boolean {
       return (
-        this.currentSceneId === gameData.initialSceneId &&
-        this.currentDialogueIndex === 0
+        state.currentSceneId === gameData.initialSceneId &&
+        state.currentDialogueIndex === 0
       );
     },
+    
+    // Status du menu
+    isMenuOpen: (state) => state.menuStatus === "open",
+    isMenuOpening: (state) => state.menuStatus === "opening",
+    isMenuClosing: (state) => state.menuStatus === "closing",
   },
 
   actions: {
@@ -188,6 +194,7 @@ export const useGameStore = defineStore("game", {
           this.flags = { ...gameData.initialFlags };
           this.introPlayed = false;
           this.introAnimationPhase = "hidden";
+          this.menuStatus = "closed";
         } catch {
           this.resetGame();
         }
@@ -209,7 +216,7 @@ export const useGameStore = defineStore("game", {
       this.reachedMilestones = ["reveil"];
       this.isTransitioning = false;
       this.showChoices = false;
-      this.isMenuOpen = false;
+      this.menuStatus = "closed";
       
       // On considère l'intro (texte défilant) comme jouée pour ne pas la refaire
       this.introPlayed = true; 
@@ -375,9 +382,9 @@ export const useGameStore = defineStore("game", {
           // Si l'intro (Reveil) est déjà passée, on utilise le style "dialogue" (showOnly)
           // Sinon on utilise le style "intro" (écran flou)
           if (this.introPlayed) {
-             this.introAnimationPhase = "milestoneAnnotation";
+              this.introAnimationPhase = "milestoneAnnotation";
           } else {
-             this.introAnimationPhase = "annotation";
+              this.introAnimationPhase = "annotation";
           }
 
           setTimeout(() => {
@@ -472,7 +479,7 @@ export const useGameStore = defineStore("game", {
                 this.introPlayed = true;
                 this.introAnimationPhase = "complete";
                 this.goToScene(sceneId);
-                this.isMenuOpen = false;
+                this.menuStatus = "closed";
                 return;
              }
           }
@@ -482,31 +489,29 @@ export const useGameStore = defineStore("game", {
 
     // Toggle menu with sequence
     async toggleMenu() {
-      if (this.isMenuOpen) {
+      if (this.menuStatus === "open") {
         this.closeMenu();
         return;
       }
 
-      this.isMenuOpening = true;
-      // The actual opening (isMenuOpen = true) will be triggered by GameContainer
-      // after elements have faded out.
+      this.menuStatus = "opening";
+      // The actual opening will be triggered by GameContainer/Controller
     },
 
     openMenu() {
-      this.isMenuOpening = false;
-      this.isMenuOpen = true;
+      this.menuStatus = "open";
       const audioStore = useAudioStore();
       audioStore.pauseAudio();
     },
 
     closeMenu() {
-      this.isMenuOpen = false;
-      this.isMenuOpening = false;
-      this.isMenuClosing = true;
+      this.menuStatus = "closing";
 
       // Wait for menu/icon closing animations (approx 500-700ms)
       setTimeout(() => {
-        this.isMenuClosing = false;
+        if (this.menuStatus === "closing") {
+          this.menuStatus = "closed";
+        }
       }, 700);
 
       const audioStore = useAudioStore();
