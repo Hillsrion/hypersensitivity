@@ -99,4 +99,5 @@ export interface GameState {
   selectedChoice: Choice | null;
   showQuestionnaire: boolean;
   forceShowUI: boolean;
+  _annotationTimerId: ReturnType<typeof setTimeout> | null;
 }

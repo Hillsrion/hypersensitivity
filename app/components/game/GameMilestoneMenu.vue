@@ -161,7 +161,7 @@ const navItemClasses =
           >
             <button
               :class="navItemClasses"
-              @click="gameStore.resetGame()"
+              @click.stop="gameStore.resetGame()"
             >
               <svg
                 width="14"

@@ -116,6 +116,7 @@ export const useIntroSequence = (eyePathRef: Ref<SVGPathElement | null>) => {
 
     eyeTl
       .call(() => {
+        if (gameStore.introPlayed) return;
         console.log("LOG_DEBUG: eyeTl started, setting phase to annotation");
         gameStore.setIntroAnimationPhase("annotation");
       })
@@ -125,6 +126,7 @@ export const useIntroSequence = (eyePathRef: Ref<SVGPathElement | null>) => {
         ease: "power1.inOut",
       })
       .call(() => {
+        if (gameStore.introPlayed) return;
         // Lancer l'audio du premier dialogue maintenant car DialogueBox n'est pas encore monté
         const currentScene = gameStore.currentScene;
         const audioToPlay =
@@ -157,7 +159,7 @@ export const useIntroSequence = (eyePathRef: Ref<SVGPathElement | null>) => {
           amount: 6,
           duration: eyeStepDuration,
           ease: "power1.inOut",
-          onUpdate: () => gameStore.setIntroBlurAmount(blurState.amount),
+          onUpdate: () => { if (!gameStore.introPlayed) gameStore.setIntroBlurAmount(blurState.amount); },
         },
         "step1"
       )
@@ -177,7 +179,7 @@ export const useIntroSequence = (eyePathRef: Ref<SVGPathElement | null>) => {
           amount: 4,
           duration: eyeStepDuration,
           ease: "power1.inOut",
-          onUpdate: () => gameStore.setIntroBlurAmount(blurState.amount),
+          onUpdate: () => { if (!gameStore.introPlayed) gameStore.setIntroBlurAmount(blurState.amount); },
         },
         "step2"
       )
@@ -197,7 +199,7 @@ export const useIntroSequence = (eyePathRef: Ref<SVGPathElement | null>) => {
           amount: 2,
           duration: eyeStepDuration,
           ease: "power1.inOut",
-          onUpdate: () => gameStore.setIntroBlurAmount(blurState.amount),
+          onUpdate: () => { if (!gameStore.introPlayed) gameStore.setIntroBlurAmount(blurState.amount); },
         },
         "step3"
       )
@@ -215,7 +217,7 @@ export const useIntroSequence = (eyePathRef: Ref<SVGPathElement | null>) => {
           amount: 0,
           duration: eyeStepDuration * 3,
           ease: "power1.inOut",
-          onUpdate: () => gameStore.setIntroBlurAmount(blurState.amount),
+          onUpdate: () => { if (!gameStore.introPlayed) gameStore.setIntroBlurAmount(blurState.amount); },
         },
         "<"
       )
@@ -225,6 +227,10 @@ export const useIntroSequence = (eyePathRef: Ref<SVGPathElement | null>) => {
           duration: eyeStepDuration * 3, 
           onComplete: () => {
              console.log("LOG_DEBUG: Intro timeline buffer complete");
+             if (gameStore.introPlayed) {
+                 console.log("LOG_DEBUG: Intro already played, skipping phase update");
+                 return;
+             }
              
              // Check if we need to wait for audio
              const firstDialogue = gameStore.currentScene?.dialogues[0];
@@ -315,8 +321,10 @@ export const useIntroSequence = (eyePathRef: Ref<SVGPathElement | null>) => {
             ease: "power2.inOut",
             onComplete: () => {
               gameStore.isAutoScrolling = false;
-              gameStore.setIntroAnimationPhase("complete");
-              gameStore.setIntroPlayed();
+              if (!gameStore.introPlayed) {
+                gameStore.setIntroAnimationPhase("complete");
+                gameStore.setIntroPlayed();
+              }
             },
           });
         }
