@@ -39,6 +39,9 @@ export function useDialogueDisplay(dialogue: Ref<DialogueLine | null>) {
       if (isShowingOnlyAnnotation.value && currentTimedAnnotation.value)
         return false;
 
+      // Pendant la phase annotation (intro initiale OU restart), on masque le dialogue
+      if (gameStore.introAnimationPhase === "annotation") return false;
+
       if (!isInIntroAnimation.value) return true;
       return (
         gameStore.introAnimationPhase === "revealing" ||
@@ -48,9 +51,16 @@ export function useDialogueDisplay(dialogue: Ref<DialogueLine | null>) {
 
   const annotationClasses = computed(() => {
     const phase = gameStore.introAnimationPhase;
-    
     // For milestone annotations (standard dialogue box style), we function normally
     if (phase === "milestoneAnnotation") {
+      return {
+        "opacity-100": true,
+        "blur-0": true
+      };
+    }
+
+    // Restart case: annotation sans intro (introPlayed = true)
+    if (phase === "annotation" && !isInIntroAnimation.value) {
       return {
         "opacity-100": true,
         "blur-0": true

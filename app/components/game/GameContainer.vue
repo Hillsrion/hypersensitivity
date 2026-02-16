@@ -92,35 +92,35 @@ watch(audioProgressPercent, (newVal) => {
     </Transition>
 
     <!-- Intro Annotation handled by DialogueBox now -->
-    <Transition
-      :css="false"
-      @leave="(el, done) => {
-        $gsap.to(el, {
-          opacity: 0,
-          duration: 0.2,
-          ease: 'power2.inOut',
-          onComplete: done
-        });
-      }"
-    >
-      <div
-        v-if="showAnnotation"
-        class="absolute inset-0 flex flex-col items-center justify-center pointer-events-none z-50"
+      <Transition
+        :css="false"
+        @leave="(el, done) => {
+          $gsap.to(el, {
+            opacity: 0,
+            duration: 0.2,
+            ease: 'power2.inOut',
+            onComplete: done
+          });
+        }"
       >
-        <DialogueBox
-          :dialogue="{
-            id: 'intro-anno',
-            speaker: '',
-            speakerType: 'normal',
-            text: '',
-            annotation: annotationText,
-            isChat: false
-          }"
-          :blur-amount="gameStore.introBlurAmount"
-          class="pointer-events-auto"
-        />
-      </div>
-    </Transition>
+        <div
+          v-if="showAnnotation"
+        class="absolute inset-0 flex flex-col items-center justify-center pointer-events-none z-50"
+        >
+          <DialogueBox
+            :dialogue="{
+              id: 'intro-anno',
+              speaker: '',
+              speakerType: 'normal',
+              text: '',
+              annotation: annotationText,
+              isChat: false
+            }"
+            :blur-amount="gameStore.introBlurAmount"
+            class="pointer-events-auto"
+          />
+        </div>
+      </Transition>
 
     <!-- Dialogue Area (center) -->
     <div

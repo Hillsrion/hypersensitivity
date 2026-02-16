@@ -56,6 +56,7 @@ export const useGameStore = defineStore("game", {
     selectedChoice: null,
     showQuestionnaire: false,
     forceShowUI: false,
+    _annotationTimerId: null as ReturnType<typeof setTimeout> | null,
   }),
 
   getters: {
@@ -209,7 +210,16 @@ export const useGameStore = defineStore("game", {
     // Reset le jeu
     resetGame() {
       const audioStore = useAudioStore();
+      const animationsStore = useAnimationsStore();
 
+      // Clear any previous annotation timer/interval
+      if (this._annotationTimerId) {
+        clearTimeout(this._annotationTimerId);
+        this._annotationTimerId = null;
+      }
+
+
+      // 1. Reset tout l'état du jeu
       this.currentSceneId = gameData.initialSceneId;
       this.currentDialogueIndex = 0;
       this.flags = { ...gameData.initialFlags };
@@ -217,26 +227,27 @@ export const useGameStore = defineStore("game", {
       this.isTransitioning = false;
       this.showChoices = false;
       this.menuStatus = "closed";
-      
-      // On considère l'intro (texte défilant) comme jouée pour ne pas la refaire
-      this.introPlayed = true; 
-      
-      // Mais on veut l'effet d'arrivée (annotation + son)
-      this.introAnimationPhase = "annotation";
-      this.introBlurAmount = 0;
-
       this.selectedChoice = null;
       this.showQuestionnaire = false;
+      
+      // 2. Reset aurora (le menu la met en z-55 + visible, il faut nettoyer)
+      animationsStore.setAuroraVisibility(false);
+      animationsStore.setAuroraZIndex(0);
+
+      // 3. Intro déjà jouée, pas de blur, annotation visible immédiatement
+      this.introPlayed = true; 
+      this.introAnimationPhase = "annotation";
+      this.introBlurAmount = 0;
       this.saveGame();
 
-      // Relancer l'audio de la scène de réveil
+      // 4. Lancer l'audio de la scène initiale
       const initialScene = gameData.scenes[gameData.initialSceneId];
-      if (initialScene && initialScene.audio) {
+      if (initialScene?.audio) {
          const audioPath = initialScene.audio.startsWith("/") ? initialScene.audio : `/audios/${initialScene.audio}`;
          audioStore.playAudio(audioPath);
       }
 
-      // Scroll to bottom of experience to skip intro
+      // 5. Scroll to bottom immédiatement (skip l'animation de l'oeil)
       if (import.meta.client) {
           const experienceEl = document.getElementById('experience');
           if (experienceEl) {
@@ -256,12 +267,18 @@ export const useGameStore = defineStore("game", {
           }
       }
 
-      // Transition automatique après l'annotation
-      setTimeout(() => {
+      // 6. Transition automatique : attendre le timing du premier mot puis passer en complete
+      const firstDialogue = initialScene?.dialogues[0];
+      const firstWordStart = firstDialogue?.timings?.[0]?.start || 3;
+      const margin = 0.5;
+      const delay = Math.max(1, (firstWordStart - margin)) * 1000; // en ms, minimum 1s
+
+      this._annotationTimerId = setTimeout(() => {
         if (this.introAnimationPhase === "annotation") {
-           this.introAnimationPhase = "complete";
+          this.introAnimationPhase = "complete";
         }
-      }, 3000);
+        this._annotationTimerId = null;
+      }, delay);
     },
 
     // Marquer l'intro comme jouee (appele par Experience.vue)
@@ -387,10 +404,17 @@ export const useGameStore = defineStore("game", {
               this.introAnimationPhase = "annotation";
           }
 
-          setTimeout(() => {
+          // Clear any previous annotation timer
+          if (this._annotationTimerId) {
+            clearTimeout(this._annotationTimerId);
+            this._annotationTimerId = null;
+          }
+
+          this._annotationTimerId = setTimeout(() => {
             if (this.introAnimationPhase === "annotation" || this.introAnimationPhase === "milestoneAnnotation") {
               this.introAnimationPhase = "complete";
             }
+            this._annotationTimerId = null;
           }, 3000);
         }
 

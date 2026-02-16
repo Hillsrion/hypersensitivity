@@ -196,10 +196,8 @@ export const useAudioStore = defineStore('audio', {
 
           // Detach from store state immediately so playAudio can use the slot
           this.isPlaying = false;
+          this.isPaused = false;
           this.currentTime = 0;
-          // Note: we don't nullify this.currentAudio here because playAudio will overwrite it immediately.
-          // If we nullify it, we might have a race condition where playAudio sees null before setting new.
-          // But playAudio overwrites it synchronously, so it's fine.
           
           // Manually fade out the old audio instance
           const startVol = audioToStop.volume;
@@ -207,6 +205,11 @@ export const useAudioStore = defineStore('audio', {
           const fadeOut = setInterval(() => {
              vol = Math.max(0, vol - 0.1);
               if (audioToStop) {
+                // If this audio element was reclaimed by a new play, stop fading it
+                if (audioToStop === this.currentAudio && this.isPlaying) {
+                  clearInterval(fadeOut);
+                  return;
+                }
                audioToStop.volume = vol;
                if (vol <= 0) {
                   audioToStop.pause();

@@ -53,7 +53,7 @@ export function useDialogueAudio(dialogue: Ref<DialogueLine | null>) {
       const timings = dialogue.value?.timings;
       const firstTiming = timings?.find((t) => t.start !== undefined);
 
-      if (firstTiming) {
+      if (firstTiming && !gameStore.isFirstDialogueOfInitialScene) {
         const audio = audioStore.currentAudio as any;
 
         if (audio && audio.currentTime < firstTiming.start - 0.5) {
@@ -71,11 +71,11 @@ export function useDialogueAudio(dialogue: Ref<DialogueLine | null>) {
     console.log("LOG_DEBUG: Starting new audio:", audioPath);
     audioStore.playAudio(audioPath);
 
-    // Seek if we have timings and just started
+    // Seek if we have timings and just started (but not for initial scene's first dialogue)
     const firstTiming = dialogue.value?.timings?.find(
       (t) => t.start !== undefined
     );
-    if (firstTiming) {
+    if (firstTiming && !gameStore.isFirstDialogueOfInitialScene) {
       setTimeout(() => {
         const audio = audioStore.currentAudio as any;
         if (audio && audio.currentTime < firstTiming.start) {
