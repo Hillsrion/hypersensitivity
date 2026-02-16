@@ -7,6 +7,14 @@ const gameStore = useGameStore();
 const animationsStore = useAnimationsStore();
 const audioStore = useAudioStore();
 const route = useRoute();
+const { $gsap } = useNuxtApp();
+
+const playbackRate = ref(audioStore.playbackRate);
+
+watch(playbackRate, (rate) => {
+  audioStore.setPlaybackRate(rate);
+  $gsap.globalTimeline.timeScale(rate);
+}, { immediate: true });
 
 const scrollTo = (position: 'top' | 'bottom') => {
   const experienceEl = document.getElementById('experience');
@@ -127,6 +135,23 @@ onMounted(() => {
       >
         Skip to Game
       </button>
+
+      <div class="h-px bg-white/10 my-1"></div>
+
+      <div class="flex flex-col gap-1 px-2 py-1 bg-white/5 rounded">
+        <div class="flex justify-between items-center text-[10px] text-gray-400">
+           <span>Speed</span>
+           <span>{{ playbackRate }}x</span>
+        </div>
+        <input 
+          type="range" 
+          min="0.1" 
+          max="5" 
+          step="0.1" 
+          v-model.number="playbackRate"
+          class="w-full accent-white h-1 bg-white/20 rounded-lg appearance-none cursor-pointer"
+        />
+      </div>
 
       <div class="h-px bg-white/10 my-1"></div>
 
