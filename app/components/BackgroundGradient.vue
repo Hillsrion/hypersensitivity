@@ -69,18 +69,46 @@ let autoRotateTl: any = null;
 const startRainbowSequence = () => {
   if (!auroraInnerRef.value) return;
   
-  if (autoRotateTl) autoRotateTl.kill();
-  autoRotateTl = $gsap.timeline({ repeat: -1 });
+  // Kill any existing animation
+  if (autoRotateTl) {
+    autoRotateTl.kill();
+    autoRotateTl = null;
+  }
 
-  // Cycle through all steps
-  Object.values(auroraSteps).forEach((colors) => {
-    autoRotateTl.to(auroraInnerRef.value, {
+  // Phase 1: Entry - Smoothly transition to the start of the loop (Step 1)
+  // We use a simple tween first to ensure we get to the starting block of our loop
+  // from wherever we currently are.
+  const step1Colors = auroraSteps[1];
+  
+  autoRotateTl = $gsap.timeline();
+  
+  // Tween to start position
+  autoRotateTl.to(auroraInnerRef.value, {
+    "--aurora-color-1": step1Colors[0],
+    "--aurora-color-2": step1Colors[1],
+    duration: 3,
+    ease: "power2.inOut",
+  });
+
+  // Phase 2: Infinite Loop
+  // We construct a looping timeline that goes from Step 2 -> ... -> Step 9
+  // Since Step 9 is identical to Step 1, this creates a seamless loop.
+  const loopTl = $gsap.timeline({ repeat: -1 });
+  
+  // Add steps 2 through 9 to the loop
+  // keys are strings "1", "2"... so we iterate carefully
+  for (let i = 2; i <= 9; i++) {
+    const colors = auroraSteps[i as keyof typeof auroraSteps];
+    loopTl.to(auroraInnerRef.value, {
       "--aurora-color-1": colors[0],
       "--aurora-color-2": colors[1],
       duration: 3,
-      ease: "power2.inOut",
+      ease: "linear", // Linear ease for the loop segments to keep constant speed
     });
-  });
+  }
+
+  // Append the loop to the main timeline
+  autoRotateTl.add(loopTl);
 };
 
 const stopRainbowSequence = () => {
