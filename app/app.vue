@@ -11,7 +11,9 @@ import HSPQuestionnaire from "./components/HSPQuestionnaire.vue";
 import { useCustomCursor } from "./composables/useCustomCursor";
 import { useGameStore } from "~/stores/game";
 import GameMilestoneMenu from "~/app/components/game/GameMilestoneMenu.vue";
-import DevTools from "~/app/components/debug/DevTools.vue";
+import { defineAsyncComponent } from 'vue';
+
+const DevToolsView = defineAsyncComponent(() => import('~/app/components/debug/DevToolsView.vue'));
 
 const isDev = import.meta.dev;
 
@@ -28,13 +30,14 @@ const route = useRoute();
 const lenisRef = ref(null);
 
 const { data: page } = await useAsyncData("page-" + route.path, () => {
+  if (route.path === '/game-tools-view') return Promise.resolve({ title: 'DevTools' });
   return queryCollection("content").path(route.path).first();
 });
 
-if (!page.value) {
+if (!page.value && route.path !== '/game-tools-view') {
   throw createError({
     statusCode: 404,
-    statusMessage: "Page not found",
+    statusMessage: "Page not found: " + route.path, // Add path to message
     fatal: true,
   });
 }
@@ -64,6 +67,8 @@ watch(
 import { gameData } from "~/app/data/game";
 
 onMounted(async () => {
+  if (route.path === '/game-tools-view') return;
+
   console.log("LOG_DEBUG: app.vue onMounted start");
   console.log("LOG_DEBUG: gameData scenes keys:", Object.keys(gameData.scenes));
   scrollTo(0, 0);
@@ -152,51 +157,52 @@ onMounted(async () => {
 
 <template>
   <div>
-    <!-- Custom Cursor -->
-    <div
-      ref="cursorRef"
-      class="custom-cursor fixed top-0 left-0 w-4 h-4 rounded-full pointer-events-none z-99999 transition-colors duration-300 ease-in-out will-change-transform"
-      :class="animations.cursor.variant === 'dark' ? 'bg-primary' : 'bg-white'"
-    />
-
-    <!-- Global Audiowave -->
-    <div class="fixed top-10 right-16 z-100 pointer-events-none transition-opacity duration-500">
-      <CircleAudiowave
-        class="w-14 h-14"
-        :primary="animations.audiowave.variant === 'dark'"
-        :animating="audioStore.isPlaying"
+    <DevToolsView v-if="route.path === '/game-tools-view'" />
+    <div v-else>
+      <!-- Custom Cursor -->
+      <div
+        ref="cursorRef"
+        class="custom-cursor fixed top-0 left-0 w-4 h-4 rounded-full pointer-events-none z-99999 transition-colors duration-300 ease-in-out will-change-transform"
+        :class="animations.cursor.variant === 'dark' ? 'bg-primary' : 'bg-white'"
       />
-    </div>
+
+      <!-- Global Audiowave -->
+      <div class="fixed top-10 right-16 z-100 pointer-events-none transition-opacity duration-500">
+        <CircleAudiowave
+          class="w-14 h-14"
+          :primary="animations.audiowave.variant === 'dark'"
+          :animating="audioStore.isPlaying"
+        />
+      </div>
 
 
-    <VueLenis root ref="lenisRef" />
-    <BackgroundGradient />
-    <GameMilestoneMenu />
-    <LoadingSection />
-    <SoundIntroduction
-      :text="introductionData.content"
-      :audio="introductionData.audio"
-      :timings="introductionData.timings"
-    />
-    <!-- Noise overlay -->
-
-    <div
-      class="fixed inset-0 z-9999 pointer-events-none opacity-15 bg-repeat bg-[url('/images/noise.svg')]"
-    />
-    <div class="relative z-1 mx-auto flex flex-col gap-y-16 mt-[40svh]">
-      <GenericSection
-        v-for="(section, index) in mainData.sections"
-        :id="`section-${index}`"
-        :key="section.title"
-        :title="section.title"
-        :content="section.content"
-        :color="section.color"
+      <VueLenis root ref="lenisRef" />
+      <BackgroundGradient />
+      <GameMilestoneMenu />
+      <LoadingSection />
+      <SoundIntroduction
+        :text="introductionData.content"
+        :audio="introductionData.audio"
+        :timings="introductionData.timings"
       />
-    </div>
-    <TestimoniesSection id="testimonies" class="relative z-10" />
-    <Experience id="experience" class="-mt-[35svh]" />
-    <HSPQuestionnaire v-if="gameStore.isGameEnded && gameStore.showQuestionnaire" id="hsp-questionnaire" class="relative z-10" />
+      <!-- Noise overlay -->
 
-    <DevTools v-if="isDev" />
+      <div
+        class="fixed inset-0 z-9999 pointer-events-none opacity-15 bg-repeat bg-[url('/images/noise.svg')]"
+      />
+      <div class="relative z-1 mx-auto flex flex-col gap-y-16 mt-[40svh]">
+        <GenericSection
+          v-for="(section, index) in mainData.sections"
+          :id="`section-${index}`"
+          :key="section.title"
+          :title="section.title"
+          :content="section.content"
+          :color="section.color"
+        />
+      </div>
+      <TestimoniesSection id="testimonies" class="relative z-10" />
+      <Experience id="experience" class="-mt-[35svh]" />
+      <HSPQuestionnaire v-if="gameStore.isGameEnded && gameStore.showQuestionnaire" id="hsp-questionnaire" class="relative z-10" />
+    </div>
   </div>
 </template>

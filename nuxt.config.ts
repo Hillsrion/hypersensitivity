@@ -8,6 +8,7 @@ export default defineNuxtConfig({
     '@nuxt/content',
     '@nuxtjs/google-fonts',
     '@hypernym/nuxt-gsap',
+    '~/modules/devtools-extension.ts',
   ],
 
   gsap: {

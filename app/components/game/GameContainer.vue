@@ -64,15 +64,17 @@ watch(audioProgressPercent, (newVal) => {
     @click="handleInteraction"
   >
     <!-- Menu Icon (top left) -->
-    <Transition name="fade">
-      <button
-        v-if="showGameUI && !gameStore.isMenuOpening && !isMilestoneAnnotation"
-        class="absolute top-10 left-18 z-70 text-primary cursor-pointer"
-        @click.stop="gameStore.toggleMenu()"
-      >
-        <MenuIcon :is-open="gameStore.isMenuOpen" />
-      </button>
-    </Transition>
+    <Teleport to="body">
+      <Transition name="fade">
+        <button
+          v-if="showGameUI && !isMilestoneAnnotation"
+          class="fixed top-10 left-18 z-70 text-primary cursor-pointer group"
+          @click.stop="gameStore.toggleMenu()"
+        >
+          <MenuIcon :is-open="gameStore.isMenuOpen || gameStore.isMenuOpening" />
+        </button>
+      </Transition>
+    </Teleport>
 
     <!-- Header -->
     <Transition name="fade">

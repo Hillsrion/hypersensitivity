@@ -200,6 +200,8 @@ export const useGameStore = defineStore("game", {
 
     // Reset le jeu
     resetGame() {
+      const audioStore = useAudioStore();
+
       this.currentSceneId = gameData.initialSceneId;
       this.currentDialogueIndex = 0;
       this.flags = { ...gameData.initialFlags };
@@ -207,11 +209,51 @@ export const useGameStore = defineStore("game", {
       this.isTransitioning = false;
       this.showChoices = false;
       this.isMenuOpen = false;
-      this.introPlayed = false;
-      this.introAnimationPhase = "hidden";
+      
+      // On considère l'intro (texte défilant) comme jouée pour ne pas la refaire
+      this.introPlayed = true; 
+      
+      // Mais on veut l'effet d'arrivée (annotation + son)
+      this.introAnimationPhase = "annotation";
+      this.introBlurAmount = 0;
+
       this.selectedChoice = null;
       this.showQuestionnaire = false;
       this.saveGame();
+
+      // Relancer l'audio de la scène de réveil
+      const initialScene = gameData.scenes[gameData.initialSceneId];
+      if (initialScene && initialScene.audio) {
+         const audioPath = initialScene.audio.startsWith("/") ? initialScene.audio : `/audios/${initialScene.audio}`;
+         audioStore.playAudio(audioPath);
+      }
+
+      // Scroll to bottom of experience to skip intro
+      if (import.meta.client) {
+          const experienceEl = document.getElementById('experience');
+          if (experienceEl) {
+              const targetY = experienceEl.offsetTop + experienceEl.offsetHeight;
+               // @ts-ignore
+              // @ts-expect-error lenis is added to window in app.vue
+              if (window.lenis) {
+                  // @ts-ignore
+                  // @ts-expect-error lenis is added to window in app.vue
+                  window.lenis.scrollTo(targetY, { immediate: true });
+              } else {
+                  window.scrollTo({
+                      top: targetY,
+                      behavior: 'instant'
+                  });
+              }
+          }
+      }
+
+      // Transition automatique après l'annotation
+      setTimeout(() => {
+        if (this.introAnimationPhase === "annotation") {
+           this.introAnimationPhase = "complete";
+        }
+      }, 3000);
     },
 
     // Marquer l'intro comme jouee (appele par Experience.vue)

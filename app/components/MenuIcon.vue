@@ -6,30 +6,32 @@ defineProps<{
 
 <template>
   <div 
-    class="relative w-8 h-8 flex flex-col justify-center items-center gap-1.5 transition-transform duration-500 ease-out"
-    :class="{ 'rotate-90': isOpen }"
+    class="relative w-8 h-8 flex flex-col justify-center items-center gap-2 transition-transform duration-500 ease-out"
+    :class="isOpen ? 'rotate-90' : 'group-hover:rotate-90'"
   >
     <!-- Parallel lines (Menu) -->
     <span
-      class="w-6 h-0.5 bg-current transition-all duration-300"
+      class="w-6 h-0.5 bg-current transition-transform duration-500 origin-center"
+      :class="isOpen ? 'scale-x-0' : 'scale-x-100'"
     ></span>
     <span
-      class="w-6 h-0.5 bg-current transition-all duration-300"
+      class="w-6 h-0.5 bg-current transition-transform duration-500 origin-center"
+      :class="isOpen ? 'scale-x-0' : 'scale-x-100'"
     ></span>
 
     <!-- Cross lines (Close) - Only visible when open -->
-    <!-- First line of cross -->
+    <!-- First line of cross (starts near top-left, goes to bottom-right) -->
     <span
-      class="absolute top-1/2 left-1/2 w-0.5 h-6 bg-current origin-center"
-      :class="isOpen ? 'scale-y-100' : 'scale-y-0 opacity-0'"
-      style="transform: translate(-50%, -50%) rotate(45deg); transition: transform 0.4s ease-out, opacity 0.2s;"
+      class="absolute top-1 w-0.5 bg-current origin-top -rotate-45 transition-transform duration-500 delay-200 ease-out"
+      :class="isOpen ? 'scale-y-100' : 'scale-y-0'"
+      style="height: 2.125rem; left: 0.1875rem; transform-origin: top center;" 
     ></span>
     
-    <!-- Second line of cross -->
+    <!-- Second line of cross (starts near top-right, goes to bottom-left) -->
     <span
-      class="absolute top-1/2 left-1/2 w-0.5 h-6 bg-current origin-center"
-      :class="isOpen ? 'scale-y-100' : 'scale-y-0 opacity-0'"
-      style="transform: translate(-50%, -50%) rotate(-45deg); transition: transform 0.4s ease-out 0.1s, opacity 0.2s;"
+      class="absolute top-1 w-0.5 bg-current origin-top rotate-45 transition-transform duration-500 delay-200 ease-out"
+      :class="isOpen ? 'scale-y-100' : 'scale-y-0'"
+      style="height: 2.125rem; right: 0.1875rem; transform-origin: top center;"
     ></span>
   </div>
 </template>

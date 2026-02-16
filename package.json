@@ -28,5 +28,8 @@
     "onlyBuiltDependencies": [
       "better-sqlite3"
     ]
+  },
+  "devDependencies": {
+    "@nuxt/devtools-kit": "^3.2.1"
   }
 }
