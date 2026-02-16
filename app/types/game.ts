@@ -24,6 +24,7 @@ export interface DialogueLine {
   timings?: Array<{ word?: string; annotation?: string; showOnly?: boolean; start: number; end: number | "end" }>; // Timings pour animation mot par mot (en ms)
   color?: string; // Trigger effet aurore boreale
   isChat?: boolean; // Si c'est un échange textuel (Slack, SMS) - désactive l'animation mot par mot
+  energyChange?: number; // Changement d'énergie à appliquer au début du dialogue
 }
 
 export interface ChoiceCondition {

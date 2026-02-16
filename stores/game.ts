@@ -247,6 +247,13 @@ export const useGameStore = defineStore("game", {
 
       // Avancer au dialogue suivant
       this.currentDialogueIndex++;
+      
+      // Appliquer les effets du nouveau dialogue (ex: perte d'énergie progressive)
+      const currentDialogue = this.currentDialogue;
+      if (currentDialogue?.energyChange) {
+         this.flags.energy = Math.max(0, Math.min(100, this.flags.energy + currentDialogue.energyChange));
+      }
+
       this.saveGame();
     },
 
@@ -339,6 +346,13 @@ export const useGameStore = defineStore("game", {
 
         this.currentSceneId = sceneId;
         this.currentDialogueIndex = 0;
+        
+        // Appliquer les effets du premier dialogue de la nouvelle scène
+        const firstDialogue = this.currentDialogue;
+        if (firstDialogue?.energyChange) {
+           this.flags.energy = Math.max(0, Math.min(100, this.flags.energy + firstDialogue.energyChange));
+        }
+
         this.showChoices = false;
         this.isTransitioning = false;
         this.saveGame();

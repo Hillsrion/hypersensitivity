@@ -12,7 +12,7 @@ export const dayOneEndCrash: Scene = {
   dialogues: [
     pensees(
       "d1_47",
-      "C'est sûr que j'ai cassé l'ambiance, ils m'inviteront plus maintenant. Pourquoi ? Pourquoi je craque là-dessus ? Pourquoi je suis pas normale ? Pourquoi je suis pas normale ?",
+      "C'est sûr que j'ai cassé l'ambiance, ils m'inviteront plus maintenant. Pourquoi ? Pourquoi je craque là-dessus ? Pourquoi je suis pas normale ?",
       {
         color: "violet",
         timings: [
@@ -39,6 +39,16 @@ export const dayOneEndCrash: Scene = {
           { word: "pas", start: 6.159, end: 6.279 },
           { word: "normale", start: 6.299, end: 6.739 },
           { word: "?", start: 6.819, end: 6.839 },
+        ],
+      }
+    ),
+    pensees(
+      "d1_47_end",
+      "Pourquoi je suis pas normale ?",
+      {
+        color: "violet",
+        energyChange: -55,
+        timings: [
           { word: "Pourquoi", start: 7.239, end: 8.48 },
           { word: "je", start: 8.539, end: 8.579 },
           { word: "suis", start: 8.579, end: 8.72 },

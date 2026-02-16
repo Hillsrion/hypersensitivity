@@ -75,7 +75,6 @@ export const dayOneGameEvent: Scene = {
       text: "JOUER",
       nextSceneId: SCENE_IDS.DAY_ONE_PLAY,
       effects: {
-        energy: -85,
         flags: { gameEventChoice: "play", hadBreakdown: true },
       },
     },
@@ -102,6 +101,7 @@ export const dayOnePlay: Scene = {
       "Vas-yyyyy",
       {
         color: "yellow",
+        energyChange: -5,
         timings: [
           { word: "Vas-yyyyy", start: 0.62, end: 1.499 },
         ],
@@ -242,6 +242,7 @@ export const dayOnePlay: Scene = {
       "Lucas",
       "'Fin, tu peux reformuler, t'as capté, mais il faut que ça reste fidèle à l'esprit de la carte. Il y a un GM qui va juger de ça et qui prend des notes. Il y a des jetons influence qu'on peut utiliser.",
       {
+        energyChange: -5,
         timings: [
           { word: "'Fin,", start: 28.899, end: 29.039 },
           { word: "tu", start: 29.079, end: 29.139 },
@@ -293,6 +294,7 @@ export const dayOnePlay: Scene = {
       "Je comprends rien.",
       {
         color: "violet",
+        energyChange: -10,
         timings: [
           { word: "Je", start: 39.34, end: 39.399 },
           { word: "comprends", start: 39.439, end: 39.88 },
@@ -354,6 +356,7 @@ export const dayOnePlay: Scene = {
       "Je me sens pas bien. Je reviens.",
       {
         color: "red",
+        energyChange: -10,
         timings: [
           { word: "Je", start: 48.68, end: 48.72 },
           { word: "me", start: 48.76, end: 48.819 },
