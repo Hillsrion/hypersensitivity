@@ -203,9 +203,25 @@ onMounted(async () => {
       </div>
       <TestimoniesSection id="testimonies" class="relative z-10" />
       <Experience id="experience" class="-mt-[35svh]" />
-      <HSPQuestionnaire v-if="gameStore.isGameEnded && gameStore.showQuestionnaire" id="hsp-questionnaire" class="relative z-10" />
+      <Teleport to="body">
+        <Transition name="fade">
+          <HSPQuestionnaire v-if="gameStore.showQuestionnaire" id="hsp-questionnaire" class="z-100" />
+        </Transition>
+      </Teleport>
 
       <DevTools v-if="isDev" />
     </div>
   </div>
 </template>
+
+<style>
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.5s ease;
+}
+
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
+}
+</style>

@@ -6,10 +6,25 @@ import { useExperienceAnimations } from "~/app/composables/useExperienceAnimatio
 import { gradientSteps } from "~/app/constants/gradients";
 // GameContainer reference is used in template
 import GameContainer from "./game/GameContainer.vue";
+import ChoiceButtons from "./game/ChoiceButtons.vue";
+import type { Choice } from "~/app/types/game";
 
 const { $gsap } = useNuxtApp();
 const gameStore = useGameStore();
 const animationsStore = useAnimationsStore();
+
+const endGameChoices = computed<Choice[]>(() => [
+  { id: "yes", text: "OUI", nextSceneId: "questionnaire" },
+  { id: "no", text: "NON", nextSceneId: "reset" },
+]);
+
+const handleEndChoiceSelect = (choice: Choice) => {
+  if (choice.id === "yes") {
+    showQuestionnaire();
+  } else {
+    gameStore.resetGame();
+  }
+};
 
 const container = ref<HTMLElement | null>(null);
 const textContainer = ref<HTMLElement | null>(null);
@@ -167,14 +182,12 @@ watch(
   { immediate: true }
 );
 
-const scrollToQuestionnaire = async () => {
-  gameStore.setShowQuestionnaire(true);
-  await nextTick();
-  $gsap.to(window, {
-    duration: 1.5,
-    scrollTo: "#hsp-questionnaire",
-    ease: "power2.inOut",
-  });
+const showQuestionnaire = () => {
+  showEndContent.value = false;
+  
+  setTimeout(() => {
+    gameStore.setShowQuestionnaire(true);
+  }, 1000);
 };
 </script>
 
@@ -207,31 +220,17 @@ const scrollToQuestionnaire = async () => {
           v-if="showEndContent" 
           class="absolute inset-0 z-30 flex flex-col items-center justify-center pointer-events-auto"
         >
-          <div class="max-w-2xl px-6 text-center">
-            <h2 class="font-serif italic text-3xl md:text-5xl text-white mb-24 leading-tight">
+          <div class="max-w-2xl px-6 text-center h-full flex flex-col items-center justify-center pb-32">
+            <h2 class="font-serif italic text-title text-white leading-tight">
               Souhaitez-vous évaluer votre spectre de l'Hypersensibilité ?
             </h2>
-            
-            <div class="flex items-center justify-center gap-12 text-sm tracking-[0.2em]">
-              <button 
-                class="text-white/60 hover:text-white transition-colors duration-300 uppercase cursor-pointer"
-                @click="scrollToQuestionnaire"
-              >
-                OUI
-              </button>
-              
-              <div class="w-12 h-12 rounded-full border border-white/20 flex items-center justify-center">
-                <div class="w-px h-4 bg-white/40"></div>
-              </div>
-              
-              <button 
-                class="text-white/60 hover:text-white transition-colors duration-300 uppercase cursor-pointer"
-                @click="gameStore.resetGame()"
-              >
-                NON
-              </button>
-            </div>
           </div>
+            
+          <ChoiceButtons
+            :choices="endGameChoices"
+            variant="light"
+            @select="handleEndChoiceSelect"
+          />
         </div>
       </Transition>
 

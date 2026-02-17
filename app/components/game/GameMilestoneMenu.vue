@@ -87,11 +87,7 @@ const handleMilestoneClick = (milestoneId: string) => {
 
 const navigateToTest = () => {
   gameStore.closeMenu();
-  $gsap.to(window, {
-    duration: 1.5,
-    scrollTo: "#hsp-questionnaire",
-    ease: "power2.inOut",
-  });
+  gameStore.setShowQuestionnaire(true);
 };
 
 const navItemClasses =

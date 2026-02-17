@@ -67,6 +67,13 @@ onMounted(() => {
     startQuiz();
   }
 
+  // Entry Animation: Slide Up & Fade In (mimicking HSPIntro enter)
+  $gsap.fromTo(
+    elementRef.value,
+    { y: 20, opacity: 0 },
+    { y: 0, opacity: 1, duration: 0.6, ease: "power2.out" }
+  );
+
   $gsap.timeline({
     scrollTrigger: {
       trigger: elementRef.value,
@@ -86,7 +93,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <div ref="elementRef" class="questionnaire-container w-full min-h-screen relative flex flex-col items-center justify-center p-4 bg-primary text-white">
+  <div ref="elementRef" class="questionnaire-container fixed inset-0 z-100 w-full h-full flex flex-col items-center justify-center p-4 bg-primary text-white overflow-y-auto">
     
     <!-- Intro Screen -->
     <HSPIntro 
