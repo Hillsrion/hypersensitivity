@@ -102,8 +102,19 @@ export const useGameController = () => {
 
     // Force hide if we're in an entry annotation (chapter/milestone transition)
     // Note: For milestoneAnnotation, we let the aurora behave normally based on the dialogue color
-    if (gameStore.introAnimationPhase === "annotation") {
-      animationsStore.setAuroraVisibility(false);
+    if (gameStore.introAnimationPhase === "annotation" || gameStore.introAnimationPhase === "milestoneAnnotation") {
+      // User request: "pendant les passages qui les entry annotation l'aurora ne doit pas être jouée non plus, 
+      // et si elle a une couleur, elle doit etre animee vers le blanc"
+      
+      // If Aurora is visible or was just visible, we animate it to white
+      if (animationsStore.aurora.visible) {
+        animationsStore.setAuroraAutoAnimate(false);
+        animationsStore.setAuroraColor("white");
+        // We keep it visible so it transitions to white
+      } else {
+        // If it wasn't visible, we ensure it's hidden (or white but hidden)
+        animationsStore.setAuroraVisibility(false);
+      }
       return;
     }
 

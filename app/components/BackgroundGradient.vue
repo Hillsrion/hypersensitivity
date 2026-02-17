@@ -156,7 +156,8 @@ watch(
         blue: "#a2ccfd",
         green: "#c6ffe9",
         yellow: "#fdedb3",
-        violet: "#decafe"
+        violet: "#decafe",
+        white: "#FFFFFF",
       };
       newHex = colorMap[newColor] || "";
     }
