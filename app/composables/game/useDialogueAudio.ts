@@ -22,7 +22,7 @@ export function useDialogueAudio(dialogue: Ref<DialogueLine | null>) {
       console.log(
         "LOG_DEBUG: Last dialogue with choices, showing choices instead of advancing"
       );
-      gameStore.showChoices = true;
+      gameStore.setShowChoices(true);
       return;
     }
     console.log("LOG_DEBUG: Advancing dialogue");

@@ -311,7 +311,7 @@ export const useIntroSequence = (eyePathRef: Ref<SVGPathElement | null>) => {
         const scrollDuration = 1.5;
         if (time >= firstWordStart - (scrollDuration + 0.2)) {
           console.log("LOG_DEBUG: Auto-scrolling to bottom (user too slow)");
-          gameStore.isAutoScrolling = true;
+          gameStore.setAutoScrolling(true);
 
           $gsap.to(window, {
             scrollTo: {
@@ -320,7 +320,7 @@ export const useIntroSequence = (eyePathRef: Ref<SVGPathElement | null>) => {
             duration: scrollDuration,
             ease: "power2.inOut",
             onComplete: () => {
-              gameStore.isAutoScrolling = false;
+              gameStore.setAutoScrolling(false);
               if (!gameStore.introPlayed) {
                 gameStore.setIntroAnimationPhase("complete");
                 gameStore.setIntroPlayed();
