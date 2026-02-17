@@ -53,7 +53,7 @@ export function useDialogueAudio(dialogue: Ref<DialogueLine | null>) {
       const timings = dialogue.value?.timings;
       const firstTiming = timings?.find((t) => t.start !== undefined);
 
-      if (firstTiming && !gameStore.isFirstDialogueOfInitialScene) {
+      if (firstTiming && gameStore.currentDialogueIndex > 0) {
         const audio = audioStore.currentAudio as any;
 
         if (audio && audio.currentTime < firstTiming.start - 0.5) {
@@ -71,11 +71,12 @@ export function useDialogueAudio(dialogue: Ref<DialogueLine | null>) {
     console.log("LOG_DEBUG: Starting new audio:", audioPath);
     audioStore.playAudio(audioPath);
 
-    // Seek if we have timings and just started (but not for initial scene's first dialogue)
+    // Seek if we have timings and we're joining mid-scene (not at the first dialogue)
+    // Don't seek for the first dialogue of any scene — let the ambient intro play from 0
     const firstTiming = dialogue.value?.timings?.find(
       (t) => t.start !== undefined
     );
-    if (firstTiming && !gameStore.isFirstDialogueOfInitialScene) {
+    if (firstTiming && gameStore.currentDialogueIndex > 0) {
       setTimeout(() => {
         const audio = audioStore.currentAudio as any;
         if (audio && audio.currentTime < firstTiming.start) {
