@@ -30,11 +30,15 @@ const backgroundGradient = computed(() => {
   const visible = animationsStore.aurora.visible;
   const zIndex = animationsStore.aurora.zIndex;
   
+  if (isGameEnd.value) {
+    return `linear-gradient(180deg, ${gradientState.color1} ${gradientState.stop1}%, ${gradientState.color2} ${gradientState.stop2}%, ${gradientState.color3} ${gradientState.stop3}%, ${gradientState.color4} ${gradientState.stop4}%)`;
+  }
+
   if (visible && zIndex > 0) {
     return "transparent";
   }
   // We want the gradient to run during the end sequence or day transition
-  if (gameStore.introPlayed && !isDayTransition.value && !isGameEnd.value) {
+  if (gameStore.introPlayed && !isDayTransition.value) {
     return "white";
   }
 
@@ -50,6 +54,22 @@ watch(isGameEnd, (newVal) => {
         animationsStore.setCursorVariant("light");
         animationsStore.setAudiowaveVariant("light");
     }
+    
+    // Kill conflicting tweens and scroll trigger
+    $gsap.killTweensOf(gradientState);
+    if (scrollTriggerInstance.value) {
+      scrollTriggerInstance.value.kill();
+      scrollTriggerInstance.value = null;
+    }
+
+    // Reset gradient to start from Pure White
+    // This prevents jumping if the state was modified by scroll or if step 0 is not white
+    Object.assign(gradientState, {
+        color1: "#ffffff",
+        color2: "#ffffff",
+        color3: "#ffffff",
+        color4: "#ffffff",
+    });
     
     const tl = $gsap.timeline();
     const stepDuration = 0.5;
@@ -89,6 +109,9 @@ const autoRevealStarted = ref(false);
 watch(
   () => gameStore.currentDay,
   async (newDay, oldDay) => {
+    // Prevent transition animation if we are at the end game
+    if (isGameEnd.value) return;
+
     if (oldDay === 1 && newDay === 2) {
       // 1. Hide Game UI
       isDayTransition.value = true;
@@ -164,7 +187,7 @@ const scrollToQuestionnaire = async () => {
       <!-- Eye Animation -->
       <svg
         class="absolute top-1/2 left-0 w-full h-auto -translate-y-1/2 pointer-events-none z-0 overflow-visible blur-sm transition-opacity duration-1000"
-        :class="{ 'opacity-0': animationsStore.aurora.visible }"
+        :class="{ 'opacity-0': animationsStore.aurora.visible || isGameEnd }"
         viewBox="0 0 1366 769"
       >
         <path ref="eyePath" :d="eyePaths.closed" fill="white" />

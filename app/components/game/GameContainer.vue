@@ -175,26 +175,7 @@ watch(audioProgressPercent, (newVal) => {
     <!-- Milestone Menu - removed from here as it Teleports itself -->
     <!-- <GameMilestoneMenu /> -->
 
-    <!-- Game End Screen -->
-    <Transition name="fade">
-      <div
-        v-if="gameStore.isGameEnded"
-        class="absolute inset-0 flex flex-col items-center justify-center bg-[#F5E6C8] z-40"
-      >
-        <h1 class="font-serif text-4xl text-primary mb-8">Fin</h1>
-        <p
-          class="font-serif text-xl text-primary/60 mb-12 text-center max-w-md"
-        >
-          Merci d'avoir vécu cette expérience avec Lucie.
-        </p>
-        <button
-          class="px-8 py-4 border border-primary text-primary font-satoshi text-sm tracking-widest uppercase hover:bg-primary hover:text-white transition-colors"
-          @click="gameStore.resetGame()"
-        >
-          Recommencer
-        </button>
-      </div>
-    </Transition>
+    <!-- Game End Screen removed as per request -->
 
     <!-- Fixed Progress Bar -->
     <div
