@@ -1,5 +1,7 @@
 <script setup lang="ts">
 import { useGameStore } from "~/stores/game";
+import { SCENE_IDS } from "../../data/constants";
+import { gameData } from "../../data/game";
 import { useAnimationsStore } from "~/stores/animations";
 import { useAudioStore } from "~/stores/audio";
 
@@ -99,6 +101,13 @@ onMounted(() => {
     }, 500);
   }
 });
+const getSceneLabel = (id: string) => {
+  const scene = gameData.scenes[id];
+  if (!scene) return id;
+  
+  const shortId = id.replace(/^(dayOne|dayTwo)/, '');
+  return `Jour ${scene.day} - ${scene.title} - ${shortId}`;
+};
 </script>
 
 <template>
@@ -162,6 +171,21 @@ onMounted(() => {
       >
         UI: {{ gameStore.forceShowUI ? 'Forcée' : 'Par défaut' }}
       </button>
+
+      <div class="h-px bg-white/10 my-1"></div>
+
+      <div class="flex flex-col gap-1 px-2 py-1 bg-white/5 rounded">
+        <label class="text-[10px] text-gray-400">Jump to Scene</label>
+        <select 
+          class="w-full bg-black/50 border border-white/20 rounded px-1 py-1 text-[10px] text-white focus:outline-none focus:border-white/50"
+          :value="gameStore.currentSceneId"
+          @change="(e: Event) => gameStore.goToScene((e.target as HTMLSelectElement).value)"
+        >
+          <option v-for="(id, key) in SCENE_IDS" :key="id" :value="id">
+            {{ getSceneLabel(id) }}
+          </option>
+        </select>
+      </div>
     </div>
   </div>
 </template>
