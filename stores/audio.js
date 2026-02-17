@@ -73,6 +73,46 @@ export const useAudioStore = defineStore('audio', {
         }, 100);
       } catch (err) {
         console.error(`LOG_DEBUG: Failed to play audio: ${audioPath}`, err);
+        
+        // Fallback: If play() failed (e.g. NotAllowedError), simulate playback
+        // so the game flow continues based on the expected duration.
+        const duration = item.duration || (this.currentAudio ? this.currentAudio.duration : 0) || 3;
+        console.warn(`LOG_DEBUG: Using fallback timer due to play error. Duration: ${duration}s`);
+        
+        this.isPlaying = true;
+        this.isPaused = false;
+        
+        // Start a timer to simulate progress and trigger end
+        if (this.progressInterval) clearInterval(this.progressInterval);
+        
+        const startTime = Date.now();
+        this.progressInterval = setInterval(() => {
+           // If audio changed in the meantime, stop this fallback
+           if (this.currentAudio !== item.audio) {
+              clearInterval(this.progressInterval);
+              return;
+           }
+
+           const elapsed = (Date.now() - startTime) / 1000;
+           this.currentTime = elapsed; // Update store time for UI
+           
+           if (elapsed >= duration) {
+              clearInterval(this.progressInterval);
+              this.progressInterval = null;
+              this.isPlaying = false;
+              this.currentTime = 0;
+              
+              console.log("LOG_DEBUG: Fallback timer ended, dispatching events");
+              
+              if (this.currentAudio) {
+                 // Dispatch 'ended' event so listeners (like useDialogueAnimator) react
+                 this.currentAudio.dispatchEvent(new Event('ended'));
+                 
+                 // Also call the onended property if assigned directly
+                 if (this.currentAudio.onended) this.currentAudio.onended();
+              }
+           }
+        }, 100);
       }
     },
 
