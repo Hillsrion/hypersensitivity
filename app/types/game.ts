@@ -101,3 +101,15 @@ export interface GameState {
   forceShowUI: boolean;
   _annotationTimerId: ReturnType<typeof setTimeout> | null;
 }
+
+export interface PersistedGameState {
+  version: 1;
+  currentSceneId: string;
+  currentDialogueIndex: number;
+  flags: GameFlags;
+  reachedMilestones: string[];
+  introPlayed: boolean;
+  menuStatus: MenuStatus;
+  showQuestionnaire: boolean;
+  forceShowUI: boolean;
+}
