@@ -33,7 +33,11 @@ const backgroundGradient = computed(() => {
   if (visible && zIndex > 0) {
     return "transparent";
   }
-  // We want the gradient to run during the end sequence
+  // We want the gradient to run during the end sequence or day transition
+  if (gameStore.introPlayed && !isDayTransition.value && !isGameEnd.value) {
+    return "white";
+  }
+
   return `linear-gradient(180deg, ${gradientState.color1} ${gradientState.stop1}%, ${gradientState.color2} ${gradientState.stop2}%, ${gradientState.color3} ${gradientState.stop3}%, ${gradientState.color4} ${gradientState.stop4}%)`;
 });
 
