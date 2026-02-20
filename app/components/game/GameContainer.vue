@@ -66,7 +66,7 @@ watch(audioProgressPercent, (newVal) => {
   >
     <!-- Menu Icon (top left) -->
     <Teleport to="body">
-      <Transition name="fade">
+      <Transition name="fade" appear>
         <button
           v-if="showDelayedGameUI && !isMilestoneAnnotation"
           class="fixed top-10 left-18 z-70 text-primary cursor-pointer group"
@@ -78,16 +78,16 @@ watch(audioProgressPercent, (newVal) => {
     </Teleport>
 
     <!-- Header -->
-    <Transition name="fade">
+    <Transition name="fade" appear>
       <GameHeader
-        v-if="showDelayedGameUI && !gameStore.isMenuOpening && !gameStore.isMenuOpen && !gameStore.isMenuClosing && !isMilestoneAnnotation"
+        v-if="showDelayedGameUI && !gameStore.isMenuOpening && !gameStore.isMenuOpen && !gameStore.isMenuClosing"
       />
     </Transition>
 
     <!-- Energy Bar (right side) -->
-    <Transition name="fade">
+    <Transition name="fade" appear>
       <GameEnergyBar
-        v-if="(showDelayedGameUI || isMilestoneAnnotation) && !gameStore.isMenuOpening && !gameStore.isMenuOpen && !gameStore.isMenuClosing"
+        v-if="showDelayedGameUI && !gameStore.isMenuOpening && !gameStore.isMenuOpen && !gameStore.isMenuClosing"
         class="absolute top-1/2 left-18 -translate-y-1/2 z-40"
       />
     </Transition>

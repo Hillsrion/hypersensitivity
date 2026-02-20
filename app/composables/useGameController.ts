@@ -43,24 +43,35 @@ export const useGameController = () => {
 
   const showDelayedGameUI = ref(false);
   let uiDelayTimer: ReturnType<typeof setTimeout> | null = null;
+  
   watch(
-    showGameUI,
-    (show) => {
+    () => ({
+      phase: gameStore.introAnimationPhase,
+      force: gameStore.forceShowUI,
+      day: gameStore.currentDay
+    }),
+    ({ phase, force, day }) => {
+      console.log(`LOG_DEBUG: useGameController watcher trigger - phase: ${phase}, force: ${force}, day: ${day}`);
       if (uiDelayTimer) {
+        console.log("LOG_DEBUG: Clearing existing uiDelayTimer");
         clearTimeout(uiDelayTimer);
       }
-      if (show) {
-        // Enforce the 2000ms delay ONLY if we are past Day 1
-        const delay = gameStore.currentDay > 1 ? 2000 : 0;
+
+      if (force || phase === "revealing" || phase === "complete") {
+        console.log("LOG_DEBUG: Setting showDelayedGameUI = true IMMEDIATELY");
+        showDelayedGameUI.value = true;
+      } else if ((phase === "annotation" || phase === "milestoneAnnotation") && day > 1) {
+        console.log(`LOG_DEBUG: Setting showDelayedGameUI = false initially, then true via 2000ms TIMEOUT (day ${day})`);
         
-        if (delay > 0) {
-          uiDelayTimer = setTimeout(() => {
-            showDelayedGameUI.value = true;
-          }, delay);
-        } else {
+        // Hide the UI first
+        showDelayedGameUI.value = false;
+        
+        uiDelayTimer = setTimeout(() => {
+          console.log("LOG_DEBUG: 2000ms delay finished, setting showDelayedGameUI = true");
           showDelayedGameUI.value = true;
-        }
+        }, 3000);
       } else {
+        console.log("LOG_DEBUG: Setting showDelayedGameUI = false");
         showDelayedGameUI.value = false;
       }
     },
