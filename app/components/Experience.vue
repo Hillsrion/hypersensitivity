@@ -128,6 +128,7 @@ watch(
     if (isGameEnd.value) return;
 
     if (oldDay === 1 && newDay === 2) {
+      gameStore.setDayTransitioning(true);
       // 1. Hide Game UI
       isDayTransition.value = true;
 
@@ -145,6 +146,7 @@ watch(
 
       // 4. Show Game UI
       isDayTransition.value = false;
+      gameStore.setDayTransitioning(false);
     }
   }
 );
@@ -200,7 +202,7 @@ const showQuestionnaire = () => {
       <!-- Eye Animation -->
       <svg
         class="absolute top-1/2 left-0 w-full h-auto -translate-y-1/2 pointer-events-none z-0 overflow-visible blur-sm transition-opacity duration-1000"
-        :class="{ 'opacity-0': animationsStore.aurora.visible || isGameEnd }"
+        :class="{ 'opacity-0': (animationsStore.aurora.visible && !isDayTransition) || isGameEnd }"
         viewBox="0 0 1366 769"
       >
         <path ref="eyePath" :d="eyePaths.closed" fill="white" />

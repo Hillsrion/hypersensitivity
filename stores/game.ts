@@ -202,6 +202,7 @@ export const useGameStore = defineStore("game", {
       this.flags = createInitialFlags();
       this.reachedMilestones = ["reveil"];
       this.isTransitioning = false;
+      this.isDayTransitioning = false;
       this.showChoices = false;
       this.menuStatus = "closed";
       this.selectedChoice = null;
@@ -273,6 +274,10 @@ export const useGameStore = defineStore("game", {
 
     setAutoScrolling(isAutoScrolling: boolean) {
       this.isAutoScrolling = isAutoScrolling;
+    },
+
+    setDayTransitioning(isTransitioning: boolean) {
+      this.isDayTransitioning = isTransitioning;
     },
 
     setShowChoices(showChoices: boolean) {

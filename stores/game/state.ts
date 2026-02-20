@@ -39,5 +39,6 @@ export const createInitialGameState = (): GameState => ({
   selectedChoice: null,
   showQuestionnaire: false,
   forceShowUI: false,
+  isDayTransitioning: false,
   _annotationTimerId: null,
 });

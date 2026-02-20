@@ -131,7 +131,7 @@ export function useDialogueBox(
 
             isReady.value = true;
 
-            if (!isInIntroAnimation.value) {
+            if (!isInIntroAnimation.value && !gameStore.isDayTransitioning) {
               setTimeout(animateWords, 20);
             }
           } else if (attempts < 60) {
@@ -139,7 +139,7 @@ export function useDialogueBox(
             setTimeout(checkSplit, 25);
           } else {
             isReady.value = true;
-            if (!isInIntroAnimation.value) {
+            if (!isInIntroAnimation.value && !gameStore.isDayTransitioning) {
               animateWords();
             }
           }
@@ -191,6 +191,15 @@ export function useDialogueBox(
       }
     },
     { immediate: true }
+  );
+
+  watch(
+    () => gameStore.isDayTransitioning,
+    (isTransitioning) => {
+      if (!isTransitioning && isReady.value && !isInIntroAnimation.value) {
+        animateWords();
+      }
+    }
   );
 
   onUnmounted(() => {
