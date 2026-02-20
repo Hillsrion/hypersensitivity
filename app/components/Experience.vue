@@ -63,7 +63,7 @@ const backgroundGradient = computed(() => {
   return `linear-gradient(180deg, ${gradientState.color1} ${gradientState.stop1}%, ${gradientState.color2} ${gradientState.stop2}%, ${gradientState.color3} ${gradientState.stop3}%, ${gradientState.color4} ${gradientState.stop4}%)`;
 });
 
-const isGameEnd = computed(() => gameStore.currentScene?.id === "gameEnd");
+const isGameEnd = computed(() => gameStore.currentScene?.id === "gameEnd" || gameStore.showQuestionnaire);
 const showEndContent = ref(false);
 
 watch(isGameEnd, (newVal) => {

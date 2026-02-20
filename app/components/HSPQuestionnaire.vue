@@ -4,7 +4,6 @@ import HSPQuiz from './hsp/HSPQuiz.vue';
 import HSPResults from './hsp/HSPResults.vue';
 import { useAnimationsStore } from "~/stores/animations";
 import { useHSPQuiz } from "~/app/composables/useHSPQuiz";
-import { gradientSteps } from "~/app/constants/gradients";
 
 const { $gsap } = useNuxtApp();
 const animationsStore = useAnimationsStore();
@@ -39,21 +38,6 @@ const quizRef = ref(null);
 const resultsRef = ref(null);
 const elementRef = ref(null);
 
-const gradientState = reactive({
-  color1: "#ffffff",
-  color2: "#ffffff",
-  color3: "#ffffff",
-  color4: "#ffffff",
-  stop1: 0,
-  stop2: 33,
-  stop3: 66,
-  stop4: 100,
-});
-
-const backgroundGradient = computed(() => {
-  return `linear-gradient(180deg, ${gradientState.color1} ${gradientState.stop1}%, ${gradientState.color2} ${gradientState.stop2}%, ${gradientState.color3} ${gradientState.stop3}%, ${gradientState.color4} ${gradientState.stop4}%)`;
-});
-
 const handleStart = async () => {
     if (introRef.value) {
         await introRef.value.leave();
@@ -85,22 +69,10 @@ onMounted(() => {
     startQuiz();
   }
 
-  // Play gradient transition
-  const tl = $gsap.timeline({
-    onComplete: () => {
-      contentReady.value = true;
-    }
-  });
-  
-  const stepDuration = 0.5;
-
-  gradientSteps.forEach((step) => {
-    tl.to(gradientState, {
-      ...step,
-      duration: stepDuration,
-      ease: "none",
-    });
-  });
+  // Delay content rendering to match the external background transition duration from Experience.vue
+  setTimeout(() => {
+    contentReady.value = true;
+  }, 2000); // 4 steps * 0.5s = 2s total duration for the background gradient
 
   $gsap.timeline({
     scrollTrigger: {
@@ -124,10 +96,9 @@ onMounted(() => {
   <div 
     ref="elementRef" 
     class="questionnaire-container fixed inset-0 z-100 w-full h-full flex flex-col items-center justify-center p-4 text-white overflow-y-auto"
-    :style="{ background: backgroundGradient }"
   >
     
-    <!-- Delay content rendering until gradient finishes if needed or just let it be handled by child components (HSPIntro handles its own enter fade) -->
+    <!-- Delay content rendering until external gradient finishes if needed or just let it be handled by child components (HSPIntro handles its own enter fade) -->
     <template v-if="contentReady || currentView !== 'intro'">
       <!-- Intro Screen -->
       <HSPIntro 
