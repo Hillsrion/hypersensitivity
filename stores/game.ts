@@ -2,6 +2,7 @@ import { defineStore } from "pinia";
 import type {
   Choice,
   DialogueLine,
+  GameFlags,
   IntroAnimationPhase,
   Milestone,
   Scene,
@@ -334,13 +335,18 @@ export const useGameStore = defineStore("game", {
       }
     },
 
-    goToScene(sceneId: string) {
+    goToScene(sceneId: string, devFlags?: Partial<GameFlags>) {
       if (this.isTransitioning) return;
 
       const scene = gameData.scenes[sceneId];
       if (!scene) {
         console.error(`Scene not found: ${sceneId}`);
         return;
+      }
+
+      // DevTools only: inject pre-resolved flags so scene conditions are satisfied
+      if (devFlags) {
+        this.flags = { ...this.flags, ...devFlags };
       }
 
       this.isTransitioning = true;

@@ -2,6 +2,7 @@
 import { useGameStore } from "~/stores/game";
 import { SCENE_IDS } from "../../data/constants";
 import { gameData } from "../../data/game";
+import { getFlagsForScene } from "../../data/sceneFlagRequirements";
 import { useAnimationsStore } from "~/stores/animations";
 import { useAudioStore } from "~/stores/audio";
 
@@ -108,6 +109,15 @@ const getSceneLabel = (id: string) => {
   const shortId = id.replace(/^(dayOne|dayTwo)/, '');
   return `Jour ${scene.day} - ${scene.title} - ${shortId}`;
 };
+
+/**
+ * Jump to a scene while automatically resolving the flags needed
+ * so the scene (and its successors) unfold logically.
+ */
+const jumpToScene = (sceneId: string) => {
+  const resolvedFlags = getFlagsForScene(sceneId, gameData.initialFlags);
+  gameStore.goToScene(sceneId, resolvedFlags);
+};
 </script>
 
 <template>
@@ -179,7 +189,7 @@ const getSceneLabel = (id: string) => {
         <select 
           class="w-full bg-black/50 border border-white/20 rounded px-1 py-1 text-[10px] text-white focus:outline-none focus:border-white/50"
           :value="gameStore.currentSceneId"
-          @change="(e: Event) => gameStore.goToScene((e.target as HTMLSelectElement).value)"
+          @change="(e: Event) => jumpToScene((e.target as HTMLSelectElement).value)"
         >
           <option v-for="(id, key) in SCENE_IDS" :key="id" :value="id">
             {{ getSceneLabel(id) }}
