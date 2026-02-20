@@ -247,7 +247,7 @@ const showQuestionnaire = () => {
       <!-- End Screen Overlay -->
       <Transition name="fade">
         <div 
-          v-if="showEndContent" 
+          v-if="showEndContent && !gameStore.showQuestionnaire" 
           class="absolute inset-0 z-30 flex flex-col items-center justify-center pointer-events-auto"
         >
           <div class="max-w-2xl px-6 text-center h-full flex flex-col items-center justify-center pb-32">
