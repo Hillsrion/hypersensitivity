@@ -87,7 +87,9 @@ const handleMilestoneClick = (milestoneId: string) => {
 
 const navigateToTest = () => {
   gameStore.closeMenu();
-  gameStore.setShowQuestionnaire(true);
+  setTimeout(() => {
+    gameStore.setShowQuestionnaire(true);
+  }, 1000); // 1-second delay to match Experience.vue game end transition
 };
 
 const navItemClasses =

@@ -96,6 +96,7 @@ const enter = () => {
 
     $gsap.set(elements, {
       opacity: 0,
+      y: 20,
       filter: 'blur(5px)'
     });
 
@@ -113,6 +114,7 @@ const enter = () => {
     // Stagger animate other elements
     tl.to(elements, {
       opacity: 1,
+      y: 0,
       filter: 'blur(0px)',
       duration: 0.5,
       stagger: 0.1,
@@ -145,6 +147,7 @@ const leave = () => {
     // Stagger animate other elements
     tl.to(elements, {
       opacity: 0,
+      y: -20,
       filter: 'blur(5px)',
       duration: 0.4,
       stagger: 0.05,

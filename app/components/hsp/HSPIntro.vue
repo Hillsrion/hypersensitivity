@@ -83,6 +83,10 @@ defineExpose({
   leave,
   enter
 });
+
+onMounted(() => {
+  enter();
+});
 </script>
 
 <template>
