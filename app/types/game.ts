@@ -100,6 +100,7 @@ export interface GameState {
   showQuestionnaire: boolean;
   forceShowUI: boolean;
   isDayTransitioning: boolean;
+  pendingTransitionSceneId: string | null;
   _annotationTimerId: ReturnType<typeof setTimeout> | null;
 }
 

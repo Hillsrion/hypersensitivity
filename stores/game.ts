@@ -204,6 +204,7 @@ export const useGameStore = defineStore("game", {
       this.reachedMilestones = ["reveil"];
       this.isTransitioning = false;
       this.isDayTransitioning = false;
+      this.pendingTransitionSceneId = null;
       this.showChoices = false;
       this.menuStatus = "closed";
       this.selectedChoice = null;
@@ -281,6 +282,29 @@ export const useGameStore = defineStore("game", {
       this.isDayTransitioning = isTransitioning;
     },
 
+    completeDayTransition() {
+      if (!this.pendingTransitionSceneId) return;
+
+      const sceneId = this.pendingTransitionSceneId;
+      const scene = gameData.scenes[sceneId];
+      if (!scene) return;
+
+      // Make sure the transition flag is still on here; Experience.vue will turn it off after the eye opens
+      // (This prevents the annotation rendering twice before eye completes)
+
+      if (scene.entryAnnotation) {
+        this.selectedChoice = null;
+        this.introAnimationPhase = getEntryAnnotationPhase(this.introPlayed);
+      }
+
+      this.currentSceneId = sceneId;
+      this.currentDialogueIndex = 0;
+      this.flags = applyDialogueEnergyChange(this.flags, this.currentDialogue);
+      
+      this.pendingTransitionSceneId = null;
+      this.saveGame();
+    },
+
     setShowChoices(showChoices: boolean) {
       this.showChoices = showChoices;
     },
@@ -335,6 +359,16 @@ export const useGameStore = defineStore("game", {
       }
     },
 
+    startAnnotationTimer(durationMs: number = 3000) {
+      this._annotationTimerId = clearScheduledTimer(this._annotationTimerId);
+      this._annotationTimerId = scheduleTimer(() => {
+        if (shouldAutoCompleteAnnotation(this.introAnimationPhase)) {
+          this.introAnimationPhase = "complete";
+        }
+        this._annotationTimerId = null;
+      }, durationMs);
+    },
+
     goToScene(sceneId: string, devFlags?: Partial<GameFlags>) {
       if (this.isTransitioning) return;
 
@@ -352,18 +386,23 @@ export const useGameStore = defineStore("game", {
       this.isTransitioning = true;
 
       setTimeout(() => {
+        const oldDay = getCurrentDay(gameData.scenes, this.currentSceneId);
+        const newDay = getCurrentDay(gameData.scenes, sceneId);
+        
+        if (oldDay === 1 && newDay === 2) {
+          // If we are crossing the day boundary, put the scene load on hold
+          // while Experience.vue hides the UI and handles the background swap
+          this.pendingTransitionSceneId = sceneId;
+          this.setDayTransitioning(true);
+          this.isTransitioning = false;
+          return;
+        }
+
         if (scene.entryAnnotation) {
           this.selectedChoice = null;
           this.introAnimationPhase = getEntryAnnotationPhase(this.introPlayed);
 
-          this._annotationTimerId = clearScheduledTimer(this._annotationTimerId);
-
-          this._annotationTimerId = scheduleTimer(() => {
-            if (shouldAutoCompleteAnnotation(this.introAnimationPhase)) {
-              this.introAnimationPhase = "complete";
-            }
-            this._annotationTimerId = null;
-          }, 3000);
+          this.startAnnotationTimer(3000);
         }
 
         this.currentSceneId = sceneId;

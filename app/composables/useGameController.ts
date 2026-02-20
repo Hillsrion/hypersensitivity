@@ -100,6 +100,30 @@ export const useGameController = () => {
       return;
     }
 
+    // If a day transition is pending or happening, hide the aurora so the background gradient is visible
+    if (gameStore.isDayTransitioning || gameStore.pendingTransitionSceneId) {
+      if (animationsStore.aurora.visible) {
+        animationsStore.setAuroraAutoAnimate(false);
+        // Animate to transparent to get a smooth CSS transition fade out
+        animationsStore.setAuroraColor("transparent");
+        
+        // Let the CSS transition finish before hiding completely
+        if (import.meta.client) {
+          setTimeout(() => {
+            // Only hide if we're still transitioning (in case they mashed next)
+            if (gameStore.isDayTransitioning || gameStore.pendingTransitionSceneId) {
+                animationsStore.setAuroraVisibility(false);
+                animationsStore.setAuroraZIndex(0);
+            }
+          }, 1000); // 1s matches the background fade CSS/GSAP
+        } else {
+            animationsStore.setAuroraVisibility(false);
+            animationsStore.setAuroraZIndex(0);
+        }
+      }
+      return;
+    }
+
     // Force hide if we're in an entry annotation (chapter/milestone transition)
     // Note: For milestoneAnnotation, we let the aurora behave normally based on the dialogue color
     if (gameStore.introAnimationPhase === "annotation" || gameStore.introAnimationPhase === "milestoneAnnotation") {
@@ -164,7 +188,7 @@ export const useGameController = () => {
 
   // Watch for dialogue or phase changes to update Aurora
   watch(
-    [() => gameStore.currentDialogue?.id, () => gameStore.introAnimationPhase, () => gameStore.isMenuOpen],
+    [() => gameStore.currentDialogue?.id, () => gameStore.introAnimationPhase, () => gameStore.isMenuOpen, () => gameStore.isDayTransitioning],
     () => {
       handleAuroraEffect();
     },

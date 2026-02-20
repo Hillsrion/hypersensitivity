@@ -77,16 +77,21 @@ export const useEyeAnimations = () => {
   };
 
   const playOpenEyeAnimation = () => {
-    return new Promise<void>((resolve) => {
+    return new Promise<void>(async (resolve) => {
       if (!eyePath.value) {
         resolve();
         return;
       }
 
+      // We need game store specifically for the blur amount, importing it here avoids circular dep issues
+      const { useGameStore } = await import("~/stores/game");
+      const gameStore = useGameStore();
+
       const tl = $gsap.timeline({
         onComplete: resolve,
       });
       const duration = 0.3;
+      const blurState = { amount: gameStore.introBlurAmount };
 
       tl.to(eyePath.value, {
         attr: { d: eyePaths.base },
@@ -101,7 +106,17 @@ export const useEyeAnimations = () => {
             duration: duration,
             ease: "power1.inOut",
           },
-          ">"
+          "step1"
+        )
+        .to(
+          blurState,
+          {
+            amount: 6,
+            duration: duration,
+            ease: "power1.inOut",
+            onUpdate: () => gameStore.setIntroBlurAmount(blurState.amount)
+          },
+          "step1"
         )
         .to(
           eyePath.value,
@@ -111,7 +126,17 @@ export const useEyeAnimations = () => {
             duration: duration,
             ease: "power1.inOut",
           },
-          ">"
+          "step2"
+        )
+        .to(
+          blurState,
+          {
+            amount: 4,
+            duration: duration,
+            ease: "power1.inOut",
+            onUpdate: () => gameStore.setIntroBlurAmount(blurState.amount)
+          },
+          "step2"
         )
         .to(
           eyePath.value,
@@ -121,7 +146,17 @@ export const useEyeAnimations = () => {
             duration: duration,
             ease: "power1.inOut",
           },
-          ">"
+          "step3"
+        )
+        .to(
+          blurState,
+          {
+            amount: 2,
+            duration: duration,
+            ease: "power1.inOut",
+            onUpdate: () => gameStore.setIntroBlurAmount(blurState.amount)
+          },
+          "step3"
         )
         .to(
           eyePath.value,
@@ -132,7 +167,17 @@ export const useEyeAnimations = () => {
             duration: duration * 3,
             ease: "power1.inOut",
           },
-          ">"
+          "step4"
+        )
+        .to(
+          blurState,
+          {
+            amount: 0,
+            duration: duration * 3,
+            ease: "power1.inOut",
+            onUpdate: () => gameStore.setIntroBlurAmount(blurState.amount)
+          },
+          "step4"
         )
         .call(() => {
           animationsStore.setCursorVariant("dark");

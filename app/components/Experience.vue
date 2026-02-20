@@ -54,6 +54,9 @@ const backgroundGradient = computed(() => {
   }
   // We want the gradient to run during the end sequence or day transition
   if (gameStore.introPlayed && !isDayTransition.value) {
+    if (gameStore.currentDay === 2) {
+      return "var(--color-primary)";
+    }
     return "white";
   }
 
@@ -122,31 +125,56 @@ const autoRevealStarted = ref(false);
 
 
 watch(
-  () => gameStore.currentDay,
-  async (newDay, oldDay) => {
-    // Prevent transition animation if we are at the end game
-    if (isGameEnd.value) return;
+  () => gameStore.isDayTransitioning,
+  async (isTransitioning) => {
+    // We only trigger when it turns true automatically by gameStore.goToScene
+    if (!isTransitioning || isGameEnd.value) return;
 
-    if (oldDay === 1 && newDay === 2) {
-      gameStore.setDayTransitioning(true);
-      // 1. Hide Game UI
-      isDayTransition.value = true;
+    // 1. Hide Game UI
+    isDayTransition.value = true;
 
-      // Wait for UI to fade out
-      await new Promise((resolve) => setTimeout(resolve, 1000));
+    // Reset gradient to white first to avoid snappy transitions
+    Object.assign(gradientState, {
+      color1: "#ffffff",
+      color2: "#ffffff",
+      color3: "#ffffff",
+      color4: "#ffffff",
+    });
 
-      // 2. Play Close Eye Animation
-      await playCloseEyeAnimation();
-      
-      // Small pause closed
-      await new Promise((resolve) => setTimeout(resolve, 500));
+    // Animate background to black over the UI fade time
+    $gsap.to(gradientState, { ...gradientSteps[8], duration: 1, ease: "power2.inOut" });
 
-      // 3. Play Open Eye Animation
-      await playOpenEyeAnimation();
+    // Wait for UI to fade out
+    await new Promise((resolve) => setTimeout(resolve, 1000));
 
-      // 4. Show Game UI
-      isDayTransition.value = false;
-      gameStore.setDayTransitioning(false);
+    // 2. Play Close Eye Animation
+    await playCloseEyeAnimation();
+
+    // The eye is fully closed. Safely advance the game state to Day 2 in the background.
+    gameStore.completeDayTransition();
+    
+    // Small pause closed
+    await new Promise((resolve) => setTimeout(resolve, 500));
+
+    // Prepare to show the new scene's annotation blurred behind the closed eye
+    gameStore.setIntroBlurAmount(8);
+    isDayTransition.value = false; // Mounts the UI behind the eye
+    
+    // Let Vue render the UI
+    await nextTick();
+
+    // 3. Play Open Eye Animation (This will also animate introBlurAmount down to 0)
+    await playOpenEyeAnimation();
+
+    // 4. Finish Transition
+    gameStore.setDayTransitioning(false);
+
+    // 5. Start entry annotation timer now that the UI is visible
+    if (
+      gameStore.introAnimationPhase === "annotation" ||
+      gameStore.introAnimationPhase === "milestoneAnnotation"
+    ) {
+      gameStore.startAnnotationTimer(4000); // Increased from 3000 to match user request
     }
   }
 );
