@@ -22,6 +22,7 @@ const {
   showAnnotation,
   isMilestoneAnnotation,
   showGameUI,
+  showDelayedGameUI,
   annotationText,
   showContent,
   handleInteraction,
@@ -67,7 +68,7 @@ watch(audioProgressPercent, (newVal) => {
     <Teleport to="body">
       <Transition name="fade">
         <button
-          v-if="showGameUI && !isMilestoneAnnotation"
+          v-if="showDelayedGameUI && !isMilestoneAnnotation"
           class="fixed top-10 left-18 z-70 text-primary cursor-pointer group"
           @click.stop="gameStore.toggleMenu()"
         >
@@ -79,14 +80,14 @@ watch(audioProgressPercent, (newVal) => {
     <!-- Header -->
     <Transition name="fade">
       <GameHeader
-        v-if="showGameUI && !gameStore.isMenuOpening && !gameStore.isMenuOpen && !gameStore.isMenuClosing && !isMilestoneAnnotation"
+        v-if="showDelayedGameUI && !gameStore.isMenuOpening && !gameStore.isMenuOpen && !gameStore.isMenuClosing && !isMilestoneAnnotation"
       />
     </Transition>
 
     <!-- Energy Bar (right side) -->
     <Transition name="fade">
       <GameEnergyBar
-        v-if="(showGameUI || isMilestoneAnnotation) && !gameStore.isMenuOpening && !gameStore.isMenuOpen && !gameStore.isMenuClosing"
+        v-if="(showDelayedGameUI || isMilestoneAnnotation) && !gameStore.isMenuOpening && !gameStore.isMenuOpen && !gameStore.isMenuClosing"
         class="absolute top-1/2 left-18 -translate-y-1/2 z-40"
       />
     </Transition>
@@ -131,7 +132,7 @@ watch(audioProgressPercent, (newVal) => {
           v-if="
             showContent &&
             !showAnnotation &&
-            (showGameUI || !gameStore.isFirstDialogueOfInitialScene || isMilestoneAnnotation) &&
+            (showDelayedGameUI || !gameStore.isFirstDialogueOfInitialScene || isMilestoneAnnotation) &&
             !gameStore.isMenuOpening &&
             !gameStore.isMenuOpen &&
             !gameStore.isMenuClosing

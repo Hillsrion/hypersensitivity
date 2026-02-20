@@ -41,6 +41,32 @@ export const useGameController = () => {
     );
   });
 
+  const showDelayedGameUI = ref(false);
+  let uiDelayTimer: ReturnType<typeof setTimeout> | null = null;
+  watch(
+    showGameUI,
+    (show) => {
+      if (uiDelayTimer) {
+        clearTimeout(uiDelayTimer);
+      }
+      if (show) {
+        // Enforce the 2000ms delay ONLY if we are past Day 1
+        const delay = gameStore.currentDay > 1 ? 2000 : 0;
+        
+        if (delay > 0) {
+          uiDelayTimer = setTimeout(() => {
+            showDelayedGameUI.value = true;
+          }, delay);
+        } else {
+          showDelayedGameUI.value = true;
+        }
+      } else {
+        showDelayedGameUI.value = false;
+      }
+    },
+    { immediate: true }
+  );
+
   const annotationText = computed(() => {
     const text = gameStore.firstDialogueAnnotation || "";
     console.log("LOG_DEBUG: annotationText computed:", text);
@@ -290,6 +316,7 @@ export const useGameController = () => {
     showAnnotation,
     isMilestoneAnnotation,
     showGameUI,
+    showDelayedGameUI,
     annotationText,
     showContent,
     handleInteraction,
