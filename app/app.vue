@@ -143,7 +143,7 @@ onMounted(async () => {
 
 <template>
   <div>
-    <DevToolsView v-if="route.path === '/game-tools-view'" />
+    <DevToolsView v-if="route?.path === '/game-tools-view'" />
     <div v-else>
       <!-- Custom Cursor -->
       <div
