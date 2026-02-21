@@ -1,11 +1,11 @@
 import { SCENE_IDS } from "../data/constants";
 
 export const devConfig = {
-  enabled: true, // Enable by default for now, can be toggled
-  initialSceneId: "", // Set to a string like 'dayOnePartySexy' to override
+  enabled: import.meta.env.VITE_DEV_ENABLED !== 'false', // Enable by default for now, can be toggled
+  initialSceneId: import.meta.env.VITE_INITIAL_SCENE_ID || "", // Set to a string like 'dayOnePartySexy' to override
   initialFlags: {
-    energy: 100,
-    outfitChoice: 'sexy',
+    energy: import.meta.env.VITE_INITIAL_ENERGY ? Number(import.meta.env.VITE_INITIAL_ENERGY) : 100,
+    outfitChoice: import.meta.env.VITE_INITIAL_OUTFIT || 'sexy',
   },
-  playbackRate: 1, // 1.5x speed
+  playbackRate: import.meta.env.VITE_PLAYBACK_RATE ? Number(import.meta.env.VITE_PLAYBACK_RATE) : 1, // 1.5x speed
 };
