@@ -1,8 +1,4 @@
 <script setup lang="ts">
-import { storeToRefs } from "pinia";
-import { useAnimationsStore } from "~/stores/animations";
-import { useGameStore } from "~/stores/game";
-import { useExperienceAnimation } from "~/app/composables/game/useExperienceAnimation";
 import { gradientSteps } from "~/app/constants/gradients";
 // GameContainer reference is used in template
 import GameContainer from "./game/GameContainer.vue";

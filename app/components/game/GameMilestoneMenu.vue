@@ -1,6 +1,4 @@
 <script setup lang="ts">
-import { useGameStore } from "~/stores/game";
-import { useAnimationsStore } from "~/stores/animations";
 import GameMilestoneItem from "./GameMilestoneItem.vue";
 
 const gameStore = useGameStore();

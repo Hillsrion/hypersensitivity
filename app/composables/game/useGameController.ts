@@ -1,6 +1,3 @@
-import { useGameStore } from "~/stores/game";
-import { useAnimationsStore } from "~/stores/animations";
-import { useAudioStore } from "~/stores/audio";
 import { useDialogueAurora } from "./useDialogueAurora";
 import { useDialogueAudioSync } from "./useDialogueAudioSync";
 

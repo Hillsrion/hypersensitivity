@@ -1,4 +1,3 @@
-import { useAnimationsStore } from "~/stores/animations";
 import { eyePaths } from "~/app/constants/eyePaths";
 
 export const useEyeAnimation = () => {

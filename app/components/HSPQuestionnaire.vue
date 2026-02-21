@@ -2,9 +2,6 @@
 import HSPIntro from './hsp/HSPIntro.vue';
 import HSPQuiz from './hsp/HSPQuiz.vue';
 import HSPResults from './hsp/HSPResults.vue';
-import { useAnimationsStore } from "~/stores/animations";
-import { useHspQuizStore } from "~/stores/hspQuiz";
-import { storeToRefs } from "pinia";
 
 const { $gsap } = useNuxtApp();
 const animationsStore = useAnimationsStore();

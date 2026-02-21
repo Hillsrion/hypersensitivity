@@ -1,8 +1,5 @@
 <script setup lang="ts">
 import type { Choice } from "../../types/game";
-import { useGameStore } from "~/stores/game";
-import { useChoiceButtons } from "../../composables/game/useChoiceButtons";
-
 const props = withDefaults(defineProps<{
   choices: Choice[];
   variant?: 'dark' | 'light';

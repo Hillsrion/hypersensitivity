@@ -1,6 +1,3 @@
-import { useGameStore } from "~/stores/game";
-import { useAnimationsStore } from "~/stores/animations";
-import { useAudioStore } from "~/stores/audio";
 import { gradientSteps } from "~/app/constants/gradients";
 import { eyePaths } from "~/app/constants/eyePaths";
 

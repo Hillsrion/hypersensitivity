@@ -1,6 +1,4 @@
 <script setup lang="ts">
-import { useAnimationsStore } from "~/stores/animations";
-import { storeToRefs } from "pinia";
 
 const { $gsap } = useNuxtApp();
 const animationsStore = useAnimationsStore();

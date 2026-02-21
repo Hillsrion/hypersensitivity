@@ -92,7 +92,6 @@
 </style>
 
 <script setup>
-import { useAudioStore } from "~/stores/audio";
 
 const { $gsap: gsap } = useNuxtApp();
 

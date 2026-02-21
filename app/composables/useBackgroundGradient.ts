@@ -1,4 +1,3 @@
-import { useAnimationsStore } from "~/stores/animations";
 
 export const useBackgroundGradient = () => {
   const { $gsap } = useNuxtApp();

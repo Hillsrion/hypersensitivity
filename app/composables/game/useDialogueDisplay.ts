@@ -1,5 +1,4 @@
 import type { DialogueLine } from "../../types/game";
-import { useGameStore } from "~/stores/game";
 
 export function useDialogueDisplay(dialogue: Ref<DialogueLine | null>) {
   const gameStore = useGameStore();

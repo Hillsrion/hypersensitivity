@@ -1,6 +1,3 @@
-import { watch } from "vue";
-import { useAudioStore } from "~/stores/audio";
-import { useGameStore } from "~/stores/game";
 
 export function useDialogueAudioSync() {
   const audioStore = useAudioStore();

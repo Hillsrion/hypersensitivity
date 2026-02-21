@@ -1,6 +1,5 @@
 import type { Ref } from "vue";
 import type { Choice } from "../../types/game";
-import { useGameStore } from "~/stores/game";
 
 export function useChoiceButtons(
   choices: Ref<Choice[]>,

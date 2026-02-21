@@ -3,18 +3,14 @@ import { VueLenis } from "lenis/vue";
 import LoadingSection from "./components/ui/LoadingSection.vue";
 import SoundIntroduction from "./components/SoundIntroduction.vue";
 import Experience from "./components/Experience.vue";
-import { useAudioStore } from "@/stores/audio";
-import { useAnimationsStore } from "~/stores/animations";
 import mainData from "./data/main.json";
 import TestimoniesSection from "./components/TestimoniesSection.vue";
 import HSPQuestionnaire from "./components/HSPQuestionnaire.vue";
 import { useCustomCursor } from "./composables/useCustomCursor";
-import { useGameStore } from "~/stores/game";
 import GameMilestoneMenu from "~/app/components/game/GameMilestoneMenu.vue";
 import DevTools from "~/app/components/debug/DevTools.vue";
 import CircleAudiowave from "./components/ui/CircleAudiowave.vue";
 import BackgroundGradient from "./components/BackgroundGradient.vue";
-import { defineAsyncComponent } from 'vue';
 
 const DevToolsView = defineAsyncComponent(() => import('~/app/components/debug/DevToolsView.vue'));
 

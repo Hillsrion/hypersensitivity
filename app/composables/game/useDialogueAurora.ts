@@ -1,6 +1,3 @@
-import { watch } from "vue";
-import { useAnimationsStore } from "~/stores/animations";
-import { useGameStore } from "~/stores/game";
 
 export function useDialogueAurora() {
   const animationsStore = useAnimationsStore();

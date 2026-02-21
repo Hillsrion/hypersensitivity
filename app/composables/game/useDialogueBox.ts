@@ -1,6 +1,4 @@
 import type { DialogueLine } from "../../types/game";
-import { useAnimationsStore } from "~/stores/animations";
-import { useGameStore } from "~/stores/game";
 import { useDialogueDisplay } from "./useDialogueDisplay";
 import { useDialogueAudio } from "./useDialogueAudio";
 import { useDialogueAnimation } from "./useDialogueAnimation";

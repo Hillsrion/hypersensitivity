@@ -15,8 +15,6 @@
 </template>
 
 <script setup>
-import { useAudioStore } from "@/stores/audio";
-import { useAnimationsStore } from "@/stores/animations";
 
 const audioStore = useAudioStore();
 const { $gsap } = useNuxtApp();

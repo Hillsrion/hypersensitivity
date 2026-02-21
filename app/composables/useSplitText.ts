@@ -1,4 +1,3 @@
-import { ref, watch, onUnmounted, nextTick, type Ref } from 'vue'
 import SplitType from 'split-type'
 
 export interface SplitTextOptions {

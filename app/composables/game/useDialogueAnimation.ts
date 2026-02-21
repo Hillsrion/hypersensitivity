@@ -1,6 +1,4 @@
 import type { DialogueLine } from "../../types/game";
-import { useAudioStore } from "~/stores/audio";
-import { useGameStore } from "~/stores/game";
 
 export function useDialogueAnimation(
   dialogue: Ref<DialogueLine | null>,

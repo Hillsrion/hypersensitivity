@@ -1,11 +1,7 @@
 <script setup lang="ts">
-import { useGameStore } from "~/stores/game";
 import { SCENE_IDS } from "../../data/constants";
 import { gameData } from "../../data/game";
 import { getFlagsForScene } from "../../data/sceneFlagRequirements";
-import { useAnimationsStore } from "~/stores/animations";
-import { useAudioStore } from "~/stores/audio";
-import { useHspQuizStore } from "~/stores/hspQuiz";
 
 const gameStore = useGameStore();
 const animationsStore = useAnimationsStore();

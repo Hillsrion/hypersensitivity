@@ -1,6 +1,4 @@
 <script setup>
-import { useAnimationsStore } from "~/stores/animations";
-import { storeToRefs } from "pinia";
 
 defineProps({
   title: {

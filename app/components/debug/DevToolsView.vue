@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { ref, onMounted, onUnmounted, watch } from 'vue';
 
 const channel = ref<BroadcastChannel | null>(null);
 const isConnected = ref(false);

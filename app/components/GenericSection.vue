@@ -1,5 +1,4 @@
 <script setup>
-import { useAnimationsStore } from "~/stores/animations";
 
 const props = defineProps({
   title: {

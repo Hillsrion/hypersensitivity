@@ -1,8 +1,5 @@
 <script setup lang="ts">
 import type { DialogueLine } from "../../types/game";
-import { useGameStore } from "~/stores/game";
-import { useDialogueBox } from "../../composables/game/useDialogueBox";
-
 const props = defineProps<{
   dialogue: DialogueLine | null;
   isSelecting?: boolean;
