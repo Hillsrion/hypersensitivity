@@ -5,10 +5,12 @@ import { gameData } from "../../data/game";
 import { getFlagsForScene } from "../../data/sceneFlagRequirements";
 import { useAnimationsStore } from "~/stores/animations";
 import { useAudioStore } from "~/stores/audio";
+import { useHSPQuiz } from "~/app/composables/useHSPQuiz";
 
 const gameStore = useGameStore();
 const animationsStore = useAnimationsStore();
 const audioStore = useAudioStore();
+const quiz = useHSPQuiz();
 const route = useRoute();
 const { $gsap } = useNuxtApp();
 
@@ -125,10 +127,11 @@ const jumpToScene = (sceneId: string) => {
     <div class="font-bold mb-1 border-b border-white/20 pb-1">DEV TOOLS</div>
     
     <div class="flex flex-col gap-1">
-      <button 
-        class="px-2 py-1 bg-white/10 hover:bg-white/20 rounded text-left transition-colors"
-        @click="scrollTo('top')"
-      >
+      <template v-if="!gameStore.showQuestionnaire">
+        <button 
+          class="px-2 py-1 bg-white/10 hover:bg-white/20 rounded text-left transition-colors"
+          @click="scrollTo('top')"
+        >
         Scroll Top (XP)
       </button>
       
@@ -186,13 +189,36 @@ const jumpToScene = (sceneId: string) => {
         :class="gameStore.forceShowUI ? 'bg-orange-500/40 text-orange-200 outline outline-1 outline-orange-500' : 'bg-white/10 hover:bg-white/20'"
         @click="gameStore.toggleForceShowUI()"
       >
-        UI: {{ gameStore.forceShowUI ? 'Forcée' : 'Par défaut' }}
-      </button>
+          UI: {{ gameStore.forceShowUI ? 'Forcée' : 'Par défaut' }}
+        </button>
 
-      <div class="h-px bg-white/10 my-1"></div>
+        <div class="h-px bg-white/10 my-1"></div>
+      </template>
 
-      <div class="flex flex-col gap-1 px-2 py-1 bg-white/5 rounded">
-        <label class="text-[10px] text-gray-400">Jump to Scene</label>
+      <template v-if="gameStore.showQuestionnaire">
+        <div class="text-[10px] text-gray-500 mb-1 px-1 uppercase tracking-wider">HSP Questionnaire</div>
+        
+        <button 
+          v-if="quiz.currentView.value !== 'results'"
+          class="px-2 py-1 bg-yellow-500/20 hover:bg-yellow-500/40 text-yellow-300 rounded text-left transition-colors"
+          @click="quiz.completeWithFakeResults()"
+        >
+          {{ (quiz.currentView.value === 'intro' || quiz.currentQuestionIndex.value === 0) ? 'Passer directement à la fin' : 'Terminer avec faux résultats' }}
+        </button>
+
+        <button 
+          class="px-2 py-1 bg-white/10 hover:bg-white/20 rounded text-left transition-colors mt-1"
+          @click="quiz.restart"
+        >
+          Reset Quiz
+        </button>
+
+        <div class="h-px bg-white/10 my-1"></div>
+      </template>
+
+      <template v-if="!gameStore.showQuestionnaire">
+        <div class="flex flex-col gap-1 px-2 py-1 bg-white/5 rounded">
+          <label class="text-[10px] text-gray-400">Jump to Scene</label>
         <select 
           class="w-full bg-black/50 border border-white/20 rounded px-1 py-1 text-[10px] text-white focus:outline-none focus:border-white/50"
           :value="gameStore.currentSceneId"
@@ -203,6 +229,7 @@ const jumpToScene = (sceneId: string) => {
           </option>
         </select>
       </div>
+      </template>
     </div>
   </div>
 </template>

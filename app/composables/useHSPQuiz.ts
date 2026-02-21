@@ -1,20 +1,20 @@
 import quizData from '@/app/data/hsp-quiz.json';
 
-export const useHSPQuiz = () => {
-  const currentView = ref('intro');
-  const currentQuestionIndex = ref(0);
-  
-  const { ratings, sections, questions, profiles } = quizData;
-  const totalQuestions = questions.length;
-  const answers = ref(Array(totalQuestions).fill(null));
+const currentView = ref('intro');
+const currentQuestionIndex = ref(0);
+const { ratings, sections, questions: quizQuestions, profiles } = quizData;
+const totalQuestions = quizQuestions.length;
+const answers = ref(Array(totalQuestions).fill(null));
 
+export const useHSPQuiz = () => {
+  const questions = quizQuestions;
   const questionsPerSection = totalQuestions / sections.length;
   
-  const currentQuestion = computed(() => questions[currentQuestionIndex.value]);
+  const currentQuestion = computed(() => questions[currentQuestionIndex.value] || questions[0]);
   const currentSectionIndex = computed(() => Math.floor(currentQuestionIndex.value / questionsPerSection));
   const isLastQuestion = computed(() => currentQuestionIndex.value === totalQuestions - 1);
   const progressPercent = computed(() => Math.round((currentQuestionIndex.value + 1) / totalQuestions * 100));
-  const displaySectionName = computed(() => sections[currentSectionIndex.value].name);
+  const displaySectionName = computed(() => sections[currentSectionIndex.value]?.name || sections[0]?.name || '');
 
   const totalScore = computed(() => {
     return answers.value.reduce((sum, val) => sum + (val ?? 0), 0);
@@ -102,6 +102,14 @@ export const useHSPQuiz = () => {
     answers.value = Array(totalQuestions).fill(null);
   }
 
+  function completeWithFakeResults() {
+    // Fill with random answers (between 1 and 4 or whatever the ratings are)
+    // Ratings are usually 0, 1, 2, 3 or similar
+    // Let's check ratings in quizData. In HSPQuiz.vue it says ratings are passed.
+    answers.value = answers.value.map(() => Math.floor(Math.random() * 4));
+    currentView.value = 'results';
+  }
+
   return {
     // State
     currentView,
@@ -133,6 +141,8 @@ export const useHSPQuiz = () => {
     selectAnswer,
     nextQuestion,
     previousQuestion,
-    restart
+    restart,
+    completeWithFakeResults
   };
 };
+
