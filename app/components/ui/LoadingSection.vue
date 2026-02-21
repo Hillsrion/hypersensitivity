@@ -2,6 +2,8 @@
 import { useAnimationsStore } from "~/stores/animations";
 import { useAudioStore } from "~/stores/audio";
 import { storeToRefs } from "pinia";
+import MainTitle from "./MainTitle.vue";
+import CircleAudiowave from "./CircleAudiowave.vue";
 
 const animationsStore = useAnimationsStore();
 const audioStore = useAudioStore();

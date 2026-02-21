@@ -4,7 +4,7 @@ import GameEnergyBar from "./GameEnergyBar.vue";
 import DialogueBox from "./DialogueBox.vue";
 import ChoiceButtons from "./ChoiceButtons.vue";
 import GameMilestoneMenu from "./GameMilestoneMenu.vue";
-import MenuIcon from "../MenuIcon.vue";
+import MenuIcon from "../ui/MenuIcon.vue";
 import { useGameController } from "~/app/composables/game/useGameController";
 
 const { $gsap } = useNuxtApp();

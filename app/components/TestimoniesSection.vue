@@ -1,5 +1,6 @@
 <script setup>
 import mainData from "~/app/data/main.json";
+import TestimonyCard from "./ui/TestimonyCard.vue";
 
 const { $gsap } = useNuxtApp();
 
