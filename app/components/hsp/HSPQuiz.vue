@@ -39,10 +39,137 @@ const props = defineProps({
   isLastQuestion: {
     type: Boolean,
     required: true
+  },
+  questions: {
+    type: Array,
+    required: true
   }
 });
 
-defineEmits(['selectAnswer', 'next', 'previous']);
+const emit = defineEmits(['selectAnswer', 'next', 'previous']);
+
+const isAnimating = ref(false);
+
+const onPrevious = async () => {
+  if (isAnimating.value) return;
+  isAnimating.value = true;
+  
+  const prevQuestion = props.questions[props.currentQuestionIndex - 1];
+  const optionsChange = prevQuestion && prevQuestion.inversed !== props.currentQuestion.inversed;
+  
+  const slideElements = [questionTextRef.value];
+  if (optionsChange) slideElements.push(answersRef.value);
+  
+  const tlOut = $gsap.timeline();
+  tlOut.to(slideElements, {
+    x: 50,
+    opacity: 0,
+    filter: 'blur(10px)',
+    duration: 0.3,
+    stagger: 0.05,
+    ease: 'power2.in'
+  }, 0);
+  
+  tlOut.to(questionInfoRef.value, {
+    opacity: 0,
+    duration: 0.2
+  }, 0);
+  
+  await tlOut;
+  
+  emit('previous');
+  
+  await nextTick();
+  
+  $gsap.set(slideElements, { 
+    x: -50,
+    opacity: 0,
+    filter: 'blur(10px)'
+  });
+  $gsap.set(questionInfoRef.value, { opacity: 0 });
+  
+  const tlIn = $gsap.timeline();
+  tlIn.to(slideElements, {
+    x: 0,
+    opacity: 1,
+    filter: 'blur(0px)',
+    duration: 0.4,
+    stagger: 0.05,
+    ease: 'power2.out'
+  }, 0);
+  
+  tlIn.to(questionInfoRef.value, {
+    opacity: 1,
+    duration: 0.3
+  }, 0);
+  
+  await tlIn;
+  isAnimating.value = false;
+};
+
+const onNext = async () => {
+  if (isAnimating.value) return;
+  
+  if (props.isLastQuestion) {
+      emit('next');
+      return;
+  }
+  
+  isAnimating.value = true;
+  
+  const nextQuestion = props.questions[props.currentQuestionIndex + 1];
+  const optionsChange = nextQuestion && nextQuestion.inversed !== props.currentQuestion.inversed;
+  
+  const slideElements = [questionTextRef.value];
+  if (optionsChange) slideElements.push(answersRef.value);
+  
+  const tlOut = $gsap.timeline();
+  tlOut.to(slideElements, {
+    x: -50,
+    opacity: 0,
+    filter: 'blur(10px)',
+    duration: 0.3,
+    stagger: 0.05,
+    ease: 'power2.in'
+  }, 0);
+  
+  tlOut.to(questionInfoRef.value, {
+    opacity: 0,
+    duration: 0.2
+  }, 0);
+  
+  await tlOut;
+  
+  emit('next');
+  
+  await nextTick();
+  
+  $gsap.set(slideElements, { 
+    x: 50,
+    opacity: 0,
+    filter: 'blur(10px)'
+  });
+  $gsap.set(questionInfoRef.value, { opacity: 0 });
+  
+  const tlIn = $gsap.timeline();
+  tlIn.to(slideElements, {
+    x: 0,
+    opacity: 1,
+    filter: 'blur(0px)',
+    duration: 0.4,
+    stagger: 0.05,
+    ease: 'power2.out'
+  }, 0);
+  
+  tlIn.to(questionInfoRef.value, {
+    opacity: 1,
+    duration: 0.3
+  }, 0);
+  
+  await tlIn;
+  isAnimating.value = false;
+};
+
 
 const { $gsap } = useNuxtApp();
 const sectionNameRef = ref(null);
@@ -203,7 +330,7 @@ const getRatingClass = (value) => {
           Inversée
         </div>
       </div>
-      <p ref="questionTextRef" class="text-2xl/7 leading-snug text-white font-serif italic transition-all duration-500 opacity-0">
+      <p ref="questionTextRef" class="text-2xl/7 leading-snug text-white font-serif italic opacity-0">
         {{ currentQuestion.text }}
       </p>
     </div>
@@ -226,15 +353,15 @@ const getRatingClass = (value) => {
     <div ref="navRef" class="flex justify-between items-center opacity-0">
       <button 
         class="text-white transition-colors duration-300 flex items-center gap-2 px-4 py-2 disabled:opacity-30 disabled:cursor-not-allowed" 
-        @click="$emit('previous')" 
-        :disabled="currentQuestionIndex === 0"
+        @click="onPrevious" 
+        :disabled="currentQuestionIndex === 0 || isAnimating"
       >
         ← Précédent
       </button>
       <button 
         class="bg-white text-black px-8 py-3 rounded-full font-medium hover:bg-gray-200 transition-colors duration-300 disabled:opacity-30 disabled:cursor-not-allowed flex items-center gap-2" 
-        @click="$emit('next')"
-        :disabled="currentAnswer === null"
+        @click="onNext"
+        :disabled="currentAnswer === null || isAnimating"
       >
         {{ isLastQuestion ? 'Voir les résultats' : 'Suivant' }}
         <span v-if="!isLastQuestion">→</span>

@@ -13,6 +13,7 @@ const {
   answers,
   ratings,
   sections,
+  questions,
   totalQuestions,
   questionsPerSection,
   currentQuestion,
@@ -114,6 +115,7 @@ onMounted(() => {
         v-if="currentView === 'quiz'"
         ref="quizRef"
         :sections="sections"
+        :questions="questions"
         :current-question="currentQuestion"
         :current-question-index="currentQuestionIndex"
         :total-questions="totalQuestions"
