@@ -39,10 +39,10 @@ const {
 
 
 const route = useRoute();
-const introRef = ref(null);
-const quizRef = ref(null);
-const resultsRef = ref(null);
-const elementRef = ref(null);
+const introRef = useTemplateRef("introRef");
+const quizRef = useTemplateRef("quizRef");
+const resultsRef = useTemplateRef("resultsRef");
+const elementRef = useTemplateRef("elementRef");
 
 const handleStart = async () => {
     if (introRef.value) {

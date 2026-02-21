@@ -28,7 +28,7 @@ const gameStore = useGameStore();
 // const { isPlaying } = storeToRefs(audioStore);
 
 const route = useRoute();
-const lenisRef = ref(null);
+const lenisRef = useTemplateRef("lenisRef");
 
 const introductionData = mainData.introduction;
 

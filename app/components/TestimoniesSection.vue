@@ -3,10 +3,10 @@ import mainData from "~/app/data/main.json";
 
 const { $gsap } = useNuxtApp();
 
-const sectionRef = ref(null);
-const stickyRef = ref(null);
-const heroTextRef = ref(null);
-const trackRef = ref(null);
+const sectionRef = useTemplateRef("sectionRef");
+const stickyRef = useTemplateRef("stickyRef");
+const heroTextRef = useTemplateRef("heroTextRef");
+const trackRef = useTemplateRef("trackRef");
 const firstCardContentRef = ref(null); // Will hold the inner content div of the first card
 
 const testimonies = mainData.testimonies;

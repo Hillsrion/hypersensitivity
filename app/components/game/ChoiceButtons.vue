@@ -17,7 +17,7 @@ const emit = defineEmits<{
 
 const gameStore = useGameStore();
 
-const iconRef = ref<HTMLElement | null>(null);
+const iconRef = useTemplateRef<HTMLElement>("iconRef");
 const buttonRefs = ref<HTMLElement[]>([]);
 
 const { hoveredIndex, isSelecting, selectedIndex, handleSelect } =

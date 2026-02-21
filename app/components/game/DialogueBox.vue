@@ -21,10 +21,10 @@ onMounted(() => {
     console.log("LOG_DEBUG: DialogueBox Mounted", props.dialogue?.id);
 });
 
-const contentRef = ref<HTMLElement | null>(null);
-const textRef = ref<HTMLElement | null>(null);
-const annotationRef = ref<HTMLElement | null>(null);
-const speakerRef = ref<HTMLElement | null>(null);
+const contentRef = useTemplateRef<HTMLElement>("contentRef");
+const textRef = useTemplateRef<HTMLElement>("textRef");
+const annotationRef = useTemplateRef<HTMLElement>("annotationRef");
+const speakerRef = useTemplateRef<HTMLElement>("speakerRef");
 
 const { 
   isPensees,

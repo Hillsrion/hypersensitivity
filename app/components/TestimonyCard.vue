@@ -97,12 +97,12 @@ import { useAudioStore } from "~/stores/audio";
 const { $gsap: gsap } = useNuxtApp();
 
 const audioStore = useAudioStore();
-const containerRef = ref(null);
-const borderRect = ref(null);
-const textRef = ref(null);
-const authorRef = ref(null);
-const auroraRef = ref(null);
-const auroraInnerRef = ref(null);
+const containerRef = useTemplateRef("containerRef");
+const borderRect = useTemplateRef("borderRect");
+const textRef = useTemplateRef("textRef");
+const authorRef = useTemplateRef("authorRef");
+const auroraRef = useTemplateRef("auroraRef");
+const auroraInnerRef = useTemplateRef("auroraInnerRef");
 const isHovering = ref(false);
 
 const props = defineProps({

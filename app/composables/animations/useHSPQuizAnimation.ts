@@ -4,13 +4,13 @@ export const useHSPQuizAnimation = (props: any, emit: any) => {
   const isAnimating = ref(false);
   const internalDisplaySectionName = ref(props.displaySectionName);
 
-  const sectionNameRef = ref(null);
-  const headerRef = ref(null);
-  const progressBarRef = ref(null);
-  const questionInfoRef = ref(null);
-  const questionTextRef = ref(null);
-  const answersRef = ref(null);
-  const navRef = ref(null);
+  const sectionNameRef = useTemplateRef<HTMLElement>("sectionNameRef");
+  const headerRef = useTemplateRef<HTMLElement>("headerRef");
+  const progressBarRef = useTemplateRef<HTMLElement>("progressBarRef");
+  const questionInfoRef = useTemplateRef<HTMLElement>("questionInfoRef");
+  const questionTextRef = useTemplateRef<HTMLElement>("questionTextRef");
+  const answersRef = useTemplateRef<HTMLElement>("answersRef");
+  const navRef = useTemplateRef<HTMLElement>("navRef");
 
   watch(() => props.currentSectionIndex, (newIndex: number) => {
     if (!sectionNameRef.value) {

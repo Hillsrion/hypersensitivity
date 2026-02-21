@@ -23,9 +23,9 @@ const { $gsap } = useNuxtApp();
 const animations = useAnimationsStore();
 const { animateToWhite } = useBackgroundGradient();
 
-const containerRef = ref(null);
-const wrapperRef = ref(null);
-const textRef = ref(null);
+const containerRef = useTemplateRef("containerRef");
+const wrapperRef = useTemplateRef("wrapperRef");
+const textRef = useTemplateRef("textRef");
 
 const props = defineProps({
   text: {

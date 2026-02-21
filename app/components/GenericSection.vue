@@ -18,12 +18,12 @@ const props = defineProps({
 
 const { $gsap } = useNuxtApp();
 const animationsStore = useAnimationsStore();
-const containerRef = ref(null);
-const titleWrapperRef = ref(null);
-const contentRef = ref(null);
+const containerRef = useTemplateRef("containerRef");
+const titleWrapperRef = useTemplateRef("titleWrapperRef");
+const contentRef = useTemplateRef("contentRef");
 // We will have one "main" title and duplicates.
 // Let's create an array for the titles to animate.
-const titlesRef = ref([]);
+const titlesRef = useTemplateRef("titlesRef");
 
 let lastColorChangeTime = 0;
 let visibilityTimeout = null;

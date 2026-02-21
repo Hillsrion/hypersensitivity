@@ -4,7 +4,7 @@ import { eyePaths } from "~/app/constants/eyePaths";
 export const useEyeAnimations = () => {
   const { $gsap } = useNuxtApp();
   const animationsStore = useAnimationsStore();
-  const eyePath = ref<SVGPathElement | null>(null);
+  const eyePath = useTemplateRef<SVGPathElement>("eyePath");
 
   const playCloseEyeAnimation = () => {
     return new Promise<void>((resolve) => {

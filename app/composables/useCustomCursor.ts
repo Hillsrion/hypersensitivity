@@ -1,5 +1,5 @@
 export const useCustomCursor = () => {
-  const cursorRef = ref<HTMLElement | null>(null);
+  const cursorRef = useTemplateRef<HTMLElement>("cursorRef");
   const mouseX = ref(0);
   const mouseY = ref(0);
   const cursorX = ref(0);

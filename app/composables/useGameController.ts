@@ -8,8 +8,8 @@ export const useGameController = () => {
   const audioStore = useAudioStore();
   const { $gsap } = useNuxtApp();
 
-  const dialogueBoxRef = ref<any>(null);
-  const choicesRef = ref<HTMLElement | null>(null);
+  const dialogueBoxRef = useTemplateRef<any>("dialogueBoxRef");
+  const choicesRef = useTemplateRef<any>("choicesRef");
   const isChoiceSelecting = ref(false);
   const activeChoices = ref<any[]>([]);
 

@@ -1,11 +1,11 @@
 export const useHSPIntroAnimation = () => {
   const { $gsap } = useNuxtApp();
-  const titleRef = ref(null);
-  const desc1Ref = ref(null);
-  const desc2Ref = ref(null);
-  const stat1Ref = ref(null);
-  const stat2Ref = ref(null);
-  const btnRef = ref(null);
+  const titleRef = useTemplateRef<HTMLElement>("titleRef");
+  const desc1Ref = useTemplateRef<HTMLElement>("desc1Ref");
+  const desc2Ref = useTemplateRef<HTMLElement>("desc2Ref");
+  const stat1Ref = useTemplateRef<HTMLElement>("stat1Ref");
+  const stat2Ref = useTemplateRef<HTMLElement>("stat2Ref");
+  const btnRef = useTemplateRef<HTMLElement>("btnRef");
 
   const leave = () => {
     return new Promise((resolve) => {

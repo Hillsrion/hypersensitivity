@@ -12,7 +12,7 @@ defineProps({
 const { $gsap } = useNuxtApp();
 const animationsStore = useAnimationsStore();
 const { landing } = storeToRefs(animationsStore);
-const titleRef = ref(null);
+const titleRef = useTemplateRef("titleRef");
 const { chars } = useSplitText(titleRef, { splitBy: "chars,words" });
 
 watch(

@@ -7,7 +7,7 @@ const gameStore = useGameStore();
 const animationsStore = useAnimationsStore();
 const { $gsap } = useNuxtApp();
 
-const menuRef = ref<HTMLElement | null>(null);
+const menuRef = useTemplateRef<HTMLElement>("menuRef");
 const itemsRef = ref<HTMLElement[]>([]);
 const itemComponents = ref<any[]>([]);
 const isMenuOpen = computed(() => gameStore.isMenuOpen);

@@ -4,7 +4,7 @@ import { useGameStore } from "~/stores/game";
 const gameStore = useGameStore();
 const { $gsap } = useNuxtApp();
 
-const titleRef = ref<HTMLElement | null>(null);
+const titleRef = useTemplateRef<HTMLElement>("titleRef");
 const displayTitle = ref(gameStore.currentTitle);
 
 watch(

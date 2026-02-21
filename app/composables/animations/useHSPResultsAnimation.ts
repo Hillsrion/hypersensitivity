@@ -1,17 +1,17 @@
 export const useHSPResultsAnimation = (props: any) => {
   const { $gsap } = useNuxtApp();
 
-  const scoreContainerRef = ref(null);
-  const totalScoreRef = ref<HTMLElement | null>(null);
-  const sensitivityLabelRef = ref(null);
-  const sensitivityDescRef = ref(null);
-  const sectionsTitleRef = ref(null);
-  const sectionItemsRef = ref([]);
-  const sectionScoreCountersRef = ref([]);
-  const sectionBarsRef = ref([]);
-  const profileCardRef = ref(null);
-  const alertCardRef = ref(null);
-  const restartBtnRef = ref(null);
+  const scoreContainerRef = useTemplateRef<HTMLElement>("scoreContainerRef");
+  const totalScoreRef = useTemplateRef<HTMLElement>("totalScoreRef");
+  const sensitivityLabelRef = useTemplateRef<HTMLElement>("sensitivityLabelRef");
+  const sensitivityDescRef = useTemplateRef<HTMLElement>("sensitivityDescRef");
+  const sectionsTitleRef = useTemplateRef<HTMLElement>("sectionsTitleRef");
+  const sectionItemsRef = useTemplateRef<HTMLElement[]>("sectionItemsRef");
+  const sectionScoreCountersRef = useTemplateRef<HTMLElement[]>("sectionScoreCountersRef");
+  const sectionBarsRef = useTemplateRef<HTMLElement[]>("sectionBarsRef");
+  const profileCardRef = useTemplateRef<HTMLElement>("profileCardRef");
+  const alertCardRef = useTemplateRef<HTMLElement>("alertCardRef");
+  const restartBtnRef = useTemplateRef<HTMLElement>("restartBtnRef");
 
   const enter = () => {
     return new Promise((resolve) => {
@@ -75,7 +75,7 @@ export const useHSPResultsAnimation = (props: any) => {
       }, 0.5);
 
       // 4. Animate Bars and Section Counters
-      sectionBarsRef.value.forEach((bar: any, index: number) => {
+      (sectionBarsRef.value ?? []).forEach((bar: any, index: number) => {
           if (!bar) return;
           
           // Bar width
@@ -87,7 +87,7 @@ export const useHSPResultsAnimation = (props: any) => {
           }, 0.5 + (index * 0.05));
 
           // Section Score Counter
-          const counterEl: any = sectionScoreCountersRef.value[index];
+          const counterEl: any = (sectionScoreCountersRef.value ?? [])[index];
           if (counterEl) {
               const sectionScore = props.sectionScores[index];
               const sectionScoreObj = { val: 0 };
@@ -117,7 +117,7 @@ export const useHSPResultsAnimation = (props: any) => {
           profileCardRef.value,
           alertCardRef.value,
           restartBtnRef.value,
-          ...sectionItemsRef.value
+          ...(sectionItemsRef.value ?? [])
       ].filter(el => el);
 
       tl.to(allRefs, {

@@ -9,7 +9,7 @@ import { useGameController } from "~/app/composables/useGameController";
 
 const { $gsap } = useNuxtApp();
 
-const containerRef = ref<HTMLElement | null>(null);
+const containerRef = useTemplateRef<HTMLElement>("containerRef");
 
 const {
   gameStore,

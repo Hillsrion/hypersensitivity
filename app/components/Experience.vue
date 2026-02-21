@@ -26,8 +26,8 @@ const handleEndChoiceSelect = (choice: Choice) => {
   }
 };
 
-const container = ref<HTMLElement | null>(null);
-const textContainer = ref<HTMLElement | null>(null);
+const container = useTemplateRef<HTMLElement>("container");
+const textContainer = useTemplateRef<HTMLElement>("textContainer");
 
 const { 
   eyePath, 

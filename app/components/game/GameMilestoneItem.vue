@@ -13,8 +13,8 @@ defineEmits<{
   (e: "click", milestoneId: string): void;
 }>();
 
-const dotRef = ref<HTMLElement | null>(null);
-const labelRef = ref<HTMLElement | null>(null);
+const dotRef = useTemplateRef<HTMLElement>("dotRef");
+const labelRef = useTemplateRef<HTMLElement>("labelRef");
 
 const { $gsap } = useNuxtApp();
 
