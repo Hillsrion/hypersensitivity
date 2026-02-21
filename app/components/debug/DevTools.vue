@@ -5,12 +5,12 @@ import { gameData } from "../../data/game";
 import { getFlagsForScene } from "../../data/sceneFlagRequirements";
 import { useAnimationsStore } from "~/stores/animations";
 import { useAudioStore } from "~/stores/audio";
-import { useHSPQuiz } from "~/app/composables/useHSPQuiz";
+import { useHspQuizStore } from "~/stores/hspQuiz";
 
 const gameStore = useGameStore();
 const animationsStore = useAnimationsStore();
 const audioStore = useAudioStore();
-const quiz = useHSPQuiz();
+const quizStore = useHspQuizStore();
 const route = useRoute();
 const { $gsap } = useNuxtApp();
 
@@ -295,16 +295,16 @@ const jumpToScene = (sceneId: string) => {
           <div class="text-[10px] text-gray-500 mb-1 px-1 uppercase tracking-wider">HSP Questionnaire</div>
           
           <button 
-            v-if="quiz.currentView.value !== 'results'"
+            v-if="quizStore.currentView !== 'results'"
             class="px-2 py-1 bg-yellow-500/20 hover:bg-yellow-500/40 text-yellow-300 rounded text-left transition-colors"
-            @click="quiz.completeWithFakeResults()"
+            @click="quizStore.completeWithFakeResults()"
           >
-            {{ (quiz.currentView.value === 'intro' || quiz.currentQuestionIndex.value === 0) ? 'Passer directement à la fin' : 'Terminer avec faux résultats' }}
+            {{ (quizStore.currentView === 'intro' || quizStore.currentQuestionIndex === 0) ? 'Passer directement à la fin' : 'Terminer avec faux résultats' }}
           </button>
 
           <button 
             class="px-2 py-1 bg-white/10 hover:bg-white/20 rounded text-left transition-colors mt-1"
-            @click="quiz.restart"
+            @click="quizStore.restart"
           >
             Reset Quiz
           </button>

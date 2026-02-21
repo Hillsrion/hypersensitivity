@@ -3,10 +3,12 @@ import HSPIntro from './hsp/HSPIntro.vue';
 import HSPQuiz from './hsp/HSPQuiz.vue';
 import HSPResults from './hsp/HSPResults.vue';
 import { useAnimationsStore } from "~/stores/animations";
-import { useHSPQuiz } from "~/app/composables/useHSPQuiz";
+import { useHspQuizStore } from "~/stores/hspQuiz";
+import { storeToRefs } from "pinia";
 
 const { $gsap } = useNuxtApp();
 const animationsStore = useAnimationsStore();
+const hspQuizStore = useHspQuizStore();
 const {
   currentView,
   currentQuestionIndex,
@@ -24,13 +26,16 @@ const {
   totalScore,
   sensitivityLevel,
   sectionScores,
-  dominantProfile,
+  dominantProfile
+} = storeToRefs(hspQuizStore);
+
+const {
   startQuiz,
   selectAnswer,
   nextQuestion,
   previousQuestion,
   restart
-} = useHSPQuiz();
+} = hspQuizStore;
 
 
 const route = useRoute();

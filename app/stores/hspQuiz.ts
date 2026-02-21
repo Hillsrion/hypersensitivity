@@ -1,12 +1,14 @@
+import { defineStore } from 'pinia';
 import quizData from '@/app/data/hsp-quiz.json';
 
-const currentView = ref('intro');
-const currentQuestionIndex = ref(0);
-const { ratings, sections, questions: quizQuestions, profiles } = quizData;
-const totalQuestions = quizQuestions.length;
-const answers = ref(Array(totalQuestions).fill(null));
+export const useHspQuizStore = defineStore('hspQuiz', () => {
+  const currentView = ref('intro');
+  const currentQuestionIndex = ref(0);
+  const { ratings, sections, questions: quizQuestions, profiles } = quizData;
+  const totalQuestions = quizQuestions.length;
+  // Initialize answers array with totalQuestions length, filled with null
+  const answers = ref<(number | null)[]>(Array(totalQuestions).fill(null));
 
-export const useHSPQuiz = () => {
   const questions = quizQuestions;
   const questionsPerSection = totalQuestions / sections.length;
   
@@ -17,7 +19,7 @@ export const useHSPQuiz = () => {
   const displaySectionName = computed(() => sections[currentSectionIndex.value]?.name || sections[0]?.name || '');
 
   const totalScore = computed(() => {
-    return answers.value.reduce((sum, val) => sum + (val ?? 0), 0);
+    return answers.value.reduce((sum: number, val) => sum + (val ?? 0), 0);
   });
 
   const sensitivityLevel = computed(() => {
@@ -48,7 +50,7 @@ export const useHSPQuiz = () => {
   function getSectionScore(sectionIndex: number) {
     const start = sectionIndex * questionsPerSection;
     const end = start + questionsPerSection;
-    return answers.value.slice(start, end).reduce((sum, val) => sum + (val ?? 0), 0);
+    return answers.value.slice(start, end).reduce((sum: number, val) => sum + (val ?? 0), 0);
   }
 
   const sectionScores = computed(() => {
@@ -103,9 +105,6 @@ export const useHSPQuiz = () => {
   }
 
   function completeWithFakeResults() {
-    // Fill with random answers (between 1 and 4 or whatever the ratings are)
-    // Ratings are usually 0, 1, 2, 3 or similar
-    // Let's check ratings in quizData. In HSPQuiz.vue it says ratings are passed.
     answers.value = answers.value.map(() => Math.floor(Math.random() * 4));
     currentView.value = 'results';
   }
@@ -144,5 +143,4 @@ export const useHSPQuiz = () => {
     restart,
     completeWithFakeResults
   };
-};
-
+});
