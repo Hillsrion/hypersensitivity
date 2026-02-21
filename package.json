@@ -7,7 +7,9 @@
     "dev": "nuxt dev",
     "generate": "nuxt generate",
     "preview": "nuxt preview",
-    "test:game": "node --experimental-strip-types --experimental-specifier-resolution=node --test tests/game-store-modules.test.mjs"
+    "test": "node --experimental-strip-types --experimental-specifier-resolution=node --test tests/*.test.mjs",
+    "test:game": "node --experimental-strip-types --experimental-specifier-resolution=node --test tests/game-store-modules.test.mjs",
+    "test:quiz": "node --experimental-strip-types --experimental-specifier-resolution=node --test tests/hsp-quiz-store.test.mjs"
   },
   "dependencies": {
     "@hypernym/nuxt-gsap": "^2.4.2",
