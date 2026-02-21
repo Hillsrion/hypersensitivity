@@ -164,6 +164,14 @@ defineExpose({
     enter,
     leave
 });
+
+const getRatingClass = (value) => {
+  const isSelected = props.currentAnswer === value;
+  return {
+    'bg-white text-black border-white': isSelected,
+    'text-white border-white/60 hover:bg-white/10 focus:bg-white/10': !isSelected
+  };
+};
 </script>
 
 <template>
@@ -205,19 +213,19 @@ defineExpose({
       <button 
           v-for="rating in ratings" 
           :key="rating.value"
-          class="group relative flex flex-col items-center justify-center p-6 rounded-2xl border transition-all duration-200 hover:scale-105"
-          :class="currentAnswer === rating.value ? 'bg-white text-black border-white' : 'bg-white/5 text-gray-400 border-white/10 hover:bg-white/10 hover:border-white/30'"
+          class="group relative flex flex-col items-center justify-center p-6 rounded-[10px] border transition-all duration-200 hover:scale-105"
+          :class="getRatingClass(rating.value)"
           @click="$emit('selectAnswer', rating.value)"
       >
-          <span class="text-2xl font-bold mb-2 group-hover:text-current transition-colors">{{ rating.value }}</span>
-          <span class="text-xs text-center opacity-70 group-hover:opacity-100 transition-opacity">{{ currentQuestion.inversed ? rating.inversedLabel : rating.label }}</span>
+          <span class="text-2xl/7 font-black mb-2 group-hover:text-current transition-colors">{{ rating.value }}</span>
+          <span class="text-base/7 text-center transition-opacity">{{ currentQuestion.inversed ? rating.inversedLabel : rating.label }}</span>
       </button>
     </div>
     
     <!-- Navigation -->
-    <div ref="navRef" class="flex justify-between items-center border-t border-white/10 pt-8 opacity-0">
+    <div ref="navRef" class="flex justify-between items-center opacity-0">
       <button 
-        class="text-gray-500 hover:text-white transition-colors duration-300 flex items-center gap-2 px-4 py-2 disabled:opacity-30 disabled:cursor-not-allowed" 
+        class="text-white transition-colors duration-300 flex items-center gap-2 px-4 py-2 disabled:opacity-30 disabled:cursor-not-allowed" 
         @click="$emit('previous')" 
         :disabled="currentQuestionIndex === 0"
       >
