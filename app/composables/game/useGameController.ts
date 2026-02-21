@@ -1,8 +1,8 @@
 import { useGameStore } from "~/stores/game";
 import { useAnimationsStore } from "~/stores/animations";
 import { useAudioStore } from "~/stores/audio";
-import { useDialogueAurora } from "./game/useDialogueAurora";
-import { useDialogueAudioSync } from "./game/useDialogueAudioSync";
+import { useDialogueAurora } from "./useDialogueAurora";
+import { useDialogueAudioSync } from "./useDialogueAudioSync";
 
 export const useGameController = () => {
   const gameStore = useGameStore();
