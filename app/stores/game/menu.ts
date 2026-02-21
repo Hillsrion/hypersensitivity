@@ -1,4 +1,4 @@
-import type { MenuStatus } from "../../app/types/game";
+import type { MenuStatus } from "../../types/game";
 
 export const MENU_CLOSE_DELAY_MS = 700;
 

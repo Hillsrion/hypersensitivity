@@ -4,8 +4,8 @@ import type {
   GameFlags,
   Milestone,
   Scene,
-} from "../../app/types/game";
-import { MILESTONES } from "../../app/data/milestones";
+} from "../../types/game";
+import { MILESTONES } from "../../data/milestones";
 import { evaluateCondition } from "./conditions.ts";
 
 export const getCurrentScene = (

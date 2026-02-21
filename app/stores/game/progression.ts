@@ -1,5 +1,5 @@
-import type { MilestoneDef } from "../../app/data/milestones";
-import type { GameFlags, Scene } from "../../app/types/game";
+import type { MilestoneDef } from "../../data/milestones";
+import type { GameFlags, Scene } from "../../types/game";
 import { isSceneEligible } from "./conditions.ts";
 
 interface ProgressionContext {

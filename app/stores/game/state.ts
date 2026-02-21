@@ -1,5 +1,5 @@
-import type { GameFlags, GameState } from "../../app/types/game";
-import { gameData } from "../../app/data/game";
+import type { GameFlags, GameState } from "../../types/game";
+import { gameData } from "../../data/game";
 
 export const STORAGE_KEY = "hypersensitivity-game-state";
 export const DEFAULT_REACHED_MILESTONES = ["reveil"] as const;

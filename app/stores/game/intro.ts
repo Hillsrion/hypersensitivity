@@ -1,4 +1,4 @@
-import type { IntroAnimationPhase } from "../../app/types/game";
+import type { IntroAnimationPhase } from "../../types/game";
 
 export const getEntryAnnotationPhase = (
   introPlayed: boolean

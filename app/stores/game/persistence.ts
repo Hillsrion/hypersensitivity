@@ -1,10 +1,10 @@
-import { SCENE_IDS } from "../../app/data/constants.ts";
+import { SCENE_IDS } from "../../data/constants.ts";
 import type {
   GameFlags,
   GameState,
   MenuStatus,
   PersistedGameState,
-} from "../../app/types/game";
+} from "../../types/game";
 
 const PERSISTED_STATE_VERSION = 1 as const;
 const DEFAULT_REACHED_MILESTONE = "reveil";

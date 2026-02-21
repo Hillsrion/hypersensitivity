@@ -2,7 +2,7 @@ import type {
   ChoiceEffects,
   DialogueLine,
   GameFlags,
-} from "../../app/types/game";
+} from "../../types/game";
 
 export const clampEnergy = (energy: number): number =>
   Math.max(0, Math.min(100, energy));

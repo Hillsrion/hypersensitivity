@@ -1,4 +1,4 @@
-import type { ChoiceCondition, GameFlags, Scene } from "../../app/types/game";
+import type { ChoiceCondition, GameFlags, Scene } from "../../types/game";
 
 export const evaluateCondition = (
   condition: ChoiceCondition,
