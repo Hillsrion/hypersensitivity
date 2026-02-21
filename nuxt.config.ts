@@ -5,7 +5,6 @@ import { fileURLToPath } from 'node:url'
 export default defineNuxtConfig({
   modules: [
     '@pinia/nuxt',
-    '@nuxt/content',
     '@nuxtjs/google-fonts',
     '@hypernym/nuxt-gsap',
     '~/modules/devtools-extension.ts',

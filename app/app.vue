@@ -30,19 +30,6 @@ const gameStore = useGameStore();
 const route = useRoute();
 const lenisRef = ref(null);
 
-const { data: page } = await useAsyncData("page-" + route.path, () => {
-  if (route.path === '/game-tools-view') return Promise.resolve({ title: 'DevTools' });
-  return queryCollection("content").path(route.path).first();
-});
-
-if (!page.value && route.path !== '/game-tools-view') {
-  throw createError({
-    statusCode: 404,
-    statusMessage: "Page not found: " + route.path, // Add path to message
-    fatal: true,
-  });
-}
-
 const introductionData = mainData.introduction;
 
 // Watch loading state and control Lenis scrolling
