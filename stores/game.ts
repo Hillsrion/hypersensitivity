@@ -480,15 +480,17 @@ export const useGameStore = defineStore("game", {
       audioStore.pauseAudio();
     },
 
-    closeMenu() {
+    closeMenu(resumeAudio: boolean = true) {
       this.menuStatus = getMenuClosingStatus();
 
       setTimeout(() => {
         this.menuStatus = finalizeClosingStatus(this.menuStatus);
       }, MENU_CLOSE_DELAY_MS);
 
-      const audioStore = useAudioStore();
-      audioStore.resumeAudio();
+      if (resumeAudio) {
+        const audioStore = useAudioStore();
+        audioStore.resumeAudio();
+      }
     },
 
     toggleForceShowUI() {

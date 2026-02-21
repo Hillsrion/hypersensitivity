@@ -86,7 +86,7 @@ const handleMilestoneClick = (milestoneId: string) => {
 };
 
 const navigateToTest = () => {
-  gameStore.closeMenu();
+  gameStore.closeMenu(false);
   setTimeout(() => {
     gameStore.setShowQuestionnaire(true);
   }, 1000); // 1-second delay to match Experience.vue game end transition
