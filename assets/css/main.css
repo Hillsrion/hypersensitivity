@@ -25,6 +25,7 @@
   --font-epilogue: "Epilogue", sans-serif;
   --color-primary: #0b1018;
   --text-title: 1.75rem;
+  --breakpoint-xs: 430px;
 }
 
 /* Satoshi Font */
