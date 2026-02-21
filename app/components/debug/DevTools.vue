@@ -155,6 +155,13 @@ const jumpToScene = (sceneId: string) => {
         Skip to Game
       </button>
 
+      <button 
+        class="px-2 py-1 bg-purple-500/20 hover:bg-purple-500/40 text-purple-300 rounded text-left transition-colors"
+        @click="jumpToScene(SCENE_IDS.GAME_END)"
+      >
+        Skip to End
+      </button>
+
       <div class="h-px bg-white/10 my-1"></div>
 
       <div class="flex flex-col gap-1 px-2 py-1 bg-white/5 rounded">

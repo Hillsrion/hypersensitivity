@@ -1,6 +1,9 @@
 import { useGameStore } from "~/stores/game";
 import { useAnimationsStore } from "~/stores/animations";
 import { useAudioStore } from "~/stores/audio";
+import { SCENE_IDS } from "~/app/data/constants";
+import { gameData } from "~/app/data/game";
+import { getFlagsForScene } from "~/app/data/sceneFlagRequirements";
 
 export default defineNuxtPlugin((nuxtApp) => {
   // Only play in dev mode
@@ -29,6 +32,10 @@ export default defineNuxtPlugin((nuxtApp) => {
         
       case 'SKIP_TO_GAME':
         skipToGame()
+        break
+        
+      case 'SKIP_TO_END':
+        skipToEnd()
         break
         
       case 'TOGGLE_UI':
@@ -133,5 +140,22 @@ export default defineNuxtPlugin((nuxtApp) => {
               }
           }
       }, 100);
+  }
+
+  const skipToEnd = () => {
+    // 1. Ensure we are in a state where game logic runs (skipped intro)
+    gameStore.setIntroPlayed();
+    gameStore.setIntroAnimationPhase('complete');
+    gameStore.setIntroBlurAmount(0);
+    scrollTo('bottom');
+    
+    // 2. Lock scroll
+    setTimeout(() => {
+        animationsStore.setScrollLocked(true);
+        
+        // 3. Jump to Game End scene with resolved flags
+        const resolvedFlags = getFlagsForScene(SCENE_IDS.GAME_END, gameData.initialFlags);
+        gameStore.goToScene(SCENE_IDS.GAME_END, resolvedFlags);
+    }, 100);
   }
 })

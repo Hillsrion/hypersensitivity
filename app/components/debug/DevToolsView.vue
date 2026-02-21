@@ -47,6 +47,7 @@ const sendCommand = (type: string, payload?: any) => {
 
 const resetIntro = () => sendCommand('RESET_INTRO');
 const skipToGame = () => sendCommand('SKIP_TO_GAME');
+const skipToEnd = () => sendCommand('SKIP_TO_END');
 const toggleForceShowUI = () => {
   // We send the toggle command, the game updates state and sends it back via sync
   sendCommand('TOGGLE_UI');
@@ -93,7 +94,15 @@ watch(playbackRate, (rate) => {
         >
           Reset Intro
         </button>
+        <button 
+          class="px-3 py-2 bg-purple-500/20 hover:bg-purple-500/40 text-purple-300 rounded text-center transition-colors border border-purple-500/20"
+          @click="skipToEnd"
+        >
+          Skip to End
+        </button>
+      </div>
 
+      <div class="grid grid-cols-1 gap-2">
         <button 
           class="px-3 py-2 bg-green-500/20 hover:bg-green-500/40 text-green-300 rounded text-center transition-colors border border-green-500/20"
           @click="skipToGame"
