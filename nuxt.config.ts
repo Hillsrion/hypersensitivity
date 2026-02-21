@@ -40,7 +40,6 @@ export default defineNuxtConfig({
     dirs: [
       'composables/game',
       'composables/hsp',
-      '../stores/**',
     ],
   },
 
