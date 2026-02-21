@@ -124,28 +124,28 @@
   "profiles": [
     {
       "id": "corps",
-      "name": "Profil « Corps à vif »",
+      "name": "Corps à vif",
       "sections": [0, 6],
       "description": "Votre défi est physiologique. Le bruit, la lumière et le stress se manifestent dans votre corps.",
       "advice": "Priorisez l'environnement (calme, nature, sommeil, alimentation anti-inflammatoire)."
     },
     {
       "id": "coeur",
-      "name": "Profil « Cœur éponge »",
+      "name": "Cœur éponge",
       "sections": [1, 7],
       "description": "Votre défi est relationnel. Vous vous perdez dans les émotions des autres.",
       "advice": "Travaillez sur les frontières émotionnelles (« Cette émotion ne m'appartient pas »). Apprenez à dire non."
     },
     {
       "id": "cerveau",
-      "name": "Profil « Cerveau en ébullition »",
+      "name": "Cerveau en ébullition",
       "sections": [2, 5],
       "description": "Votre défi est mental. Vous analysez intensément et pouvez saturer d'informations.",
       "advice": "Pratiques d'ancrage corporel (sport, méditation, travail manuel) pour sortir de la tête."
     },
     {
       "id": "intuitif",
-      "name": "Profil « Intuitif / Créatif »",
+      "name": "Intuitif / Créatif",
       "sections": [4],
       "description": "C'est votre ressource principale. Un score élevé ici indique une capacité de résilience par l'émerveillement.",
       "advice": "Nourrissez ce besoin d'art, de beauté et de nature — c'est votre « médicament » naturel."

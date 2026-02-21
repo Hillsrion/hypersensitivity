@@ -175,42 +175,42 @@ defineExpose({
 <template>
   <div class="w-full max-w-5xl text-left mx-auto px-4 md:px-0 mt-8">
     <!-- Top block -->
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-16 md:gap-24 mb-24">
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-16 md:gap-24 mb-10">
       
       <!-- Left side: Score and Sensitivity -->
       <div ref="scoreContainerRef" class="opacity-0">        
         <div class="flex flex-col items-start mb-8">
             <div class="flex items-baseline gap-1 mb-2">
-                <span ref="totalScoreRef" class="text-6xl font-bold font-satoshi text-white">0</span>
-                <span class="text-gray-400 text-2xl font-satoshi">/ {{ totalQuestions * 4 }}</span>
+                <span ref="totalScoreRef" class="2xl:text-6xl text-5xl/7 font-bold font-satoshi text-white">0</span>
+                <span class="text-gray-400 text-2xl/7 font-satoshi">/ {{ totalQuestions * 4 }}</span>
             </div>
-            <div ref="sensitivityLabelRef" class="text-4xl md:text-[2.75rem] font-eiko italic mb-6 opacity-0 text-white leading-tight">
+            <div ref="sensitivityLabelRef" class="text-4xl md:text-[2.5rem] font-serif font-light italic mb-6 opacity-0 text-white leading-tight">
                 {{ sensitivityLevel.label }}
             </div>
-            <p ref="sensitivityDescRef" class="text-gray-300 font-satoshi opacity-0 leading-relaxed text-sm md:text-base">
+            <p ref="sensitivityDescRef" class="text-white opacity-0 leading-relaxed text-sm md:text-xl/7 font-light">
                 {{ sensitivityLevel.description }}
             </p>
         </div>
       </div>
 
       <!-- Right side: Profile and Advice -->
-      <div class="space-y-8 flex flex-col justify-start pt-2 md:pt-4">
+      <div class="gap-4 flex flex-col justify-start pt-2 md:pt-4">
           <div v-if="dominantProfile" ref="profileCardRef" class="opacity-0 space-y-6">
               <div>
-                  <h3 class="text-white text-sm font-satoshi font-medium tracking-wide uppercase mb-3">
-                      Profil <span class="font-eiko italic font-normal text-[1.4rem] ml-1 text-gray-200">"{{ dominantProfile.name }}"</span>
+                  <h3 class="text-white text-base/7 font-satoshi font-medium tracking-wide mb-3">
+                      <span class="uppercase">Profil</span> <span class="font-serif italic font-normal text-xl/7 ml-1">"{{ dominantProfile.name }}"</span>
                   </h3>
-                  <p class="text-gray-400 font-satoshi leading-relaxed text-sm">{{ dominantProfile.description }}</p>
+                  <p class="text-white text-sm md:text-xl/7 font-light">{{ dominantProfile.description }}</p>
               </div>
               <div>
-                  <h3 class="text-white text-sm font-satoshi font-medium tracking-wide uppercase mb-3">Conseil</h3>
-                  <p class="text-gray-400 font-satoshi leading-relaxed text-sm">{{ dominantProfile.advice }}</p>
+                  <h3 class="text-white text-base/7 font-satoshi font-medium tracking-wide uppercase mb-3">Conseil</h3>
+                  <p class="text-white text-sm md:text-xl/7 font-light">{{ dominantProfile.advice }}</p>
               </div>
           </div>
           
           <div v-if="sectionScores[7] > (questionsPerSection * 4 * 0.75)" ref="alertCardRef" class="opacity-0">
-              <h4 class="text-red-400 text-sm font-satoshi font-medium tracking-wide uppercase mb-3">Indicateur de sur-adaptation</h4>
-              <p class="text-gray-400 font-satoshi leading-relaxed text-sm">
+              <h4 class="text-white text-sm font-satoshi font-medium tracking-wide uppercase mb-3">Indicateur de sur-adaptation</h4>
+              <p class="text-white font-satoshi leading-relaxed text-sm">
                   Votre score en Section VIII (Adaptation sociale) est supérieur à {{ questionsPerSection * 4 * 0.75 }}/{{ questionsPerSection * 4 }}. 
                   Cela suggère que vous êtes actuellement en sur-adaptation et dépensez beaucoup d'énergie à « faire comme tout le monde ».
               </p>
@@ -219,24 +219,24 @@ defineExpose({
     </div>
 
     <!-- Middle block: Scores par section -->
-    <div class="mb-20">
-        <h3 ref="sectionsTitleRef" class="text-white text-sm font-satoshi font-medium tracking-wide uppercase mb-10 opacity-0">Scores par section</h3>
+    <div class="mb-10">
+        <h3 ref="sectionsTitleRef" class="text-white text-base/7 font-satoshi font-medium tracking-wide uppercase mb-2 opacity-0">Scores par section</h3>
         
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-x-20 gap-y-8">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-x-22 gap-y-2">
             <div v-for="(section, index) in sections" :key="index" ref="sectionItemsRef" class="opacity-0 flex flex-col group">
-                <span class="text-gray-200 font-eiko italic text-xl mb-4">{{ section.shortName }}</span>
-                <div class="flex items-center gap-6">
-                    <div class="h-[2px] bg-white/20 w-full relative flex-1">
+                <span class="text-gray-200 text-sm/6 lg:text-base/7 font-serif italic">{{ section.shortName }}</span>
+                <div class="flex items-center gap-4">
+                    <div class="h-1 bg-white/20 w-full relative flex-1 rounded-full">
                         <div 
                             ref="sectionBarsRef"
-                            class="h-full bg-white absolute left-0 top-0" 
+                            class="h-full bg-white absolute left-0 top-0 rounded-full" 
                             :style="{ 
                               width: '0%',
                             }"
                             :data-width="(sectionScores[index] / (questionsPerSection * 4) * 100) + '%'"
                         ></div>
                     </div>
-                    <span class="text-white text-sm font-satoshi font-semibold tracking-wide whitespace-nowrap">
+                    <span class="text-white text-sm/7 font-satoshi font-semibold tracking-wide whitespace-nowrap">
                       <span ref="sectionScoreCountersRef">0</span>/{{ questionsPerSection * 4 }}
                     </span>
                 </div>
