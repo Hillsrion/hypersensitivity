@@ -251,7 +251,7 @@ const showQuestionnaire = () => {
           class="absolute inset-0 z-30 flex flex-col items-center justify-center pointer-events-auto"
         >
           <div class="max-w-2xl px-6 text-center h-full flex flex-col items-center justify-center pb-32">
-            <h2 class="font-serif italic text-title text-white leading-tight">
+            <h2 class="font-serif italic text-title leading-[1.4] text-white">
               Souhaitez-vous évaluer votre spectre de l'Hypersensibilité ?
             </h2>
           </div>
