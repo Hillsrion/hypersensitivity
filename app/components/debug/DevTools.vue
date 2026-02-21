@@ -62,6 +62,26 @@ const resetIntro = () => {
     }, 50);
 };
 
+const skipIntro = () => {
+    // Check env variable for SKIP_INTRO from stores/animations.ts:L5 logic
+    const SKIP_INTRO = import.meta.env.VITE_SKIP_INTRO === 'true';
+
+    // 1. Stop audio only if we didn't initially load with skip intro
+    if (!SKIP_INTRO) {
+        audioStore.stopCurrentAudio(false);
+    }
+    
+    // 2. Complete Title Animations
+    animationsStore.landing.mainTitle.entry.started = true;
+    animationsStore.landing.mainTitle.entry.completed = true;
+    animationsStore.landing.mainTitle.exit.started = true;
+    animationsStore.landing.mainTitle.exit.completed = true;
+    
+    // 3. Complete Intro Animations (SoundIntroduction)
+    animationsStore.landing.intro.entry.started = true;
+    animationsStore.landing.intro.entry.completed = true;
+};
+
 const skipToGame = () => {
     // 1. Set Game State to Playing
     gameStore.setIntroPlayed();
@@ -90,6 +110,12 @@ const skipToGame = () => {
 }
 
 onMounted(() => {
+  // Check env variable for SKIP_INTRO from stores/animations.ts:L5 logic
+  const SKIP_INTRO = import.meta.env.VITE_SKIP_INTRO === 'true';
+  if (SKIP_INTRO) {
+    skipIntro();
+  }
+
   // Dev shortcut: scroll to a specific component on pageload
   const target = route.query.scroll || (import.meta.env.DEV ? "experience" : null);
   if (target) {
@@ -149,6 +175,13 @@ const jumpToScene = (sceneId: string) => {
         @click="resetIntro"
       >
         Reset Intro
+      </button>
+
+      <button 
+        class="px-2 py-1 bg-yellow-500/20 hover:bg-yellow-500/40 text-yellow-300 rounded text-left transition-colors"
+        @click="skipIntro"
+      >
+        Skip Intro
       </button>
 
       <button 
