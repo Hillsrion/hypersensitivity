@@ -89,6 +89,14 @@ const timings = computed(() => {
 });
 
 const animate = () => {
+  if (animations.skipIntro) {
+    $gsap.set(wrapperRef.value, { opacity: 1, y: 0 });
+    $gsap.set(split.lines.value, { opacity: 1, y: 0 });
+    $gsap.set(split.words.value, { opacity: 1 });
+    animations.onIntroEntryComplete();
+    return;
+  }
+
   tl.play();
 
   // Initial wrapper fade in

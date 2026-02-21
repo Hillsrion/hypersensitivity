@@ -93,6 +93,8 @@ const skipIntro = () => {
     if (!SKIP_INTRO) {
         audioStore.stopCurrentAudio(false);
     }
+
+    animationsStore.skipIntro = true;
     
     // 2. Complete Title Animations
     animationsStore.landing.mainTitle.entry.started = true;
@@ -281,7 +283,7 @@ const jumpToScene = (sceneId: string) => {
 
           <button 
             class="px-2 py-1 rounded text-left transition-colors"
-            :class="gameStore.forceShowUI ? 'bg-orange-500/40 text-orange-200 outline outline-1 outline-orange-500' : 'bg-white/10 hover:bg-white/20'"
+            :class="gameStore.forceShowUI ? 'bg-orange-500/40 text-orange-200 outline-1 outline-orange-500' : 'bg-white/10 hover:bg-white/20'"
             @click="gameStore.toggleForceShowUI()"
           >
               UI: {{ gameStore.forceShowUI ? 'Forcée' : 'Par défaut' }}
