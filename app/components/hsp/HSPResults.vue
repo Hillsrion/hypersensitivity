@@ -173,80 +173,81 @@ defineExpose({
 </script>
 
 <template>
-  <div class="w-full max-w-5xl text-center">
-    <div ref="scoreContainerRef" class="mb-16 opacity-0">        
-      <div class="flex-col items-center justify-center mb-8">
-          <div class="flex items-baseline gap-2 mb-2 text-white justify-center">
-              <span ref="totalScoreRef" class="fl-text-4xl/5xl font-bold">0</span>
-              <span class="text-gray-500 text-xl">/ {{ totalQuestions * 4 }}</span>
-          </div>
-          <div ref="sensitivityLabelRef" class="text-[2.5rem] font-serif mb-2 opacity-0">
-              {{ sensitivityLevel.label }}
-          </div>
-          <p ref="sensitivityDescRef" class="max-w-lg mx-auto text-balance text-title text-gray-300 opacity-0">
-          {{ sensitivityLevel.description }}
-          </p>
-      </div>
-    </div>
-    
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-12 mb-16 text-left">
-      <div>
-          <h3 ref="sectionsTitleRef" class="fl-text-xl/2xl text-white font-serif italic mb-8 border-b border-white/10 pb-4 opacity-0">Scores par dimension</h3>
-          <div class="space-y-6">
-              <div v-for="(section, index) in sections" :key="index" ref="sectionItemsRef" class="relative group opacity-0">
-                  <div class="flex items-center justify-between mb-2 z-10 relative">
-                      <div class="flex items-center gap-3">
-                          <span class="text-gray-300 font-medium text-sm">{{ section.shortName }}</span>
-                      </div>
-                      <span class="text-white font-mono text-sm">
-                        <span ref="sectionScoreCountersRef">0</span>/{{ questionsPerSection * 4 }}
-                      </span>
-                  </div>
-                  <div class="h-2 bg-gray-800 rounded-full overflow-hidden w-full relative">
-                      <div 
-                          ref="sectionBarsRef"
-                          class="h-full rounded-full" 
-                          :style="{ 
-                            width: '0%',
-                            backgroundColor: section.color
-                          }"
-                          :data-width="(sectionScores[index] / (questionsPerSection * 4) * 100) + '%'"
-                      ></div>
-                  </div>
-              </div>
-          </div>
-      </div>
+  <div class="w-full max-w-5xl text-left mx-auto px-4 md:px-0 mt-8">
+    <!-- Top block -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-16 md:gap-24 mb-24">
       
-      <div class="space-y-8">
-          <div v-if="dominantProfile" ref="profileCardRef" class="bg-linear-to-br from-white/10 to-transparent border border-white/10 rounded-3xl p-8 opacity-0">
-              <div class="flex items-center gap-4 mb-6">
-                  <div>
-                      <h3 class="text-xl text-white font-bold">{{ dominantProfile.name }}</h3>
-                      <span class="text-xs uppercase tracking-widest text-gray-500">Profil Dominant</span>
-                  </div>
+      <!-- Left side: Score and Sensitivity -->
+      <div ref="scoreContainerRef" class="opacity-0">        
+        <div class="flex flex-col items-start mb-8">
+            <div class="flex items-baseline gap-1 mb-2">
+                <span ref="totalScoreRef" class="text-6xl font-bold font-satoshi text-white">0</span>
+                <span class="text-gray-400 text-2xl font-satoshi">/ {{ totalQuestions * 4 }}</span>
+            </div>
+            <div ref="sensitivityLabelRef" class="text-4xl md:text-[2.75rem] font-eiko italic mb-6 opacity-0 text-white leading-tight">
+                {{ sensitivityLevel.label }}
+            </div>
+            <p ref="sensitivityDescRef" class="text-gray-300 font-satoshi opacity-0 leading-relaxed text-sm md:text-base">
+                {{ sensitivityLevel.description }}
+            </p>
+        </div>
+      </div>
+
+      <!-- Right side: Profile and Advice -->
+      <div class="space-y-8 flex flex-col justify-start pt-2 md:pt-4">
+          <div v-if="dominantProfile" ref="profileCardRef" class="opacity-0 space-y-6">
+              <div>
+                  <h3 class="text-white text-sm font-satoshi font-medium tracking-wide uppercase mb-3">
+                      Profil <span class="font-eiko italic font-normal text-[1.4rem] ml-1 text-gray-200">"{{ dominantProfile.name }}"</span>
+                  </h3>
+                  <p class="text-gray-400 font-satoshi leading-relaxed text-sm">{{ dominantProfile.description }}</p>
               </div>
-              <p class="text-gray-300 mb-6 leading-relaxed">{{ dominantProfile.description }}</p>
-              <div class="bg-indigo-500/10 border border-indigo-500/20 rounded-xl p-6">
-                  <strong class="text-indigo-300 block mb-2 text-sm uppercase tracking-wide">Conseil</strong>
-                  <p class="text-indigo-100/80 text-sm leading-relaxed">{{ dominantProfile.advice }}</p>
+              <div>
+                  <h3 class="text-white text-sm font-satoshi font-medium tracking-wide uppercase mb-3">Conseil</h3>
+                  <p class="text-gray-400 font-satoshi leading-relaxed text-sm">{{ dominantProfile.advice }}</p>
               </div>
           </div>
           
-          <div v-if="sectionScores[7] > (questionsPerSection * 4 * 0.75)" ref="alertCardRef" class="bg-red-500/10 border border-red-500/20 rounded-3xl p-8 opacity-0">
-              <div class="flex items-center gap-3 mb-4">
-                  <h4 class="text-red-300 font-bold">Indicateur de sur-adaptation</h4>
-              </div>
-              <p class="text-red-100/80 text-sm leading-relaxed">
+          <div v-if="sectionScores[7] > (questionsPerSection * 4 * 0.75)" ref="alertCardRef" class="opacity-0">
+              <h4 class="text-red-400 text-sm font-satoshi font-medium tracking-wide uppercase mb-3">Indicateur de sur-adaptation</h4>
+              <p class="text-gray-400 font-satoshi leading-relaxed text-sm">
                   Votre score en Section VIII (Adaptation sociale) est supérieur à {{ questionsPerSection * 4 * 0.75 }}/{{ questionsPerSection * 4 }}. 
                   Cela suggère que vous êtes actuellement en sur-adaptation et dépensez beaucoup d'énergie à « faire comme tout le monde ».
               </p>
           </div>
       </div>
     </div>
+
+    <!-- Middle block: Scores par section -->
+    <div class="mb-20">
+        <h3 ref="sectionsTitleRef" class="text-white text-sm font-satoshi font-medium tracking-wide uppercase mb-10 opacity-0">Scores par section</h3>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-x-20 gap-y-8">
+            <div v-for="(section, index) in sections" :key="index" ref="sectionItemsRef" class="opacity-0 flex flex-col group">
+                <span class="text-gray-200 font-eiko italic text-xl mb-4">{{ section.shortName }}</span>
+                <div class="flex items-center gap-6">
+                    <div class="h-[2px] bg-white/20 w-full relative flex-1">
+                        <div 
+                            ref="sectionBarsRef"
+                            class="h-full bg-white absolute left-0 top-0" 
+                            :style="{ 
+                              width: '0%',
+                            }"
+                            :data-width="(sectionScores[index] / (questionsPerSection * 4) * 100) + '%'"
+                        ></div>
+                    </div>
+                    <span class="text-white text-sm font-satoshi font-semibold tracking-wide whitespace-nowrap">
+                      <span ref="sectionScoreCountersRef">0</span>/{{ questionsPerSection * 4 }}
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
     
-    <div class="flex justify-center pb-16">
-      <button ref="restartBtnRef" class="bg-white text-black px-8 py-3 rounded-full font-medium hover:bg-gray-200 transition-colors duration-300 flex items-center gap-2 opacity-0" @click="$emit('restart')">
-          <span>Recommencer le questionnaire</span>
+    <!-- Bottom block: Restart button -->
+    <div class="flex justify-center pb-8">
+      <button ref="restartBtnRef" class="bg-transparent border border-gray-600 text-gray-300 px-8 py-4 rounded-md font-satoshi text-xs md:text-sm tracking-widest uppercase hover:bg-white hover:text-black transition-all duration-300 opacity-0" @click="$emit('restart')">
+          Recommencer le questionnaire
       </button>
     </div>
   </div>
