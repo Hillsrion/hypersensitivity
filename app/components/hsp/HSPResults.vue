@@ -179,7 +179,7 @@ defineExpose({
       
       <!-- Left side: Score and Sensitivity -->
       <div ref="scoreContainerRef" class="opacity-0">        
-        <div class="flex flex-col items-start mb-8">
+        <div class="flex flex-col items-start">
             <div class="flex items-baseline gap-1 mb-2">
                 <span ref="totalScoreRef" class="2xl:text-6xl text-5xl/7 font-bold font-satoshi text-white">0</span>
                 <span class="text-gray-400 text-2xl/7 font-satoshi">/ {{ totalQuestions * 4 }}</span>
@@ -197,19 +197,19 @@ defineExpose({
       <div class="gap-4 flex flex-col justify-start pt-2 md:pt-4">
           <div v-if="dominantProfile" ref="profileCardRef" class="opacity-0 space-y-6">
               <div>
-                  <h3 class="text-white text-base/7 font-satoshi font-medium tracking-wide mb-3">
+                  <h3 class="text-white text-base/7 font-satoshi font-medium  mb-3">
                       <span class="uppercase">Profil</span> <span class="font-serif italic font-normal text-xl/7 ml-1">"{{ dominantProfile.name }}"</span>
                   </h3>
                   <p class="text-white text-sm md:text-xl/7 font-light">{{ dominantProfile.description }}</p>
               </div>
               <div>
-                  <h3 class="text-white text-base/7 font-satoshi font-medium tracking-wide uppercase mb-3">Conseil</h3>
+                  <h3 class="text-white text-base/7 font-satoshi font-medium uppercase mb-3">Conseil</h3>
                   <p class="text-white text-sm md:text-xl/7 font-light">{{ dominantProfile.advice }}</p>
               </div>
           </div>
           
           <div v-if="sectionScores[7] > (questionsPerSection * 4 * 0.75)" ref="alertCardRef" class="opacity-0">
-              <h4 class="text-white text-sm font-satoshi font-medium tracking-wide uppercase mb-3">Indicateur de sur-adaptation</h4>
+              <h4 class="text-white text-sm font-satoshi font-medium uppercase mb-3">Indicateur de sur-adaptation</h4>
               <p class="text-white font-satoshi leading-relaxed text-sm">
                   Votre score en Section VIII (Adaptation sociale) est supérieur à {{ questionsPerSection * 4 * 0.75 }}/{{ questionsPerSection * 4 }}. 
                   Cela suggère que vous êtes actuellement en sur-adaptation et dépensez beaucoup d'énergie à « faire comme tout le monde ».
@@ -220,7 +220,7 @@ defineExpose({
 
     <!-- Middle block: Scores par section -->
     <div class="mb-10">
-        <h3 ref="sectionsTitleRef" class="text-white text-base/7 font-satoshi font-medium tracking-wide uppercase mb-2 opacity-0">Scores par section</h3>
+        <h3 ref="sectionsTitleRef" class="text-white text-base/7 font-satoshi font-medium uppercase mb-4 opacity-0">Scores par section</h3>
         
         <div class="grid grid-cols-1 md:grid-cols-2 gap-x-22 gap-y-2">
             <div v-for="(section, index) in sections" :key="index" ref="sectionItemsRef" class="opacity-0 flex flex-col group">
@@ -236,7 +236,7 @@ defineExpose({
                             :data-width="(sectionScores[index] / (questionsPerSection * 4) * 100) + '%'"
                         ></div>
                     </div>
-                    <span class="text-white text-sm/7 font-satoshi font-semibold tracking-wide whitespace-nowrap">
+                    <span class="text-white text-sm/7 font-satoshi font-semibold  whitespace-nowrap">
                       <span ref="sectionScoreCountersRef">0</span>/{{ questionsPerSection * 4 }}
                     </span>
                 </div>
@@ -246,7 +246,7 @@ defineExpose({
     
     <!-- Bottom block: Restart button -->
     <div class="flex justify-center pb-8">
-      <button ref="restartBtnRef" class="bg-transparent border border-gray-600 text-gray-300 px-8 py-4 rounded-md font-satoshi text-xs md:text-sm tracking-widest uppercase hover:bg-white hover:text-black transition-all duration-300 opacity-0" @click="$emit('restart')">
+      <button ref="restartBtnRef" class="bg-transparent border border-gray-600 text-gray-300 px-8 py-4 rounded-md font-satoshi text-xs md:text-sm st uppercase hover:bg-white hover:text-black transition-all duration-300 opacity-0" @click="$emit('restart')">
           Recommencer le questionnaire
       </button>
     </div>

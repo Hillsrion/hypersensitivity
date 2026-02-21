@@ -8,17 +8,17 @@
   ],
   "sections": [
     {
-      "name": "Hyperesthésie Sensorielle",
-      "shortName": "Hyperesthésie",
+      "name": "Hyperesthésie sensorielle",
+      "shortName": "Hyperesthésie sensorielle",
       "description": "Traitement des stimuli physiques"
     },
     {
-      "name": "Porosité Émotionnelle",
-      "shortName": "Porosité émot.",
+      "name": "Porosité émotionnelle",
+      "shortName": "Porosité émotionnelle",
       "description": "Frontières émotionnelles"
     },
     {
-      "name": "Traitement Cognitif Approfondi",
+      "name": "Traitement cognitif approfondi",
       "shortName": "Cognitif",
       "description": "Fonctionnement mental"
     },
