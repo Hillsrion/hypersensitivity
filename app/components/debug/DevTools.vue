@@ -117,7 +117,8 @@ onMounted(() => {
   }
 
   // Dev shortcut: scroll to a specific component on pageload
-  const target = route.query.scroll || (import.meta.env.DEV ? "experience" : null);
+  // e.g. VITE_START_POSITION=experience
+  const target = route.query.scroll || import.meta.env.VITE_START_POSITION || null;
   if (target) {
     // We wait a bit for Lenis and ScrollTrigger to be fully initialized and for the page to render
     setTimeout(() => {
