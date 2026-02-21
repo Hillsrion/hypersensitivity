@@ -1,65 +1,102 @@
-import type { DialogueLine } from "../../types/game";
+import { watch } from "vue";
 import { useAnimationsStore } from "~/stores/animations";
 import { useGameStore } from "~/stores/game";
 
-export function useDialogueAurora(dialogue: Ref<DialogueLine | null>) {
+export function useDialogueAurora() {
   const animationsStore = useAnimationsStore();
   const gameStore = useGameStore();
-  const auroraRafId = ref<number | null>(null);
-
-  const clearAuroraRaf = () => {
-    if (auroraRafId.value !== null) {
-      cancelAnimationFrame(auroraRafId.value);
-      auroraRafId.value = null;
-    }
-  };
 
   const handleAuroraEffect = () => {
-    clearAuroraRaf();
-
-    // Force hide if we're in an entry annotation (chapter/milestone transition)
-    if (gameStore.introAnimationPhase === "annotation") {
-      animationsStore.setAuroraVisibility(false);
+    // If the menu is open or opening, the menu component handles the Aurora (rainbow color)
+    if (gameStore.isMenuOpen || gameStore.isMenuOpening) {
       return;
     }
 
-    if (dialogue.value?.color) {
+    // If we are currently switching scenes, we keep the current aurora state
+    // to avoid a blink during the 300ms transition.
+    if (gameStore.isTransitioning && animationsStore.aurora.visible) {
+      return;
+    }
+
+    // If a day transition is pending or happening, hide the aurora so the background gradient is visible
+    if (gameStore.isDayTransitioning || gameStore.pendingTransitionSceneId) {
+      if (animationsStore.aurora.visible) {
+        animationsStore.setAuroraAutoAnimate(false);
+        // Animate to transparent to get a smooth CSS transition fade out
+        animationsStore.setAuroraColor("transparent");
+        
+        // Let the CSS transition finish before hiding completely
+        if (import.meta.client) {
+          setTimeout(() => {
+            // Only hide if we're still transitioning (in case they mashed next)
+            if (gameStore.isDayTransitioning || gameStore.pendingTransitionSceneId) {
+                animationsStore.setAuroraVisibility(false);
+                animationsStore.setAuroraZIndex(0);
+            }
+          }, 1000); // 1s matches the background fade CSS/GSAP
+        } else {
+            animationsStore.setAuroraVisibility(false);
+            animationsStore.setAuroraZIndex(0);
+        }
+      }
+      return;
+    }
+
+    // Force hide if we're in an entry annotation (chapter/milestone transition)
+    // Note: For milestoneAnnotation, we let the aurora behave normally based on the dialogue color
+    if (gameStore.introAnimationPhase === "annotation" || gameStore.introAnimationPhase === "milestoneAnnotation") {
+      // User request: "pendant les passages qui les entry annotation l'aurora ne doit pas être jouée non plus, 
+      // et si elle a une couleur, elle doit etre animee vers le blanc"
+      
+      // If Aurora is visible or was just visible, we animate it to white
+      if (animationsStore.aurora.visible) {
+        animationsStore.setAuroraAutoAnimate(false);
+        animationsStore.setAuroraColor("white");
+        // We keep it visible so it transitions to white
+      } else {
+        // If it wasn't visible, we ensure it's hidden (or white but hidden)
+        animationsStore.setAuroraVisibility(false);
+      }
+      return;
+    }
+
+    const dialogue = gameStore.currentDialogue;
+    if (dialogue?.color) {
       animationsStore.setAuroraZIndex(1);
 
-      if (dialogue.value.color === "rainbow") {
-        // If already rainbow and visible, don't re-trigger
-        if (animationsStore.aurora.autoAnimate && animationsStore.aurora.visible) {
-          return;
-        }
+      if (dialogue.color === "rainbow") {
+        if (animationsStore.aurora.autoAnimate && animationsStore.aurora.visible) return;
         animationsStore.setAuroraAutoAnimate(true);
         animationsStore.setAuroraVisibility(true);
       } else {
         const currentColor = animationsStore.aurora.color;
         const isVisible = animationsStore.aurora.visible;
 
-        // If same color and already visible, do nothing to avoid blinks
-        if (isVisible && currentColor === dialogue.value.color && !animationsStore.aurora.autoAnimate) {
+        if (isVisible && currentColor === dialogue.color && !animationsStore.aurora.autoAnimate) {
           return;
         }
 
         animationsStore.setAuroraAutoAnimate(false);
-        animationsStore.setAuroraColor(dialogue.value.color);
-
-        // If not visible, we wait for a frame to ensure the color is applied before fading in
+        animationsStore.setAuroraColor(dialogue.color);
+        
+        // If not visible, we wait a frame to ensure the color is applied before fading in
         if (!isVisible) {
-          auroraRafId.value = requestAnimationFrame(() => {
+          if (import.meta.client) {
+            requestAnimationFrame(() => {
+              animationsStore.setAuroraVisibility(true);
+            });
+          } else {
             animationsStore.setAuroraVisibility(true);
-            auroraRafId.value = null;
-          });
+          }
         } else {
-          // If already visible but color changed, setAuroraVisibility(true) shouldn't blink
-          // but we can call it just in case if it was somehow in a transition
           animationsStore.setAuroraVisibility(true);
         }
       }
     } else {
-      // Only reset if we're not in the menu (which also controls aurora)
       if (!gameStore.isMenuOpen) {
+        // Don't hide aurora during milestone annotation (to avoid fade to black)
+        if (gameStore.introAnimationPhase === "milestoneAnnotation") return;
+
         animationsStore.setAuroraVisibility(false);
         animationsStore.setAuroraAutoAnimate(false);
         animationsStore.setAuroraZIndex(0);
@@ -67,23 +104,21 @@ export function useDialogueAurora(dialogue: Ref<DialogueLine | null>) {
     }
   };
 
+  // Watch for dialogue or phase changes to update Aurora
   watch(
-    () => gameStore.introAnimationPhase,
-    (phase) => {
-      if (phase === "annotation") {
-        animationsStore.setAuroraVisibility(false);
-      } else if (phase === "complete") {
-        handleAuroraEffect();
-      }
-    }
+    [
+      () => gameStore.currentDialogue?.id,
+      () => gameStore.introAnimationPhase,
+      () => gameStore.isMenuOpen,
+      () => gameStore.isDayTransitioning,
+    ],
+    () => {
+      handleAuroraEffect();
+    },
+    { immediate: true }
   );
-
-  onUnmounted(() => {
-    clearAuroraRaf();
-  });
 
   return {
     handleAuroraEffect,
-    clearAuroraRaf,
   };
 }
