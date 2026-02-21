@@ -35,5 +35,13 @@ export default defineNuxtConfig({
   },
 
   devtools: { enabled: true },
+
+  imports: {
+    dirs: [
+      'composables/game',
+      'composables/hsp',
+    ],
+  },
+
   compatibilityDate: '2025-02-14',
 })

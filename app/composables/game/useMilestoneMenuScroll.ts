@@ -1,4 +1,4 @@
-import { horizontalLoop } from "../utils/gsap";
+import { horizontalLoop } from "../../utils/gsap";
 
 export function useMilestoneMenuScroll(itemsRef: Ref<HTMLElement[]>, isOpen: Ref<boolean>) {
   const { $gsap } = useNuxtApp();
