@@ -5,7 +5,7 @@ import DialogueBox from "./DialogueBox.vue";
 import ChoiceButtons from "./ChoiceButtons.vue";
 import GameMilestoneMenu from "./GameMilestoneMenu.vue";
 import MenuIcon from "../MenuIcon.vue";
-import { useGameController } from "~/app/composables/useGameController";
+import { useGameController } from "~/app/composables/game/useGameController";
 
 const { $gsap } = useNuxtApp();
 

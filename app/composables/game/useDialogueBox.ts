@@ -3,7 +3,7 @@ import { useAnimationsStore } from "~/stores/animations";
 import { useGameStore } from "~/stores/game";
 import { useDialogueDisplay } from "./useDialogueDisplay";
 import { useDialogueAudio } from "./useDialogueAudio";
-import { useDialogueAnimator } from "./useDialogueAnimator";
+import { useDialogueAnimation } from "./useDialogueAnimation";
 
 export function useDialogueBox(
   dialogue: Ref<DialogueLine | null>,
@@ -55,7 +55,7 @@ export function useDialogueBox(
     currentTimedAnnotation,
     isShowingOnlyAnnotation,
     animateWords,
-  } = useDialogueAnimator(
+  } = useDialogueAnimation(
     dialogue,
     textRef,
     contentRef,

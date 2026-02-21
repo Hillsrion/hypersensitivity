@@ -1,20 +1,20 @@
 import { eyePaths } from "~/app/constants/eyePaths";
-import { useEyeAnimations } from "./animations/useEyeAnimations";
-import { useIntroSequence } from "./animations/useIntroSequence";
+import { useEyeAnimation } from "./useEyeAnimation";
+import { useIntroSequenceAnimation } from "./useIntroSequenceAnimation";
 
-export const useExperienceAnimations = () => {
+export const useExperienceAnimation = () => {
   const isDayTransition = ref(false);
 
   const {
     eyePath,
     playCloseEyeAnimation,
     playOpenEyeAnimation,
-  } = useEyeAnimations();
+  } = useEyeAnimation();
 
   const {
     gradientState,
     setupIntroSequence,
-  } = useIntroSequence(eyePath);
+  } = useIntroSequenceAnimation(eyePath);
 
   return {
     eyePath,

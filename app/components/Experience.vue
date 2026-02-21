@@ -2,7 +2,7 @@
 import { storeToRefs } from "pinia";
 import { useAnimationsStore } from "~/stores/animations";
 import { useGameStore } from "~/stores/game";
-import { useExperienceAnimations } from "~/app/composables/useExperienceAnimations";
+import { useExperienceAnimation } from "~/app/composables/game/useExperienceAnimation";
 import { gradientSteps } from "~/app/constants/gradients";
 // GameContainer reference is used in template
 import GameContainer from "./game/GameContainer.vue";
@@ -37,7 +37,7 @@ const {
   playCloseEyeAnimation, 
   playOpenEyeAnimation, 
   setupIntroSequence 
-} = useExperienceAnimations();
+} = useExperienceAnimation();
 
 // Initial state managed by composable
 
@@ -119,7 +119,7 @@ const autoRevealStarted = ref(false);
 
 
 
-// Logic moved to useIntroSequence.ts to sync with audio
+// Logic moved to useIntroSequenceAnimation.ts to sync with audio
 // This watcher is no longer needed as the timeline handles the phases
 
 

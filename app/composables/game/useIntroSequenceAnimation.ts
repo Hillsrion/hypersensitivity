@@ -4,7 +4,7 @@ import { useAudioStore } from "~/stores/audio";
 import { gradientSteps } from "~/app/constants/gradients";
 import { eyePaths } from "~/app/constants/eyePaths";
 
-export const useIntroSequence = (eyePathRef: Ref<SVGPathElement | null>) => {
+export const useIntroSequenceAnimation = (eyePathRef: Ref<SVGPathElement | null>) => {
   const { $gsap } = useNuxtApp();
   const gameStore = useGameStore();
   const animationsStore = useAnimationsStore();

@@ -1,7 +1,7 @@
 import { useAnimationsStore } from "~/stores/animations";
 import { eyePaths } from "~/app/constants/eyePaths";
 
-export const useEyeAnimations = () => {
+export const useEyeAnimation = () => {
   const { $gsap } = useNuxtApp();
   const animationsStore = useAnimationsStore();
   const eyePath = useTemplateRef<SVGPathElement>("eyePath");
