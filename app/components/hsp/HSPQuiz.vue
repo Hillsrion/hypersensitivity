@@ -196,14 +196,14 @@ const getRatingClass = (value) => {
     </div>
     
     <!-- Question -->
-    <div class="min-h-36 flex flex-col justify-center mb-6">
+    <div class="min-h-36 flex flex-col justify-center mb-8">
       <div ref="questionInfoRef" class="flex items-center h-16 gap-x-4 opacity-0">
         <p class="font-satoshi font-medium text-white uppercase text-xl/7">Question {{ currentQuestionIndex + 1 }} / {{ totalQuestions }}</p>
         <div v-if="currentQuestion.inversed" class="bg-white text-primary px-4 py-2 rounded-full text-xl font-medium">
           Inversée
         </div>
       </div>
-      <p ref="questionTextRef" class="text-2xl/7 leading-snug text-white font-serif italic mb-4 transition-all duration-500 opacity-0">
+      <p ref="questionTextRef" class="text-2xl/7 leading-snug text-white font-serif italic transition-all duration-500 opacity-0">
         {{ currentQuestion.text }}
       </p>
     </div>
