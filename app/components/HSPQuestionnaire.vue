@@ -96,7 +96,11 @@ onMounted(() => {
 <template>
   <div 
     ref="elementRef" 
-    class="questionnaire-container fixed inset-0 z-100 w-full h-full flex flex-col items-center justify-center p-4 text-white overflow-y-auto"
+    class="questionnaire-container fixed inset-0 z-100 w-full h-full flex flex-col items-center p-4 text-white overflow-y-auto transition-all duration-500"
+    :class="{
+      'justify-center': currentView !== 'results',
+      'justify-start md:pt-20 pt-10': currentView === 'results'
+    }"
   >
     
     <!-- Delay content rendering until external gradient finishes if needed or just let it be handled by child components (HSPIntro handles its own enter fade) -->
