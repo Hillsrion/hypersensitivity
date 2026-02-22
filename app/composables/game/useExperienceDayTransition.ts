@@ -4,21 +4,11 @@ import {
   DAY_TRANSITION_EYE_CLOSED_PAUSE_MS,
   DAY_TRANSITION_UI_FADE_OUT_DELAY_MS,
 } from '~/app/constants/durations'
+import type { ExperienceGradientState } from './useExperienceGradient'
 import { isEntryAnnotationPhase } from '~/app/stores/game/intro'
 
-interface GradientState {
-  color1: string
-  color2: string
-  color3: string
-  color4: string
-  stop1: number
-  stop2: number
-  stop3: number
-  stop4: number
-}
-
 export const useExperienceDayTransition = (
-  gradientState: GradientState,
+  gradientState: ExperienceGradientState,
   playCloseEyeAnimation: () => Promise<void>,
   playOpenEyeAnimation: () => Promise<void>,
   isGameEnd: ComputedRef<boolean>

@@ -10,8 +10,12 @@ export function useSplitText(
   target: Ref<HTMLElement | null>,
   options: SplitTextOptions = {}
 ) {
-  const { splitBy = 'lines,words,chars', onComplete, shouldRevert = true } = options
-  
+  const {
+    splitBy = 'lines,words,chars',
+    onComplete,
+    shouldRevert = true,
+  } = options
+
   const instance = ref<SplitType | null>(null)
   const lines = ref<HTMLElement[]>([])
   const words = ref<HTMLElement[]>([])
@@ -27,8 +31,11 @@ export function useSplitText(
 
     try {
       instance.value = new SplitType(target.value, {
-        types: splitBy.split(',').map(s => s.trim()).join(',') as any,
-        tagName: 'span'
+        types: splitBy
+          .split(',')
+          .map((segment) => segment.trim())
+          .join(','),
+        tagName: 'span',
       })
 
       lines.value = instance.value.lines || []
@@ -44,18 +51,22 @@ export function useSplitText(
   }
 
   // Watch for target changes
-  watch(target, async (newVal) => {
-    if (newVal) {
-      await nextTick()
-      split()
-    } else {
-      instance.value?.revert()
-      instance.value = null
-      lines.value = []
-      words.value = []
-      chars.value = []
-    }
-  }, { immediate: true })
+  watch(
+    target,
+    async (newVal) => {
+      if (newVal) {
+        await nextTick()
+        split()
+      } else {
+        instance.value?.revert()
+        instance.value = null
+        lines.value = []
+        words.value = []
+        chars.value = []
+      }
+    },
+    { immediate: true }
+  )
 
   // Optional: monitor resizing if needed, but split-type usually needs manual trigger on resize
   // for now we keep it simple as the original module likely did.
@@ -70,7 +81,7 @@ export function useSplitText(
 
   onUnmounted(() => {
     if (shouldRevert) {
-        revert()
+      revert()
     }
   })
 
@@ -80,6 +91,6 @@ export function useSplitText(
     words,
     chars,
     split,
-    revert
+    revert,
   }
 }

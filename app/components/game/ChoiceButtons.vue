@@ -1,24 +1,43 @@
 <script setup lang="ts">
-import type { Choice } from "../../types/game";
-const props = withDefaults(defineProps<{
-  choices: Choice[];
-  variant?: 'dark' | 'light';
-}>(), {
-  variant: 'dark'
-});
+import type { Choice } from '../../types/game'
+import type { ComponentPublicInstance } from 'vue'
+const props = withDefaults(
+  defineProps<{
+    choices: Choice[]
+    variant?: 'dark' | 'light'
+  }>(),
+  {
+    variant: 'dark',
+  }
+)
 
 const emit = defineEmits<{
-  select: [choice: Choice];
-  selecting: [];
-}>();
+  select: [choice: Choice]
+  selecting: []
+}>()
 
-const gameStore = useGameStore();
+const gameStore = useGameStore()
 
-const iconRef = useTemplateRef<HTMLElement>("iconRef");
-const buttonRefs = ref<HTMLElement[]>([]);
+const iconRef = useTemplateRef<HTMLElement>('iconRef')
+const buttonRefs = ref<HTMLElement[]>([])
+
+const setButtonRef = (
+  el: Element | ComponentPublicInstance | null,
+  index: number
+) => {
+  if (el instanceof HTMLElement) {
+    buttonRefs.value[index] = el
+    return
+  }
+
+  const maybeEl = (el as { $el?: unknown } | null)?.$el
+  if (maybeEl instanceof HTMLElement) {
+    buttonRefs.value[index] = maybeEl
+  }
+}
 
 const { hoveredIndex, isSelecting, selectedIndex, handleSelect } =
-  useChoiceButtons(toRef(props, "choices"), buttonRefs, iconRef, emit);
+  useChoiceButtons(toRef(props, 'choices'), buttonRefs, iconRef, emit)
 </script>
 
 <template>
@@ -29,18 +48,26 @@ const { hoveredIndex, isSelecting, selectedIndex, handleSelect } =
     <template v-for="(choice, index) in choices" :key="choice.id">
       <!-- CHOICE BUTTON -->
       <button
-        :ref="(el: any) => { if (el) buttonRefs[index] = el as HTMLElement }"
+        :ref="(el) => setButtonRef(el, index)"
         class="group relative py-4 font-sans font-semibold typo-body uppercase flex flex-col items-center"
         :class="{
           'transition-[color,opacity] duration-300': !isSelecting,
           'transition-[color] duration-300': isSelecting,
-          'text-primary/30 cursor-not-allowed': gameStore.isChoiceDisabled(choice) && variant === 'dark',
-          'text-white/30 cursor-not-allowed': gameStore.isChoiceDisabled(choice) && variant === 'light',
-          'text-primary': !gameStore.isChoiceDisabled(choice) && variant === 'dark',
-          'text-white': !gameStore.isChoiceDisabled(choice) && variant === 'light',
-          'opacity-20': !isSelecting && hoveredIndex !== null && hoveredIndex !== index,
+          'text-primary/30 cursor-not-allowed':
+            gameStore.isChoiceDisabled(choice) && variant === 'dark',
+          'text-white/30 cursor-not-allowed':
+            gameStore.isChoiceDisabled(choice) && variant === 'light',
+          'text-primary':
+            !gameStore.isChoiceDisabled(choice) && variant === 'dark',
+          'text-white':
+            !gameStore.isChoiceDisabled(choice) && variant === 'light',
+          'opacity-20':
+            !isSelecting && hoveredIndex !== null && hoveredIndex !== index,
           'opacity-0': isSelecting && selectedIndex !== index,
-          'opacity-100': (!isSelecting && (hoveredIndex === null || hoveredIndex === index)) || (isSelecting && selectedIndex === index)
+          'opacity-100':
+            (!isSelecting &&
+              (hoveredIndex === null || hoveredIndex === index)) ||
+            (isSelecting && selectedIndex === index),
         }"
         :disabled="gameStore.isChoiceDisabled(choice) || isSelecting"
         @mouseenter="hoveredIndex = index"
@@ -69,7 +96,9 @@ const { hoveredIndex, isSelecting, selectedIndex, handleSelect } =
         :class="[
           !isSelecting && hoveredIndex !== null ? 'opacity-20' : 'opacity-100',
           isSelecting ? 'opacity-0' : '',
-          variant === 'dark' ? 'border-primary text-primary' : 'border-white text-white'
+          variant === 'dark'
+            ? 'border-primary text-primary'
+            : 'border-white text-white',
         ]"
       >
         <div class="transform -rotate-20">

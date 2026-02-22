@@ -1,7 +1,8 @@
-import type { DialogueLine } from "../../types/game";
-import { useDialogueDisplay } from "./useDialogueDisplay";
-import { useDialogueAudio } from "./useDialogueAudio";
-import { useDialogueAnimation } from "./useDialogueAnimation";
+import type { DialogueLine } from '../../types/game'
+import type SplitType from 'split-type'
+import { useDialogueDisplay } from './useDialogueDisplay'
+import { useDialogueAudio } from './useDialogueAudio'
+import { useDialogueAnimation } from './useDialogueAnimation'
 
 export function useDialogueBox(
   dialogue: Ref<DialogueLine | null>,
@@ -10,43 +11,43 @@ export function useDialogueBox(
   annotationRef: Ref<HTMLElement | null>,
   speakerRef: Ref<HTMLElement | null>,
   isSelecting: Ref<boolean | undefined>,
-  emit: (event: "animationComplete", ...args: any[]) => void
+  emit: (event: 'animationComplete') => void
 ) {
-  const { $gsap } = useNuxtApp();
-  const gameStore = useGameStore();
+  const { $gsap } = useNuxtApp()
+  const gameStore = useGameStore()
 
-  const isReady = ref(false); // Controls visibility of the text to prevent FOUC
-  const activeTimeouts = new Set<ReturnType<typeof setTimeout>>();
-  let isDisposed = false;
+  const isReady = ref(false) // Controls visibility of the text to prevent FOUC
+  const activeTimeouts = new Set<ReturnType<typeof setTimeout>>()
+  let isDisposed = false
 
   const scheduleTimeout = (callback: () => void, delay: number) => {
     const timeoutId = setTimeout(() => {
-      activeTimeouts.delete(timeoutId);
+      activeTimeouts.delete(timeoutId)
       if (!isDisposed) {
-        callback();
+        callback()
       }
-    }, delay);
+    }, delay)
 
-    activeTimeouts.add(timeoutId);
-    return timeoutId;
-  };
+    activeTimeouts.add(timeoutId)
+    return timeoutId
+  }
 
   const clearAllTimeouts = () => {
-    activeTimeouts.forEach((timeoutId) => clearTimeout(timeoutId));
-    activeTimeouts.clear();
-  };
+    activeTimeouts.forEach((timeoutId) => clearTimeout(timeoutId))
+    activeTimeouts.clear()
+  }
 
   // Split Text
   const split = useSplitText(textRef, {
-    splitBy: "lines,words",
+    splitBy: 'lines,words',
     shouldRevert: false, // Prevent flash of unstyled text on unmount (e.g. menu open)
-    onComplete: (instance: any) => {
+    onComplete: (instance: SplitType) => {
       // Initialiser tous les mots avec opacite reduite
       if (instance.words) {
-        $gsap.set(instance.words, { opacity: 0.2 });
+        $gsap.set(instance.words, { opacity: 0.2 })
       }
     },
-  });
+  })
 
   // Sub-composables
   const {
@@ -56,14 +57,10 @@ export function useDialogueBox(
     showAnnotation: getShowAnnotation,
     showDialogueContent: getShowDialogueContent,
     annotationClasses,
-  } = useDialogueDisplay(dialogue);
+  } = useDialogueDisplay(dialogue)
 
-  const {
-    clearFallbackTimer,
-    handleAudioEnded,
-    ensureAudioPlaying,
-  } = useDialogueAudio(dialogue);
-
+  const { clearFallbackTimer, handleAudioEnded, ensureAudioPlaying } =
+    useDialogueAudio(dialogue)
 
   const {
     isAnimating,
@@ -80,20 +77,20 @@ export function useDialogueBox(
     handleAudioEnded,
     ensureAudioPlaying,
     clearFallbackTimer
-  );
+  )
 
   // Computed
   // Computed
   const showDialogueContent = getShowDialogueContent(
     isShowingOnlyAnnotation,
     currentTimedAnnotation
-  );
+  )
 
-  const showAnnotation = getShowAnnotation(currentTimedAnnotation);
+  const showAnnotation = getShowAnnotation(currentTimedAnnotation)
 
   const displayAnnotation = computed(() => {
-    return currentTimedAnnotation.value || dialogue.value?.annotation || "";
-  });
+    return currentTimedAnnotation.value || dialogue.value?.annotation || ''
+  })
 
   // Watchers
   watch(isSelecting, (selecting) => {
@@ -101,131 +98,131 @@ export function useDialogueBox(
       $gsap.to(contentRef.value, {
         opacity: 0,
         duration: 0.2,
-        ease: "power2.inOut",
-      });
+        ease: 'power2.inOut',
+      })
     }
-  });
+  })
 
   watch(
     () => dialogue.value?.id,
     async (newId, oldId) => {
       console.log(
-        "LOG_DEBUG: Watch dialogue ID fired. New:",
+        'LOG_DEBUG: Watch dialogue ID fired. New:',
         newId,
-        "Old:",
+        'Old:',
         oldId
-      );
+      )
       if (newId && newId !== oldId) {
-        clearAllTimeouts();
+        clearAllTimeouts()
 
         if (contentRef.value) {
           $gsap.to(contentRef.value, {
             opacity: 1,
             duration: 0.15,
-            ease: "power2.out",
-          });
+            ease: 'power2.out',
+          })
         }
         if (textRef.value) {
-          $gsap.set(textRef.value, { opacity: 0 });
+          $gsap.set(textRef.value, { opacity: 0 })
         }
 
-        await nextTick();
+        await nextTick()
 
         // Attendre un peu pour que split soit peuplé
-        let attempts = 0;
+        let attempts = 0
         const checkSplit = () => {
-          if (isDisposed) return;
+          if (isDisposed) return
           if (split.words.value?.length) {
-            const words = split.words.value;
-            $gsap.set(words, { opacity: 0.2 });
+            const words = split.words.value
+            $gsap.set(words, { opacity: 0.2 })
 
             if (textRef.value) {
-              $gsap.to(textRef.value, { opacity: 1, duration: 0.2 });
+              $gsap.to(textRef.value, { opacity: 1, duration: 0.2 })
             }
-            currentTimedAnnotation.value = null;
-            isShowingOnlyAnnotation.value = false;
+            currentTimedAnnotation.value = null
+            isShowingOnlyAnnotation.value = false
 
-            isReady.value = true;
+            isReady.value = true
 
             if (!isInIntroAnimation.value && !gameStore.isDayTransitioning) {
-              scheduleTimeout(() => animateWords(), 20);
+              scheduleTimeout(() => animateWords(), 20)
             }
           } else if (attempts < 60) {
-            attempts++;
-            scheduleTimeout(checkSplit, 25);
+            attempts++
+            scheduleTimeout(checkSplit, 25)
           } else {
-            isReady.value = true;
+            isReady.value = true
             if (!isInIntroAnimation.value && !gameStore.isDayTransitioning) {
-              animateWords();
+              animateWords()
             }
           }
-        };
+        }
 
-        checkSplit();
-        return;
+        checkSplit()
+        return
       }
     },
     { immediate: true }
-  );
+  )
 
   watch(
     () => gameStore.introAnimationPhase,
     async (phase) => {
       console.log(
-        "LOG_DEBUG: introAnimationPhase changed:",
+        'LOG_DEBUG: introAnimationPhase changed:',
         phase,
-        "isInIntro:",
+        'isInIntro:',
         isInIntroAnimation.value,
-        "isAnimating:",
+        'isAnimating:',
         isAnimating.value
-      );
+      )
       if (
-        phase === "revealing" &&
+        phase === 'revealing' &&
         isInIntroAnimation.value &&
         !isAnimating.value
       ) {
-        let attempts = 0;
+        let attempts = 0
         const waitForSplit = async () => {
-          if (isDisposed) return;
+          if (isDisposed) return
           if (split.words.value?.length) {
             console.log(
-              "LOG_DEBUG: Split ready, launching animateWords from intro watcher"
-            );
-            animateWords();
+              'LOG_DEBUG: Split ready, launching animateWords from intro watcher'
+            )
+            animateWords()
           } else if (attempts < 30) {
-            attempts++;
+            attempts++
             await new Promise<void>((resolve) => {
-              scheduleTimeout(resolve, 25);
-            });
-            waitForSplit();
+              scheduleTimeout(resolve, 25)
+            })
+            waitForSplit()
           } else {
             console.warn(
-              "LOG_DEBUG: Split timed out in intro watcher, forcing animateWords"
-            );
-            animateWords();
+              'LOG_DEBUG: Split timed out in intro watcher, forcing animateWords'
+            )
+            animateWords()
           }
-        };
-        await nextTick();
-        waitForSplit();
+        }
+        await nextTick()
+        waitForSplit()
       }
     },
     { immediate: true }
-  );
+  )
 
   watch(
     () => gameStore.isDayTransitioning,
     (isTransitioning) => {
       if (!isTransitioning && isReady.value && !isInIntroAnimation.value) {
-        animateWords();
+        animateWords()
       }
     }
-  );
+  )
 
   onUnmounted(() => {
-    isDisposed = true;
-    clearAllTimeouts();
-    clearFallbackTimer();
-  });
+    isDisposed = true
+    clearAllTimeouts()
+    clearFallbackTimer()
+  })
 
   return {
     isPensees,
@@ -239,5 +236,5 @@ export function useDialogueBox(
     split,
     currentTimedAnnotation,
     isShowingOnlyAnnotation,
-  };
+  }
 }
