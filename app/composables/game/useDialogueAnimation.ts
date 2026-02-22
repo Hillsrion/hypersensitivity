@@ -1,12 +1,18 @@
 import type { DialogueLine } from "../../types/game";
 
+interface SplitResult {
+  words: Ref<HTMLElement[]>;
+  lines: Ref<HTMLElement[]>;
+  chars: Ref<HTMLElement[]>;
+}
+
 export function useDialogueAnimation(
   dialogue: Ref<DialogueLine | null>,
   textRef: Ref<HTMLElement | null>,
   contentRef: Ref<HTMLElement | null>,
   annotationRef: Ref<HTMLElement | null>,
   speakerRef: Ref<HTMLElement | null>,
-  split: any,
+  split: SplitResult,
   emit: (event: "animationComplete", ...args: any[]) => void,
   handleAudioEnded: () => void,
   ensureAudioPlaying: (path: string) => void,
@@ -41,8 +47,8 @@ export function useDialogueAnimation(
         const audioPath = audioToPlay.startsWith("/")
           ? audioToPlay
           : `/audios/${audioToPlay}`;
-        const audioItem = (audioStore.list as any[]).find(
-          (item: any) => item.path === audioPath
+        const audioItem = audioStore.list.find(
+          (item) => item.path === audioPath
         );
 
         if (
@@ -107,7 +113,7 @@ export function useDialogueAnimation(
           const audioPath = audioToPlay.startsWith("/")
             ? audioToPlay
             : `/audios/${audioToPlay}`;
-          const item = (audioStore.list as any[]).find(
+          const item = audioStore.list.find(
             (i) => i.path === audioPath || i.path?.endsWith(audioToPlay)
           );
 
@@ -126,11 +132,11 @@ export function useDialogueAnimation(
 
         setTimeout(() => {
           if (audioStore.currentAudio) {
-            (audioStore.currentAudio as HTMLAudioElement).removeEventListener(
+            audioStore.currentAudio.removeEventListener(
               "ended",
               handleAudioEnded
             );
-            (audioStore.currentAudio as HTMLAudioElement).addEventListener(
+            audioStore.currentAudio.addEventListener(
               "ended",
               handleAudioEnded
             );
@@ -304,7 +310,7 @@ export function useDialogueAnimation(
     }
 
     if (audioStore.currentAudio) {
-      const currentItem = (audioStore.list as any[]).find(
+      const currentItem = audioStore.list.find(
         (item) => item.audio === audioStore.currentAudio
       );
 
@@ -321,7 +327,7 @@ export function useDialogueAnimation(
           normPath.endsWith(normCurrentPath)
         ) {
           const currentTime =
-            (audioStore.currentAudio as HTMLAudioElement).currentTime || 0;
+            audioStore.currentAudio.currentTime || 0;
           if (currentTime > 0) {
             console.log(
               "LOG_DEBUG: Syncing timeline to audio position:",
@@ -331,19 +337,20 @@ export function useDialogueAnimation(
           }
         }
       } else if (isInIntroAnimation.value) {
-        const currentTime =
-          (audioStore.currentAudio as HTMLAudioElement).currentTime || 0;
-        wordTimeline.seek(currentTime, false);
-      }
+      const currentTime =
+        audioStore.currentAudio.currentTime || 0;
+      wordTimeline.seek(currentTime, false);
+    }
 
-      (audioStore.currentAudio as HTMLAudioElement).removeEventListener(
-        "ended",
-        handleAudioEnded
-      );
-      (audioStore.currentAudio as HTMLAudioElement).addEventListener(
-        "ended",
-        handleAudioEnded
-      );
+    audioStore.currentAudio.removeEventListener(
+      "ended",
+      handleAudioEnded
+    );
+    audioStore.currentAudio.addEventListener(
+      "ended",
+      handleAudioEnded
+    );
+
     }
 
     // New: If menu is already open when starting animation (rare but possible), pause it

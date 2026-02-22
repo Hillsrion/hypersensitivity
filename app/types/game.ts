@@ -4,7 +4,7 @@ export type OutfitChoice = "sexy" | "comfort" | null;
 export type ConflictOutcome = "submit" | "assert" | null;
 export type GameEventChoice = "play" | "refuse" | null;
 
-export interface GameFlags {
+export type GameFlags = {
   outfitChoice: OutfitChoice;
   conflictOutcome: ConflictOutcome;
   gameEventChoice: GameEventChoice;
@@ -12,9 +12,9 @@ export interface GameFlags {
   callChoice: "accept" | "refuse" | null;
   refuseOutcome: "submit" | "assert" | null;
   energy: number; // 0-100
-}
+};
 
-export interface DialogueLine {
+export type DialogueLine = {
   id: string;
   speaker: string; // "LUCIE", "AMI", "ANNONCE", "KAREN", "INES", etc.
   speakerType: "pensees" | "normal"; // Pour afficher "(pensees)" apres le nom
@@ -25,31 +25,29 @@ export interface DialogueLine {
   color?: string; // Trigger effet aurore boreale
   isChat?: boolean; // Si c'est un échange textuel (Slack, SMS) - désactive l'animation mot par mot
   energyChange?: number; // Changement d'énergie à appliquer au début du dialogue
-}
+};
 
-export interface ChoiceCondition {
+export type ChoiceCondition = {
   flag: keyof GameFlags;
   operator: "equals" | "notEquals" | "greaterThan" | "lessThan";
   value: string | number | boolean | null;
-}
+};
 
-export interface ChoiceEffects {
+export type ChoiceEffects = {
   energy?: number;
   flags?: Partial<GameFlags>;
-}
+};
 
-export interface Choice {
+export type Choice = {
   id: string;
   text: string;
   nextSceneId: string;
   effects?: ChoiceEffects;
   condition?: ChoiceCondition; // Condition pour que le choix soit disponible
   disabledReason?: string; // Ex: "(Energie insuffisante)" si condition non remplie
-}
+};
 
-
-
-export interface Scene {
+export type Scene = {
   id: string;
   day: 1 | 2;
   title: string; // "Reveil", "Trajet", "Appel", etc.
@@ -65,26 +63,26 @@ export interface Scene {
     energyChange?: number;
     setFlags?: Partial<GameFlags>;
   };
-}
+};
 
-export interface Milestone {
+export type Milestone = {
   id: string;
   label: string;
   day: 1 | 2;
-}
+};
 
-export interface GameData {
+export type GameData = {
   scenes: Record<string, Scene>;
   initialSceneId: string;
   initialFlags: GameFlags;
-}
+};
 
 // Phases de l'animation d'intro
 export type IntroAnimationPhase = "hidden" | "annotation" | "milestoneAnnotation" | "revealing" | "complete";
 
 export type MenuStatus = "closed" | "opening" | "open" | "closing";
 
-export interface GameState {
+export type GameState = {
   currentSceneId: string;
   currentDialogueIndex: number;
   flags: GameFlags;
@@ -102,9 +100,9 @@ export interface GameState {
   isDayTransitioning: boolean;
   pendingTransitionSceneId: string | null;
   _annotationTimerId: ReturnType<typeof setTimeout> | null;
-}
+};
 
-export interface PersistedGameState {
+export type PersistedGameState = {
   version: 1;
   currentSceneId: string;
   currentDialogueIndex: number;
@@ -114,4 +112,20 @@ export interface PersistedGameState {
   menuStatus: MenuStatus;
   showQuestionnaire: boolean;
   forceShowUI: boolean;
-}
+};
+
+export type RawAudioTiming = {
+  word?: string;
+  annotation?: string;
+  showOnly?: boolean;
+  start: number | string;
+  end: number | string;
+  startOffset?: string;
+  endOffset?: string;
+};
+
+export type AudioPreloadItem = {
+  path: string;
+  transcript?: string;
+  timings?: RawAudioTiming[];
+};

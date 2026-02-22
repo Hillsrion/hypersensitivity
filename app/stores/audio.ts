@@ -1,22 +1,23 @@
 import { defineStore } from 'pinia';
+import type { AudioPreloadItem, RawAudioTiming } from '../types/game';
 
-export interface AudioTiming {
-  word: string;
+export type AudioTiming = {
+  word?: string;
   annotation?: string;
   showOnly?: boolean;
   start: number;
   end: number;
-}
+};
 
-export interface AudioItem {
+export type AudioItem = {
   path: string;
   audio: HTMLAudioElement;
   transcript?: string;
   timings: AudioTiming[];
   duration: number;
-}
+};
 
-export interface AudioState {
+export type AudioState = {
   currentAudio: HTMLAudioElement | null;
   currentTime: number;
   fadeInterval: ReturnType<typeof setInterval> | null;
@@ -28,7 +29,7 @@ export interface AudioState {
   isPaused: boolean;
   preloadedCount: number;
   fadeResolve: (() => void) | null;
-}
+};
 
 export const useAudioStore = defineStore('audio', {
   state: (): AudioState => ({
@@ -157,14 +158,14 @@ export const useAudioStore = defineStore('audio', {
      * Creates an Audio element per item and listens for `canplaythrough`
      * to track how many are truly ready to play without buffering.
      */
-    preloadList(list: any[]) {
+    preloadList(list: AudioPreloadItem[]) {
       this.preloadedCount = 0;
 
       this.list = list.map(item => {
-        const timings: AudioTiming[] = item.timings?.map((timing: any) => {
+        const timings: AudioTiming[] = item.timings?.map((timing: RawAudioTiming) => {
           const start = typeof timing.start === 'number' 
             ? timing.start 
-            : parseFloat(timing.startOffset?.replace('s', '') || '0');
+            : parseFloat(timing.startOffset?.replace('s', '') || (typeof timing.start === 'string' ? timing.start.replace('s', '') : '0'));
           
           let end: number;
           if (typeof timing.end === 'number') {

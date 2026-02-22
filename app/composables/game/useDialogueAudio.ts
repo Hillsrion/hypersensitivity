@@ -28,7 +28,7 @@ export function useDialogueAudio(dialogue: Ref<DialogueLine | null>) {
   };
 
   const ensureAudioPlaying = (path: string) => {
-    const currentItem = (audioStore.list as any[]).find(
+    const currentItem = audioStore.list.find(
       (item) => item.audio === audioStore.currentAudio
     );
 
@@ -52,7 +52,7 @@ export function useDialogueAudio(dialogue: Ref<DialogueLine | null>) {
       const firstTiming = timings?.find((t) => t.start !== undefined);
 
       if (firstTiming && gameStore.currentDialogueIndex > 0) {
-        const audio = audioStore.currentAudio as any;
+        const audio = audioStore.currentAudio;
 
         if (audio && audio.currentTime < firstTiming.start - 0.5) {
           console.log(
@@ -76,7 +76,7 @@ export function useDialogueAudio(dialogue: Ref<DialogueLine | null>) {
     );
     if (firstTiming && gameStore.currentDialogueIndex > 0) {
       setTimeout(() => {
-        const audio = audioStore.currentAudio as any;
+        const audio = audioStore.currentAudio;
         if (audio && audio.currentTime < firstTiming.start) {
           audio.currentTime = firstTiming.start;
         }

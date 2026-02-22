@@ -1,5 +1,6 @@
 import { useDialogueAurora } from "./useDialogueAurora";
 import { useDialogueAudioSync } from "./useDialogueAudioSync";
+import type { Choice } from "../../types/game";
 
 export const useGameController = () => {
   const gameStore = useGameStore();
@@ -10,14 +11,14 @@ export const useGameController = () => {
   useDialogueAurora();
   useDialogueAudioSync();
 
-  const dialogueBoxRef = useTemplateRef<any>("dialogueBoxRef");
-  const choicesRef = useTemplateRef<any>("choicesRef");
+  const dialogueBoxRef = useTemplateRef<HTMLElement>("dialogueBoxRef");
+  const choicesRef = useTemplateRef<HTMLElement>("choicesRef");
   const isChoiceSelecting = ref(false);
-  const activeChoices = ref<any[]>([]);
+  const activeChoices = ref<Choice[]>([]);
 
   // Progress tracking
   const audioProgressPercent = computed(() => {
-    const audio = audioStore.currentAudio as any;
+    const audio = audioStore.currentAudio;
     if (!audio || !audioStore.isPlaying) return 0;
     
     const duration = audio.duration;
@@ -123,7 +124,7 @@ export const useGameController = () => {
   };
 
   // Gerer la selection d'un choix
-  const handleChoiceSelect = (choice: any) => {
+  const handleChoiceSelect = (choice: Choice) => {
     isChoiceSelecting.value = false;
     gameStore.selectChoice(choice);
   };
