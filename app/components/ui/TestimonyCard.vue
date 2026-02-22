@@ -48,7 +48,7 @@
           background: `linear-gradient(180deg, #ffffff 20%, var(--aurora-middle-color) 50%, #ffffff 80%)`,
           transform: 'rotate(-3deg)',
         }"
-      ></div>
+      />
     </div>
 
     <!-- Quote Icon -->
@@ -84,12 +84,6 @@
     </div>
   </div>
 </template>
-
-<style scoped>
-:deep(.word) {
-  opacity: 0.6;
-}
-</style>
 
 <script setup>
 
@@ -316,3 +310,9 @@ defineExpose({
   containerRef,
 });
 </script>
+
+<style scoped>
+:deep(.word) {
+  opacity: 0.6;
+}
+</style>

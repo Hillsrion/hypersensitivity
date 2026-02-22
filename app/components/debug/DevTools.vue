@@ -190,9 +190,9 @@ const jumpToScene = (sceneId: string) => {
     <!-- Minimized Button -->
     <button 
       v-if="isMinimized"
-      @click="isMinimized = false"
       class="p-3 bg-black/80 hover:bg-black text-white rounded-full shadow-lg border border-white/20 transition-all flex items-center justify-center opacity-50 hover:opacity-100 group"
       title="Ouvrir DevTools"
+      @click="isMinimized = false"
     >
       <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-gray-400 group-hover:text-white transition-colors"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>
     </button>
@@ -205,12 +205,12 @@ const jumpToScene = (sceneId: string) => {
       <div class="flex justify-between items-center mb-1 border-b border-white/20 pb-2">
         <div class="font-bold">DEV TOOLS</div>
         <button 
-          @click="isMinimized = true"
           class="text-gray-400 hover:text-white px-2 py-1 rounded bg-white/5 hover:bg-white/10 transition-colors shrink-0 flex items-center gap-1"
           title="Minimiser"
+          @click="isMinimized = true"
         >
           <span>Réduire</span>
-          <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+          <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
         </button>
       </div>
       
@@ -230,7 +230,7 @@ const jumpToScene = (sceneId: string) => {
           Scroll Bottom (XP)
         </button>
 
-        <div class="h-px bg-white/10 my-1"></div>
+        <div class="h-px bg-white/10 my-1"/>
 
         <template v-if="showIntroOptions">
           <button 
@@ -261,7 +261,7 @@ const jumpToScene = (sceneId: string) => {
             Skip to End
           </button>
 
-          <div class="h-px bg-white/10 my-1"></div>
+          <div class="h-px bg-white/10 my-1"/>
         </template>
 
         <template v-if="showExperienceOptions">
@@ -271,16 +271,16 @@ const jumpToScene = (sceneId: string) => {
                <span>{{ playbackRate }}x</span>
             </div>
             <input 
+              v-model.number="playbackRate" 
               type="range" 
               min="0.1" 
               max="5" 
-              step="0.1" 
-              v-model.number="playbackRate"
+              step="0.1"
               class="w-full accent-white h-1 bg-white/20 rounded-lg appearance-none cursor-pointer"
-            />
+            >
           </div>
 
-          <div class="h-px bg-white/10 my-1"></div>
+          <div class="h-px bg-white/10 my-1"/>
 
           <button 
             class="px-2 py-1 rounded text-left transition-colors"
@@ -291,7 +291,7 @@ const jumpToScene = (sceneId: string) => {
           </button>
         </template>
 
-          <div class="h-px bg-white/10 my-1"></div>
+          <div class="h-px bg-white/10 my-1"/>
         </template>
 
         <template v-if="gameStore.showQuestionnaire">
@@ -312,7 +312,7 @@ const jumpToScene = (sceneId: string) => {
             Reset Quiz
           </button>
 
-          <div class="h-px bg-white/10 my-1"></div>
+          <div class="h-px bg-white/10 my-1"/>
         </template>
 
         <template v-if="!gameStore.showQuestionnaire && showExperienceOptions">

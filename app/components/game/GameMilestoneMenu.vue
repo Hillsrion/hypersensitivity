@@ -117,7 +117,7 @@ const navItemClasses =
             class="w-full h-32 flex items-center justify-between px-12 md:px-18 pointer-events-auto"
           >
             <!-- Close Button (Removed - handled by GameContainer) -->
-            <div class="w-6 h-6"></div>
+            <div class="w-6 h-6"/>
 
           </div>
 

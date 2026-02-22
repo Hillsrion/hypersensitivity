@@ -35,9 +35,9 @@ defineExpose({
   <div class="relative flex-none w-[25vw] min-w-[300px] flex flex-col items-center shrink-0">
     <!-- Milestone Point Container -->
     <button 
-      @click="$emit('click', milestone.id)"
       class="origin-bottom-left -rotate-45"
       :class="{ 'opacity-50 cursor-not-allowed': !isReached, 'cursor-pointer': isReached }"
+      @click="$emit('click', milestone.id)"
     >
       <!-- Title -->
       <div class="whitespace-nowrap typo-body flex items-center">

@@ -12,6 +12,8 @@ import DevTools from "~/app/components/debug/DevTools.vue";
 import CircleAudiowave from "./components/ui/CircleAudiowave.vue";
 import BackgroundGradient from "./components/BackgroundGradient.vue";
 
+import { gameData } from "~/app/data/game";
+
 const timingsModules = import.meta.glob('./data/timings/*.json', { eager: true, import: 'default' });
 
 const getTimings = (audioPath) => {
@@ -58,8 +60,6 @@ watch(
   },
   { immediate: true }
 );
-
-import { gameData } from "~/app/data/game";
 
 /**
  * Collect all audio items from the game scenes, deduplicating by path.
@@ -182,7 +182,7 @@ onUnmounted(() => {
       </div>
 
 
-      <VueLenis root ref="lenisRef" />
+      <VueLenis ref="lenisRef" root />
       <BackgroundGradient />
       <GameMilestoneMenu />
       <LoadingSection />

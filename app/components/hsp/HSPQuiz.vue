@@ -100,7 +100,7 @@ const getRatingClass = (value) => {
 
     <!-- Fixed Progress Bar -->
     <div ref="progressBarRef" class="fixed bottom-0 left-0 w-full h-[4px] bg-white/10 z-50 translate-y-full">
-      <div class="h-full bg-white transition-all duration-500 ease-out" :style="{ width: progressPercent + '%' }"></div>
+      <div class="h-full bg-white transition-all duration-500 ease-out" :style="{ width: progressPercent + '%' }"/>
     </div>
     
     <!-- Central Content -->
@@ -137,15 +137,15 @@ const getRatingClass = (value) => {
     <div ref="navRef" class="flex justify-between items-center opacity-0 mt-auto pb-10">
       <button 
         class="text-white transition-colors duration-300 flex items-center gap-2 px-4 py-2 disabled:opacity-30 disabled:cursor-not-allowed" 
-        @click="onPrevious" 
-        :disabled="currentQuestionIndex === 0 || isAnimating"
+        :disabled="currentQuestionIndex === 0 || isAnimating" 
+        @click="onPrevious"
       >
         ← Précédent
       </button>
       <button 
         class="bg-white text-black px-8 py-3 rounded-full font-medium hover:bg-gray-200 transition-colors duration-300 disabled:opacity-30 disabled:cursor-not-allowed flex items-center gap-2" 
-        @click="onNext"
         :disabled="currentAnswer === null || isAnimating"
+        @click="onNext"
       >
         {{ isLastQuestion ? 'Voir les résultats' : 'Suivant' }}
         <span v-if="!isLastQuestion">→</span>

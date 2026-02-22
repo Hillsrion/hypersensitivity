@@ -41,7 +41,7 @@ useAuroraAnimation(auroraInnerRef, auroraRef);
           background: `linear-gradient(180deg, #FFFFFF 0%, var(--aurora-color-1) 33%, var(--aurora-color-2) 66%, #FFFFFF 100%)`,
           transform: 'rotate(-3deg)',
         }"
-      ></div>
+      />
     </div>
   </div>
 </template>

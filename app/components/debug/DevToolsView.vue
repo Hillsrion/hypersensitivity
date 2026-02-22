@@ -73,18 +73,18 @@ watch(playbackRate, (rate) => {
           class="px-3 py-2 bg-white/10 hover:bg-white/20 rounded text-left transition-colors flex items-center gap-2"
           @click="scrollTo('top')"
         >
-          <span class="i-carbon-arrow-up"></span> Scroll Top (XP)
+          <span class="i-carbon-arrow-up"/> Scroll Top (XP)
         </button>
         
         <button 
           class="px-3 py-2 bg-white/10 hover:bg-white/20 rounded text-left transition-colors flex items-center gap-2"
           @click="scrollTo('bottom')"
         >
-           <span class="i-carbon-arrow-down"></span> Scroll Bottom (XP)
+           <span class="i-carbon-arrow-down"/> Scroll Bottom (XP)
         </button>
       </div>
 
-      <div class="h-px bg-white/10"></div>
+      <div class="h-px bg-white/10"/>
 
       <div class="grid grid-cols-2 gap-2">
         <button 
@@ -110,7 +110,7 @@ watch(playbackRate, (rate) => {
         </button>
       </div>
 
-      <div class="h-px bg-white/10"></div>
+      <div class="h-px bg-white/10"/>
 
       <div class="bg-white/5 rounded p-3 flex flex-col gap-2">
         <div class="flex justify-between items-center text-gray-400">
@@ -118,13 +118,13 @@ watch(playbackRate, (rate) => {
            <span class="font-bold text-white">{{ playbackRate }}x</span>
         </div>
         <input 
+          v-model.number="playbackRate" 
           type="range" 
           min="0.1" 
           max="5" 
-          step="0.1" 
-          v-model.number="playbackRate"
+          step="0.1"
           class="w-full h-1 bg-white/20 rounded-lg appearance-none cursor-pointer accent-white"
-        />
+        >
         <div class="flex justify-between text-[8px] text-gray-500 font-sans">
           <span>0.1x</span>
           <span>1.0x</span>
@@ -132,7 +132,7 @@ watch(playbackRate, (rate) => {
         </div>
       </div>
 
-      <div class="h-px bg-white/10"></div>
+      <div class="h-px bg-white/10"/>
 
       <button 
         class="px-3 py-3 rounded text-left transition-all border block w-full relative overflow-hidden"
@@ -141,7 +141,7 @@ watch(playbackRate, (rate) => {
       >
         <div class="flex justify-between items-center relative z-10">
           <span class="font-bold">Force Message UI</span>
-           <span :class="forceShowUI ? 'i-carbon-checkbox-checked text-lg' : 'i-carbon-checkbox text-lg'"></span>
+           <span :class="forceShowUI ? 'i-carbon-checkbox-checked text-lg' : 'i-carbon-checkbox text-lg'"/>
         </div>
       </button>
 

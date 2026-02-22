@@ -46,7 +46,7 @@ const speed = ref(0);
 const morphProgress = ref(0); // 0 = Original Shape, 1 = Sine Wave
 
 const updateWave = () => {
-  let points = [];
+  const points = [];
   const numberOfPoints = originalPoints.length;
 
   for (let i = 0; i < numberOfPoints; i++) {

@@ -88,7 +88,7 @@ defineExpose({
                               width: '0%',
                             }"
                             :data-width="(sectionScores[index] / (questionsPerSection * 4) * 100) + '%'"
-                        ></div>
+                        />
                     </div>
                     <span class="text-white typo-label font-sans font-semibold whitespace-nowrap">
                       <span ref="sectionScoreCountersRef">0</span>/{{ questionsPerSection * 4 }}
