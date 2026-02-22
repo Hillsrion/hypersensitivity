@@ -1,22 +1,16 @@
 <script setup lang="ts">
-import type { DialogueLine } from "../../types/game";
+import { DialogueLine } from "../../types/game";
 const props = defineProps<{
-  dialogue: DialogueLine | null;
-  isSelecting?: boolean;
-  blurAmount?: number;
+  dialogue: DialogueLine | null,
+  isSelecting?: boolean,
+  blurAmount?: number
 }>();
-
-console.log("LOG_DEBUG: DialogueBox setup called", props.dialogue?.id);
 
 const gameStore = useGameStore();
 
 const emit = defineEmits<{
   animationComplete: [];
 }>();
-
-onMounted(() => {
-    console.log("LOG_DEBUG: DialogueBox Mounted", props.dialogue?.id);
-});
 
 const contentRef = useTemplateRef<HTMLElement>("contentRef");
 const textRef = useTemplateRef<HTMLElement>("textRef");
@@ -45,7 +39,7 @@ const {
 </script>
 
 <template>
-  <div v-if="dialogue" ref="contentRef" class="w-full max-w-4xl px-8 flex flex-col transition-all duration-500" :class="{ 'items-end': isRightAligned, 'items-start': !isRightAligned, 'justify-center': isShowingOnlyAnnotation }">
+  <div v-if="dialogue" ref="contentRef" class="w-full xl:max-w-4xl lg:max-w-3xl md:max-w-2xl sm:max-w-xl max-w-lg px-8 flex flex-col transition-all duration-500" :class="{ 'items-end': isRightAligned, 'items-start': !isRightAligned, 'justify-center': isShowingOnlyAnnotation }">
     <!-- Annotation (utilisée aussi pour les timings temporaires) -->
     <p
       v-show="showAnnotation"

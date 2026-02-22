@@ -20,13 +20,15 @@ watch(
 </script>
 
 <template>
-  <div class="flex flex-col items-center gap-4">
+  <div class="flex items-center gap-4 flex-row min-[590px]:flex-col transition-all duration-300">
     <div class="border border-current p-0.5 rounded-full">
-      <div class="relative w-1 h-62.5 rounded-full overflow-hidden">
+      <div 
+        class="relative overflow-hidden rounded-full h-1 w-40 min-[590px]:w-1 min-[590px]:h-62.5"
+      >
         <div
           ref="fillRef"
-          class="absolute bottom-0 left-0 rounded-full w-full bg-current"
-          :style="{ height: `${animatedEnergy}%` }"
+          class="absolute bg-current rounded-full top-0 left-0 h-full w-[var(--energy)] min-[590px]:bottom-0 min-[590px]:w-full min-[590px]:h-[var(--energy)]"
+          :style="{ '--energy': `${animatedEnergy}%` }"
         />
       </div>
     </div>
@@ -36,7 +38,7 @@ watch(
       viewBox="0 0 10 15"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
-      class="text-current"
+      class="text-current rotate-90 min-[590px]:rotate-0 transition-transform duration-300"
     >
       <path
         d="M4.81934 5.48047L4.75684 6.03613H9.41602L4.6582 14.1729L5.13086 9.96387H5.18457V9.46387L4.68457 9.43555V8.96387H0.583984L5.34082 0.826172L4.81934 5.48047Z"

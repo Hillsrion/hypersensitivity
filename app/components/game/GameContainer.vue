@@ -3,7 +3,6 @@ import GameHeader from "./GameHeader.vue";
 import GameEnergyBar from "./GameEnergyBar.vue";
 import DialogueBox from "./DialogueBox.vue";
 import ChoiceButtons from "./ChoiceButtons.vue";
-import GameMilestoneMenu from "./GameMilestoneMenu.vue";
 import MenuIcon from "../ui/MenuIcon.vue";
 
 const { $gsap } = useNuxtApp();
@@ -87,7 +86,13 @@ watch(audioProgressPercent, (newVal) => {
     <Transition name="fade" appear>
       <GameEnergyBar
         v-if="showDelayedGameUI && !gameStore.isMenuOpening && !gameStore.isMenuOpen && !gameStore.isMenuClosing"
-        class="absolute top-1/2 left-18 -translate-y-1/2 z-40"
+        class="absolute z-40 transition-opacity duration-300
+          bottom-10 left-1/2 -translate-x-1/2
+          min-[590px]:bottom-auto min-[590px]:top-1/2 min-[590px]:left-8 min-[590px]:lg:left-18 min-[590px]:translate-x-0 min-[590px]:-translate-y-1/2"
+        :class="{
+          'opacity-0 pointer-events-none min-[590px]:opacity-100 min-[590px]:pointer-events-auto': (gameStore.showChoices || gameStore.selectedChoice) && !isMilestoneAnnotation,
+          'opacity-100': !((gameStore.showChoices || gameStore.selectedChoice) && !isMilestoneAnnotation)
+        }"
       />
     </Transition>
 
