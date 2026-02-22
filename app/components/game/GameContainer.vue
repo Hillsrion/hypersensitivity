@@ -32,6 +32,15 @@ const visualProgress = ref(0)
 const barTransformOrigin = ref('left')
 let progressResetTimer: ReturnType<typeof setTimeout> | null = null
 
+const isMenuBusy = computed(
+  () =>
+    gameStore.isMenuOpening || gameStore.isMenuOpen || gameStore.isMenuClosing
+)
+
+const shouldShowCoreUi = computed(
+  () => showDelayedGameUI.value && !isMenuBusy.value
+)
+
 watch(
   () => audioStore.isPlaying,
   (playing) => {
@@ -95,25 +104,13 @@ onUnmounted(() => {
 
     <!-- Header -->
     <Transition name="fade" appear>
-      <GameHeader
-        v-if="
-          showDelayedGameUI &&
-          !gameStore.isMenuOpening &&
-          !gameStore.isMenuOpen &&
-          !gameStore.isMenuClosing
-        "
-      />
+      <GameHeader v-if="shouldShowCoreUi" />
     </Transition>
 
     <!-- Energy Bar (right side) -->
     <Transition name="fade" appear>
       <GameEnergyBar
-        v-if="
-          showDelayedGameUI &&
-          !gameStore.isMenuOpening &&
-          !gameStore.isMenuOpen &&
-          !gameStore.isMenuClosing
-        "
+        v-if="shouldShowCoreUi"
         class="absolute z-40 transition-opacity duration-300 bottom-10 left-1/2 -translate-x-1/2 min-[590px]:bottom-auto min-[590px]:top-1/2 min-[590px]:left-8 min-[590px]:lg:left-18 min-[590px]:translate-x-0 min-[590px]:-translate-y-1/2"
         :class="{
           'opacity-0 pointer-events-none min-[590px]:opacity-100 min-[590px]:pointer-events-auto':
@@ -172,9 +169,7 @@ onUnmounted(() => {
             (showDelayedGameUI ||
               !gameStore.isFirstDialogueOfInitialScene ||
               isMilestoneAnnotation) &&
-            !gameStore.isMenuOpening &&
-            !gameStore.isMenuOpen &&
-            !gameStore.isMenuClosing
+            !isMenuBusy
           "
           :key="
             isMilestoneAnnotation
@@ -207,9 +202,7 @@ onUnmounted(() => {
         v-if="
           (gameStore.showChoices || gameStore.selectedChoice) &&
           showGameUI &&
-          !gameStore.isMenuOpening &&
-          !gameStore.isMenuOpen &&
-          !gameStore.isMenuClosing &&
+          !isMenuBusy &&
           !isMilestoneAnnotation
         "
         ref="choicesRef"
