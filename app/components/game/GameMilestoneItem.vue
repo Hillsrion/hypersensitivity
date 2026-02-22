@@ -40,7 +40,7 @@ defineExpose({
       :class="{ 'opacity-50 cursor-not-allowed': !isReached, 'cursor-pointer': isReached }"
     >
       <!-- Title -->
-      <div class="whitespace-nowrap text-xl/7 flex items-center">
+      <div class="whitespace-nowrap typo-body flex items-center">
         <!-- Dot -->
         <div
           ref="dotRef"

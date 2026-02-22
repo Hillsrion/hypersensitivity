@@ -41,7 +41,7 @@ defineExpose({
             <div ref="sensitivityLabelRef" class="text-4xl md:text-[2.5rem] font-serif font-light italic mb-6 opacity-0 text-white leading-tight">
                 {{ sensitivityLevel.label }}
             </div>
-            <p ref="sensitivityDescRef" class="text-white opacity-0 text-lg md:text-xl/7 font-light">
+            <p ref="sensitivityDescRef" class="text-white opacity-0 typo-body font-light">
                 {{ sensitivityLevel.description }}
             </p>
         </div>
@@ -52,13 +52,13 @@ defineExpose({
           <div v-if="dominantProfile" ref="profileCardRef" class="opacity-0 space-y-6">
               <div>
                   <h3 class="text-white text-base/7 font-sans font-medium  mb-3">
-                      <span class="uppercase">Profil</span> <span class="font-serif italic font-normal text-xl/7 ml-1">"{{ dominantProfile.name }}"</span>
+                      <span class="uppercase">Profil</span> <span class="font-serif italic font-normal typo-body ml-1">"{{ dominantProfile.name }}"</span>
                   </h3>
-                  <p class="text-white text-lg md:text-xl/7 font-light">{{ dominantProfile.description }}</p>
+                  <p class="text-white typo-body font-light">{{ dominantProfile.description }}</p>
               </div>
               <div>
                   <h3 class="text-white text-base/7 font-sans font-medium uppercase mb-3">Conseil</h3>
-                  <p class="text-white text-lg md:text-xl/7 font-light">{{ dominantProfile.advice }}</p>
+                  <p class="text-white typo-body font-light">{{ dominantProfile.advice }}</p>
               </div>
           </div>
           
@@ -78,7 +78,7 @@ defineExpose({
         
         <div class="grid grid-cols-1 md:grid-cols-2 gap-x-22 gap-y-6 md:gap-y-2">
             <div v-for="(section, index) in sections" :key="index" ref="sectionItemsRef" class="opacity-0 flex flex-col group">
-                <span class="text-gray-200 text-sm/6 lg:text-base/7 font-serif italic">{{ section.shortName }}</span>
+                <span class="text-gray-200 typo-label font-serif italic">{{ section.shortName }}</span>
                 <div class="flex items-center gap-4">
                     <div class="h-1 bg-white/20 w-full relative flex-1 rounded-full">
                         <div 
@@ -90,7 +90,7 @@ defineExpose({
                             :data-width="(sectionScores[index] / (questionsPerSection * 4) * 100) + '%'"
                         ></div>
                     </div>
-                    <span class="text-white text-sm/7 font-sans font-semibold  whitespace-nowrap">
+                    <span class="text-white typo-label font-sans font-semibold whitespace-nowrap">
                       <span ref="sectionScoreCountersRef">0</span>/{{ questionsPerSection * 4 }}
                     </span>
                 </div>

@@ -50,7 +50,7 @@ const {
     <p
       v-show="showAnnotation"
       ref="annotationRef"
-      class="font-serif text-primary/60 text-xl/7 transition-all duration-300 transform-gpu will-change-[filter,opacity]"
+      class="font-serif text-primary/60 typo-body transition-all duration-300 transform-gpu will-change-[filter,opacity]"
       :class="[
         annotationClasses, isRightAligned ? 'text-right' : 'text-left'
       ]"
@@ -67,7 +67,7 @@ const {
       v-show="!isShowingOnlyAnnotation"
       v-if="dialogue.speaker"
       ref="speakerRef"
-      class="text-primary font-medium font-sans text-xl/7 uppercase transition-all duration-300"
+      class="text-primary font-medium font-sans typo-body uppercase transition-all duration-300"
       :class="[
         { 'opacity-0': !showDialogueContent, 'mt-6': showAnnotation }, 
         isRightAligned ? 'text-right' : 'text-left'

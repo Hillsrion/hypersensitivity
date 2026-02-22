@@ -35,7 +35,7 @@ onMounted(() => {
 
 <template>
   <div class="w-full max-w-3xl text-center">
-    <div class="mb-8 max-w-2xl mx-auto text-xl/7 leading-relaxed space-y-4">
+    <div class="mb-8 max-w-2xl mx-auto typo-body leading-relaxed space-y-4">
       <h2 ref="titleRef" class="text-white uppercase">Avertissement</h2>
       <p ref="desc1Ref" class="font-serif">
         Ce questionnaire est un outil d'auto-exploration, non un diagnostic clinique. Il s'appuie sur le modèle de la Haute Sensibilité (HSP) d'Elaine Aron.

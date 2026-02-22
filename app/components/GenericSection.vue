@@ -220,7 +220,7 @@ onUnmounted(() => {
         v-for="i in 9"
         :key="i"
         ref="titlesRef"
-        class="absolute top-0 w-full text-5xl md:text-[7.5rem] font-serif font-light text-center origin-top select-none text-primary"
+        class="absolute top-0 w-full typo-display font-serif font-light text-center origin-top select-none text-primary"
         :class="{
           'z-10': i === 1,
           'z-20': i > 1,
@@ -245,9 +245,7 @@ onUnmounted(() => {
         <li v-for="(item, index) in content" :key="index" class="opacity-0">
           <!-- Start hidden for GSAP to control -->
 
-          <p
-            class="text-xl text-primary/60 font-sans font-light leading-[1.4]"
-          >
+          <p class="typo-body text-primary/60 font-sans font-light">
             {{ item }}
           </p>
         </li>

@@ -70,14 +70,14 @@
     <p
       id="textRef"
       ref="textRef"
-      class="text-primary font-light font-serif text-xl/7 mt-12 relative lg:mb-0 mb-8 z-10"
+      class="text-primary font-light font-serif typo-body mt-12 relative lg:mb-0 mb-8 z-10"
     >
       {{ content }}
     </p>
     <div class="flex w-full items-center justify-end mt-6">
       <p
         ref="authorRef"
-        class="text-primary font-medium text-xl/7 text-right relative z-10"
+        class="text-primary font-medium typo-body text-right relative z-10"
       >
         {{ author }}
       </p>

@@ -157,7 +157,7 @@ onMounted(async () => {
       >
         <h2
           ref="heroTextRef"
-          class="text-xl text-primary font-serif font-light leading-[1.4] origin-center opacity-0"
+          class="typo-body text-primary font-serif font-light origin-center opacity-0"
         >
           {{ testimonies[0].content }}
         </h2>

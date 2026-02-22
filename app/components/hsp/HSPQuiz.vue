@@ -91,7 +91,7 @@ const getRatingClass = (value) => {
         <span class="mx-2">-</span>
         <span
           ref="sectionNameRef"
-          class="font-serif text-base leading-[28px] text-white inline-block"
+          class="font-serif typo-label text-white inline-block"
         >
           {{ internalDisplaySectionName }}
         </span>
@@ -108,12 +108,12 @@ const getRatingClass = (value) => {
       <!-- Question -->
       <div class="min-h-36 flex flex-col justify-center mb-8">
         <div ref="questionInfoRef" class="flex items-center h-16 gap-x-4 opacity-0">
-          <p class="font-sans font-medium text-white uppercase sm:text-xl/7 text-lg/7">Question {{ currentQuestionIndex + 1 }} / {{ totalQuestions }}</p>
+          <p class="font-sans font-medium text-white uppercase typo-body">Question {{ currentQuestionIndex + 1 }} / {{ totalQuestions }}</p>
           <div v-if="currentQuestion.inversed" class="bg-white text-primary px-4 py-2 rounded-full text-xl font-medium">
             Inversée
           </div>
         </div>
-        <p ref="questionTextRef" class="sm:text-2xl/7 text-[1.38rem]/7 leading-snug text-white font-serif italic opacity-0">
+        <p ref="questionTextRef" class="typo-quiz leading-snug text-white font-serif italic opacity-0">
           {{ currentQuestion.text }}
         </p>
       </div>
@@ -127,8 +127,8 @@ const getRatingClass = (value) => {
             :class="getRatingClass(rating.value)"
             @click="$emit('selectAnswer', rating.value)"
         >
-            <span class="text-2xl/7 font-black mb-2 group-hover:text-current transition-colors">{{ rating.value }}</span>
-            <span class="text-base/7 text-center transition-opacity">{{ currentQuestion.inversed ? rating.inversedLabel : rating.label }}</span>
+            <span class="typo-quiz font-black mb-2 group-hover:text-current transition-colors">{{ rating.value }}</span>
+            <span class="typo-label text-center transition-opacity">{{ currentQuestion.inversed ? rating.inversedLabel : rating.label }}</span>
         </button>
       </div>
     </div>

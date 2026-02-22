@@ -30,7 +30,7 @@ const { hoveredIndex, isSelecting, selectedIndex, handleSelect } =
       <!-- CHOICE BUTTON -->
       <button
         :ref="(el: any) => { if (el) buttonRefs[index] = el as HTMLElement }"
-        class="group relative py-4 font-sans font-semibold text-xl/7 uppercase flex flex-col items-center"
+        class="group relative py-4 font-sans font-semibold typo-body uppercase flex flex-col items-center"
         :class="{
           'transition-[color,opacity] duration-300': !isSelecting,
           'transition-[color] duration-300': isSelecting,

@@ -82,7 +82,7 @@ watch(
 </script>
 
 <template>
-  <h1 ref="titleRef" class="text-[5rem] font-epilogue font-semibold text-white">
+  <h1 ref="titleRef" class="typo-h1 font-epilogue font-semibold text-white">
     {{ title }}
   </h1>
 </template>
