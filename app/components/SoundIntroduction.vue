@@ -15,11 +15,7 @@
 </template>
 
 <script setup>
-
-const audioStore = useAudioStore();
-const { $gsap } = useNuxtApp();
-const animations = useAnimationsStore();
-const { animateToWhite } = useBackgroundGradient();
+import { useSoundIntroAnimation } from '~/app/composables/useSoundIntroAnimation';
 
 const containerRef = useTemplateRef("containerRef");
 const wrapperRef = useTemplateRef("wrapperRef");
@@ -44,111 +40,10 @@ const props = defineProps({
   },
 });
 
-onMounted(() => {
-  const scrollTl = $gsap.timeline({
-    scrollTrigger: {
-      trigger: containerRef.value,
-      start: "center center",
-      end: "bottom top",
-      scrub: true,
-    },
-  });
-
-  scrollTl.add(animateToWhite());
-});
-
-const split = useSplitText(textRef, {
-  splitBy: "lines, words",
-  onComplete: (instance) => {
-    if (animations.skipIntro) {
-      $gsap.set(wrapperRef.value, { opacity: 1, y: 0 });
-      $gsap.set(instance.lines, { opacity: 1, y: 0 });
-      $gsap.set(instance.words, { opacity: 1 });
-    } else {
-      $gsap.set(instance.words, {
-        opacity: 0.2,
-      });
-    }
-  },
-});
-
-const tl = $gsap.timeline({
-  defaults: {
-    ease: "power3.out",
-  },
-});
-
-tl.pause();
-
-const timings = computed(() => {
-  return (
-    audioStore.list.find((item) => item.path === props.audio)?.timings ?? []
-  );
-});
-
-const animate = () => {
-  if (animations.skipIntro) {
-    $gsap.set(wrapperRef.value, { opacity: 1, y: 0 });
-    $gsap.set(split.lines.value, { opacity: 1, y: 0 });
-    $gsap.set(split.words.value, { opacity: 1 });
-    animations.onIntroEntryComplete();
-    return;
-  }
-
-  tl.play();
-
-  // Initial wrapper fade in
-  tl.to(wrapperRef.value, {
-    opacity: 1,
-    y: 0,
-    duration: 1,
-  });
-
-  // Lines fade in
-  tl.to(split.lines.value, {
-    y: 0,
-    opacity: 1,
-    duration: 1,
-    stagger: 0.1,
-    ease: "power4.out",
-  });
-
-  // Create timeline for word animations based on timings
-  const wordTimeline = $gsap.timeline({
-    onStart: () => {
-      audioStore.playAudio(props.audio);
-    },
-    onComplete: () => {
-      animations.onIntroEntryComplete();
-      audioStore.stopCurrentAudio();
-    },
-  });
-
-  split.words.value.forEach((wordEl, index) => {
-    const timing = timings.value[index];
-    if (timing) {
-      wordTimeline.to(
-        wordEl,
-        {
-          opacity: 1,
-          duration: timing.end - timing.start,
-          ease: "none",
-        },
-        timing.start
-      );
-    }
-  });
-
-  // Add word timeline after the initial animations (wrapper fade in + lines fade in)
-  tl.add(wordTimeline, "0");
-};
-
-watch(
-  () => animations.landing.intro.entry.started,
-  (started) => {
-    if (started) {
-      animate();
-    }
-  }
+useSoundIntroAnimation(
+  containerRef, 
+  wrapperRef, 
+  textRef, 
+  toRef(props, 'audio')
 );
 </script>
