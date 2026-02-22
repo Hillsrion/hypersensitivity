@@ -1,18 +1,17 @@
 <script setup lang="ts">
-import { gradientSteps } from "~/app/constants/gradients";
-// GameContainer reference is used in template
 import GameContainer from "./game/GameContainer.vue";
 import ChoiceButtons from "./game/ChoiceButtons.vue";
 import type { Choice } from "~/app/types/game";
+import { useExperienceGradient } from "~/app/composables/game/useExperienceGradient";
+import { useExperienceDayTransition } from "~/app/composables/game/useExperienceDayTransition";
 
-const { $gsap } = useNuxtApp();
 const gameStore = useGameStore();
 const animationsStore = useAnimationsStore();
 
-const endGameChoices = computed<Choice[]>(() => [
+const endGameChoices: Choice[] = [
   { id: "yes", text: "OUI", nextSceneId: "questionnaire" },
   { id: "no", text: "NON", nextSceneId: "reset" },
-]);
+];
 
 const handleEndChoiceSelect = (choice: Choice) => {
   if (choice.id === "yes") {
@@ -29,80 +28,25 @@ const {
   eyePath, 
   eyePaths, 
   gradientState, 
-  isDayTransition, 
   playCloseEyeAnimation, 
   playOpenEyeAnimation, 
   setupIntroSequence 
 } = useExperienceAnimation();
 
-// Initial state managed by composable
+const scrollTriggerInstance = ref<any>(null);
 
-const backgroundGradient = computed(() => {
-  const visible = animationsStore.aurora.visible;
-  const zIndex = animationsStore.aurora.zIndex;
-  
-  if (isGameEnd.value) {
-    return `linear-gradient(180deg, ${gradientState.color1} ${gradientState.stop1}%, ${gradientState.color2} ${gradientState.stop2}%, ${gradientState.color3} ${gradientState.stop3}%, ${gradientState.color4} ${gradientState.stop4}%)`;
-  }
+const { 
+  backgroundGradient, 
+  isGameEnd, 
+  showEndContent 
+} = useExperienceGradient(gradientState, computed(() => isDayTransition.value), scrollTriggerInstance);
 
-  if (visible && zIndex > 0) {
-    return "transparent";
-  }
-  // We want the gradient to run during the end sequence or day transition
-  if (gameStore.introPlayed && !isDayTransition.value) {
-    if (gameStore.currentDay === 2) {
-      return "var(--color-primary)";
-    }
-    return "white";
-  }
-
-  return `linear-gradient(180deg, ${gradientState.color1} ${gradientState.stop1}%, ${gradientState.color2} ${gradientState.stop2}%, ${gradientState.color3} ${gradientState.stop3}%, ${gradientState.color4} ${gradientState.stop4}%)`;
-});
-
-const isGameEnd = computed(() => gameStore.currentScene?.id === "gameEnd" || gameStore.showQuestionnaire);
-const showEndContent = ref(false);
-
-watch(isGameEnd, (newVal) => {
-  if (newVal) {
-    if (animationsStore.cursor.variant !== "light") {
-        animationsStore.setCursorVariant("light");
-        animationsStore.setAudiowaveVariant("light");
-    }
-    
-    // Kill conflicting tweens and scroll trigger
-    $gsap.killTweensOf(gradientState);
-    if (scrollTriggerInstance.value) {
-      scrollTriggerInstance.value.kill();
-      scrollTriggerInstance.value = null;
-    }
-
-    // Reset gradient to start from Pure White
-    // This prevents jumping if the state was modified by scroll or if step 0 is not white
-    Object.assign(gradientState, {
-        color1: "#ffffff",
-        color2: "#ffffff",
-        color3: "#ffffff",
-        color4: "#ffffff",
-    });
-    
-    const tl = $gsap.timeline();
-    const stepDuration = 0.5;
-
-    gradientSteps.forEach((step) => {
-      tl.to(gradientState, {
-        ...step,
-        duration: stepDuration,
-        ease: "none",
-      });
-    });
-
-    tl.call(() => {
-      showEndContent.value = true;
-    });
-  } else {
-    showEndContent.value = false;
-  }
-});
+const { isDayTransition } = useExperienceDayTransition(
+  gradientState,
+  playCloseEyeAnimation,
+  playOpenEyeAnimation,
+  isGameEnd
+);
 
 const lines = [
   "Parfois tout est trop fort, et tout se superpose.",
@@ -110,74 +54,6 @@ const lines = [
 ];
 
 const { words } = useSplitText(textContainer, { splitBy: "words" });
-const scrollTriggerInstance = ref<any>(null);
-const autoRevealStarted = ref(false);
-
-
-
-// Logic moved to useIntroSequenceAnimation.ts to sync with audio
-// This watcher is no longer needed as the timeline handles the phases
-
-
-
-watch(
-  () => gameStore.isDayTransitioning,
-  async (isTransitioning) => {
-    // We only trigger when it turns true automatically by gameStore.goToScene
-    if (!isTransitioning || isGameEnd.value) return;
-
-    // 1. Hide Game UI
-    isDayTransition.value = true;
-
-    // Reset gradient to white first to avoid snappy transitions
-    Object.assign(gradientState, {
-      color1: "#ffffff",
-      color2: "#ffffff",
-      color3: "#ffffff",
-      color4: "#ffffff",
-    });
-
-    // Animate background to black over the UI fade time
-    $gsap.to(gradientState, { ...gradientSteps[8], duration: 1, ease: "power2.inOut" });
-
-    // Wait for UI to fade out
-    await new Promise((resolve) => setTimeout(resolve, 1000));
-
-    // 2. Play Close Eye Animation
-    await playCloseEyeAnimation();
-
-    // The eye is fully closed. Safely advance the game state to Day 2 in the background.
-    gameStore.completeDayTransition();
-    
-    // Small pause closed
-    await new Promise((resolve) => setTimeout(resolve, 500));
-
-    // Prepare to show the new scene's annotation blurred behind the closed eye
-    gameStore.setIntroBlurAmount(8);
-    isDayTransition.value = false; // Mounts the UI behind the eye
-    
-    // Let Vue render the UI
-    await nextTick();
-
-    // 3. Play Open Eye Animation (This will also animate introBlurAmount down to 0)
-    await playOpenEyeAnimation();
-
-    // 4. Finish Transition
-    gameStore.setDayTransitioning(false);
-
-    // 5. Start entry annotation timer now that the UI is visible
-    if (
-      gameStore.introAnimationPhase === "annotation" ||
-      gameStore.introAnimationPhase === "milestoneAnnotation"
-    ) {
-      gameStore.startAnnotationTimer(4000); // Increased from 3000 to match user request
-    }
-  }
-);
-
-onMounted(() => {
-  if (!container.value) return;
-});
 
 onUnmounted(() => {
   if (scrollTriggerInstance.value) {

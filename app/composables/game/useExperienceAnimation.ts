@@ -3,8 +3,6 @@ import { useEyeAnimation } from "./useEyeAnimation";
 import { useIntroSequenceAnimation } from "./useIntroSequenceAnimation";
 
 export const useExperienceAnimation = () => {
-  const isDayTransition = ref(false);
-
   const {
     eyePath,
     playCloseEyeAnimation,
@@ -20,7 +18,6 @@ export const useExperienceAnimation = () => {
     eyePath,
     eyePaths,
     gradientState,
-    isDayTransition,
     playCloseEyeAnimation,
     playOpenEyeAnimation,
     setupIntroSequence,
