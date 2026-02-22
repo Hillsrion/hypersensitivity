@@ -1,13 +1,13 @@
 <script setup lang="ts">
-import GameHeader from "./GameHeader.vue";
-import GameEnergyBar from "./GameEnergyBar.vue";
-import DialogueBox from "./DialogueBox.vue";
-import ChoiceButtons from "./ChoiceButtons.vue";
-import MenuIcon from "../ui/MenuIcon.vue";
+import GameHeader from './GameHeader.vue'
+import GameEnergyBar from './GameEnergyBar.vue'
+import DialogueBox from './DialogueBox.vue'
+import ChoiceButtons from './ChoiceButtons.vue'
+import MenuIcon from '../ui/MenuIcon.vue'
 
-const { $gsap } = useNuxtApp();
+const { $gsap } = useNuxtApp()
 
-const containerRef = useTemplateRef<HTMLElement>("containerRef");
+const containerRef = useTemplateRef<HTMLElement>('containerRef')
 
 const {
   gameStore,
@@ -26,34 +26,34 @@ const {
   handleInteraction,
   handleChoiceSelect,
   onDialogueAnimationComplete,
-} = useGameController();
+} = useGameController()
 
-const visualProgress = ref(0);
-const barTransformOrigin = ref('left');
+const visualProgress = ref(0)
+const barTransformOrigin = ref('left')
 
 watch(
   () => audioStore.isPlaying,
   (playing) => {
     if (playing) {
       if (barTransformOrigin.value !== 'left') {
-        barTransformOrigin.value = 'left';
+        barTransformOrigin.value = 'left'
       }
     } else {
       // Audio stopped - trigger exit animation
-      visualProgress.value = 100;
-      barTransformOrigin.value = 'right';
+      visualProgress.value = 100
+      barTransformOrigin.value = 'right'
       setTimeout(() => {
-        visualProgress.value = 0;
-      }, 50);
+        visualProgress.value = 0
+      }, 50)
     }
   }
-);
+)
 
 watch(audioProgressPercent, (newVal) => {
   if (audioStore.isPlaying) {
-    visualProgress.value = newVal;
+    visualProgress.value = newVal
   }
-});
+})
 </script>
 
 <template>
@@ -70,7 +70,9 @@ watch(audioProgressPercent, (newVal) => {
           class="fixed top-10 left-18 z-70 text-primary cursor-pointer group"
           @click.stop="gameStore.toggleMenu()"
         >
-          <MenuIcon :is-open="gameStore.isMenuOpen || gameStore.isMenuOpening" />
+          <MenuIcon
+            :is-open="gameStore.isMenuOpen || gameStore.isMenuOpening"
+          />
         </button>
       </Transition>
     </Teleport>
@@ -78,54 +80,69 @@ watch(audioProgressPercent, (newVal) => {
     <!-- Header -->
     <Transition name="fade" appear>
       <GameHeader
-        v-if="showDelayedGameUI && !gameStore.isMenuOpening && !gameStore.isMenuOpen && !gameStore.isMenuClosing"
+        v-if="
+          showDelayedGameUI &&
+          !gameStore.isMenuOpening &&
+          !gameStore.isMenuOpen &&
+          !gameStore.isMenuClosing
+        "
       />
     </Transition>
 
     <!-- Energy Bar (right side) -->
     <Transition name="fade" appear>
       <GameEnergyBar
-        v-if="showDelayedGameUI && !gameStore.isMenuOpening && !gameStore.isMenuOpen && !gameStore.isMenuClosing"
-        class="absolute z-40 transition-opacity duration-300
-          bottom-10 left-1/2 -translate-x-1/2
-          min-[590px]:bottom-auto min-[590px]:top-1/2 min-[590px]:left-8 min-[590px]:lg:left-18 min-[590px]:translate-x-0 min-[590px]:-translate-y-1/2"
+        v-if="
+          showDelayedGameUI &&
+          !gameStore.isMenuOpening &&
+          !gameStore.isMenuOpen &&
+          !gameStore.isMenuClosing
+        "
+        class="absolute z-40 transition-opacity duration-300 bottom-10 left-1/2 -translate-x-1/2 min-[590px]:bottom-auto min-[590px]:top-1/2 min-[590px]:left-8 min-[590px]:lg:left-18 min-[590px]:translate-x-0 min-[590px]:-translate-y-1/2"
         :class="{
-          'opacity-0 pointer-events-none min-[590px]:opacity-100 min-[590px]:pointer-events-auto': (gameStore.showChoices || gameStore.selectedChoice) && !isMilestoneAnnotation,
-          'opacity-100': !((gameStore.showChoices || gameStore.selectedChoice) && !isMilestoneAnnotation)
+          'opacity-0 pointer-events-none min-[590px]:opacity-100 min-[590px]:pointer-events-auto':
+            (gameStore.showChoices || gameStore.selectedChoice) &&
+            !isMilestoneAnnotation,
+          'opacity-100': !(
+            (gameStore.showChoices || gameStore.selectedChoice) &&
+            !isMilestoneAnnotation
+          ),
         }"
       />
     </Transition>
 
     <!-- Intro Annotation handled by DialogueBox now -->
-      <Transition
-        :css="false"
-        @leave="(el, done) => {
+    <Transition
+      :css="false"
+      @leave="
+        (el, done) => {
           $gsap.to(el, {
             opacity: 0,
             duration: 0.2,
             ease: 'power2.inOut',
-            onComplete: done
-          });
-        }"
-      >
-        <div
-          v-if="showAnnotation"
+            onComplete: done,
+          })
+        }
+      "
+    >
+      <div
+        v-if="showAnnotation"
         class="absolute inset-0 flex flex-col items-center justify-center pointer-events-none z-50"
-        >
-          <DialogueBox
-            :dialogue="{
-              id: 'intro-anno',
-              speaker: '',
-              speakerType: 'normal',
-              text: '',
-              annotation: annotationText,
-              isChat: false
-            }"
-            :blur-amount="gameStore.introBlurAmount"
-            class="pointer-events-auto"
-          />
-        </div>
-      </Transition>
+      >
+        <DialogueBox
+          :dialogue="{
+            id: 'intro-anno',
+            speaker: '',
+            speakerType: 'normal',
+            text: '',
+            annotation: annotationText,
+            isChat: false,
+          }"
+          :blur-amount="gameStore.introBlurAmount"
+          class="pointer-events-auto"
+        />
+      </div>
+    </Transition>
 
     <!-- Dialogue Area (center) -->
     <div
@@ -136,21 +153,31 @@ watch(audioProgressPercent, (newVal) => {
           v-if="
             showContent &&
             !showAnnotation &&
-            (showDelayedGameUI || !gameStore.isFirstDialogueOfInitialScene || isMilestoneAnnotation) &&
+            (showDelayedGameUI ||
+              !gameStore.isFirstDialogueOfInitialScene ||
+              isMilestoneAnnotation) &&
             !gameStore.isMenuOpening &&
             !gameStore.isMenuOpen &&
             !gameStore.isMenuClosing
           "
-          :key="isMilestoneAnnotation ? 'milestone-anno' : gameStore.currentDialogue?.id"
+          :key="
+            isMilestoneAnnotation
+              ? 'milestone-anno'
+              : gameStore.currentDialogue?.id
+          "
           ref="dialogueBoxRef"
-          :dialogue="isMilestoneAnnotation ? {
-            id: 'milestone-entry',
-            speaker: '',
-            speakerType: 'normal',
-            text: '',
-            annotation: gameStore.currentScene?.entryAnnotation || '',
-            isChat: false
-          } : gameStore.currentDialogue"
+          :dialogue="
+            isMilestoneAnnotation
+              ? {
+                  id: 'milestone-entry',
+                  speaker: '',
+                  speakerType: 'normal',
+                  text: '',
+                  annotation: gameStore.currentScene?.entryAnnotation || '',
+                  isChat: false,
+                }
+              : gameStore.currentDialogue
+          "
           :is-selecting="isChoiceSelecting"
           class="pointer-events-auto"
           @animation-complete="onDialogueAnimationComplete"
@@ -176,7 +203,6 @@ watch(audioProgressPercent, (newVal) => {
       />
     </Transition>
 
-
     <!-- Milestone Menu - removed from here as it Teleports itself -->
     <!-- <GameMilestoneMenu /> -->
 
@@ -184,7 +210,11 @@ watch(audioProgressPercent, (newVal) => {
 
     <!-- Fixed Progress Bar -->
     <div
-      v-if="(showGameUI || audioStore.isPlaying) && !gameStore.isMenuOpening && !gameStore.isMenuOpen"
+      v-if="
+        (showGameUI || audioStore.isPlaying) &&
+        !gameStore.isMenuOpening &&
+        !gameStore.isMenuOpen
+      "
       class="fixed bottom-0 left-0 w-full h-[4px] bg-primary/10 z-50"
     >
       <div
@@ -193,7 +223,7 @@ watch(audioProgressPercent, (newVal) => {
           transform: `scaleX(${visualProgress / 100})`,
           transformOrigin: barTransformOrigin,
         }"
-      ></div>
+      />
     </div>
   </div>
 </template>
