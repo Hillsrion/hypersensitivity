@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia';
-import quizData from '~/app/data/hsp-quiz.json' with { type: "json" };
+import quizData from '../data/hsp-quiz.json' with { type: "json" };
 
 type Profile = {
   name: string;

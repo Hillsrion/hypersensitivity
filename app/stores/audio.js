@@ -7,11 +7,19 @@ export const useAudioStore = defineStore('audio', {
     fadeInterval: null,
     progressInterval: null,
     isPlaying: false,
+    /** All preloaded audio items */
     list: [],
     volume: 0.8,
     playbackRate: 1.0,
     isPaused: false,
+    /** Number of audio items that have fired `canplaythrough` */
+    preloadedCount: 0,
   }),
+
+  getters: {
+    /** True once every item in the list has reported canplaythrough */
+    allPreloaded: (state) => state.list.length > 0 && state.preloadedCount >= state.list.length,
+  },
 
   actions: {
     setVolume(val) {
@@ -54,7 +62,6 @@ export const useAudioStore = defineStore('audio', {
           clearInterval(this.progressInterval);
           this.progressInterval = null;
         }
-        // Don't nullify currentAudio immediately so currentAudio.volume can still be handled if needed
       };
 
       try {
@@ -94,7 +101,7 @@ export const useAudioStore = defineStore('audio', {
            }
 
            const elapsed = (Date.now() - startTime) / 1000;
-           this.currentTime = elapsed; // Update store time for UI
+           this.currentTime = elapsed;
            
            if (elapsed >= duration) {
               clearInterval(this.progressInterval);
@@ -105,10 +112,7 @@ export const useAudioStore = defineStore('audio', {
               console.log("LOG_DEBUG: Fallback timer ended, dispatching events");
               
               if (this.currentAudio) {
-                 // Dispatch 'ended' event so listeners (like useDialogueAnimator) react
                  this.currentAudio.dispatchEvent(new Event('ended'));
-                 
-                 // Also call the onended property if assigned directly
                  if (this.currentAudio.onended) this.currentAudio.onended();
               }
            }
@@ -116,7 +120,15 @@ export const useAudioStore = defineStore('audio', {
       }
     },
 
+    /**
+     * Preload a list of audio items.
+     * Each item is { path, transcript, timings? }.
+     * Creates an Audio element per item and listens for `canplaythrough`
+     * to track how many are truly ready to play without buffering.
+     */
     preloadList(list) {
+      this.preloadedCount = 0;
+
       this.list = list.map(item => {
         const timings = item.timings?.map(timing => {
           const start = typeof timing.start === 'number' 
@@ -127,7 +139,7 @@ export const useAudioStore = defineStore('audio', {
           if (typeof timing.end === 'number') {
             end = timing.end;
           } else if (timing.end === 'end') {
-            end = 999999; // Use a large number to indicate "until the end"
+            end = Infinity; // Sentinel: "until audio ends"
           } else {
             end = parseFloat(timing.endOffset?.replace('s', '') || 0);
           }
@@ -138,40 +150,35 @@ export const useAudioStore = defineStore('audio', {
             showOnly: timing.showOnly,
             start,
             end,
-          }
+          };
         }) ?? [];
 
-        // Calculate a rough duration from timings if possible
+        // Calculate rough duration from timings: use finite ends only (exclude Infinity sentinel)
         let duration = 0;
         if (timings.length > 0) {
-          // Find the maximum end time that is not 0
-          const validEnds = timings.map(t => t.end).filter(e => e > 0);
-          if (validEnds.length > 0) {
-            duration = Math.max(...validEnds) - timings[0].start;
+          const finiteEnds = timings.map(t => t.end).filter(e => Number.isFinite(e) && e > 0);
+          if (finiteEnds.length > 0) {
+            duration = Math.max(...finiteEnds) - timings[0].start;
           }
         }
 
         const audio = new Audio(item.path);
         audio.preload = 'auto';
 
+        // Track when the browser has buffered enough to play without interruption
+        const onCanPlayThrough = () => {
+          this.preloadedCount++;
+          audio.removeEventListener('canplaythrough', onCanPlayThrough);
+        };
+        audio.addEventListener('canplaythrough', onCanPlayThrough);
+
         return {
           ...item,
           audio,
           transcript: item.transcript,
           timings,
-          duration: duration > 0 ? duration : 0
+          duration: duration > 0 ? duration : 0,
         };
-      });
-    },
-
-    defineDurations() {
-      this.list.forEach(item => {
-        if (item.timings && item.timings.length > 0) {
-          const validEnds = item.timings.map(t => t.end).filter(e => e > 0);
-          if (validEnds.length > 0) {
-            item.duration = Math.max(...validEnds) - item.timings[0].start;
-          }
-        }
       });
     },
 
@@ -191,18 +198,6 @@ export const useAudioStore = defineStore('audio', {
       }
     },
 
-    async analyzeTimings() {
-      const audioTimingAnalyzer = new AudioTimingAnalyzer();
-      for (const item of this.list) {
-        try {
-          const { duration } = await audioTimingAnalyzer.analyzeAudio(item.path, item.transcript);
-          item.duration = duration;
-        } catch (err) {
-          console.warn(`Failed to analyze timings for ${item.path}`, err);
-        }
-      }
-    },
-
     async stopCurrentAudio(shouldAwaitFade = true) {
       console.log(`LOG_DEBUG: stopCurrentAudio called. isPlaying=${this.isPlaying}, hasCurrent=${!!this.currentAudio}, shouldAwait=${shouldAwaitFade}`);
       if (this.currentAudio && this.isPlaying) {
@@ -219,11 +214,8 @@ export const useAudioStore = defineStore('audio', {
           }
         } else {
           console.log("LOG_DEBUG: Fast fade out triggered.");
-          // Fast fade out separate from main flow
-          // Capture the audio to stop in a local variable
           const audioToStop = this.currentAudio;
           
-          // Clean up any pending fade promise from the previous audio
           if (this.fadeResolve) {
             this.fadeResolve();
             this.fadeResolve = null;
@@ -234,18 +226,15 @@ export const useAudioStore = defineStore('audio', {
             this.progressInterval = null;
           }
 
-          // Detach from store state immediately so playAudio can use the slot
           this.isPlaying = false;
           this.isPaused = false;
           this.currentTime = 0;
           
-          // Manually fade out the old audio instance
           const startVol = audioToStop.volume;
           let vol = startVol;
           const fadeOut = setInterval(() => {
              vol = Math.max(0, vol - 0.1);
               if (audioToStop) {
-                // If this audio element was reclaimed by a new play, stop fading it
                 if (audioToStop === this.currentAudio && this.isPlaying) {
                   clearInterval(fadeOut);
                   return;
@@ -262,14 +251,12 @@ export const useAudioStore = defineStore('audio', {
           }, 50);
         }
       } else {
-          // If not playing or no current audio, ensure state is clean
           this.isPlaying = false;
           this.isPaused = false;
       }
     },
 
     fadeVolume(fadeIn, duration = 500, steps = 20) {
-      // Clear any existing fade interval and resolve previous promise
       if (this.fadeInterval) {
         clearInterval(this.fadeInterval);
         this.fadeInterval = null;
@@ -309,5 +296,33 @@ export const useAudioStore = defineStore('audio', {
         }, stepDuration);
       });
     },
+
+    /**
+     * Release all audio resources.
+     * Call this on page teardown / route change to avoid memory leaks.
+     */
+    cleanupAudio() {
+      if (this.progressInterval) {
+        clearInterval(this.progressInterval);
+        this.progressInterval = null;
+      }
+      if (this.fadeInterval) {
+        clearInterval(this.fadeInterval);
+        this.fadeInterval = null;
+      }
+
+      this.list.forEach(item => {
+        try {
+          item.audio.pause();
+          item.audio.src = ''; // Releases the media resource
+        } catch (_) {}
+      });
+
+      this.list = [];
+      this.currentAudio = null;
+      this.isPlaying = false;
+      this.isPaused = false;
+      this.preloadedCount = 0;
+    },
   },
-}); 
+});

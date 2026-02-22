@@ -1,7 +1,7 @@
 import test from 'node:test';
 import { strict as assert } from 'node:assert';
 import { createPinia, setActivePinia } from 'pinia';
-import { useHspQuizStore } from '../stores/hspQuiz.ts';
+import { useHspQuizStore } from '../app/stores/hspQuiz.ts';
 import quizData from '../app/data/hsp-quiz.json' with { type: 'json' };
 
 test('hspQuizStore', async (t) => {

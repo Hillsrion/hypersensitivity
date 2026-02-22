@@ -1,23 +1,23 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { evaluateCondition, isSceneEligible } from "../stores/game/conditions.ts";
+import { evaluateCondition, isSceneEligible } from "../app/stores/game/conditions.ts";
 import {
   clampEnergy,
   applyDialogueEnergyChange,
   applyChoiceEffects,
-} from "../stores/game/effects.ts";
+} from "../app/stores/game/effects.ts";
 import {
   resolveNextProgressionStep,
   findFirstValidSceneIdInMilestone,
-} from "../stores/game/progression.ts";
-import { getToggleTargetMenuStatus, finalizeClosingStatus } from "../stores/game/menu.ts";
+} from "../app/stores/game/progression.ts";
+import { getToggleTargetMenuStatus, finalizeClosingStatus } from "../app/stores/game/menu.ts";
 import {
   toPersistedGameState,
   normalizePersistedSnapshot,
   saveSnapshot,
   loadSnapshot,
-} from "../stores/game/persistence.ts";
-import { getEntryAnnotationPhase, computeAnnotationDelayMs } from "../stores/game/intro.ts";
+} from "../app/stores/game/persistence.ts";
+import { getEntryAnnotationPhase, computeAnnotationDelayMs } from "../app/stores/game/intro.ts";
 
 const baseFlags = {
   outfitChoice: null,

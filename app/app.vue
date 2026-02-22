@@ -61,6 +61,52 @@ watch(
 
 import { gameData } from "~/app/data/game";
 
+/**
+ * Collect all audio items from the game scenes, deduplicating by path.
+ * - Scene-level audio: aggregates all dialogue texts and timings under a single audio entry.
+ * - Dialogue-level audio: added individually (backward-compat / overrides).
+ */
+const collectGameAudios = () => {
+  const collected = [];
+
+  const addIfNew = (entry) => {
+    if (!collected.find((a) => a.path === entry.path)) {
+      collected.push(entry);
+    }
+  };
+
+  Object.values(gameData.scenes).forEach((scene) => {
+    // Scene-level audio: merge all dialogue texts and timings into one entry
+    if (scene.audio) {
+      const fullPath = scene.audio.startsWith("/")
+        ? scene.audio
+        : `/audios/${scene.audio}`;
+
+      const allTimings = scene.dialogues.flatMap((d) => d.timings ?? []);
+      const transcript = scene.dialogues.map((d) => d.text ?? "").join(" ");
+
+      addIfNew({ path: fullPath, transcript, timings: allTimings });
+    }
+
+    // Dialogue-level audio (backward-compat or per-dialogue overrides)
+    scene.dialogues.forEach((dialogue) => {
+      if (dialogue.audio) {
+        const fullPath = dialogue.audio.startsWith("/")
+          ? dialogue.audio
+          : `/audios/${dialogue.audio}`;
+
+        addIfNew({
+          path: fullPath,
+          transcript: dialogue.text,
+          timings: dialogue.timings,
+        });
+      }
+    });
+  });
+
+  return collected;
+};
+
 onMounted(async () => {
   if (route.path === '/game-tools-view') return;
 
@@ -71,65 +117,25 @@ onMounted(async () => {
     lenisRef.value?.lenis?.stop();
   }
 
-  // Preload testimonie audios
-  const audioList = mainData.testimonies
-    .filter((item) => item.audio)
-    .map((item) => ({
-      path: item.audio,
-      transcript: item.content,
-      timings: getTimings(item.audio),
-    }));
-
-  // Preload intro audio
-  audioList.push({
-    path: "/audios/alix-intro.mp3",
-    transcript: introductionData.content,
-    timings: introductionData.timings,
-  });
-
-  // Collect all audios from gameData
-  Object.values(gameData.scenes).forEach((scene) => {
-    // Check for scene-level audio
-    if (scene.audio) {
-      const fullPath = scene.audio.startsWith("/")
-        ? scene.audio
-        : `/audios/${scene.audio}`;
-      
-      if (!audioList.find((a) => a.path === fullPath)) {
-        // Collect all transcripts and timings for this scene to help with duration calculation
-        const allTimings = [];
-        const allTexts = [];
-        
-        scene.dialogues.forEach(d => {
-          if (d.timings) allTimings.push(...d.timings);
-          if (d.text) allTexts.push(d.text);
-        });
-
-        audioList.push({
-          path: fullPath,
-          transcript: allTexts.join(" "),
-          timings: allTimings,
-        });
-      }
-    }
-
-    // Also keep checking for dialogue-level audio (backward compatibility or specific overrides)
-    scene.dialogues.forEach((dialogue) => {
-      if (dialogue.audio) {
-        // Double check if not already in list or handle duplicates
-        const fullPath = dialogue.audio.startsWith("/")
-          ? dialogue.audio
-          : `/audios/${dialogue.audio}`;
-        if (!audioList.find((a) => a.path === fullPath)) {
-          audioList.push({
-            path: fullPath,
-            transcript: dialogue.text,
-            timings: dialogue.timings,
-          });
-        }
-      }
-    });
-  });
+  // Build the full audio preload list: testimonies + intro + all game scenes
+  const audioList = [
+    // Testimony audios
+    ...mainData.testimonies
+      .filter((item) => item.audio)
+      .map((item) => ({
+        path: item.audio,
+        transcript: item.content,
+        timings: getTimings(item.audio),
+      })),
+    // Intro narration
+    {
+      path: "/audios/alix-intro.mp3",
+      transcript: introductionData.content,
+      timings: introductionData.timings,
+    },
+    // Game scene audios
+    ...collectGameAudios(),
+  ];
 
   audioStore.preloadList(audioList);
 
@@ -147,6 +153,11 @@ onMounted(async () => {
       { immediate: true }
     );
   }
+});
+
+onUnmounted(() => {
+  // Release all audio resources to avoid memory leaks on route teardown
+  audioStore.cleanupAudio();
 });
 </script>
 
