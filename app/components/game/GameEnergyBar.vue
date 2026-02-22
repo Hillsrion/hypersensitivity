@@ -37,7 +37,7 @@ watch(
       viewBox="0 0 10 15"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
-      class="text-current rotate-90 min-[590px]:rotate-0 transition-transform duration-300"
+      class="text-current transition-transform duration-300"
     >
       <path
         d="M4.81934 5.48047L4.75684 6.03613H9.41602L4.6582 14.1729L5.13086 9.96387H5.18457V9.46387L4.68457 9.43555V8.96387H0.583984L5.34082 0.826172L4.81934 5.48047Z"
