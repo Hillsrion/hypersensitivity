@@ -87,7 +87,7 @@ const getRatingClass = (value) => {
     <!-- Fixed Header -->
     <nav ref="headerRef" class="fixed top-0 left-0 w-full flex justify-between items-center px-4 lg:px-8 md:px-16 py-13 z-50 opacity-0">
       <div class="flex items-center">
-        <span class="font-satoshi font-medium text-base leading-[28px] uppercase">Section {{ currentSectionIndex + 1 }}</span>
+        <span class="font-sans font-medium text-base leading-[28px] uppercase">Section {{ currentSectionIndex + 1 }}</span>
         <span class="mx-2">-</span>
         <span
           ref="sectionNameRef"
@@ -108,7 +108,7 @@ const getRatingClass = (value) => {
       <!-- Question -->
       <div class="min-h-36 flex flex-col justify-center mb-8">
         <div ref="questionInfoRef" class="flex items-center h-16 gap-x-4 opacity-0">
-          <p class="font-satoshi font-medium text-white uppercase sm:text-xl/7 text-lg/7">Question {{ currentQuestionIndex + 1 }} / {{ totalQuestions }}</p>
+          <p class="font-sans font-medium text-white uppercase sm:text-xl/7 text-lg/7">Question {{ currentQuestionIndex + 1 }} / {{ totalQuestions }}</p>
           <div v-if="currentQuestion.inversed" class="bg-white text-primary px-4 py-2 rounded-full text-xl font-medium">
             Inversée
           </div>

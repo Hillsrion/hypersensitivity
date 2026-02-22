@@ -49,7 +49,7 @@ defineExpose({
         />
         <div
           ref="labelRef"
-          class="font-satoshi pl-4 transition-colors duration-300 text-primary group-hover:text-primary/70"
+          class="font-sans pl-4 transition-colors duration-300 text-primary group-hover:text-primary/70"
         >
           <span class="uppercase mr-1 font-medium">JOUR {{ milestone.day }}</span>
           <span class="mx-1 font-serif">-</span>

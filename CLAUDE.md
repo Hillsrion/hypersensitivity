@@ -76,7 +76,7 @@ const { chars, words, lines } = useSplitText(el, { splitBy: 'lines, words, chars
 <h1 class="font-epilogue font-medium">Heading</h1>
 
 <!-- Satoshi Regular -->
-<p class="font-satoshi">Body text</p>
+<p class="font-sans">Body text</p>
 
 <!-- PP Eiko Thin -->
 <h2 class="font-eiko font-thin">Display heading</h2>

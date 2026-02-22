@@ -246,7 +246,7 @@ onUnmounted(() => {
           <!-- Start hidden for GSAP to control -->
 
           <p
-            class="text-xl text-primary/60 font-satoshi font-light leading-[1.4]"
+            class="text-xl text-primary/60 font-sans font-light leading-[1.4]"
           >
             {{ item }}
           </p>

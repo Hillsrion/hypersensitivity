@@ -67,7 +67,7 @@ const {
       v-show="!isShowingOnlyAnnotation"
       v-if="dialogue.speaker"
       ref="speakerRef"
-      class="text-primary font-medium font-satoshi text-xl/7 uppercase transition-all duration-300"
+      class="text-primary font-medium font-sans text-xl/7 uppercase transition-all duration-300"
       :class="[
         { 'opacity-0': !showDialogueContent, 'mt-6': showAnnotation }, 
         isRightAligned ? 'text-right' : 'text-left'

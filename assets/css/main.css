@@ -19,8 +19,7 @@
 }
 
 @theme {
-  --font-family-sans: "Satoshi", sans-serif;
-  --default-font-family: "Satoshi", sans-serif;
+  --font-sans: "Satoshi", ui-sans-serif, system-ui, sans-serif;
   --font-serif: "PP Eiko", serif;
   --font-epilogue: "Epilogue", sans-serif;
   --color-primary: #0b1018;
@@ -62,6 +61,10 @@
   body,
   * {
     cursor: none !important;
+  }
+
+  body {
+    @apply font-sans;
   }
 }
 
