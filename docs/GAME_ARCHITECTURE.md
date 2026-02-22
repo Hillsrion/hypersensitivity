@@ -80,7 +80,13 @@ This project uses a layered composable architecture so game rules, UI orchestrat
     - Timing-end resolution strategy.
 - These helpers are covered by **`tests/orchestration-composables.test.mjs`**.
 
-### Quiz (HSP) Composables
+### Quiz (HSP) Composables (Independent Module)
+
+The quiz is not part of game scene routing or milestone progression.
+
+- It is mounted as an overlay in `app/app.vue` when `gameStore.showQuestionnaire` is `true`.
+- It is entered from the game through explicit UI actions (end-of-experience prompt in `app/components/Experience.vue`, and menu shortcut in `app/components/game/GameMilestoneMenu.vue`).
+- Quiz scoring/state lives in `hspQuiz` store and does not mutate narrative game progression.
 
 #### 1. Container & Store
 
@@ -113,6 +119,7 @@ This project uses a layered composable architecture so game rules, UI orchestrat
 3. `DialogueBox.vue` consumes `useDialogueBox()`, which coordinates display + audio + animation sublayers.
 4. Intro and day transitions are orchestrated by `Experience.vue` through `useExperienceAnimation()`, `useExperienceGradient()`, and `useExperienceDayTransition()`.
 5. Quiz flow is container-driven (`HSPQuestionnaire.vue`) and animation hooks are delegated to `useHSP*Animation` composables.
+6. The quiz remains decoupled from scene progression: the bridge with game flow is only questionnaire visibility (`gameStore.showQuestionnaire`).
 
 ### Extension Guidelines
 
@@ -120,6 +127,7 @@ This project uses a layered composable architecture so game rules, UI orchestrat
 - Add new interaction rules in `useGameInteractions` (not directly in `GameContainer.vue`).
 - Keep timeline predicates and path/timing rules pure in `orchestration.ts` when possible, then test them in `tests/orchestration-composables.test.mjs`.
 - Keep `useGameController` as a composition facade, not a logic-heavy module.
+- Keep quiz business logic in `hspQuiz` composables/store; only use the visibility bridge (`showQuestionnaire`) to connect from game UI.
 
 ## 📂 Scene Structure
 
