@@ -36,7 +36,7 @@ app/data/scenes/
 Each `Scene` object implements the `Scene` interface and typically includes:
 - **`id`**: Unique identifier (from `SCENE_IDS`).
 - **`audio`**: Path to the audio file for this scene.
-- **`dialogues`**: Array of dialogue lines with precise timings.
+- **`dialogues`**: Array of dialogue lines. Audio timings are tracked automatically via `app/data/timings/scenes.json`.
 - **Routing Logic**: Instructions on where to go next (see below).
 
 ## 🔀 Routing Logic

@@ -37,38 +37,23 @@ refactor(components): simplify header navigation logic
 
 ## Architecture
 
-This is a Nuxt 4 content-driven website with animation capabilities.
+This is a Nuxt 4 data-driven website with animation capabilities.
 
 ### Tech Stack
-- **Nuxt 4** with Vue 3 Composition API
-- **@nuxt/content v3** for Markdown-based content management
+- **Nuxt 4** with Vue 3 Composition API (+ Vue 3.5 `useTemplateRef`)
 - **Tailwind CSS v4** via Vite plugin with fluid-tailwindcss
 - **@hypernym/nuxt-gsap** for GSAP animations
 - **nuxt-split-type** for text splitting animations
 - **Typography**: Epilogue (Google Fonts - 400, 500, 600), Satoshi Regular (custom - 400), PP Eiko Thin (custom - 100)
 
 ### Project Structure
-- `app/` - Nuxt application (pages, components, app.vue)
-- `content/` - Markdown content files with YAML frontmatter
+- `app/` - Nuxt application (components in `ui/`, `game/`, `hsp/`; composables grouped by domain; stores)
 - `plugins/` - Nuxt plugins
 - `assets/css/` - Tailwind entry point
 
-### Key Patterns
+**Domain-Driven Organization**: Composables and components are organized by domain (e.g., `game/`, `hsp/`, `ui/`) rather than by technical type.
 
-**Content Pages**: The catch-all route `app/pages/[...slug].vue` renders all content from `content/` directory using ContentRenderer.
-
-**GSAP Usage**: Access via explicit import from Nuxt app instance:
-```ts
-const { $gsap } = useNuxtApp()
-```
-
-**SplitText Usage**: Use the composable for text animations:
-```ts
-const el = ref<HTMLElement>()
-const { chars, words, lines } = useSplitText(el, { splitBy: 'lines, words, chars' })
-```
-
-**Content Components**: Markdown files support inline Vue components using `::component-name` syntax.
+**Template Refs**: Always use Vue 3.5's `useTemplateRef()` for DOM elements instead of standard `ref()` calls.
 
 **Typography**: Custom fonts are configured via `@theme` in CSS:
 ```html
