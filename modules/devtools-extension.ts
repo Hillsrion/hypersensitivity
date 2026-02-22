@@ -1,12 +1,13 @@
 import { defineNuxtModule } from '@nuxt/kit'
 import { addCustomTab } from '@nuxt/devtools-kit'
+import type { Nuxt } from '@nuxt/schema'
 
 export default defineNuxtModule({
   meta: {
     name: 'game-devtools',
-    configKey: 'gameDevtools'
+    configKey: 'gameDevtools',
   },
-  setup(_options: any, nuxt: any) {
+  setup(_options: Record<string, never>, nuxt: Nuxt) {
     if (!nuxt.options.dev) return
 
     // Add the custom tab to Nuxt DevTools
@@ -16,8 +17,8 @@ export default defineNuxtModule({
       icon: 'carbon:game-console',
       view: {
         type: 'iframe',
-        src: '/game-tools-view'
-      }
+        src: '/game-tools-view',
+      },
     })
-  }
+  },
 })

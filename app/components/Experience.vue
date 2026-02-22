@@ -1,102 +1,109 @@
 <script setup lang="ts">
-import GameContainer from "./game/GameContainer.vue";
-import ChoiceButtons from "./game/ChoiceButtons.vue";
-import type { Choice } from "~/app/types/game";
-import { useExperienceGradient } from "~/app/composables/game/useExperienceGradient";
-import { useExperienceDayTransition } from "~/app/composables/game/useExperienceDayTransition";
-import { QUESTIONNAIRE_ENTRY_DELAY_MS } from "~/app/constants/durations";
+import GameContainer from './game/GameContainer.vue'
+import ChoiceButtons from './game/ChoiceButtons.vue'
+import type { Choice } from '~/app/types/game'
+import {
+  useExperienceGradient,
+  type ScrollTriggerHandle,
+} from '~/app/composables/game/useExperienceGradient'
+import { useExperienceDayTransition } from '~/app/composables/game/useExperienceDayTransition'
+import { QUESTIONNAIRE_ENTRY_DELAY_MS } from '~/app/constants/durations'
 
-const gameStore = useGameStore();
-const animationsStore = useAnimationsStore();
+defineOptions({
+  name: 'ExperienceScreen',
+})
+
+const gameStore = useGameStore()
+const animationsStore = useAnimationsStore()
 
 const endGameChoices: Choice[] = [
-  { id: "yes", text: "OUI", nextSceneId: "questionnaire" },
-  { id: "no", text: "NON", nextSceneId: "reset" },
-];
+  { id: 'yes', text: 'OUI', nextSceneId: 'questionnaire' },
+  { id: 'no', text: 'NON', nextSceneId: 'reset' },
+]
 
 const handleEndChoiceSelect = (choice: Choice) => {
-  if (choice.id === "yes") {
-    showQuestionnaire();
+  if (choice.id === 'yes') {
+    showQuestionnaire()
   } else {
-    gameStore.resetGame();
+    gameStore.resetGame()
   }
-};
+}
 
-const container = useTemplateRef<HTMLElement>("container");
-const textContainer = useTemplateRef<HTMLElement>("textContainer");
+const container = useTemplateRef<HTMLElement>('container')
+const textContainer = useTemplateRef<HTMLElement>('textContainer')
 
-const { 
-  eyePath, 
-  eyePaths, 
-  gradientState, 
-  playCloseEyeAnimation, 
-  playOpenEyeAnimation, 
-  setupIntroSequence 
-} = useExperienceAnimation();
+const {
+  eyePath,
+  eyePaths,
+  gradientState,
+  playCloseEyeAnimation,
+  playOpenEyeAnimation,
+  setupIntroSequence,
+} = useExperienceAnimation()
 
-const scrollTriggerInstance = ref<any>(null);
-let questionnaireTimer: ReturnType<typeof setTimeout> | null = null;
+const scrollTriggerInstance = ref<ScrollTriggerHandle | null>(null)
+let questionnaireTimer: ReturnType<typeof setTimeout> | null = null
 
-const { 
-  backgroundGradient, 
-  isGameEnd, 
-  showEndContent 
-} = useExperienceGradient(gradientState, computed(() => isDayTransition.value), scrollTriggerInstance);
+const { backgroundGradient, isGameEnd, showEndContent } = useExperienceGradient(
+  gradientState,
+  computed(() => isDayTransition.value),
+  scrollTriggerInstance
+)
 
 const { isDayTransition } = useExperienceDayTransition(
   gradientState,
   playCloseEyeAnimation,
   playOpenEyeAnimation,
   isGameEnd
-);
+)
 
 const lines = [
-  "Parfois tout est trop fort, et tout se superpose.",
-  "Tu entendras peut-être ton histoire pendant ces quelques minutes.",
-];
+  'Parfois tout est trop fort, et tout se superpose.',
+  'Tu entendras peut-être ton histoire pendant ces quelques minutes.',
+]
 
-const { words } = useSplitText(textContainer, { splitBy: "words" });
+const { words } = useSplitText(textContainer, { splitBy: 'words' })
 
 onUnmounted(() => {
   if (questionnaireTimer) {
-    clearTimeout(questionnaireTimer);
-    questionnaireTimer = null;
+    clearTimeout(questionnaireTimer)
+    questionnaireTimer = null
   }
   if (scrollTriggerInstance.value) {
-    scrollTriggerInstance.value.kill();
+    scrollTriggerInstance.value.kill()
   }
-});
+})
 
 watch(
   [words, container],
   ([newWords, containerEl]) => {
     if (newWords && newWords.length && containerEl && textContainer.value) {
       nextTick(() => {
-        const lineElements = textContainer.value?.children;
-        if (!lineElements || lineElements.length === 0) return;
+        const lineElements = textContainer.value?.children
+        if (!lineElements || lineElements.length === 0) return
 
         if (scrollTriggerInstance.value) {
-          scrollTriggerInstance.value.kill();
+          scrollTriggerInstance.value.kill()
         }
 
         scrollTriggerInstance.value = setupIntroSequence(
           containerEl,
           lineElements
-        );
-      });
+        )
+      })
     }
   },
   { immediate: true }
-);
+)
 
 const showQuestionnaire = () => {
-  showEndContent.value = false;
-  
+  showEndContent.value = false
+
   questionnaireTimer = setTimeout(() => {
-    questionnaireTimer = null;
-    gameStore.setShowQuestionnaire(true);
-  }, QUESTIONNAIRE_ENTRY_DELAY_MS);
-};
+    questionnaireTimer = null
+    gameStore.setShowQuestionnaire(true)
+  }, QUESTIONNAIRE_ENTRY_DELAY_MS)
+}
 </script>
 
 <template>
@@ -108,14 +115,17 @@ const showQuestionnaire = () => {
       <!-- Eye Animation -->
       <svg
         class="absolute top-1/2 left-0 w-full h-auto -translate-y-1/2 pointer-events-none z-0 overflow-visible blur-sm transition-opacity duration-1000"
-        :class="{ 'opacity-0': (animationsStore.aurora.visible && !isDayTransition) || isGameEnd }"
+        :class="{
+          'opacity-0':
+            (animationsStore.aurora.visible && !isDayTransition) || isGameEnd,
+        }"
         viewBox="0 0 1366 769"
       >
         <path ref="eyePath" :d="eyePaths.closed" fill="white" />
       </svg>
 
       <!-- Game Container - Affiche dans l'oeil, l'annotation apparait avec l'animation -->
-      <div 
+      <div
         class="absolute inset-0 z-20 pointer-events-none transition-opacity duration-1000"
         :class="{ 'opacity-0': isGameEnd || isDayTransition }"
       >
@@ -124,16 +134,18 @@ const showQuestionnaire = () => {
 
       <!-- End Screen Overlay -->
       <Transition name="fade">
-        <div 
-          v-if="showEndContent && !gameStore.showQuestionnaire" 
+        <div
+          v-if="showEndContent && !gameStore.showQuestionnaire"
           class="absolute inset-0 z-30 flex flex-col items-center justify-center pointer-events-auto"
         >
-          <div class="max-w-2xl px-6 text-center h-full flex flex-col items-center justify-center pb-32">
+          <div
+            class="max-w-2xl px-6 text-center h-full flex flex-col items-center justify-center pb-32"
+          >
             <h2 class="font-serif italic text-title leading-[1.4] text-white">
               Souhaitez-vous évaluer votre spectre de l'Hypersensibilité ?
             </h2>
           </div>
-            
+
           <ChoiceButtons
             :choices="endGameChoices"
             variant="light"
