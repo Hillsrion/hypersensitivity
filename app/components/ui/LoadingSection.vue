@@ -38,7 +38,7 @@ const onBottomElementClick = () => {
       @mouseleave="isHovered = false"
     >
       <p class="text-white uppercase leading-5">Cliquer pour écouter</p>
-      <CircleAudiowave class="w-18 h-18" :animating="isHovered" />
+      <CircleAudiowave :animating="isHovered" class="size-11 sm:size-14 md:size-18" />
     </button>
 
   </div>

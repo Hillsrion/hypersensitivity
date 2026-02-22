@@ -175,7 +175,7 @@ onUnmounted(() => {
       <!-- Global Audiowave -->
       <div class="fixed top-10 right-16 z-100 pointer-events-none transition-opacity duration-500">
         <CircleAudiowave
-          class="w-14 h-14"
+          class="size-8 sm:size-11 md:size-14"
           :primary="animations.audiowave.variant === 'dark'"
           :animating="audioStore.isPlaying"
         />
