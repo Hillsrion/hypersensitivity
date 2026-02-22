@@ -1,10 +1,8 @@
 <script setup lang="ts">
+const gameStore = useGameStore()
+const { $gsap } = useNuxtApp()
 
-const gameStore = useGameStore();
-const { $gsap } = useNuxtApp();
-
-const fillRef = useTemplateRef('fillRef');
-const animatedEnergy = ref(gameStore.energyPercentage);
+const animatedEnergy = ref(gameStore.energyPercentage)
 
 // Animation de la barre d'energie quand elle change
 watch(
@@ -13,21 +11,22 @@ watch(
     $gsap.to(animatedEnergy, {
       value: newEnergy,
       duration: 1.5,
-      ease: "expo.out",
-    });
+      ease: 'expo.out',
+    })
   }
-);
+)
 </script>
 
 <template>
-  <div class="flex items-center gap-4 flex-row min-[590px]:flex-col transition-all duration-300">
+  <div
+    class="flex items-center gap-4 flex-row min-[590px]:flex-col transition-all duration-300"
+  >
     <div class="border border-current p-0.5 rounded-full">
-      <div 
+      <div
         class="relative overflow-hidden rounded-full h-1 w-40 min-[590px]:w-1 min-[590px]:h-62.5"
       >
         <div
-          ref="fillRef"
-          class="absolute bg-current rounded-full top-0 left-0 h-full w-[var(--energy)] min-[590px]:bottom-0 min-[590px]:w-full min-[590px]:h-[var(--energy)]"
+          class="absolute bg-current rounded-full top-0 left-0 h-full w-(--energy) min-[590px]:top-auto min-[590px]:bottom-0 min-[590px]:w-full min-[590px]:h-(--energy)"
           :style="{ '--energy': `${animatedEnergy}%` }"
         />
       </div>
