@@ -1,7 +1,37 @@
 import { defineStore } from 'pinia';
 
+export interface AudioTiming {
+  word: string;
+  annotation?: string;
+  showOnly?: boolean;
+  start: number;
+  end: number;
+}
+
+export interface AudioItem {
+  path: string;
+  audio: HTMLAudioElement;
+  transcript?: string;
+  timings: AudioTiming[];
+  duration: number;
+}
+
+export interface AudioState {
+  currentAudio: HTMLAudioElement | null;
+  currentTime: number;
+  fadeInterval: ReturnType<typeof setInterval> | null;
+  progressInterval: ReturnType<typeof setInterval> | null;
+  isPlaying: boolean;
+  list: AudioItem[];
+  volume: number;
+  playbackRate: number;
+  isPaused: boolean;
+  preloadedCount: number;
+  fadeResolve: (() => void) | null;
+}
+
 export const useAudioStore = defineStore('audio', {
-  state: () => ({
+  state: (): AudioState => ({
     currentAudio: null,
     currentTime: 0,
     fadeInterval: null,
@@ -14,29 +44,30 @@ export const useAudioStore = defineStore('audio', {
     isPaused: false,
     /** Number of audio items that have fired `canplaythrough` */
     preloadedCount: 0,
+    fadeResolve: null,
   }),
 
   getters: {
     /** True once every item in the list has reported canplaythrough */
-    allPreloaded: (state) => state.list.length > 0 && state.preloadedCount >= state.list.length,
+    allPreloaded: (state): boolean => state.list.length > 0 && state.preloadedCount >= state.list.length,
   },
 
   actions: {
-    setVolume(val) {
+    setVolume(val: number) {
       this.volume = val;
       if (this.currentAudio && !this.fadeInterval) {
         this.currentAudio.volume = val;
       }
     },
 
-    setPlaybackRate(rate) {
+    setPlaybackRate(rate: number) {
       this.playbackRate = rate;
       if (this.currentAudio) {
         this.currentAudio.playbackRate = rate;
       }
     },
 
-    async playAudio(audioPath) {
+    async playAudio(audioPath: string) {
       console.log(`LOG_DEBUG: playAudio called for ${audioPath}`);
       // Start stopping current audio without awaiting its full fade out
       // to keep the user gesture context for the next play() call
@@ -96,7 +127,7 @@ export const useAudioStore = defineStore('audio', {
         this.progressInterval = setInterval(() => {
            // If audio changed in the meantime, stop this fallback
            if (this.currentAudio !== item.audio) {
-              clearInterval(this.progressInterval);
+              if (this.progressInterval) clearInterval(this.progressInterval);
               return;
            }
 
@@ -104,7 +135,7 @@ export const useAudioStore = defineStore('audio', {
            this.currentTime = elapsed;
            
            if (elapsed >= duration) {
-              clearInterval(this.progressInterval);
+              if (this.progressInterval) clearInterval(this.progressInterval);
               this.progressInterval = null;
               this.isPlaying = false;
               this.currentTime = 0;
@@ -126,22 +157,22 @@ export const useAudioStore = defineStore('audio', {
      * Creates an Audio element per item and listens for `canplaythrough`
      * to track how many are truly ready to play without buffering.
      */
-    preloadList(list) {
+    preloadList(list: any[]) {
       this.preloadedCount = 0;
 
       this.list = list.map(item => {
-        const timings = item.timings?.map(timing => {
+        const timings: AudioTiming[] = item.timings?.map((timing: any) => {
           const start = typeof timing.start === 'number' 
             ? timing.start 
-            : parseFloat(timing.startOffset?.replace('s', '') || 0);
+            : parseFloat(timing.startOffset?.replace('s', '') || '0');
           
-          let end;
+          let end: number;
           if (typeof timing.end === 'number') {
             end = timing.end;
           } else if (timing.end === 'end') {
             end = Infinity; // Sentinel: "until audio ends"
           } else {
-            end = parseFloat(timing.endOffset?.replace('s', '') || 0);
+            end = parseFloat(timing.endOffset?.replace('s', '') || '0');
           }
 
           return {
@@ -204,8 +235,10 @@ export const useAudioStore = defineStore('audio', {
         if (shouldAwaitFade) {
           console.log("LOG_DEBUG: Awaiting full fade out...");
           await this.fadeVolume(false);
-          this.currentAudio.pause();
-          this.currentAudio.currentTime = 0;
+          if (this.currentAudio) {
+            this.currentAudio.pause();
+            this.currentAudio.currentTime = 0;
+          }
           this.isPlaying = false;
           this.currentTime = 0;
           if (this.progressInterval) {
@@ -256,7 +289,7 @@ export const useAudioStore = defineStore('audio', {
       }
     },
 
-    fadeVolume(fadeIn, duration = 500, steps = 20) {
+    fadeVolume(fadeIn: boolean, duration: number = 500, steps: number = 20): Promise<void> {
       if (this.fadeInterval) {
         clearInterval(this.fadeInterval);
         this.fadeInterval = null;
@@ -286,8 +319,10 @@ export const useAudioStore = defineStore('audio', {
           }
 
           if (currentStep >= steps) {
-            clearInterval(this.fadeInterval);
-            this.fadeInterval = null;
+            if (this.fadeInterval) {
+              clearInterval(this.fadeInterval);
+              this.fadeInterval = null;
+            }
             if (this.fadeResolve) {
               this.fadeResolve();
               this.fadeResolve = null;
