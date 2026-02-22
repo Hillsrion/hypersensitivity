@@ -1,4 +1,4 @@
-import { defineStore } from "pinia";
+import { defineStore } from 'pinia'
 import type {
   Choice,
   DialogueLine,
@@ -6,43 +6,43 @@ import type {
   IntroAnimationPhase,
   Milestone,
   Scene,
-} from "../types/game";
-import { gameData } from "../data/game";
-import { SCENE_IDS } from "../data/constants";
-import { devConfig } from "../config/dev";
-import { useAudioStore } from "./audio";
-import { useAnimationsStore } from "./animations";
+} from '../types/game'
+import { gameData } from '../data/game'
+import { SCENE_IDS } from '../data/constants'
+import { devConfig } from '../config/dev'
+import { useAudioStore } from './audio'
+import { useAnimationsStore } from './animations'
 import {
   MILESTONES,
   MILESTONE_ORDER,
   getMilestoneForScene,
-} from "../data/milestones";
+} from '../data/milestones'
 import {
   STORAGE_KEY,
   createInitialFlags,
   createInitialGameState,
   ensureInitialMilestone,
-} from "./game/state";
-import { applyChoiceEffects, applyDialogueEnergyChange } from "./game/effects";
+} from './game/state'
+import { applyChoiceEffects, applyDialogueEnergyChange } from './game/effects'
 import {
   findFirstValidSceneIdInMilestone,
   resolveNextProgressionStep,
-} from "./game/progression";
+} from './game/progression'
 import {
   clearScheduledTimer,
   computeAnnotationDelayMs,
   getEntryAnnotationPhase,
   scheduleTimer,
   shouldAutoCompleteAnnotation,
-} from "./game/intro";
-import { loadSnapshot, saveSnapshot } from "./game/persistence";
+} from './game/intro'
+import { loadSnapshot, saveSnapshot } from './game/persistence'
 import {
   MENU_CLOSE_DELAY_MS,
   finalizeClosingStatus,
   getMenuClosingStatus,
   getMenuOpenStatus,
   getToggleTargetMenuStatus,
-} from "./game/menu";
+} from './game/menu'
 import {
   getAvailableChoices,
   getCurrentDay,
@@ -59,14 +59,14 @@ import {
   isChoiceDisabled,
   isFirstDialogueOfInitialScene,
   isGameEnded,
-} from "./game/selectors";
+} from './game/selectors'
 
-export const useGameStore = defineStore("game", {
+export const useGameStore = defineStore('game', {
   state: createInitialGameState,
 
   getters: {
     currentScene(state): Scene | null {
-      return getCurrentScene(gameData.scenes, state.currentSceneId);
+      return getCurrentScene(gameData.scenes, state.currentSceneId)
     },
 
     currentDialogue(state): DialogueLine | null {
@@ -74,7 +74,7 @@ export const useGameStore = defineStore("game", {
         gameData.scenes,
         state.currentSceneId,
         state.currentDialogueIndex
-      );
+      )
     },
 
     isLastDialogue(state): boolean {
@@ -82,51 +82,51 @@ export const useGameStore = defineStore("game", {
         gameData.scenes,
         state.currentSceneId,
         state.currentDialogueIndex
-      );
+      )
     },
 
     hasDialogues(state): boolean {
-      return getHasDialogues(gameData.scenes, state.currentSceneId);
+      return getHasDialogues(gameData.scenes, state.currentSceneId)
     },
 
     hasChoices(state): boolean {
-      return getHasChoices(gameData.scenes, state.currentSceneId);
+      return getHasChoices(gameData.scenes, state.currentSceneId)
     },
 
     availableChoices(state): Choice[] {
-      return getAvailableChoices(gameData.scenes, state.currentSceneId);
+      return getAvailableChoices(gameData.scenes, state.currentSceneId)
     },
 
     isChoiceDisabled(state): (choice: Choice) => boolean {
-      return (choice: Choice) => isChoiceDisabled(choice, state.flags);
+      return (choice: Choice) => isChoiceDisabled(choice, state.flags)
     },
 
     energyPercentage(state): number {
-      return getEnergyPercentage(state.flags.energy);
+      return getEnergyPercentage(state.flags.energy)
     },
 
     currentDay(state): 1 | 2 {
-      return getCurrentDay(gameData.scenes, state.currentSceneId);
+      return getCurrentDay(gameData.scenes, state.currentSceneId)
     },
 
     currentTitle(state): string {
-      return getCurrentTitle(gameData.scenes, state.currentSceneId);
+      return getCurrentTitle(gameData.scenes, state.currentSceneId)
     },
 
     milestones(): Milestone[] {
-      return getMilestones();
+      return getMilestones()
     },
 
     reachedMilestonesList(state): Milestone[] {
-      return getReachedMilestonesList(state.reachedMilestones);
+      return getReachedMilestonesList(state.reachedMilestones)
     },
 
     isGameEnded(state): boolean {
-      return isGameEnded(state.currentSceneId, SCENE_IDS.GAME_END);
+      return isGameEnded(state.currentSceneId, SCENE_IDS.GAME_END)
     },
 
     firstDialogueAnnotation(state): string | undefined {
-      return getFirstDialogueAnnotation(gameData.scenes, state.currentSceneId);
+      return getFirstDialogueAnnotation(gameData.scenes, state.currentSceneId)
     },
 
     isFirstDialogueOfInitialScene(state): boolean {
@@ -134,286 +134,290 @@ export const useGameStore = defineStore("game", {
         state.currentSceneId,
         state.currentDialogueIndex,
         gameData.initialSceneId
-      );
+      )
     },
 
-    isMenuOpen: (state) => state.menuStatus === "open",
-    isMenuOpening: (state) => state.menuStatus === "opening",
-    isMenuClosing: (state) => state.menuStatus === "closing",
+    isMenuOpen: (state) => state.menuStatus === 'open',
+    isMenuOpening: (state) => state.menuStatus === 'opening',
+    isMenuClosing: (state) => state.menuStatus === 'closing',
   },
 
   actions: {
     initGame(forceReset = false) {
       if (forceReset) {
-        this.resetGame();
-        return;
+        this.resetGame()
+        return
       }
 
-      if (import.meta.env.DEV && devConfig.enabled && devConfig.initialSceneId) {
-        console.log("LOG_DEBUG: Applying Dev Config", devConfig);
-        this.currentSceneId = devConfig.initialSceneId;
-        this.currentDialogueIndex = 0;
-        this.flags = { ...createInitialFlags(), ...devConfig.initialFlags };
-        this.introPlayed = true;
-        this.introAnimationPhase = "complete";
-        this.introBlurAmount = 0;
+      if (
+        import.meta.env.DEV &&
+        devConfig.enabled &&
+        devConfig.initialSceneId
+      ) {
+        console.log('LOG_DEBUG: Applying Dev Config', devConfig)
+        this.currentSceneId = devConfig.initialSceneId
+        this.currentDialogueIndex = 0
+        this.flags = { ...createInitialFlags(), ...devConfig.initialFlags }
+        this.introPlayed = true
+        this.introAnimationPhase = 'complete'
+        this.introBlurAmount = 0
 
-        const animationsStore = useAnimationsStore();
-        animationsStore.setCursorVariant("dark");
-        animationsStore.setAudiowaveVariant("dark");
+        const animationsStore = useAnimationsStore()
+        animationsStore.setCursorVariant('dark')
+        animationsStore.setAudiowaveVariant('dark')
 
         if (devConfig.playbackRate) {
-          const audioStore = useAudioStore();
-          audioStore.setPlaybackRate(devConfig.playbackRate);
+          const audioStore = useAudioStore()
+          audioStore.setPlaybackRate(devConfig.playbackRate)
         }
 
-        return;
+        return
       }
 
       try {
-        const savedState = loadSnapshot(STORAGE_KEY);
+        const savedState = loadSnapshot(STORAGE_KEY)
         if (savedState) {
           this.reachedMilestones = ensureInitialMilestone(
             savedState.reachedMilestones
-          );
-          this.currentSceneId = gameData.initialSceneId;
-          this.currentDialogueIndex = 0;
-          this.flags = createInitialFlags();
-          this.introPlayed = false;
-          this.introAnimationPhase = "hidden";
-          this.menuStatus = "closed";
+          )
+          this.currentSceneId = gameData.initialSceneId
+          this.currentDialogueIndex = 0
+          this.flags = createInitialFlags()
+          this.introPlayed = false
+          this.introAnimationPhase = 'hidden'
+          this.menuStatus = 'closed'
         }
       } catch {
-        this.resetGame();
+        this.resetGame()
       }
     },
 
     saveGame() {
-      saveSnapshot(STORAGE_KEY, this.$state);
+      saveSnapshot(STORAGE_KEY, this.$state)
     },
 
     resetGame() {
-      const audioStore = useAudioStore();
-      const animationsStore = useAnimationsStore();
+      const audioStore = useAudioStore()
+      const animationsStore = useAnimationsStore()
 
-      this._annotationTimerId = clearScheduledTimer(this._annotationTimerId);
+      this._annotationTimerId = clearScheduledTimer(this._annotationTimerId)
 
-      this.currentSceneId = gameData.initialSceneId;
-      this.currentDialogueIndex = 0;
-      this.flags = createInitialFlags();
-      this.reachedMilestones = ["reveil"];
-      this.isTransitioning = false;
-      this.isDayTransitioning = false;
-      this.pendingTransitionSceneId = null;
-      this.showChoices = false;
-      this.menuStatus = "closed";
-      this.selectedChoice = null;
-      this.showQuestionnaire = false;
+      this.currentSceneId = gameData.initialSceneId
+      this.currentDialogueIndex = 0
+      this.flags = createInitialFlags()
+      this.reachedMilestones = ['reveil']
+      this.isTransitioning = false
+      this.isDayTransitioning = false
+      this.pendingTransitionSceneId = null
+      this.showChoices = false
+      this.menuStatus = 'closed'
+      this.selectedChoice = null
+      this.showQuestionnaire = false
 
-      animationsStore.setAuroraVisibility(false);
-      animationsStore.setAuroraZIndex(0);
+      animationsStore.setAuroraVisibility(false)
+      animationsStore.setAuroraZIndex(0)
 
-      this.introPlayed = true;
-      this.introAnimationPhase = "annotation";
-      this.introBlurAmount = 0;
-      this.saveGame();
+      this.introPlayed = true
+      this.introAnimationPhase = 'annotation'
+      this.introBlurAmount = 0
+      this.saveGame()
 
-      const initialScene = gameData.scenes[gameData.initialSceneId];
+      const initialScene = gameData.scenes[gameData.initialSceneId]
       if (initialScene?.audio) {
-        const audioPath = initialScene.audio.startsWith("/")
+        const audioPath = initialScene.audio.startsWith('/')
           ? initialScene.audio
-          : `/audios/${initialScene.audio}`;
-        audioStore.playAudio(audioPath);
+          : `/audios/${initialScene.audio}`
+        audioStore.playAudio(audioPath)
       }
 
       if (import.meta.client) {
-        const experienceEl = document.getElementById("experience");
+        const experienceEl = document.getElementById('experience')
         if (experienceEl) {
-          const targetY = experienceEl.offsetTop + experienceEl.offsetHeight;
+          const targetY = experienceEl.offsetTop + experienceEl.offsetHeight
 
-          // @ts-ignore
-          // @ts-expect-error lenis is added to window in app.vue
+          // @ts-expect-error: Necessary for DevTools bridge
+          // @ts-expect-error: Necessary for DevTools bridge lenis is added to window in app.vue
           if (window.lenis) {
-            // @ts-ignore
-            // @ts-expect-error lenis is added to window in app.vue
-            window.lenis.scrollTo(targetY, { immediate: true });
+            // @ts-expect-error: Necessary for DevTools bridge
+            // @ts-expect-error: Necessary for DevTools bridge lenis is added to window in app.vue
+            window.lenis.scrollTo(targetY, { immediate: true })
           } else {
             window.scrollTo({
               top: targetY,
-              behavior: "instant",
-            });
+              behavior: 'instant',
+            })
           }
         }
       }
 
-      const firstDialogue = initialScene?.dialogues[0];
-      const firstWordStart = firstDialogue?.timings?.[0]?.start;
-      const delay = computeAnnotationDelayMs(firstWordStart);
+      const firstDialogue = initialScene?.dialogues[0]
+      const firstWordStart = firstDialogue?.timings?.[0]?.start
+      const delay = computeAnnotationDelayMs(firstWordStart)
 
       this._annotationTimerId = scheduleTimer(() => {
-        if (this.introAnimationPhase === "annotation") {
-          this.introAnimationPhase = "complete";
+        if (this.introAnimationPhase === 'annotation') {
+          this.introAnimationPhase = 'complete'
         }
-        this._annotationTimerId = null;
-      }, delay);
+        this._annotationTimerId = null
+      }, delay)
     },
 
     setIntroPlayed() {
-      this.introPlayed = true;
+      this.introPlayed = true
     },
 
     setIntroAnimationPhase(phase: IntroAnimationPhase) {
-      this.introAnimationPhase = phase;
+      this.introAnimationPhase = phase
     },
 
     setIntroBlurAmount(amount: number) {
-      this.introBlurAmount = amount;
+      this.introBlurAmount = amount
     },
 
     setShowQuestionnaire(show: boolean) {
-      this.showQuestionnaire = show;
+      this.showQuestionnaire = show
     },
 
     setAutoScrolling(isAutoScrolling: boolean) {
-      this.isAutoScrolling = isAutoScrolling;
+      this.isAutoScrolling = isAutoScrolling
     },
 
     setDayTransitioning(isTransitioning: boolean) {
-      this.isDayTransitioning = isTransitioning;
+      this.isDayTransitioning = isTransitioning
     },
 
     completeDayTransition() {
-      if (!this.pendingTransitionSceneId) return;
+      if (!this.pendingTransitionSceneId) return
 
-      const sceneId = this.pendingTransitionSceneId;
-      const scene = gameData.scenes[sceneId];
-      if (!scene) return;
+      const sceneId = this.pendingTransitionSceneId
+      const scene = gameData.scenes[sceneId]
+      if (!scene) return
 
       // Make sure the transition flag is still on here; Experience.vue will turn it off after the eye opens
       // (This prevents the annotation rendering twice before eye completes)
 
       if (scene.entryAnnotation) {
-        this.selectedChoice = null;
-        this.introAnimationPhase = getEntryAnnotationPhase(this.introPlayed);
+        this.selectedChoice = null
+        this.introAnimationPhase = getEntryAnnotationPhase(this.introPlayed)
       }
 
-      this.currentSceneId = sceneId;
-      this.currentDialogueIndex = 0;
-      this.flags = applyDialogueEnergyChange(this.flags, this.currentDialogue);
-      
-      this.pendingTransitionSceneId = null;
-      this.saveGame();
+      this.currentSceneId = sceneId
+      this.currentDialogueIndex = 0
+      this.flags = applyDialogueEnergyChange(this.flags, this.currentDialogue)
+
+      this.pendingTransitionSceneId = null
+      this.saveGame()
     },
 
     setShowChoices(showChoices: boolean) {
-      this.showChoices = showChoices;
+      this.showChoices = showChoices
     },
 
     advanceDialogue() {
-      if (this.isTransitioning) return;
+      if (this.isTransitioning) return
 
-      const scene = this.currentScene;
-      if (!scene) return;
+      const scene = this.currentScene
+      if (!scene) return
 
       if (!this.hasDialogues || this.isLastDialogue) {
-        this.handleEndOfDialogues();
-        return;
+        this.handleEndOfDialogues()
+        return
       }
 
-      this.currentDialogueIndex++;
-      this.flags = applyDialogueEnergyChange(this.flags, this.currentDialogue);
+      this.currentDialogueIndex++
+      this.flags = applyDialogueEnergyChange(this.flags, this.currentDialogue)
 
-      this.saveGame();
+      this.saveGame()
     },
 
     handleEndOfDialogues() {
-      const scene = this.currentScene;
-      if (!scene) return;
+      const scene = this.currentScene
+      if (!scene) return
 
       if (this.hasChoices) {
-        this.selectedChoice = null;
-        this.setShowChoices(true);
-        return;
+        this.selectedChoice = null
+        this.setShowChoices(true)
+        return
       }
 
       if (scene.nextSceneId) {
-        this.goToScene(scene.nextSceneId);
-        return;
+        this.goToScene(scene.nextSceneId)
+        return
       }
 
-      this.goToNextScene();
+      this.goToNextScene()
     },
 
     selectChoice(choice: Choice) {
-      this.selectedChoice = choice;
-      this.setShowChoices(false);
+      this.selectedChoice = choice
+      this.setShowChoices(false)
 
-      this.flags = applyChoiceEffects(this.flags, choice.effects);
+      this.flags = applyChoiceEffects(this.flags, choice.effects)
 
-      this.saveGame();
+      this.saveGame()
 
       if (choice.nextSceneId) {
-        this.goToScene(choice.nextSceneId);
+        this.goToScene(choice.nextSceneId)
       } else {
-        this.goToNextScene();
+        this.goToNextScene()
       }
     },
 
     startAnnotationTimer(durationMs: number = 3000) {
-      this._annotationTimerId = clearScheduledTimer(this._annotationTimerId);
+      this._annotationTimerId = clearScheduledTimer(this._annotationTimerId)
       this._annotationTimerId = scheduleTimer(() => {
         if (shouldAutoCompleteAnnotation(this.introAnimationPhase)) {
-          this.introAnimationPhase = "complete";
+          this.introAnimationPhase = 'complete'
         }
-        this._annotationTimerId = null;
-      }, durationMs);
+        this._annotationTimerId = null
+      }, durationMs)
     },
 
     goToScene(sceneId: string, devFlags?: Partial<GameFlags>) {
-      if (this.isTransitioning) return;
+      if (this.isTransitioning) return
 
-      const scene = gameData.scenes[sceneId];
+      const scene = gameData.scenes[sceneId]
       if (!scene) {
-        console.error(`Scene not found: ${sceneId}`);
-        return;
+        console.error(`Scene not found: ${sceneId}`)
+        return
       }
 
       // DevTools only: inject pre-resolved flags so scene conditions are satisfied
       if (devFlags) {
-        this.flags = { ...this.flags, ...devFlags };
+        this.flags = { ...this.flags, ...devFlags }
       }
 
-      this.isTransitioning = true;
+      this.isTransitioning = true
 
       setTimeout(() => {
-        const oldDay = getCurrentDay(gameData.scenes, this.currentSceneId);
-        const newDay = getCurrentDay(gameData.scenes, sceneId);
-        
+        const oldDay = getCurrentDay(gameData.scenes, this.currentSceneId)
+        const newDay = getCurrentDay(gameData.scenes, sceneId)
+
         if (oldDay === 1 && newDay === 2) {
           // If we are crossing the day boundary, put the scene load on hold
           // while Experience.vue hides the UI and handles the background swap
-          this.pendingTransitionSceneId = sceneId;
-          this.setDayTransitioning(true);
-          this.isTransitioning = false;
-          return;
+          this.pendingTransitionSceneId = sceneId
+          this.setDayTransitioning(true)
+          this.isTransitioning = false
+          return
         }
 
         if (scene.entryAnnotation) {
-          this.selectedChoice = null;
-          this.introAnimationPhase = getEntryAnnotationPhase(this.introPlayed);
+          this.selectedChoice = null
+          this.introAnimationPhase = getEntryAnnotationPhase(this.introPlayed)
 
-          this.startAnnotationTimer(3000);
+          this.startAnnotationTimer(3000)
         }
 
-        this.currentSceneId = sceneId;
-        this.currentDialogueIndex = 0;
+        this.currentSceneId = sceneId
+        this.currentDialogueIndex = 0
 
-        this.flags = applyDialogueEnergyChange(this.flags, this.currentDialogue);
+        this.flags = applyDialogueEnergyChange(this.flags, this.currentDialogue)
 
-        this.setShowChoices(false);
-        this.isTransitioning = false;
-        this.saveGame();
-      }, 300);
+        this.setShowChoices(false)
+        this.isTransitioning = false
+        this.saveGame()
+      }, 300)
     },
 
     goToNextScene() {
@@ -424,30 +428,30 @@ export const useGameStore = defineStore("game", {
         milestones: MILESTONES,
         milestoneOrder: MILESTONE_ORDER,
         getMilestoneForScene,
-      });
+      })
 
-      if (nextStep.type === "scene") {
-        this.goToScene(nextStep.sceneId);
-        return;
+      if (nextStep.type === 'scene') {
+        this.goToScene(nextStep.sceneId)
+        return
       }
 
-      if (nextStep.type === "milestone") {
-        this.goToMilestone(nextStep.milestoneId);
-        return;
+      if (nextStep.type === 'milestone') {
+        this.goToMilestone(nextStep.milestoneId)
+        return
       }
 
       if (this.currentSceneId !== SCENE_IDS.GAME_END) {
-        console.warn("No next scene found.");
+        console.warn('No next scene found.')
       }
     },
 
     goToMilestone(milestoneId: string) {
-      const milestone = MILESTONES[milestoneId];
+      const milestone = MILESTONES[milestoneId]
       const isReached =
-        this.reachedMilestones.includes(milestoneId) || import.meta.env.DEV;
+        this.reachedMilestones.includes(milestoneId) || import.meta.env.DEV
 
       if (!milestone || !isReached) {
-        return;
+        return
       }
 
       const sceneId = findFirstValidSceneIdInMilestone(
@@ -455,46 +459,46 @@ export const useGameStore = defineStore("game", {
         MILESTONES,
         gameData.scenes,
         this.flags
-      );
+      )
 
       if (sceneId) {
-        this.introPlayed = true;
-        this.introAnimationPhase = "complete";
-        this.goToScene(sceneId);
-        this.menuStatus = "closed";
+        this.introPlayed = true
+        this.introAnimationPhase = 'complete'
+        this.goToScene(sceneId)
+        this.menuStatus = 'closed'
       }
     },
 
     async toggleMenu() {
-      if (this.menuStatus === "open") {
-        this.closeMenu();
-        return;
+      if (this.menuStatus === 'open') {
+        this.closeMenu()
+        return
       }
 
-      this.menuStatus = getToggleTargetMenuStatus(this.menuStatus);
+      this.menuStatus = getToggleTargetMenuStatus(this.menuStatus)
     },
 
     openMenu() {
-      this.menuStatus = getMenuOpenStatus();
-      const audioStore = useAudioStore();
-      audioStore.pauseAudio();
+      this.menuStatus = getMenuOpenStatus()
+      const audioStore = useAudioStore()
+      audioStore.pauseAudio()
     },
 
     closeMenu(resumeAudio: boolean = true) {
-      this.menuStatus = getMenuClosingStatus();
+      this.menuStatus = getMenuClosingStatus()
 
       setTimeout(() => {
-        this.menuStatus = finalizeClosingStatus(this.menuStatus);
-      }, MENU_CLOSE_DELAY_MS);
+        this.menuStatus = finalizeClosingStatus(this.menuStatus)
+      }, MENU_CLOSE_DELAY_MS)
 
       if (resumeAudio) {
-        const audioStore = useAudioStore();
-        audioStore.resumeAudio();
+        const audioStore = useAudioStore()
+        audioStore.resumeAudio()
       }
     },
 
     toggleForceShowUI() {
-      this.forceShowUI = !this.forceShowUI;
+      this.forceShowUI = !this.forceShowUI
     },
   },
-});
+})

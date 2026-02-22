@@ -1,34 +1,36 @@
 <script setup lang="ts">
-import { useAuroraAnimation } from "~/app/composables/useAuroraAnimation";
+import { useAuroraAnimation } from '~/app/composables/useAuroraAnimation'
 
-const { $gsap } = useNuxtApp();
-const animationsStore = useAnimationsStore();
-const { landing } = storeToRefs(animationsStore);
+const animationsStore = useAnimationsStore()
+const { landing } = storeToRefs(animationsStore)
 
-const auroraRef = useTemplateRef("auroraRef");
-const auroraInnerRef = useTemplateRef("auroraInnerRef");
+const auroraRef = useTemplateRef('auroraRef')
+const auroraInnerRef = useTemplateRef('auroraInnerRef')
 
-const { backgroundGradient, animate } = useBackgroundGradient();
+const { backgroundGradient, animate } = useBackgroundGradient()
 
 // Handle the gradient animation based on landing state
 watch(
   () => landing.value.intro.entry.started,
   (started) => {
     if (started && import.meta.client) {
-      animate(animationsStore.skipIntro ? 0 : 2);
+      animate(animationsStore.skipIntro ? 0 : 2)
     }
   },
   { immediate: true }
-);
+)
 
 // Initialize Aurora Animation
-useAuroraAnimation(auroraInnerRef, auroraRef);
+useAuroraAnimation(auroraInnerRef, auroraRef)
 </script>
 
 <template>
   <div
     class="fixed inset-0 pointer-events-none"
-    :style="{ background: backgroundGradient, zIndex: animationsStore.aurora.zIndex }"
+    :style="{
+      background: backgroundGradient,
+      zIndex: animationsStore.aurora.zIndex,
+    }"
   >
     <div
       ref="auroraRef"
