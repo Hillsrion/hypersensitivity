@@ -1,4 +1,5 @@
 import type { DialogueLine } from '../../types/game'
+import { areAudioPathsEquivalent, resolveTimingEnd } from './orchestration'
 
 interface SplitResult {
   words: Ref<HTMLElement[]>
@@ -53,40 +54,23 @@ export function useDialogueAnimation(
     return gameStore.currentScene?.audio
   })
 
-  const normalizePath = (path: string) =>
-    path.startsWith('/') ? path.substring(1) : path
-
   const getEffectiveEnd = (
     end: number | 'end',
     start: number,
     audioToPlay: string | null | undefined
   ): number => {
-    if (end === 'end') {
-      if (audioToPlay) {
-        const audioPath = audioToPlay.startsWith('/')
-          ? audioToPlay
-          : `/audios/${audioToPlay}`
-        const audioItem = audioStore.list.find(
-          (item) => item.path === audioPath
-        )
+    const audioPath =
+      audioToPlay &&
+      (audioToPlay.startsWith('/') ? audioToPlay : `/audios/${audioToPlay}`)
+    const audioItem = audioPath
+      ? audioStore.list.find((item) => item.path === audioPath)
+      : undefined
 
-        if (
-          audioItem?.audio?.duration &&
-          !isNaN(audioItem.audio.duration) &&
-          audioItem.audio.duration > start
-        ) {
-          return audioItem.audio.duration
-        }
-
-        if (audioItem?.duration && audioItem.duration > start) {
-          return audioItem.duration
-        }
-      }
-
-      return start + 5
-    }
-
-    return end
+    return resolveTimingEnd({
+      end,
+      start,
+      candidateDurations: [audioItem?.audio?.duration, audioItem?.duration],
+    })
   }
 
   const waitForAudioStoreReady = () => {
@@ -339,13 +323,7 @@ export function useDialogueAnimation(
     )
 
     if (audioToPlay && currentItem) {
-      const normalizedTargetPath = normalizePath(audioToPlay)
-      const normalizedCurrentPath = normalizePath(currentItem.path)
-
-      if (
-        normalizedCurrentPath.endsWith(normalizedTargetPath) ||
-        normalizedTargetPath.endsWith(normalizedCurrentPath)
-      ) {
+      if (areAudioPathsEquivalent(audioToPlay, currentItem.path)) {
         const currentTime = audioStore.currentAudio.currentTime || 0
         if (currentTime > 0) {
           console.log(

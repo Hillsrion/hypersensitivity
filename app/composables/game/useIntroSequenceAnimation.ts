@@ -1,5 +1,9 @@
 import { gradientSteps } from '~/app/constants/gradients'
 import { eyePaths } from '~/app/constants/eyePaths'
+import {
+  getCursorVariantForProgress,
+  shouldTriggerIntroAutoScroll,
+} from './orchestration'
 
 export const useIntroSequenceAnimation = (
   eyePathRef: Ref<SVGPathElement | null>
@@ -35,25 +39,10 @@ export const useIntroSequenceAnimation = (
   }
 
   const setCursorThemeForProgress = (progress: number) => {
-    if (progress > 0.82) {
-      if (animationsStore.cursor.variant !== 'dark') {
-        animationsStore.setCursorVariant('dark')
-        animationsStore.setAudiowaveVariant('dark')
-      }
-      return
-    }
-
-    if (progress > 0.4) {
-      if (animationsStore.cursor.variant !== 'light') {
-        animationsStore.setCursorVariant('light')
-        animationsStore.setAudiowaveVariant('light')
-      }
-      return
-    }
-
-    if (animationsStore.cursor.variant !== 'dark') {
-      animationsStore.setCursorVariant('dark')
-      animationsStore.setAudiowaveVariant('dark')
+    const nextVariant = getCursorVariantForProgress(progress)
+    if (animationsStore.cursor.variant !== nextVariant) {
+      animationsStore.setCursorVariant(nextVariant)
+      animationsStore.setAudiowaveVariant(nextVariant)
     }
   }
 
@@ -313,41 +302,43 @@ export const useIntroSequenceAnimation = (
     stopAutoScrollWatch = watch(
       () => audioStore.currentTime,
       (time) => {
-        if (
-          !audioTriggered.value ||
-          gameStore.introPlayed ||
-          gameStore.isAutoScrolling ||
-          mainTl.progress() > 0.99
-        ) {
-          return
-        }
-
         const firstDialogue = gameStore.currentScene?.dialogues[0]
         if (!firstDialogue) return
 
         const firstWordStart = firstDialogue.timings?.[0]?.start
         if (typeof firstWordStart !== 'number') return
 
-        const scrollDuration = 1.5
-        if (time >= firstWordStart - (scrollDuration + 0.2)) {
-          console.log('LOG_DEBUG: Auto-scrolling to bottom (user too slow)')
-          gameStore.setAutoScrolling(true)
-
-          $gsap.to(window, {
-            scrollTo: {
-              y: containerEl.offsetTop + 7 * window.innerHeight,
-            },
-            duration: scrollDuration,
-            ease: 'power2.inOut',
-            onComplete: () => {
-              gameStore.setAutoScrolling(false)
-              if (!gameStore.introPlayed) {
-                gameStore.setIntroAnimationPhase('complete')
-                gameStore.setIntroPlayed()
-              }
-            },
+        if (
+          !shouldTriggerIntroAutoScroll({
+            audioTriggered: audioTriggered.value,
+            introPlayed: gameStore.introPlayed,
+            isAutoScrolling: gameStore.isAutoScrolling,
+            progress: mainTl.progress(),
+            currentTime: time,
+            firstWordStart,
           })
+        ) {
+          return
         }
+
+        const scrollDuration = 1.5
+        console.log('LOG_DEBUG: Auto-scrolling to bottom (user too slow)')
+        gameStore.setAutoScrolling(true)
+
+        $gsap.to(window, {
+          scrollTo: {
+            y: containerEl.offsetTop + 7 * window.innerHeight,
+          },
+          duration: scrollDuration,
+          ease: 'power2.inOut',
+          onComplete: () => {
+            gameStore.setAutoScrolling(false)
+            if (!gameStore.introPlayed) {
+              gameStore.setIntroAnimationPhase('complete')
+              gameStore.setIntroPlayed()
+            }
+          },
+        })
       }
     )
   }
