@@ -6,7 +6,7 @@ export default defineNuxtModule({
     name: 'game-devtools',
     configKey: 'gameDevtools'
   },
-  setup(options, nuxt) {
+  setup(options: any, nuxt: any) {
     if (!nuxt.options.dev) return
 
     // Add the custom tab to Nuxt DevTools

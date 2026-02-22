@@ -52,6 +52,7 @@ const updateWave = () => {
   for (let i = 0; i < numberOfPoints; i++) {
     // 1. Calculate the "Wave" position (Dynamic)
     const p = originalPoints[i];
+    if (!p) continue;
 
     // Calculate a nice sine wave for this x-position
     // Normalized X (0 to 1)
@@ -86,13 +87,14 @@ const updateWave = () => {
   // Using Catmull-Rom or similar might be better for the original sharp turns,
   // but Quadratic Bezier is smoother for the wave.
   // We'll stick to the Quadratic Midpoint approach as it's stable.
-  if (points.length > 1) {
+  if (points.length > 1 && points[0]) {
     let d = `M ${points[0].x} ${points[0].y}`;
 
     // For the first segment, just a line if it's flat, but let's use the curve alg
     for (let i = 0; i < points.length - 1; i++) {
       const p0 = points[i];
       const p1 = points[i + 1];
+      if (!p0 || !p1) continue;
 
       // Midpoint strategy
       const mx = (p0.x + p1.x) / 2;
@@ -106,7 +108,9 @@ const updateWave = () => {
     }
     // Connect to last point
     const last = points[points.length - 1];
-    d += ` L ${last.x} ${last.y}`;
+    if (last) {
+      d += ` L ${last.x} ${last.y}`;
+    }
 
     pathD.value = d;
   }

@@ -82,7 +82,6 @@ export function useDialogueDisplay(dialogue: Ref<DialogueLine | null>) {
       "opacity-0":
         isInIntroAnimation.value &&
         phase !== "annotation" &&
-        phase !== "milestoneAnnotation" &&
         phase !== "revealing" &&
         phase !== "complete",
     };

@@ -32,6 +32,8 @@
     ]
   },
   "devDependencies": {
-    "@nuxt/devtools-kit": "^3.2.1"
+    "@nuxt/devtools-kit": "^3.2.1",
+    "@nuxt/kit": "^4.3.1",
+    "@types/node": "^25.3.0"
   }
 }

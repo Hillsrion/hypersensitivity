@@ -91,9 +91,6 @@ export function useDialogueAurora() {
       }
     } else {
       if (!gameStore.isMenuOpen) {
-        // Don't hide aurora during milestone annotation (to avoid fade to black)
-        if (gameStore.introAnimationPhase === "milestoneAnnotation") return;
-
         animationsStore.setAuroraVisibility(false);
         animationsStore.setAuroraAutoAnimate(false);
         animationsStore.setAuroraZIndex(0);

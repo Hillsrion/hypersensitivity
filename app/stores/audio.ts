@@ -145,7 +145,7 @@ export const useAudioStore = defineStore('audio', {
               
               if (this.currentAudio) {
                  this.currentAudio.dispatchEvent(new Event('ended'));
-                 if (this.currentAudio.onended) this.currentAudio.onended();
+                 if (this.currentAudio.onended) this.currentAudio.onended(new Event('ended'));
               }
            }
         }, 100);
@@ -187,7 +187,7 @@ export const useAudioStore = defineStore('audio', {
 
         // Calculate rough duration from timings: use finite ends only (exclude Infinity sentinel)
         let duration = 0;
-        if (timings.length > 0) {
+        if (timings.length > 0 && timings[0]) {
           const finiteEnds = timings.map(t => t.end).filter(e => Number.isFinite(e) && e > 0);
           if (finiteEnds.length > 0) {
             duration = Math.max(...finiteEnds) - timings[0].start;

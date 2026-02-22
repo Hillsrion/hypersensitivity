@@ -51,7 +51,9 @@ export const useHspQuizStore = defineStore('hspQuiz', {
 
     // Computed
     currentQuestion(state): QuizQuestion {
-      return this.questions[state.currentQuestionIndex] || this.questions[0];
+      const question = this.questions[state.currentQuestionIndex] || this.questions[0];
+      if (!question) throw new Error('No questions available');
+      return question;
     },
     
     currentSectionIndex(state): number {

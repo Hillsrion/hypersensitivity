@@ -33,7 +33,7 @@ export const createInitialGameState = (): GameState => ({
   showChoices: false,
   menuStatus: "closed",
   introPlayed: false,
-  introAnimationPhase: "hidden",
+  introAnimationPhase: "hidden" as import("../../types/game").IntroAnimationPhase,
   introBlurAmount: 8,
   isAutoScrolling: false,
   selectedChoice: null,

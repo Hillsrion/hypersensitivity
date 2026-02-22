@@ -6,17 +6,17 @@ import type {
   IntroAnimationPhase,
   Milestone,
   Scene,
-} from "~/app/types/game";
-import { gameData } from "~/app/data/game";
-import { SCENE_IDS } from "~/app/data/constants";
-import { devConfig } from "~/app/config/dev";
+} from "../types/game";
+import { gameData } from "../data/game";
+import { SCENE_IDS } from "../data/constants";
+import { devConfig } from "../config/dev";
 import { useAudioStore } from "./audio";
 import { useAnimationsStore } from "./animations";
 import {
   MILESTONES,
   MILESTONE_ORDER,
   getMilestoneForScene,
-} from "~/app/data/milestones";
+} from "../data/milestones";
 import {
   STORAGE_KEY,
   createInitialFlags,

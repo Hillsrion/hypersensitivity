@@ -105,7 +105,7 @@ export const useBackgroundGradient = () => {
       () => {
         animationsStore.setCursorVariant("dark");
       },
-      null,
+      undefined,
       duration * 0.75
     );
 

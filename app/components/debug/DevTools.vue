@@ -123,7 +123,12 @@ const skipToGame = () => {
             ? gameStore.currentScene.audio
             : `/audios/${gameStore.currentScene.audio}`;
             
-            if (audioStore.currentAudio !== audioPath || !audioStore.isPlaying) {
+            if (audioStore.isPlaying) {
+                const currentItem = audioStore.list.find(item => item.audio === audioStore.currentAudio);
+                if (currentItem?.path !== audioPath) {
+                    audioStore.playAudio(audioPath);
+                }
+            } else {
                 audioStore.playAudio(audioPath);
             }
         }
