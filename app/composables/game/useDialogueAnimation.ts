@@ -9,7 +9,6 @@ interface SplitResult {
 export function useDialogueAnimation(
   dialogue: Ref<DialogueLine | null>,
   textRef: Ref<HTMLElement | null>,
-  contentRef: Ref<HTMLElement | null>,
   annotationRef: Ref<HTMLElement | null>,
   speakerRef: Ref<HTMLElement | null>,
   split: SplitResult,

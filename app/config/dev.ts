@@ -1,5 +1,3 @@
-import { SCENE_IDS } from "../data/constants";
-
 export const devConfig = {
   enabled: import.meta.env.VITE_DEV_ENABLED !== 'false', // Enable by default for now, can be toggled
   initialSceneId: import.meta.env.VITE_INITIAL_SCENE_ID || "", // Set to a string like 'dayOnePartySexy' to override

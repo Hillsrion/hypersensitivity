@@ -14,7 +14,6 @@ export function useDialogueBox(
 ) {
   const { $gsap } = useNuxtApp();
   const gameStore = useGameStore();
-  const animationsStore = useAnimationsStore();
 
   const isReady = ref(false); // Controls visibility of the text to prevent FOUC
 
@@ -41,7 +40,6 @@ export function useDialogueBox(
   } = useDialogueDisplay(dialogue);
 
   const {
-    fallbackTimer,
     clearFallbackTimer,
     handleAudioEnded,
     ensureAudioPlaying,
@@ -56,7 +54,6 @@ export function useDialogueBox(
   } = useDialogueAnimation(
     dialogue,
     textRef,
-    contentRef,
     annotationRef,
     speakerRef,
     split,

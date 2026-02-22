@@ -1,6 +1,6 @@
 import type { Scene } from "../../../types/game";
 import { SCENE_IDS } from "../../constants";
-import { d, pensees } from "../../helpers";
+import { d } from "../../helpers";
 
 export const dayOneRefuse: Scene = {
   id: SCENE_IDS.DAY_ONE_REFUSE,

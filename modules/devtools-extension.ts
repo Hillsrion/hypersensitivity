@@ -1,4 +1,4 @@
-import { defineNuxtModule, extendPages } from '@nuxt/kit'
+import { defineNuxtModule } from '@nuxt/kit'
 import { addCustomTab } from '@nuxt/devtools-kit'
 
 export default defineNuxtModule({
@@ -6,7 +6,7 @@ export default defineNuxtModule({
     name: 'game-devtools',
     configKey: 'gameDevtools'
   },
-  setup(options: any, nuxt: any) {
+  setup(_options: any, nuxt: any) {
     if (!nuxt.options.dev) return
 
     // Add the custom tab to Nuxt DevTools

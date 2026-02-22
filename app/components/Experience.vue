@@ -75,7 +75,6 @@ watch(
 
         scrollTriggerInstance.value = setupIntroSequence(
           containerEl,
-          textContainer.value!,
           lineElements
         );
       });

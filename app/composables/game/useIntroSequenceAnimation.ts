@@ -21,7 +21,6 @@ export const useIntroSequenceAnimation = (eyePathRef: Ref<SVGPathElement | null>
 
   const setupIntroSequence = (
     containerEl: HTMLElement,
-    textContainerEl: HTMLElement,
     lineElements: HTMLCollection
   ) => {
     // Reset internal state on setup (useful for dev tools reset)

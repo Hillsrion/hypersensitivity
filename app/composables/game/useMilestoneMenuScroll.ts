@@ -39,7 +39,6 @@ export function useMilestoneMenuScroll(itemsRef: Ref<HTMLElement[]>, isOpen: Ref
     lastTime = now;
     
     const totalDeltaX = e.clientX - startX;
-    const duration = loopTimeline.duration();
     // Map pixels to progress. Negative deltaX = forward progress (scroll left)
     const progressDelta = -totalDeltaX / (window.innerWidth * 2);
     
