@@ -32,6 +32,7 @@ import {
   clearScheduledTimer,
   computeAnnotationDelayMs,
   getEntryAnnotationPhase,
+  isEntryAnnotationPhase,
   scheduleTimer,
   shouldAutoCompleteAnnotation,
 } from './game/intro'
@@ -256,7 +257,7 @@ export const useGameStore = defineStore('game', {
       const delay = computeAnnotationDelayMs(firstWordStart)
 
       this._annotationTimerId = scheduleTimer(() => {
-        if (this.introAnimationPhase === 'annotation') {
+        if (isEntryAnnotationPhase(this.introAnimationPhase)) {
           this.introAnimationPhase = 'complete'
         }
         this._annotationTimerId = null
