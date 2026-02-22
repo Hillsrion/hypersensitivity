@@ -4,6 +4,7 @@ import ChoiceButtons from "./game/ChoiceButtons.vue";
 import type { Choice } from "~/app/types/game";
 import { useExperienceGradient } from "~/app/composables/game/useExperienceGradient";
 import { useExperienceDayTransition } from "~/app/composables/game/useExperienceDayTransition";
+import { QUESTIONNAIRE_ENTRY_DELAY_MS } from "~/app/constants/durations";
 
 const gameStore = useGameStore();
 const animationsStore = useAnimationsStore();
@@ -34,6 +35,7 @@ const {
 } = useExperienceAnimation();
 
 const scrollTriggerInstance = ref<any>(null);
+let questionnaireTimer: ReturnType<typeof setTimeout> | null = null;
 
 const { 
   backgroundGradient, 
@@ -56,6 +58,10 @@ const lines = [
 const { words } = useSplitText(textContainer, { splitBy: "words" });
 
 onUnmounted(() => {
+  if (questionnaireTimer) {
+    clearTimeout(questionnaireTimer);
+    questionnaireTimer = null;
+  }
   if (scrollTriggerInstance.value) {
     scrollTriggerInstance.value.kill();
   }
@@ -86,9 +92,10 @@ watch(
 const showQuestionnaire = () => {
   showEndContent.value = false;
   
-  setTimeout(() => {
+  questionnaireTimer = setTimeout(() => {
+    questionnaireTimer = null;
     gameStore.setShowQuestionnaire(true);
-  }, 1000);
+  }, QUESTIONNAIRE_ENTRY_DELAY_MS);
 };
 </script>
 

@@ -2,6 +2,7 @@
 import HSPIntro from './hsp/HSPIntro.vue';
 import HSPQuiz from './hsp/HSPQuiz.vue';
 import HSPResults from './hsp/HSPResults.vue';
+import { HSP_QUESTIONNAIRE_CONTENT_READY_DELAY_MS } from '~/app/constants/durations';
 
 const { $gsap } = useNuxtApp();
 const animationsStore = useAnimationsStore();
@@ -65,6 +66,7 @@ const handleRestart = async () => {
 };
 
 const contentReady = ref(false);
+let contentReadyTimer: ReturnType<typeof setTimeout> | null = null;
 
 onMounted(() => {
   // Debug mode: jump straight to quiz
@@ -73,9 +75,10 @@ onMounted(() => {
   }
 
   // Delay content rendering to match the external background transition duration from Experience.vue
-  setTimeout(() => {
+  contentReadyTimer = setTimeout(() => {
+    contentReadyTimer = null;
     contentReady.value = true;
-  }, 2000); // 4 steps * 0.5s = 2s total duration for the background gradient
+  }, HSP_QUESTIONNAIRE_CONTENT_READY_DELAY_MS);
 
   $gsap.timeline({
     scrollTrigger: {
@@ -92,6 +95,13 @@ onMounted(() => {
       }
     }
   });
+});
+
+onUnmounted(() => {
+  if (contentReadyTimer) {
+    clearTimeout(contentReadyTimer);
+    contentReadyTimer = null;
+  }
 });
 </script>
 

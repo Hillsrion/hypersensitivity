@@ -1,4 +1,9 @@
 import { gradientSteps } from "~/app/constants/gradients";
+import {
+  DAY_TRANSITION_ANNOTATION_AUTO_COMPLETE_DELAY_MS,
+  DAY_TRANSITION_EYE_CLOSED_PAUSE_MS,
+  DAY_TRANSITION_UI_FADE_OUT_DELAY_MS,
+} from "~/app/constants/durations";
 
 export const useExperienceDayTransition = (
   gradientState: any,
@@ -9,6 +14,8 @@ export const useExperienceDayTransition = (
   const { $gsap } = useNuxtApp();
   const gameStore = useGameStore();
   const isDayTransition = ref(false);
+  const sleep = (delay: number) =>
+    new Promise<void>((resolve) => setTimeout(resolve, delay));
 
   watch(
     () => gameStore.isDayTransitioning,
@@ -31,7 +38,7 @@ export const useExperienceDayTransition = (
       $gsap.to(gradientState, { ...gradientSteps[8], duration: 1, ease: "power2.inOut" });
 
       // Wait for UI to fade out
-      await new Promise((resolve) => setTimeout(resolve, 1000));
+      await sleep(DAY_TRANSITION_UI_FADE_OUT_DELAY_MS);
 
       // 2. Play Close Eye Animation
       await playCloseEyeAnimation();
@@ -40,7 +47,7 @@ export const useExperienceDayTransition = (
       gameStore.completeDayTransition();
       
       // Small pause closed
-      await new Promise((resolve) => setTimeout(resolve, 500));
+      await sleep(DAY_TRANSITION_EYE_CLOSED_PAUSE_MS);
 
       // Prepare to show the new scene's annotation blurred behind the closed eye
       gameStore.setIntroBlurAmount(8);
@@ -60,7 +67,9 @@ export const useExperienceDayTransition = (
         gameStore.introAnimationPhase === "annotation" ||
         gameStore.introAnimationPhase === "milestoneAnnotation"
       ) {
-        gameStore.startAnnotationTimer(4000); 
+        gameStore.startAnnotationTimer(
+          DAY_TRANSITION_ANNOTATION_AUTO_COMPLETE_DELAY_MS
+        );
       }
     }
   );

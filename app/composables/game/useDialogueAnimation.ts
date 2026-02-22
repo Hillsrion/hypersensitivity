@@ -25,6 +25,25 @@ export function useDialogueAnimation(
   const activeTimeline = ref<gsap.core.Timeline | null>(null);
   const currentTimedAnnotation = ref<string | null>(null);
   const isShowingOnlyAnnotation = ref(false);
+  const pendingTimers = new Set<ReturnType<typeof setTimeout>>();
+  let isDisposed = false;
+
+  const scheduleTimer = (callback: () => void, delay: number) => {
+    const timerId = setTimeout(() => {
+      pendingTimers.delete(timerId);
+      if (!isDisposed) {
+        callback();
+      }
+    }, delay);
+
+    pendingTimers.add(timerId);
+    return timerId;
+  };
+
+  const clearPendingTimers = () => {
+    pendingTimers.forEach((timerId) => clearTimeout(timerId));
+    pendingTimers.clear();
+  };
 
   const isInIntroAnimation = computed(() => {
     return (
@@ -67,6 +86,7 @@ export function useDialogueAnimation(
   };
 
   const animateWords = async () => {
+    clearPendingTimers();
     const currentDialogue = dialogue.value;
     if (
       !currentDialogue ||
@@ -80,14 +100,15 @@ export function useDialogueAnimation(
     if (audioStore.list.length === 0) {
       console.log("LOG_DEBUG: Audio store empty, waiting...");
       const waitForAudio = () => {
+        if (isDisposed) return;
         if (audioStore.list.length > 0) {
           console.log("LOG_DEBUG: Audio store ready, calling animateWords");
           animateWords();
         } else {
-          setTimeout(waitForAudio, 100);
+          scheduleTimer(waitForAudio, 100);
         }
       };
-      setTimeout(waitForAudio, 100);
+      scheduleTimer(waitForAudio, 100);
       return;
     }
 
@@ -129,7 +150,7 @@ export function useDialogueAnimation(
           wordTimeline.add($gsap.delayedCall(3, handleAudioEnded), 0);
         }
 
-        setTimeout(() => {
+        scheduleTimer(() => {
           if (audioStore.currentAudio) {
             audioStore.currentAudio.removeEventListener(
               "ended",
@@ -371,6 +392,8 @@ export function useDialogueAnimation(
   );
 
   onUnmounted(() => {
+    isDisposed = true;
+    clearPendingTimers();
     activeTimeline.value?.kill();
     if (audioStore.currentAudio) {
       (audioStore.currentAudio as HTMLAudioElement).removeEventListener(

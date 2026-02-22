@@ -60,6 +60,7 @@ import {
   isFirstDialogueOfInitialScene,
   isGameEnded,
 } from './game/selectors'
+import { ENTRY_ANNOTATION_AUTO_COMPLETE_DELAY_MS } from '../constants/durations'
 
 export const useGameStore = defineStore('game', {
   state: createInitialGameState,
@@ -363,7 +364,9 @@ export const useGameStore = defineStore('game', {
       }
     },
 
-    startAnnotationTimer(durationMs: number = 3000) {
+    startAnnotationTimer(
+      durationMs: number = ENTRY_ANNOTATION_AUTO_COMPLETE_DELAY_MS
+    ) {
       this._annotationTimerId = clearScheduledTimer(this._annotationTimerId)
       this._annotationTimerId = scheduleTimer(() => {
         if (shouldAutoCompleteAnnotation(this.introAnimationPhase)) {
@@ -406,7 +409,7 @@ export const useGameStore = defineStore('game', {
           this.selectedChoice = null
           this.introAnimationPhase = getEntryAnnotationPhase(this.introPlayed)
 
-          this.startAnnotationTimer(3000)
+          this.startAnnotationTimer(ENTRY_ANNOTATION_AUTO_COMPLETE_DELAY_MS)
         }
 
         this.currentSceneId = sceneId

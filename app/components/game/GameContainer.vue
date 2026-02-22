@@ -30,11 +30,16 @@ const {
 
 const visualProgress = ref(0)
 const barTransformOrigin = ref('left')
+let progressResetTimer: ReturnType<typeof setTimeout> | null = null
 
 watch(
   () => audioStore.isPlaying,
   (playing) => {
     if (playing) {
+      if (progressResetTimer) {
+        clearTimeout(progressResetTimer)
+        progressResetTimer = null
+      }
       if (barTransformOrigin.value !== 'left') {
         barTransformOrigin.value = 'left'
       }
@@ -42,7 +47,11 @@ watch(
       // Audio stopped - trigger exit animation
       visualProgress.value = 100
       barTransformOrigin.value = 'right'
-      setTimeout(() => {
+      if (progressResetTimer) {
+        clearTimeout(progressResetTimer)
+      }
+      progressResetTimer = setTimeout(() => {
+        progressResetTimer = null
         visualProgress.value = 0
       }, 50)
     }
@@ -52,6 +61,13 @@ watch(
 watch(audioProgressPercent, (newVal) => {
   if (audioStore.isPlaying) {
     visualProgress.value = newVal
+  }
+})
+
+onUnmounted(() => {
+  if (progressResetTimer) {
+    clearTimeout(progressResetTimer)
+    progressResetTimer = null
   }
 })
 </script>

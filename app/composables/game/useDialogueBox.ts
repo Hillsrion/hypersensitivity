@@ -16,6 +16,25 @@ export function useDialogueBox(
   const gameStore = useGameStore();
 
   const isReady = ref(false); // Controls visibility of the text to prevent FOUC
+  const activeTimeouts = new Set<ReturnType<typeof setTimeout>>();
+  let isDisposed = false;
+
+  const scheduleTimeout = (callback: () => void, delay: number) => {
+    const timeoutId = setTimeout(() => {
+      activeTimeouts.delete(timeoutId);
+      if (!isDisposed) {
+        callback();
+      }
+    }, delay);
+
+    activeTimeouts.add(timeoutId);
+    return timeoutId;
+  };
+
+  const clearAllTimeouts = () => {
+    activeTimeouts.forEach((timeoutId) => clearTimeout(timeoutId));
+    activeTimeouts.clear();
+  };
 
   // Split Text
   const split = useSplitText(textRef, {
@@ -97,6 +116,7 @@ export function useDialogueBox(
         oldId
       );
       if (newId && newId !== oldId) {
+        clearAllTimeouts();
 
         if (contentRef.value) {
           $gsap.to(contentRef.value, {
@@ -114,6 +134,7 @@ export function useDialogueBox(
         // Attendre un peu pour que split soit peuplé
         let attempts = 0;
         const checkSplit = () => {
+          if (isDisposed) return;
           if (split.words.value?.length) {
             const words = split.words.value;
             $gsap.set(words, { opacity: 0.2 });
@@ -127,11 +148,11 @@ export function useDialogueBox(
             isReady.value = true;
 
             if (!isInIntroAnimation.value && !gameStore.isDayTransitioning) {
-              setTimeout(animateWords, 20);
+              scheduleTimeout(() => animateWords(), 20);
             }
           } else if (attempts < 60) {
             attempts++;
-            setTimeout(checkSplit, 25);
+            scheduleTimeout(checkSplit, 25);
           } else {
             isReady.value = true;
             if (!isInIntroAnimation.value && !gameStore.isDayTransitioning) {
@@ -165,6 +186,7 @@ export function useDialogueBox(
       ) {
         let attempts = 0;
         const waitForSplit = async () => {
+          if (isDisposed) return;
           if (split.words.value?.length) {
             console.log(
               "LOG_DEBUG: Split ready, launching animateWords from intro watcher"
@@ -172,7 +194,9 @@ export function useDialogueBox(
             animateWords();
           } else if (attempts < 30) {
             attempts++;
-            await new Promise((resolve) => setTimeout(resolve, 25));
+            await new Promise<void>((resolve) => {
+              scheduleTimeout(resolve, 25);
+            });
             waitForSplit();
           } else {
             console.warn(
@@ -198,6 +222,8 @@ export function useDialogueBox(
   );
 
   onUnmounted(() => {
+    isDisposed = true;
+    clearAllTimeouts();
     clearFallbackTimer();
   });
 

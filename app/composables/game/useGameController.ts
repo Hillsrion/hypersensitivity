@@ -1,6 +1,10 @@
 import { useDialogueAurora } from "./useDialogueAurora";
 import { useDialogueAudioSync } from "./useDialogueAudioSync";
 import type { Choice } from "../../types/game";
+import {
+  DAY_TRANSITION_GAME_UI_REVEAL_DELAY_MS,
+  MENU_OPENING_TRANSITION_DELAY_MS,
+} from "~/app/constants/durations";
 
 export const useGameController = () => {
   const gameStore = useGameStore();
@@ -46,6 +50,19 @@ export const useGameController = () => {
 
   const showDelayedGameUI = ref(false);
   let uiDelayTimer: ReturnType<typeof setTimeout> | null = null;
+  let menuOpeningTimer: ReturnType<typeof setTimeout> | null = null;
+
+  const clearUiDelayTimer = () => {
+    if (!uiDelayTimer) return;
+    clearTimeout(uiDelayTimer);
+    uiDelayTimer = null;
+  };
+
+  const clearMenuOpeningTimer = () => {
+    if (!menuOpeningTimer) return;
+    clearTimeout(menuOpeningTimer);
+    menuOpeningTimer = null;
+  };
   
   watch(
     () => ({
@@ -55,24 +72,24 @@ export const useGameController = () => {
     }),
     ({ phase, force, day }) => {
       console.log(`LOG_DEBUG: useGameController watcher trigger - phase: ${phase}, force: ${force}, day: ${day}`);
-      if (uiDelayTimer) {
-        console.log("LOG_DEBUG: Clearing existing uiDelayTimer");
-        clearTimeout(uiDelayTimer);
-      }
+      clearUiDelayTimer();
 
       if (force || phase === "revealing" || phase === "complete") {
         console.log("LOG_DEBUG: Setting showDelayedGameUI = true IMMEDIATELY");
         showDelayedGameUI.value = true;
       } else if ((phase === "annotation" || phase === "milestoneAnnotation") && day > 1) {
-        console.log(`LOG_DEBUG: Setting showDelayedGameUI = false initially, then true via 2000ms TIMEOUT (day ${day})`);
+        console.log(
+          `LOG_DEBUG: Setting showDelayedGameUI = false initially, then true via ${DAY_TRANSITION_GAME_UI_REVEAL_DELAY_MS}ms TIMEOUT (day ${day})`
+        );
         
         // Hide the UI first
         showDelayedGameUI.value = false;
         
         uiDelayTimer = setTimeout(() => {
-          console.log("LOG_DEBUG: 2000ms delay finished, setting showDelayedGameUI = true");
+          uiDelayTimer = null;
+          console.log("LOG_DEBUG: delayed reveal complete, setting showDelayedGameUI = true");
           showDelayedGameUI.value = true;
-        }, 3000);
+        }, DAY_TRANSITION_GAME_UI_REVEAL_DELAY_MS);
       } else {
         console.log("LOG_DEBUG: Setting showDelayedGameUI = false");
         showDelayedGameUI.value = false;
@@ -179,12 +196,21 @@ export const useGameController = () => {
     () => gameStore.isMenuOpening,
     (isOpening) => {
       if (isOpening) {
-        setTimeout(() => {
+        clearMenuOpeningTimer();
+        menuOpeningTimer = setTimeout(() => {
+          menuOpeningTimer = null;
           gameStore.openMenu();
-        }, 400); // Wait for fade-out animation
+        }, MENU_OPENING_TRANSITION_DELAY_MS); // Wait for fade-out animation
+      } else {
+        clearMenuOpeningTimer();
       }
     }
   );
+
+  onUnmounted(() => {
+    clearUiDelayTimer();
+    clearMenuOpeningTimer();
+  });
 
   return {
     gameStore,

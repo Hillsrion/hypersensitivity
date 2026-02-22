@@ -5,9 +5,9 @@ import type {
   MenuStatus,
   PersistedGameState,
 } from "../../types/game";
+import { ensureInitialMilestone } from "./milestones.ts";
 
 const PERSISTED_STATE_VERSION = 1 as const;
-const DEFAULT_REACHED_MILESTONE = "reveil";
 
 const DEFAULT_FLAGS: GameFlags = {
   outfitChoice: null,
@@ -17,22 +17,6 @@ const DEFAULT_FLAGS: GameFlags = {
   callChoice: null,
   refuseOutcome: null,
   energy: 100,
-};
-
-const ensureInitialMilestone = (
-  reachedMilestones?: string[] | null
-): string[] => {
-  const milestones = Array.isArray(reachedMilestones)
-    ? reachedMilestones.filter(
-        (milestoneId): milestoneId is string => typeof milestoneId === "string"
-      )
-    : [];
-
-  if (!milestones.includes(DEFAULT_REACHED_MILESTONE)) {
-    milestones.unshift(DEFAULT_REACHED_MILESTONE);
-  }
-
-  return milestones;
 };
 
 const isObjectRecord = (value: unknown): value is Record<string, unknown> =>

@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import GameMilestoneItem from "./GameMilestoneItem.vue";
+import { QUESTIONNAIRE_ENTRY_DELAY_MS } from "~/app/constants/durations";
 
 const gameStore = useGameStore();
 const animationsStore = useAnimationsStore();
@@ -9,6 +10,7 @@ const menuRef = useTemplateRef<HTMLElement>("menuRef");
 const itemsRef = ref<HTMLElement[]>([]);
 const itemComponents = ref<any[]>([]);
 const isMenuOpen = computed(() => gameStore.isMenuOpen);
+let questionnaireTimer: ReturnType<typeof setTimeout> | null = null;
 
 // Filtered milestones (only reached)
 const visibleMilestones = computed(() => {
@@ -85,13 +87,24 @@ const handleMilestoneClick = (milestoneId: string) => {
 
 const navigateToTest = () => {
   gameStore.closeMenu(false);
-  setTimeout(() => {
+  if (questionnaireTimer) {
+    clearTimeout(questionnaireTimer);
+  }
+  questionnaireTimer = setTimeout(() => {
+    questionnaireTimer = null;
     gameStore.setShowQuestionnaire(true);
-  }, 1000); // 1-second delay to match Experience.vue game end transition
+  }, QUESTIONNAIRE_ENTRY_DELAY_MS);
 };
 
 const navItemClasses =
   "flex items-center gap-2 font-sans text-base/7 uppercase hover:text-primary transition-colors cursor-pointer";
+
+onUnmounted(() => {
+  if (questionnaireTimer) {
+    clearTimeout(questionnaireTimer);
+    questionnaireTimer = null;
+  }
+});
 </script>
 
 <template>

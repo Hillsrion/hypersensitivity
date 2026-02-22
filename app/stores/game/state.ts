@@ -1,28 +1,17 @@
 import type { GameFlags, GameState } from "../../types/game";
 import { gameData } from "../../data/game";
+import {
+  DEFAULT_REACHED_MILESTONES,
+  ensureInitialMilestone,
+} from "./milestones";
 
 export const STORAGE_KEY = "hypersensitivity-game-state";
-export const DEFAULT_REACHED_MILESTONES = ["reveil"] as const;
 
 export const createInitialFlags = (): GameFlags => ({
   ...gameData.initialFlags,
 });
 
-export const ensureInitialMilestone = (
-  reachedMilestones?: string[] | null
-): string[] => {
-  const milestones = Array.isArray(reachedMilestones)
-    ? reachedMilestones.filter(
-        (milestoneId): milestoneId is string => typeof milestoneId === "string"
-      )
-    : [];
-
-  if (!milestones.includes(DEFAULT_REACHED_MILESTONES[0])) {
-    milestones.unshift(DEFAULT_REACHED_MILESTONES[0]);
-  }
-
-  return milestones;
-};
+export { DEFAULT_REACHED_MILESTONES, ensureInitialMilestone };
 
 export const createInitialGameState = (): GameState => ({
   currentSceneId: gameData.initialSceneId,

@@ -8,6 +8,8 @@ export const useIntroSequenceAnimation = (eyePathRef: Ref<SVGPathElement | null>
   const audioStore = useAudioStore();
 
   const audioTriggered = ref(false);
+  let stopAutoScrollWatch: (() => void) | null = null;
+  let stopAudioCatchupWatch: (() => void) | null = null;
   const gradientState = reactive({
     color1: "#ffffff",
     color2: "#ffffff",
@@ -23,6 +25,11 @@ export const useIntroSequenceAnimation = (eyePathRef: Ref<SVGPathElement | null>
     containerEl: HTMLElement,
     lineElements: HTMLCollection
   ) => {
+    stopAutoScrollWatch?.();
+    stopAutoScrollWatch = null;
+    stopAudioCatchupWatch?.();
+    stopAudioCatchupWatch = null;
+
     // Reset internal state on setup (useful for dev tools reset)
     audioTriggered.value = false;
 
@@ -235,13 +242,15 @@ export const useIntroSequenceAnimation = (eyePathRef: Ref<SVGPathElement | null>
 
              if (currentTime < firstWordStart) {
                  console.log("LOG_DEBUG: Waiting for audio to catch up...", { currentTime, firstWordStart });
-                 const unwatch = watch(
+                 stopAudioCatchupWatch?.();
+                 stopAudioCatchupWatch = watch(
                      () => audioStore.currentTime,
                      (time) => {
                          if (time >= firstWordStart) {
                              console.log("LOG_DEBUG: Audio caught up, setting revealing");
                              gameStore.setIntroAnimationPhase("revealing");
-                             unwatch();
+                             stopAudioCatchupWatch?.();
+                             stopAudioCatchupWatch = null;
                          }
                      }
                  );
@@ -287,7 +296,7 @@ export const useIntroSequenceAnimation = (eyePathRef: Ref<SVGPathElement | null>
     });
 
     // Auto-scroll logic if user is too slow
-    watch(
+    stopAutoScrollWatch = watch(
       () => audioStore.currentTime,
       (time) => {
         if (
@@ -329,6 +338,13 @@ export const useIntroSequenceAnimation = (eyePathRef: Ref<SVGPathElement | null>
 
     return scrollTriggerInstance;
   };
+
+  onUnmounted(() => {
+    stopAutoScrollWatch?.();
+    stopAutoScrollWatch = null;
+    stopAudioCatchupWatch?.();
+    stopAudioCatchupWatch = null;
+  });
 
   return {
     gradientState,
