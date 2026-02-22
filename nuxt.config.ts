@@ -7,6 +7,7 @@ export default defineNuxtConfig({
     '@pinia/nuxt',
     '@nuxtjs/google-fonts',
     '@hypernym/nuxt-gsap',
+    '@nuxt/eslint',
     '~/modules/devtools-extension.ts',
   ],
 
@@ -25,7 +26,7 @@ export default defineNuxtConfig({
   },
 
   vite: {
-    plugins: [tailwindcss() as any],
+    plugins: [tailwindcss()],
   },
 
   googleFonts: {
@@ -37,10 +38,7 @@ export default defineNuxtConfig({
   devtools: { enabled: true },
 
   imports: {
-    dirs: [
-      'composables/game',
-      'composables/hsp',
-    ],
+    dirs: ['composables/game', 'composables/hsp'],
   },
 
   typescript: {
