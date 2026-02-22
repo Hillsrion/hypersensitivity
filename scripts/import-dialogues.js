@@ -39,6 +39,8 @@ try {
   const rawData = fs.readFileSync(filePath, 'utf8');
   const data = JSON.parse(rawData);
 
+  const newTimings = {};
+
   const formattedDialogues = data.segments.map((seg, i) => {
     const rawSpeaker = seg.speaker.name;
     const speaker = speakerMap[rawSpeaker] || rawSpeaker;
@@ -52,35 +54,44 @@ try {
     
     const timings = seg.words
       .filter(w => w.text.trim().length > 0)
-      .map(w => `          { word: "${formatText(w.text)}", start: ${w.start_time}, end: ${w.end_time} }`)
-      .join(',\n');
+      .map(w => ({
+        word: formatText(w.text),
+        start: w.start_time,
+        end: w.end_time
+      }));
+
+    newTimings[dialogueId] = timings;
 
     if (isPensees) {
       return `    pensees(
       "${dialogueId}",
       "${text}",
       {
-        timings: [
-${timings},
-        ],
       }
-    )`;
+    ),`;
     } else {
       return `    d(
       "${dialogueId}",
       "${speaker}",
       "${text}",
       {
-        timings: [
-${timings},
-        ],
       }
-    )`;
+    ),`;
     }
   });
 
-  console.log('// Generated Dialogues:\n');
-  console.log(formattedDialogues.join(',\n'));
+  const scenesTimingsPath = path.resolve(process.cwd(), 'app/data/timings/scenes.json');
+  let existingTimings = {};
+  if (fs.existsSync(scenesTimingsPath)) {
+    existingTimings = JSON.parse(fs.readFileSync(scenesTimingsPath, 'utf8'));
+  }
+  
+  const mergedTimings = { ...existingTimings, ...newTimings };
+  fs.writeFileSync(scenesTimingsPath, JSON.stringify(mergedTimings, null, 2));
+
+  console.log(`// Successfully saved ${Object.keys(newTimings).length} timings to scenes.json`);
+  console.log('// Generated Dialogues for game.ts:\n');
+  console.log(formattedDialogues.join('\n'));
 
 } catch (err) {
   console.error('Error processing file:', err.message);

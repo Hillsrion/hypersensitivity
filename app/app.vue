@@ -12,6 +12,15 @@ import DevTools from "~/app/components/debug/DevTools.vue";
 import CircleAudiowave from "./components/ui/CircleAudiowave.vue";
 import BackgroundGradient from "./components/BackgroundGradient.vue";
 
+const timingsModules = import.meta.glob('./data/timings/*.json', { eager: true, import: 'default' });
+
+const getTimings = (audioPath) => {
+  if (!audioPath) return undefined;
+  const filename = audioPath.replace('/audios/', '').replace('.mp3', '');
+  const key = `./data/timings/${filename}.json`;
+  return timingsModules[key] || [];
+};
+
 const DevToolsView = defineAsyncComponent(() => import('~/app/components/debug/DevToolsView.vue'));
 
 const isDev = import.meta.dev;
@@ -22,13 +31,13 @@ const audioStore = useAudioStore();
 const animations = useAnimationsStore();
 const gameStore = useGameStore();
 
-// Keep audioStore usage direct to avoid potential storeToRefs issues with null effects
-// const { isPlaying } = storeToRefs(audioStore);
-
 const route = useRoute();
 const lenisRef = useTemplateRef("lenisRef");
 
-const introductionData = mainData.introduction;
+const introductionData = {
+  ...mainData.introduction,
+  timings: getTimings(mainData.introduction.audio)
+};
 
 // Watch loading state and control Lenis scrolling
 watch(
@@ -68,7 +77,7 @@ onMounted(async () => {
     .map((item) => ({
       path: item.audio,
       transcript: item.content,
-      timings: item.timings,
+      timings: getTimings(item.audio),
     }));
 
   // Preload intro audio

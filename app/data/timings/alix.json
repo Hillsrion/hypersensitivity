@@ -1,0 +1,287 @@
+[
+  {
+    "word": "Pour",
+    "start": 1.32,
+    "end": 1.48
+  },
+  {
+    "word": "moi",
+    "start": 1.48,
+    "end": 1.68
+  },
+  {
+    "word": "au",
+    "start": 1.68,
+    "end": 1.76
+  },
+  {
+    "word": "restaurant",
+    "start": 1.76,
+    "end": 2.32
+  },
+  {
+    "word": "tout",
+    "start": 2.32,
+    "end": 2.52
+  },
+  {
+    "word": "est",
+    "start": 2.52,
+    "end": 2.6
+  },
+  {
+    "word": "mouvement",
+    "start": 2.6,
+    "end": 3.12
+  },
+  {
+    "word": "les",
+    "start": 3.28,
+    "end": 3.4
+  },
+  {
+    "word": "couverts",
+    "start": 3.4,
+    "end": 3.72
+  },
+  {
+    "word": "s'entrechoquent",
+    "start": 3.72,
+    "end": 4.48
+  },
+  {
+    "word": "les",
+    "start": 4.52,
+    "end": 4.64
+  },
+  {
+    "word": "voix",
+    "start": 4.64,
+    "end": 4.8
+  },
+  {
+    "word": "se",
+    "start": 4.8,
+    "end": 5
+  },
+  {
+    "word": "mêlent",
+    "start": 5,
+    "end": 5.32
+  },
+  {
+    "word": "les",
+    "start": 5.32,
+    "end": 5.52
+  },
+  {
+    "word": "odeurs",
+    "start": 5.52,
+    "end": 5.72
+  },
+  {
+    "word": "de",
+    "start": 5.72,
+    "end": 5.84
+  },
+  {
+    "word": "nourriture",
+    "start": 5.84,
+    "end": 6.24
+  },
+  {
+    "word": "s'entrelacent",
+    "start": 6.24,
+    "end": 6.72
+  },
+  {
+    "word": "avec",
+    "start": 6.72,
+    "end": 6.88
+  },
+  {
+    "word": "celles",
+    "start": 6.88,
+    "end": 7.08
+  },
+  {
+    "word": "du",
+    "start": 7.08,
+    "end": 7.2
+  },
+  {
+    "word": "cuir",
+    "start": 7.2,
+    "end": 7.4
+  },
+  {
+    "word": "des",
+    "start": 7.4,
+    "end": 7.56
+  },
+  {
+    "word": "sièges",
+    "start": 7.56,
+    "end": 7.96
+  },
+  {
+    "word": "et",
+    "start": 8,
+    "end": 8.04
+  },
+  {
+    "word": "des",
+    "start": 8.04,
+    "end": 8.2
+  },
+  {
+    "word": "cigarettes",
+    "start": 8.2,
+    "end": 8.76
+  },
+  {
+    "word": "chaque",
+    "start": 9.28,
+    "end": 9.48
+  },
+  {
+    "word": "détail",
+    "start": 9.48,
+    "end": 9.84
+  },
+  {
+    "word": "s'impose",
+    "start": 9.84,
+    "end": 10.56
+  },
+  {
+    "word": ":",
+    "start": 9.84,
+    "end": 10.56
+  },
+  {
+    "word": "les",
+    "start": 10.64,
+    "end": 10.76
+  },
+  {
+    "word": "lumières",
+    "start": 10.76,
+    "end": 11.28
+  },
+  {
+    "word": "les",
+    "start": 11.28,
+    "end": 11.36
+  },
+  {
+    "word": "textures",
+    "start": 11.36,
+    "end": 11.72
+  },
+  {
+    "word": "des",
+    "start": 11.72,
+    "end": 11.8
+  },
+  {
+    "word": "plats",
+    "start": 11.8,
+    "end": 12.2
+  },
+  {
+    "word": "le",
+    "start": 12.24,
+    "end": 12.32
+  },
+  {
+    "word": "goût",
+    "start": 12.32,
+    "end": 12.48
+  },
+  {
+    "word": "subtil",
+    "start": 12.48,
+    "end": 12.84
+  },
+  {
+    "word": "laissé",
+    "start": 12.84,
+    "end": 13.08
+  },
+  {
+    "word": "par",
+    "start": 13.08,
+    "end": 13.24
+  },
+  {
+    "word": "le",
+    "start": 13.24,
+    "end": 13.36
+  },
+  {
+    "word": "savon",
+    "start": 13.36,
+    "end": 13.64
+  },
+  {
+    "word": "sur",
+    "start": 13.64,
+    "end": 13.84
+  },
+  {
+    "word": "les",
+    "start": 13.84,
+    "end": 13.96
+  },
+  {
+    "word": "verres",
+    "start": 13.96,
+    "end": 14.36
+  },
+  {
+    "word": "tout",
+    "start": 14.68,
+    "end": 14.88
+  },
+  {
+    "word": "entre",
+    "start": 14.88,
+    "end": 15.12
+  },
+  {
+    "word": "en",
+    "start": 15.12,
+    "end": 15.24
+  },
+  {
+    "word": "moi",
+    "start": 15.24,
+    "end": 15.6
+  },
+  {
+    "word": "sans",
+    "start": 15.64,
+    "end": 15.76
+  },
+  {
+    "word": "filtre",
+    "start": 15.76,
+    "end": 16.24
+  },
+  {
+    "word": "et",
+    "start": 16.28,
+    "end": 16.4
+  },
+  {
+    "word": "avec",
+    "start": 16.4,
+    "end": 16.56
+  },
+  {
+    "word": "tumulte.",
+    "start": 16.56,
+    "end": 17.12
+  }
+]

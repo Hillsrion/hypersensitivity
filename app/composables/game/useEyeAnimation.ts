@@ -83,7 +83,7 @@ export const useEyeAnimation = () => {
       }
 
       // We need game store specifically for the blur amount, importing it here avoids circular dep issues
-      const { useGameStore } = await import("~/stores/game");
+      const { useGameStore } = await import("~/app/stores/game");
       const gameStore = useGameStore();
 
       const tl = $gsap.timeline({

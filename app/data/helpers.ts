@@ -1,4 +1,5 @@
 import type { DialogueLine } from "../types/game";
+import scenesTimings from "./timings/scenes.json";
 
 // Helper pour creer des dialogues
 export const d = (
@@ -6,22 +7,30 @@ export const d = (
   speaker: string,
   text: string,
   options?: Partial<DialogueLine>
-): DialogueLine => ({
-  id,
-  speaker,
-  speakerType: "normal",
-  text,
-  ...options,
-});
+): DialogueLine => {
+  const timingsData = (scenesTimings as Record<string, any[]>)[id];
+  return {
+    id,
+    speaker,
+    speakerType: "normal",
+    text,
+    timings: timingsData || options?.timings,
+    ...options,
+  };
+};
 
 export const pensees = (
   id: string,
   text: string,
   options?: Partial<DialogueLine>
-): DialogueLine => ({
-  id,
-  speaker: "Lucie",
-  speakerType: "pensees",
-  text,
-  ...options,
-});
+): DialogueLine => {
+  const timingsData = (scenesTimings as Record<string, any[]>)[id];
+  return {
+    id,
+    speaker: "Lucie",
+    speakerType: "pensees",
+    text,
+    timings: timingsData || options?.timings,
+    ...options,
+  };
+};

@@ -10,7 +10,6 @@ export const gameEnd: Scene = {
   audio: "experience/J02_S03_Coucher_Soleil.mp3",
   dialogues: [
     pensees("end_1", "Merci d'avoir joué à cette démo.", {
-      timings: [],
     }),
   ],
 };
