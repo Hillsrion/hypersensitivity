@@ -79,12 +79,11 @@ defineExpose({
           >
             {{ sensitivityLevel.label }}
           </div>
-          <p
-            ref="sensitivityDescRef"
-            class="text-white opacity-0 typo-body font-light"
-          >
-            {{ sensitivityLevel.description }}
-          </p>
+          <AppText as="div" variant="body">
+            <p ref="sensitivityDescRef" class="text-white opacity-0 font-light">
+              {{ sensitivityLevel.description }}
+            </p>
+          </AppText>
         </div>
       </div>
 
@@ -98,13 +97,17 @@ defineExpose({
           <div>
             <h3 class="text-white text-base/7 font-sans font-medium mb-3">
               <span class="uppercase">Profil</span>
-              <span class="font-serif italic font-normal typo-body ml-1"
-                >"{{ dominantProfile.name }}"</span
+              <AppText
+                as="span"
+                variant="body"
+                class="font-serif italic font-normal ml-1"
               >
+                "{{ dominantProfile.name }}"
+              </AppText>
             </h3>
-            <p class="text-white typo-body font-light">
+            <AppText as="p" variant="body" class="text-white font-light">
               {{ dominantProfile.description }}
-            </p>
+            </AppText>
           </div>
           <div>
             <h3
@@ -112,9 +115,9 @@ defineExpose({
             >
               Conseil
             </h3>
-            <p class="text-white typo-body font-light">
+            <AppText as="p" variant="body" class="text-white font-light">
               {{ dominantProfile.advice }}
-            </p>
+            </AppText>
           </div>
         </div>
 
@@ -152,9 +155,13 @@ defineExpose({
           ref="sectionItemsRef"
           class="opacity-0 flex flex-col group"
         >
-          <span class="text-gray-200 typo-label font-serif italic">{{
-            section.shortName
-          }}</span>
+          <AppText
+            as="span"
+            variant="label"
+            class="text-gray-200 font-serif italic"
+          >
+            {{ section.shortName }}
+          </AppText>
           <div class="flex items-center gap-4">
             <div class="h-1 bg-white/20 w-full relative flex-1 rounded-full">
               <div
@@ -168,13 +175,15 @@ defineExpose({
                 "
               />
             </div>
-            <span
-              class="text-white typo-label font-sans font-semibold whitespace-nowrap"
+            <AppText
+              as="span"
+              variant="label"
+              class="text-white font-sans font-semibold whitespace-nowrap"
             >
               <span ref="sectionScoreCountersRef">0</span>/{{
                 questionsPerSection * 4
               }}
-            </span>
+            </AppText>
           </div>
         </div>
       </div>

@@ -83,12 +83,11 @@ const getRatingClass = (value: number) => {
           >Section {{ currentSectionIndex + 1 }}</span
         >
         <span class="mx-2">-</span>
-        <span
-          ref="sectionNameRef"
-          class="font-serif typo-label text-white inline-block"
-        >
-          {{ internalDisplaySectionName }}
-        </span>
+        <AppText as="span" variant="label" class="inline-block">
+          <span ref="sectionNameRef" class="font-serif text-white inline-block">
+            {{ internalDisplaySectionName }}
+          </span>
+        </AppText>
       </div>
     </nav>
 
@@ -111,9 +110,13 @@ const getRatingClass = (value: number) => {
           ref="questionInfoRef"
           class="flex items-center h-16 gap-x-4 opacity-0"
         >
-          <p class="font-sans font-medium text-white uppercase typo-body">
+          <AppText
+            as="p"
+            variant="body"
+            class="font-sans font-medium text-white uppercase"
+          >
             Question {{ currentQuestionIndex + 1 }} / {{ totalQuestions }}
-          </p>
+          </AppText>
           <div
             v-if="currentQuestion.inversed"
             class="bg-white text-primary px-4 py-2 rounded-full text-xl font-medium"
@@ -121,12 +124,14 @@ const getRatingClass = (value: number) => {
             Inversée
           </div>
         </div>
-        <p
-          ref="questionTextRef"
-          class="typo-quiz leading-snug text-white font-serif italic opacity-0"
-        >
-          {{ currentQuestion.text }}
-        </p>
+        <AppText as="div" variant="quiz">
+          <p
+            ref="questionTextRef"
+            class="leading-snug text-white font-serif italic opacity-0"
+          >
+            {{ currentQuestion.text }}
+          </p>
+        </AppText>
       </div>
 
       <!-- Answers -->
@@ -141,13 +146,20 @@ const getRatingClass = (value: number) => {
           :class="getRatingClass(rating.value)"
           @click="emit('selectAnswer', rating.value)"
         >
-          <span
-            class="typo-quiz font-black mb-2 group-hover:text-current transition-colors"
-            >{{ rating.value }}</span
+          <AppText
+            as="span"
+            variant="quiz"
+            class="font-black mb-2 group-hover:text-current transition-colors"
           >
-          <span class="typo-label text-center transition-opacity">{{
-            currentQuestion.inversed ? rating.inversedLabel : rating.label
-          }}</span>
+            {{ rating.value }}
+          </AppText>
+          <AppText
+            as="span"
+            variant="label"
+            class="text-center transition-opacity"
+          >
+            {{ currentQuestion.inversed ? rating.inversedLabel : rating.label }}
+          </AppText>
         </button>
       </div>
     </div>

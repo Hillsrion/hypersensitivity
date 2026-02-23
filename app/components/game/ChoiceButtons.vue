@@ -47,9 +47,11 @@ const { hoveredIndex, isSelecting, selectedIndex, handleSelect } =
   >
     <template v-for="(choice, index) in choices" :key="choice.id">
       <!-- CHOICE BUTTON -->
-      <button
-        :ref="(el) => setButtonRef(el, index)"
-        class="group relative py-4 font-sans font-semibold typo-body uppercase flex flex-col items-center"
+      <AppText
+        :ref="(el: any) => setButtonRef(el, index)"
+        as="button"
+        variant="body"
+        class="group relative py-4 font-sans font-semibold uppercase flex flex-col items-center"
         :class="{
           'transition-[color,opacity] duration-300': !isSelecting,
           'transition-[color] duration-300': isSelecting,
@@ -86,7 +88,7 @@ const { hoveredIndex, isSelecting, selectedIndex, handleSelect } =
         >
           {{ choice.disabledReason }}
         </span>
-      </button>
+      </AppText>
 
       <!-- CENTRAL ICON (Inserted between first and second choice) -->
       <div

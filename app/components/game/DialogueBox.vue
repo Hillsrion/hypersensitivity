@@ -47,10 +47,12 @@ const {
     }"
   >
     <!-- Annotation (utilisée aussi pour les timings temporaires) -->
-    <p
+    <AppText
       v-show="showAnnotation"
       ref="annotationRef"
-      class="font-serif text-primary/60 typo-body transition-all duration-300 transform-gpu will-change-[filter,opacity]"
+      as="p"
+      variant="body"
+      class="font-serif text-primary/60 transition-all duration-300 transform-gpu will-change-[filter,opacity]"
       :class="[annotationClasses, isRightAligned ? 'text-right' : 'text-left']"
       :style="{
         filter: blurAmount !== undefined ? `blur(${blurAmount}px)` : undefined,
@@ -58,14 +60,16 @@ const {
       }"
     >
       {{ displayAnnotation }}
-    </p>
+    </AppText>
 
     <!-- Speaker Name (caché via opacité pendant l'intro ou si showOnly est actif) -->
-    <p
+    <AppText
       v-show="!isShowingOnlyAnnotation"
       v-if="dialogue.speaker"
       ref="speakerRef"
-      class="text-primary font-medium font-sans typo-body uppercase transition-all duration-300"
+      as="p"
+      variant="body"
+      class="text-primary font-medium font-sans uppercase transition-all duration-300"
       :class="[
         { 'opacity-0': !showDialogueContent, 'mt-6': showAnnotation },
         isRightAligned ? 'text-right' : 'text-left',
@@ -75,7 +79,7 @@ const {
       <span v-if="isPensees" class="font-serif text-primary/60 lowercase"
         >(en pensées)</span
       >
-    </p>
+    </AppText>
 
     <!-- Dialogue Text (caché via opacité pendant l'intro ou si showOnly est actif) -->
     <p

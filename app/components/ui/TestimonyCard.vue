@@ -67,79 +67,78 @@
       </svg>
     </div>
 
-    <p
-      id="textRef"
-      ref="textRef"
-      class="text-primary font-light font-serif typo-body mt-12 relative lg:mb-0 mb-8 z-10"
-    >
-      {{ content }}
-    </p>
-    <div class="flex w-full items-center justify-end mt-6">
-      <p
-        ref="authorRef"
-        class="text-primary font-medium typo-body text-right relative z-10"
-      >
-        {{ author }}
+    <AppText as="div" variant="body" class="mt-12 relative lg:mb-0 mb-8 z-10">
+      <p id="textRef" ref="textRef" class="text-primary font-light font-serif">
+        {{ content }}
       </p>
+    </AppText>
+    <div class="flex w-full items-center justify-end mt-6">
+      <AppText as="div" variant="body" class="w-full flex justify-end">
+        <p
+          ref="authorRef"
+          class="text-primary font-medium text-right relative z-10"
+        >
+          {{ author }}
+        </p>
+      </AppText>
     </div>
   </div>
 </template>
 
 <script setup>
+const { $gsap: gsap } = useNuxtApp()
 
-const { $gsap: gsap } = useNuxtApp();
-
-const audioStore = useAudioStore();
-const containerRef = useTemplateRef("containerRef");
-const borderRect = useTemplateRef("borderRect");
-const textRef = useTemplateRef("textRef");
-const authorRef = useTemplateRef("authorRef");
-const auroraRef = useTemplateRef("auroraRef");
-const auroraInnerRef = useTemplateRef("auroraInnerRef");
-const isHovering = ref(false);
+const audioStore = useAudioStore()
+const containerRef = useTemplateRef('containerRef')
+const borderRect = useTemplateRef('borderRect')
+const textRef = useTemplateRef('textRef')
+const authorRef = useTemplateRef('authorRef')
+const auroraRef = useTemplateRef('auroraRef')
+const auroraInnerRef = useTemplateRef('auroraInnerRef')
+const isHovering = ref(false)
 
 const props = defineProps({
-  content: String,
-  author: String,
-  audio: String,
-  color: String,
-});
+  content: { type: String, default: '' },
+  author: { type: String, default: '' },
+  audio: { type: String, default: '' },
+  color: { type: String, default: 'default' },
+})
 
 const isPlaying = computed(
   () =>
     audioStore.isPlaying && audioStore.currentAudio?.src.includes(props.audio)
-);
+)
 
 const timings = computed(() => {
   return (
     audioStore.list.find((item) => item.path === props.audio)?.timings ?? []
-  );
-});
+  )
+})
 const duration = computed(() => {
-  const d = audioStore.list.find((item) => item.path === props.audio)?.duration;
-  return d || 5; // Fallback to 5s if no duration found
-});
+  const d = audioStore.list.find((item) => item.path === props.audio)?.duration
+  return d || 5 // Fallback to 5s if no duration found
+})
 
-let currentAnimation = null;
-let splitInstance = null;
-let textAnimation = null;
-let auroraAnimation = null;
+let currentAnimation = null
+let splitInstance = null
+let textAnimation = null
+let auroraAnimation = null
 
 onMounted(() => {
   if (textRef.value) {
     splitInstance = useSplitText(textRef, {
-      splitBy: "words",
-    });
+      splitBy: 'words',
+    })
   }
 
   // Set initial Aurora color
   if (props.color && auroraInnerRef.value) {
-    const style = getComputedStyle(document.documentElement);
+    const style = getComputedStyle(document.documentElement)
     const colorHex = style
       .getPropertyValue(`--color-gradient-${props.color}`)
-      .trim();
+      .trim()
     if (colorHex) {
-      auroraInnerRef.value.style.setProperty("--aurora-middle-color", colorHex);
+      auroraInnerRef.value.style.setProperty('--aurora-middle-color', colorHex)
     }
   }
 
@@ -153,63 +152,63 @@ onMounted(() => {
       duration: 4,
       repeat: -1,
       yoyo: true,
-      ease: "sine.inOut",
+      ease: 'sine.inOut',
       paused: false, // Always floating
-    });
+    })
   }
 
   // Initialize border
   if (borderRect.value) {
-    const length = borderRect.value.getTotalLength();
+    const length = borderRect.value.getTotalLength()
     gsap.set(borderRect.value, {
       strokeDasharray: length,
       strokeDashoffset: length,
       opacity: 0,
-    });
+    })
   }
-});
+})
 
 const handleHover = async (val) => {
-  isHovering.value = val;
+  isHovering.value = val
   if (val) {
     if (props.audio) {
       // Set volume to 0.6 for testimonies
-      audioStore.setVolume(0.6);
-      await audioStore.playAudio(props.audio);
+      audioStore.setVolume(0.6)
+      await audioStore.playAudio(props.audio)
     }
   } else {
     if (isPlaying.value) {
-      await audioStore.stopCurrentAudio();
+      await audioStore.stopCurrentAudio()
       // Reset volume to default 0.8
-      audioStore.setVolume(0.8);
+      audioStore.setVolume(0.8)
     }
   }
-};
+}
 
 const startAnimations = () => {
   // Kill all ongoing animations
   if (currentAnimation) {
-    currentAnimation.kill();
+    currentAnimation.kill()
   }
   if (textAnimation) {
-    textAnimation.kill();
+    textAnimation.kill()
   }
 
   // Border animation
   if (borderRect.value) {
-    const length = borderRect.value.getTotalLength();
+    const length = borderRect.value.getTotalLength()
     // Reset to start
     gsap.set(borderRect.value, {
       strokeDasharray: length,
       strokeDashoffset: length,
       opacity: 1,
-    });
+    })
 
     currentAnimation = gsap.to(borderRect.value, {
       strokeDashoffset: 0,
       duration: duration.value,
-      ease: "none",
-    });
+      ease: 'none',
+    })
   }
 
   // Text opacity animations (Karaoke effect)
@@ -218,12 +217,12 @@ const startAnimations = () => {
     gsap.to(splitInstance.words.value, {
       opacity: 0.6,
       duration: 0.3,
-      ease: "power2.out",
-    });
+      ease: 'power2.out',
+    })
 
-    const timeline = gsap.timeline();
+    const timeline = gsap.timeline()
     splitInstance.words.value.forEach((wordEl, index) => {
-      const timing = timings.value[index];
+      const timing = timings.value[index]
       if (timing) {
         // Animate word to full opacity when it's spoken
         timeline.to(
@@ -231,47 +230,47 @@ const startAnimations = () => {
           {
             opacity: 1,
             duration: 0.1, // Quick transition to active
-            ease: "none",
+            ease: 'none',
           },
           timing.start
-        );
+        )
       }
-    });
-    textAnimation = timeline;
+    })
+    textAnimation = timeline
   }
-};
+}
 
 const stopAnimations = () => {
   // Border animation
   if (borderRect.value) {
-    const length = borderRect.value.getTotalLength();
+    const length = borderRect.value.getTotalLength()
     currentAnimation = gsap.to(borderRect.value, {
       strokeDashoffset: length,
       duration: 1,
-      ease: "power3.out",
+      ease: 'power3.out',
       onComplete: () => {
         gsap.to(borderRect.value, {
           opacity: 0,
           duration: 0.3,
-        });
+        })
       },
-    });
+    })
   }
 
   // Reset text opacity
   if (splitInstance?.words.value) {
-    gsap.killTweensOf(splitInstance.words.value);
+    gsap.killTweensOf(splitInstance.words.value)
     textAnimation = gsap.to(splitInstance.words.value, {
       opacity: 0.6,
       duration: 0.4,
       stagger: {
         each: 0.01,
-        from: "start",
+        from: 'start',
       },
-      ease: "power2.out",
-    });
+      ease: 'power2.out',
+    })
   }
-};
+}
 
 // Handle Aurora visibility separately for immediate feedback
 watch(isHovering, (hovering) => {
@@ -279,36 +278,36 @@ watch(isHovering, (hovering) => {
     gsap.to(auroraRef.value, {
       opacity: hovering ? 1 : 0,
       duration: 1,
-      ease: "power2.inOut",
-    });
+      ease: 'power2.inOut',
+    })
   }
-});
+})
 
 watch(isPlaying, (playing) => {
   if (playing) {
-    startAnimations();
+    startAnimations()
   } else {
-    stopAnimations();
+    stopAnimations()
   }
-});
+})
 
 onUnmounted(() => {
   if (splitInstance) {
-    splitInstance.revert();
+    splitInstance.revert()
   }
   if (props.audio && isPlaying.value) {
-    audioStore.stopCurrentAudio();
-    audioStore.setVolume(0.8);
+    audioStore.stopCurrentAudio()
+    audioStore.setVolume(0.8)
   }
   if (auroraAnimation) {
-    auroraAnimation.kill();
+    auroraAnimation.kill()
   }
-});
+})
 
 defineExpose({
   textRef,
   containerRef,
-});
+})
 </script>
 
 <style scoped>

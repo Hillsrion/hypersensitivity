@@ -78,30 +78,3 @@
     @apply font-sans;
   }
 }
-
-@layer utilities {
-  /* Body text: lg (18px) to xl (20px) */
-  .typo-body {
-    @apply fl-text-lg/xl leading-[1.4];
-  }
-
-  /* Quiz text: xl (20px) to 2xl (24px) */
-  .typo-quiz {
-    @apply fl-text-xl/2xl leading-[1.75rem];
-  }
-
-  /* Display titles: 5xl (3rem) to 7.5rem */
-  .typo-display {
-    @apply fl-text-display-min/display-max leading-[1.15];
-  }
-
-  /* Main Title: 5rem fixed or scaling */
-  .typo-h1 {
-    @apply fl-text-h1-min/h1-max leading-[1.1];
-  }
-
-  /* Label: sm (14px) to base (16px) */
-  .typo-label {
-    @apply fl-text-sm/base leading-[1.5];
-  }
-}
