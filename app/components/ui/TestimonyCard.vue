@@ -1,7 +1,7 @@
 <template>
   <div
     ref="containerRef"
-    class="relative rounded-2xl overflow-hidden flex flex-col cursor-pointer p-8 transition-colors duration-300 bg-white"
+    class="relative rounded-2xl overflow-hidden grid grid-rows-[auto_1fr_auto] gap-8 cursor-pointer p-8 transition-colors duration-300 bg-white"
     @mouseenter="handleHover(true)"
     @mouseleave="handleHover(false)"
   >
@@ -52,7 +52,7 @@
     </div>
 
     <!-- Quote Icon -->
-    <div class="absolute left-8 top-8 z-10">
+    <div class="relative z-10">
       <svg
         width="32"
         height="27"
@@ -67,12 +67,12 @@
       </svg>
     </div>
 
-    <AppText as="div" variant="body" class="mt-12 relative lg:mb-0 mb-8 z-10">
+    <AppText as="div" variant="body" class="relative z-10 flex items-center">
       <p id="textRef" ref="textRef" class="text-primary font-light font-serif">
         {{ content }}
       </p>
     </AppText>
-    <div class="flex w-full items-center justify-end mt-6">
+    <div class="flex w-full items-center justify-end relative z-10">
       <AppText as="div" variant="body" class="w-full flex justify-end">
         <p
           ref="authorRef"

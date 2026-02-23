@@ -35,7 +35,13 @@ export default defineNuxtConfig({
     },
   },
 
-  devtools: { enabled: true },
+  components: [
+    {
+      path: '~/app/components/ui',
+      pathPrefix: false,
+    },
+    '~/app/components',
+  ],
 
   imports: {
     dirs: ['composables/game', 'composables/hsp'],

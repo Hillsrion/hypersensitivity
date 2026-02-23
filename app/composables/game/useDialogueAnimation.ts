@@ -1,3 +1,4 @@
+import type { ComponentPublicInstance, Ref } from 'vue'
 import type { DialogueLine } from '../../types/game'
 import { areAudioPathsEquivalent, resolveTimingEnd } from './orchestration'
 
@@ -7,11 +8,13 @@ interface SplitResult {
   chars: Ref<HTMLElement[]>
 }
 
+type MaybeElement = HTMLElement | ComponentPublicInstance | null
+
 export function useDialogueAnimation(
   dialogue: Ref<DialogueLine | null>,
   textRef: Ref<HTMLElement | null>,
-  annotationRef: Ref<HTMLElement | null>,
-  speakerRef: Ref<HTMLElement | null>,
+  annotationRef: Ref<MaybeElement>,
+  speakerRef: Ref<MaybeElement>,
   split: SplitResult,
   emit: (event: 'animationComplete') => void,
   handleAudioEnded: () => void,
@@ -136,6 +139,13 @@ export function useDialogueAnimation(
     return timeline
   }
 
+  const getEl = (refValue: MaybeElement): HTMLElement | null => {
+    if (!refValue) return null
+    return (
+      (refValue as ComponentPublicInstance).$el || (refValue as HTMLElement)
+    )
+  }
+
   const animateShowOnlyAnnotation = (
     timeline: gsap.core.Timeline,
     timing: NonNullable<DialogueLine['timings']>[number]
@@ -143,9 +153,13 @@ export function useDialogueAnimation(
     const fadeOutDuration = 0.2
     const elementsToFadeOut: HTMLElement[] = []
 
-    if (textRef.value) elementsToFadeOut.push(textRef.value)
-    if (speakerRef.value) elementsToFadeOut.push(speakerRef.value)
-    if (annotationRef.value) elementsToFadeOut.push(annotationRef.value)
+    const textEl = getEl(textRef.value)
+    const speakerEl = getEl(speakerRef.value)
+    const annotationEl = getEl(annotationRef.value)
+
+    if (textEl) elementsToFadeOut.push(textEl)
+    if (speakerEl) elementsToFadeOut.push(speakerEl)
+    if (annotationEl) elementsToFadeOut.push(annotationEl)
 
     if (elementsToFadeOut.length > 0) {
       timeline.set(elementsToFadeOut, { transition: 'none' }, timing.start)
@@ -165,22 +179,22 @@ export function useDialogueAnimation(
       timing.start + fadeOutDuration
     )
 
-    if (annotationRef.value) {
+    if (annotationEl) {
       timeline.set(
-        annotationRef.value,
+        annotationEl,
         { transition: 'none' },
         timing.start + fadeOutDuration
       )
 
       timeline.fromTo(
-        annotationRef.value,
+        annotationEl,
         { opacity: 0 },
         { opacity: 1, duration: 0.3 },
         timing.start + fadeOutDuration
       )
 
       timeline.set(
-        [annotationRef.value, ...elementsToFadeOut],
+        [annotationEl, ...elementsToFadeOut],
         { clearProps: 'transition' },
         '>'
       )

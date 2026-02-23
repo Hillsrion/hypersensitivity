@@ -1,15 +1,18 @@
+import type { ComponentPublicInstance, Ref } from 'vue'
 import type { DialogueLine } from '../../types/game'
 import type SplitType from 'split-type'
 import { useDialogueDisplay } from './useDialogueDisplay'
 import { useDialogueAudio } from './useDialogueAudio'
 import { useDialogueAnimation } from './useDialogueAnimation'
 
+type MaybeElement = HTMLElement | ComponentPublicInstance | null
+
 export function useDialogueBox(
   dialogue: Ref<DialogueLine | null>,
   textRef: Ref<HTMLElement | null>,
   contentRef: Ref<HTMLElement | null>,
-  annotationRef: Ref<HTMLElement | null>,
-  speakerRef: Ref<HTMLElement | null>,
+  annotationRef: Ref<MaybeElement>,
+  speakerRef: Ref<MaybeElement>,
   isSelecting: Ref<boolean | undefined>,
   emit: (event: 'animationComplete') => void
 ) {

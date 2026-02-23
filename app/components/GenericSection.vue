@@ -58,6 +58,13 @@ onMounted(() => {
   const mm = $gsap.matchMedia()
 
   mm.add('(min-width: 375px)', () => {
+    // Collect DOM elements from component instances safely
+    const titlesEl = (titlesRef.value || [])
+      .map((el) => (el && '$el' in el ? el.$el : el))
+      .filter((el) => el instanceof HTMLElement)
+
+    if (titlesEl.length === 0) return
+
     const totalHeight = window.innerHeight
     const maxDistance = totalHeight * 0.525 // The bottom-most position
     const minScale = 0.46
@@ -78,14 +85,14 @@ onMounted(() => {
     // Phase 1: Fan Out
     // Top (0) stays, Bottom (8) moves to maxDistance.
     tl.to(
-      titlesRef.value,
+      titlesEl,
       {
         y: (index) => {
           if (index === 0) return 0
-          return maxDistance * (index / (titlesRef.value.length - 1))
+          return maxDistance * (index / (titlesEl.length - 1))
         },
         scale: (index) => {
-          const total = titlesRef.value.length
+          const total = titlesEl.length
           if (total <= 1) return 1
           return 1 - (index / (total - 1)) * (1 - minScale)
         },
@@ -98,7 +105,7 @@ onMounted(() => {
     // Phase 2: Collapse Down
     // All titles move to maxDistance and minScale.
     tl.to(
-      titlesRef.value,
+      titlesEl,
       {
         y: maxDistance,
         scale: minScale,
@@ -109,28 +116,28 @@ onMounted(() => {
     )
 
     // After Phase 2: Hide all but last, and remove bg-white
-    tl.set(titlesRef.value.slice(0, -1), { autoAlpha: 0 })
+    tl.set(titlesEl.slice(0, -1), { autoAlpha: 0 })
     tl.set(
-      titlesRef.value.map((el) => el.querySelector('span')),
+      titlesEl.map((el) => el.querySelector('span')).filter(Boolean),
       { backgroundColor: 'transparent' },
       '<'
     )
 
     // Phase 3: Move pack to top
-    const lastTitle = titlesRef.value[titlesRef.value.length - 1]
+    const lastTitle = titlesEl[titlesEl.length - 1]
     const scaledHeight = lastTitle.offsetHeight * minScale
     const offset = 62 // 2rem offset
 
     // Set initial position for content before moving up (at the bottom)
     tl.set(contentRef.value, { y: maxDistance + scaledHeight + offset })
-    tl.set(titlesRef.value.slice(0, -1), { autoAlpha: 0 })
+    tl.set(titlesEl.slice(0, -1), { autoAlpha: 0 })
     tl.set(
-      titlesRef.value.map((el) => el.querySelector('span')),
+      titlesEl.map((el) => el.querySelector('span')).filter(Boolean),
       { backgroundColor: 'transparent' },
       '<'
     )
     tl.to(
-      titlesRef.value,
+      titlesEl,
       {
         y: 0,
         duration: 6,
@@ -213,7 +220,7 @@ onUnmounted(() => {
 
     <div
       ref="titleWrapperRef"
-      class="relative w-full flex justify-center z-10 px-4 md:px-0"
+      class="relative w-full grid place-items-center z-10 px-4 md:px-0"
     >
       <AppHeading
         v-for="i in 9"
@@ -221,7 +228,7 @@ onUnmounted(() => {
         ref="titlesRef"
         as="p"
         variant="display"
-        class="absolute top-0 w-full font-serif font-light text-center origin-top select-none text-primary"
+        class="col-start-1 row-start-1 w-full font-serif font-light text-center origin-top select-none text-primary"
         :class="{
           'z-10': i === 1,
           'z-20': i > 1,

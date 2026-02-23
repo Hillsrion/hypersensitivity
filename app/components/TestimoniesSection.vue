@@ -39,6 +39,9 @@ onMounted(async () => {
   const mm = $gsap.matchMedia()
 
   mm.add('(min-width: 768px)', () => {
+    const heroTextEl = heroTextRef.value?.$el || heroTextRef.value
+    if (!heroTextEl || !(heroTextEl instanceof HTMLElement)) return
+
     const tl = $gsap.timeline({
       scrollTrigger: {
         trigger: sectionRef.value,
@@ -55,10 +58,10 @@ onMounted(async () => {
 
     // Force the Hero Text to have the exact same width as the target text
     // This ensures line breaks (wrapping) are identical.
-    heroTextRef.value.style.width = `${endRect.width}px`
+    heroTextEl.style.width = `${endRect.width}px`
 
     // Re-measure Hero Text after width adjustment
-    const startRect = heroTextRef.value.getBoundingClientRect()
+    const startRect = heroTextEl.getBoundingClientRect()
 
     // Calculate initial scale to fit screen width (with some padding)
     const fitScale = (window.innerWidth * 0.9) / startRect.width
@@ -86,7 +89,7 @@ onMounted(async () => {
     // --- 2. Build Timeline ---
 
     // Set initial state: Scaled up and centered
-    tl.set(heroTextRef.value, {
+    tl.set(heroTextEl, {
       scale: fitScale,
       x: initialX,
       y: initialY,
@@ -96,11 +99,11 @@ onMounted(async () => {
 
     // Phase A: Move Hero Text to position of Card 1
     // We animate from the "Big Centered" state to the "Small Card" state (scale: 1, x: finalX, y: finalY)
-    tl.to(heroTextRef.value, {
+    tl.to(heroTextEl, {
       opacity: 0.6,
       duration: 0.5,
     })
-      .to(heroTextRef.value, {
+      .to(heroTextEl, {
         x: finalX,
         y: finalY,
         scale: 1,
@@ -110,7 +113,7 @@ onMounted(async () => {
       })
       // Phase B: Swap Visibility (Smoother Cross-fade)
       // As the hero text reaches its final spot, we fade it out while fading in the track and the card content.
-      .to(heroTextRef.value, {
+      .to(heroTextEl, {
         autoAlpha: 0,
         duration: 0.2, // Quick fade out at the end
         ease: 'power2.inOut',
