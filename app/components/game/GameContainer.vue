@@ -4,6 +4,7 @@ import GameEnergyBar from './GameEnergyBar.vue'
 import DialogueBox from './DialogueBox.vue'
 import ChoiceButtons from './ChoiceButtons.vue'
 import MenuIcon from '../ui/MenuIcon.vue'
+import { EDGE_SPACING } from '~/app/constants/layout'
 
 const { $gsap } = useNuxtApp()
 
@@ -92,7 +93,8 @@ onUnmounted(() => {
       <Transition name="fade" appear>
         <button
           v-if="showDelayedGameUI && !isMilestoneAnnotation"
-          class="fixed top-10 left-18 z-70 text-primary cursor-pointer group"
+          class="fixed z-70 text-primary cursor-pointer group"
+          :class="[EDGE_SPACING.TOP, EDGE_SPACING.LEFT]"
           @click.stop="gameStore.toggleMenu()"
         >
           <MenuIcon
@@ -111,16 +113,19 @@ onUnmounted(() => {
     <Transition name="fade" appear>
       <GameEnergyBar
         v-if="shouldShowCoreUi"
-        class="absolute z-40 transition-opacity duration-300 bottom-10 left-1/2 -translate-x-1/2 min-[590px]:bottom-auto min-[590px]:top-1/2 min-[590px]:left-8 min-[590px]:lg:left-18 min-[590px]:translate-x-0 min-[590px]:-translate-y-1/2"
-        :class="{
-          'opacity-0 pointer-events-none min-[590px]:opacity-100 min-[590px]:pointer-events-auto':
-            (gameStore.showChoices || gameStore.selectedChoice) &&
-            !isMilestoneAnnotation,
-          'opacity-100': !(
-            (gameStore.showChoices || gameStore.selectedChoice) &&
-            !isMilestoneAnnotation
-          ),
-        }"
+        class="absolute z-40 transition-opacity duration-300 left-1/2 -translate-x-1/2 md:bottom-auto md:top-1/2 md:translate-x-0 md:-translate-y-1/2"
+        :class="[
+          {
+            'opacity-0 pointer-events-none min-[590px]:opacity-100 min-[590px]:pointer-events-auto':
+              (gameStore.showChoices || gameStore.selectedChoice) &&
+              !isMilestoneAnnotation,
+            'opacity-100': !(
+              (gameStore.showChoices || gameStore.selectedChoice) &&
+              !isMilestoneAnnotation
+            ),
+          },
+          EDGE_SPACING.ENERGY_BAR,
+        ]"
       />
     </Transition>
 

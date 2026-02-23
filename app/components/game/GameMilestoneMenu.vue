@@ -2,6 +2,7 @@
 import GameMilestoneItem from './GameMilestoneItem.vue'
 import type { Milestone } from '../../types/game'
 import { QUESTIONNAIRE_ENTRY_DELAY_MS } from '~/app/constants/durations'
+import { EDGE_SPACING } from '~/app/constants/layout'
 
 const gameStore = useGameStore()
 const animationsStore = useAnimationsStore()
@@ -139,7 +140,8 @@ onUnmounted(() => {
         >
           <!-- Top Toolbar -->
           <div
-            class="w-full h-32 flex items-center justify-between px-12 md:px-18 pointer-events-auto"
+            class="w-full h-24 lg:h-32 flex items-center justify-between pointer-events-auto"
+            :class="EDGE_SPACING.PX"
           >
             <!-- Close Button (Removed - handled by GameContainer) -->
             <div class="w-6 h-6" />
@@ -172,7 +174,8 @@ onUnmounted(() => {
 
           <!-- Bottom Navigation -->
           <div
-            class="w-full h-32 flex items-center justify-between px-12 md:px-18 pointer-events-auto"
+            class="w-full h-24 lg:h-32 flex items-center justify-between pointer-events-auto"
+            :class="EDGE_SPACING.PX"
           >
             <button :class="navItemClasses" @click.stop="gameStore.resetGame()">
               <svg

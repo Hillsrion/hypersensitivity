@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { EDGE_SPACING } from '~/app/constants/layout'
+
 type QuizSection = {
   name: string
   shortName: string
@@ -76,7 +78,8 @@ const getRatingClass = (value: number) => {
     <!-- Fixed Header -->
     <nav
       ref="headerRef"
-      class="fixed top-0 left-0 w-full flex justify-between items-center px-4 lg:px-8 md:px-16 py-13 z-50 opacity-0"
+      class="fixed left-0 w-full flex justify-between items-center z-50 opacity-0"
+      :class="[EDGE_SPACING.TOP, EDGE_SPACING.PX]"
     >
       <div class="flex items-center">
         <span class="font-sans font-medium text-base leading-[28px] uppercase"
@@ -167,7 +170,8 @@ const getRatingClass = (value: number) => {
     <!-- Navigation -->
     <div
       ref="navRef"
-      class="flex justify-between items-center opacity-0 mt-auto pb-10"
+      class="flex justify-between items-center opacity-0 mt-auto"
+      :class="EDGE_SPACING.PB"
     >
       <button
         class="text-white transition-colors duration-300 flex items-center gap-2 px-4 py-2 disabled:opacity-30 disabled:cursor-not-allowed"

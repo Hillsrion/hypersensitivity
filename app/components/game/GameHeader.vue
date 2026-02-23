@@ -1,50 +1,51 @@
 <script setup lang="ts">
+import { EDGE_SPACING } from '~/app/constants/layout'
 
-const gameStore = useGameStore();
-const { $gsap } = useNuxtApp();
+const gameStore = useGameStore()
+const { $gsap } = useNuxtApp()
 
-const titleRef = useTemplateRef<HTMLElement>("titleRef");
-const displayTitle = ref(gameStore.currentTitle);
+const titleRef = useTemplateRef<HTMLElement>('titleRef')
+const displayTitle = ref(gameStore.currentTitle)
 
 watch(
   () => gameStore.currentTitle,
   (newTitle) => {
     if (!titleRef.value) {
-      displayTitle.value = newTitle;
-      return;
+      displayTitle.value = newTitle
+      return
     }
 
-    const tl = $gsap.timeline();
+    const tl = $gsap.timeline()
 
     tl.to(titleRef.value, {
       opacity: 0,
-      filter: "blur(12px)",
+      filter: 'blur(12px)',
       duration: 0.4,
-      ease: "power2.inOut",
+      ease: 'power2.inOut',
       onComplete: () => {
-        displayTitle.value = newTitle;
+        displayTitle.value = newTitle
       },
-    });
+    })
 
     tl.to(titleRef.value, {
       opacity: 1,
-      filter: "blur(0px)",
+      filter: 'blur(0px)',
       duration: 0.4,
-      ease: "power2.out",
-    });
+      ease: 'power2.out',
+    })
   }
-);
+)
 </script>
 
 <template>
-  <header class="absolute top-10 left-1/2 -translate-x-1/2 z-40">
+  <header
+    class="absolute left-1/2 -translate-x-1/2 z-40"
+    :class="EDGE_SPACING.TOP"
+  >
     <h1 class="text-primary font-serif text-xl tracking-wide whitespace-nowrap">
       <span class="font-medium uppercase">JOUR {{ gameStore.currentDay }}</span>
       <span class="mx-2">-</span>
-      <span
-        ref="titleRef"
-        class="italic font-light capitalize inline-block"
-      >
+      <span ref="titleRef" class="italic font-light capitalize inline-block">
         {{ displayTitle }}
       </span>
     </h1>

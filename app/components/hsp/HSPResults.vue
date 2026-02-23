@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { EDGE_SPACING } from '~/app/constants/layout'
+
 type QuizSection = {
   name: string
   shortName: string
@@ -122,7 +124,7 @@ defineExpose({
         </div>
 
         <div
-          v-if="sectionScores[7] > questionsPerSection * 4 * 0.75"
+          v-if="(sectionScores?.[7] ?? 0) > questionsPerSection * 4 * 0.75"
           ref="alertCardRef"
           class="opacity-0"
         >
@@ -171,7 +173,9 @@ defineExpose({
                   width: '0%',
                 }"
                 :data-width="
-                  (sectionScores[index] / (questionsPerSection * 4)) * 100 + '%'
+                  ((sectionScores?.[index] ?? 0) / (questionsPerSection * 4)) *
+                    100 +
+                  '%'
                 "
               />
             </div>
@@ -190,7 +194,7 @@ defineExpose({
     </div>
 
     <!-- Bottom block: Restart button -->
-    <div class="flex justify-center pb-8">
+    <div class="flex justify-center" :class="EDGE_SPACING.PB">
       <button
         ref="restartBtnRef"
         class="bg-transparent border border-gray-600 text-gray-300 px-8 py-4 rounded-md font-sans text-xs md:text-sm st uppercase hover:bg-white hover:text-black transition-all duration-300 opacity-0"

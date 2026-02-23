@@ -12,6 +12,7 @@ import DevTools from '~/app/components/debug/DevTools.vue'
 import CircleAudiowave from './components/ui/CircleAudiowave.vue'
 import BackgroundGradient from './components/BackgroundGradient.vue'
 
+import { EDGE_SPACING } from '~/app/constants/layout'
 import { gameData } from '~/app/data/game'
 
 const timingsModules = import.meta.glob('./data/timings/*.json', {
@@ -180,7 +181,8 @@ onUnmounted(() => {
 
       <!-- Global Audiowave -->
       <div
-        class="fixed top-10 right-16 z-100 pointer-events-none transition-opacity duration-500"
+        class="fixed z-100 pointer-events-none transition-opacity duration-500"
+        :class="[EDGE_SPACING.TOP, EDGE_SPACING.RIGHT]"
       >
         <CircleAudiowave
           class="size-8 sm:size-11 md:size-14"

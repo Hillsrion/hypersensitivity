@@ -1,4 +1,6 @@
 <script setup>
+import { EDGE_SPACING } from '~/app/constants/layout'
+
 defineProps({
   totalQuestions: {
     type: Number,
@@ -69,7 +71,10 @@ onMounted(() => {
     </div>
 
     <!-- Wrapper handles positioning -->
-    <div class="absolute bottom-18 left-1/2 -translate-x-1/2">
+    <div
+      class="absolute left-1/2 -translate-x-1/2"
+      :class="EDGE_SPACING.BOTTOM"
+    >
       <!-- Button handles interaction and animation -->
       <button
         ref="btnRef"
