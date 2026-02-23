@@ -20,6 +20,7 @@ export const useSoundIntroAnimation = (
 
   const split = useSplitText(textRef, {
     splitBy: 'lines, words',
+    delay: 50,
     onComplete: (instance: SplitType) => {
       if (animations.skipIntro) {
         $gsap.set(wrapperRef.value, { opacity: 1, y: 0 })

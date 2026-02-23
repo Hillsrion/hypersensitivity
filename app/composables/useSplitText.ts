@@ -4,6 +4,7 @@ export interface SplitTextOptions {
   splitBy?: string
   onComplete?: (instance: SplitType) => void
   shouldRevert?: boolean
+  delay?: number
 }
 
 export function useSplitText(
@@ -14,6 +15,7 @@ export function useSplitText(
     splitBy = 'lines,words,chars',
     onComplete,
     shouldRevert = true,
+    delay = 0,
   } = options
 
   const instance = ref<SplitType | null>(null)
@@ -34,7 +36,8 @@ export function useSplitText(
         types: splitBy
           .split(',')
           .map((segment) => segment.trim())
-          .join(','),
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          .join(',') as any,
         tagName: 'span',
       })
 
@@ -55,8 +58,14 @@ export function useSplitText(
     target,
     async (newVal) => {
       if (newVal) {
-        await nextTick()
-        split()
+        if (delay > 0) {
+          setTimeout(() => {
+            split()
+          }, delay)
+        } else {
+          await nextTick()
+          split()
+        }
       } else {
         instance.value?.revert()
         instance.value = null
