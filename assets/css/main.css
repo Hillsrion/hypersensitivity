@@ -34,6 +34,9 @@
   --text-h1-max: 5rem;
   --text-display-min: 3rem;
   --text-display-max: 7.5rem;
+
+  --text-intro-min: 1.65rem;
+  --text-intro-max: 2.75rem;
 }
 
 /* Satoshi Font */

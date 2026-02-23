@@ -3,10 +3,10 @@
     ref="containerRef"
     class="flex items-center justify-center h-svh mx-auto z-10 relative"
   >
-    <div ref="wrapperRef" class="max-w-5xl px-4 opacity-0">
+    <div ref="wrapperRef" class="max-w-5xl px-8 opacity-0">
       <p
         ref="textRef"
-        class="text-[2.75rem] text-primary leading-16 font-serif font-italic font-light"
+        class="text-primary font-serif font-italic font-light fl-text-intro-min/intro-max leading-[1.45]"
       >
         {{ text }}
       </p>
@@ -15,11 +15,11 @@
 </template>
 
 <script setup>
-import { useSoundIntroAnimation } from '~/app/composables/useSoundIntroAnimation';
+import { useSoundIntroAnimation } from '~/app/composables/useSoundIntroAnimation'
 
-const containerRef = useTemplateRef("containerRef");
-const wrapperRef = useTemplateRef("wrapperRef");
-const textRef = useTemplateRef("textRef");
+const containerRef = useTemplateRef('containerRef')
+const wrapperRef = useTemplateRef('wrapperRef')
+const textRef = useTemplateRef('textRef')
 
 const props = defineProps({
   text: {
@@ -38,12 +38,7 @@ const props = defineProps({
     type: Array,
     required: true,
   },
-});
+})
 
-useSoundIntroAnimation(
-  containerRef, 
-  wrapperRef, 
-  textRef, 
-  toRef(props, 'audio')
-);
+useSoundIntroAnimation(containerRef, wrapperRef, textRef, toRef(props, 'audio'))
 </script>
