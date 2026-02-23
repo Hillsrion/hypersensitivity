@@ -1,19 +1,18 @@
 <script setup>
-import MainTitle from "./MainTitle.vue";
-import CircleAudiowave from "./CircleAudiowave.vue";
+import MainTitle from './MainTitle.vue'
+import CircleAudiowave from './CircleAudiowave.vue'
 
-const animationsStore = useAnimationsStore();
-const audioStore = useAudioStore();
-const { landing } = storeToRefs(animationsStore);
+const animationsStore = useAnimationsStore()
+const { landing } = storeToRefs(animationsStore)
 // Keep audioStore usage direct
 // const { isPlaying } = storeToRefs(audioStore);
-const bottomElement = useTemplateRef("bottomElement");
-const containerElement = useTemplateRef("containerElement");
-const isHovered = ref(false);
+const bottomElement = useTemplateRef('bottomElement')
+const containerElement = useTemplateRef('containerElement')
+const isHovered = ref(false)
 
 const onBottomElementClick = () => {
-  animationsStore.startTitleExit();
-};
+  animationsStore.startTitleExit()
+}
 </script>
 
 <template>
@@ -37,9 +36,13 @@ const onBottomElementClick = () => {
       @mouseenter="isHovered = true"
       @mouseleave="isHovered = false"
     >
-      <p class="text-white uppercase leading-5">Cliquer pour écouter</p>
-      <CircleAudiowave :animating="isHovered" class="size-11 sm:size-14 md:size-18" />
+      <p class="text-white uppercase leading-5 fl-text-sm/base">
+        Cliquer pour écouter
+      </p>
+      <CircleAudiowave
+        :animating="isHovered"
+        class="size-11 sm:size-14 md:size-18"
+      />
     </button>
-
   </div>
 </template>
