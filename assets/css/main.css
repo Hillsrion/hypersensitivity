@@ -1,5 +1,8 @@
-@import "tailwindcss";
-@plugin "fluid-tailwindcss";
+@import 'tailwindcss';
+@plugin "fluid-tailwindcss" {
+  minviewport: 375;
+  maxviewport: 1280;
+}
 
 :root {
   --color-bg-loading-1: #242124;
@@ -19,19 +22,26 @@
 }
 
 @theme {
-  --font-sans: "Satoshi", ui-sans-serif, system-ui, sans-serif;
-  --font-serif: "PP Eiko", serif;
-  --font-epilogue: "Epilogue", sans-serif;
+  --font-sans: 'Satoshi', ui-sans-serif, system-ui, sans-serif;
+  --font-serif: 'PP Eiko', serif;
+  --font-epilogue: 'Epilogue', sans-serif;
   --color-primary: #0b1018;
   --text-title: 1.75rem;
   --breakpoint-xs: 430px;
+
+  /* Custom typography bounds for fluid sizes */
+  --text-h1-min: 2.5rem;
+  --text-h1-max: 5rem;
+  --text-display-min: 3rem;
+  --text-display-max: 7.5rem;
 }
 
 /* Satoshi Font */
 @font-face {
-  font-family: "Satoshi";
-  src: url("~/assets/fonts/Satoshi-Regular.woff2") format("woff2"),
-    url("~/assets/fonts/Satoshi-Regular.woff") format("woff");
+  font-family: 'Satoshi';
+  src:
+    url('~/assets/fonts/Satoshi-Regular.woff2') format('woff2'),
+    url('~/assets/fonts/Satoshi-Regular.woff') format('woff');
   font-weight: 400;
   font-style: normal;
   font-display: swap;
@@ -39,9 +49,10 @@
 
 /* PP Eiko Font */
 @font-face {
-  font-family: "PP Eiko";
-  src: url("~/assets/fonts/PPEiko-ItalicLight.woff2") format("woff2"),
-    url("~/assets/fonts/PPEiko-ItalicLight.woff") format("woff");
+  font-family: 'PP Eiko';
+  src:
+    url('~/assets/fonts/PPEiko-ItalicLight.woff2') format('woff2'),
+    url('~/assets/fonts/PPEiko-ItalicLight.woff') format('woff');
   font-weight: 300;
   font-style: italic;
   font-display: swap;
@@ -68,36 +79,29 @@
   }
 }
 
-
-
 @layer utilities {
   /* Body text: lg (18px) to xl (20px) */
   .typo-body {
-    font-size: clamp(1.125rem, 1.081rem + 0.187vw, 1.25rem);
-    line-height: 1.4;
+    @apply fl-text-lg/xl leading-[1.4];
   }
 
   /* Quiz text: xl (20px) to 2xl (24px) */
   .typo-quiz {
-    font-size: clamp(1.25rem, 1.162rem + 0.375vw, 1.5rem);
-    line-height: 1.75rem;
+    @apply fl-text-xl/2xl leading-[1.75rem];
   }
 
   /* Display titles: 5xl (3rem) to 7.5rem */
   .typo-display {
-    font-size: clamp(3rem, 1.415rem + 6.755vw, 7.5rem);
-    line-height: 1.15;
+    @apply fl-text-display-min/display-max leading-[1.15];
   }
 
   /* Main Title: 5rem fixed or scaling */
   .typo-h1 {
-    font-size: clamp(3rem, 2.295rem + 3vw, 5rem);
-    line-height: 1.1;
+    @apply fl-text-h1-min/h1-max leading-[1.1];
   }
 
   /* Label: sm (14px) to base (16px) */
   .typo-label {
-    font-size: clamp(0.875rem, 0.831rem + 0.187vw, 1rem);
-    line-height: 1.5;
+    @apply fl-text-sm/base leading-[1.5];
   }
 }
