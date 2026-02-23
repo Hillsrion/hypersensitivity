@@ -13,6 +13,7 @@ import CircleAudiowave from './components/ui/CircleAudiowave.vue'
 import BackgroundGradient from './components/BackgroundGradient.vue'
 
 import { EDGE_SPACING } from '~/app/constants/layout'
+import { UI_SIZES } from '~/app/constants/ui'
 import { gameData } from '~/app/data/game'
 
 const timingsModules = import.meta.glob('./data/timings/*.json', {
@@ -185,7 +186,7 @@ onUnmounted(() => {
         :class="[EDGE_SPACING.TOP, EDGE_SPACING.RIGHT]"
       >
         <CircleAudiowave
-          class="size-8 sm:size-11 md:size-14"
+          :class="UI_SIZES.TOP_ELEMENT"
           :primary="animations.audiowave.variant === 'dark'"
           :animating="audioStore.isPlaying"
         />

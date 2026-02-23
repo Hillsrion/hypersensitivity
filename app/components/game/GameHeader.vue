@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { EDGE_SPACING } from '~/app/constants/layout'
+import { UI_SIZES } from '~/app/constants/ui'
 
 const gameStore = useGameStore()
 const { $gsap } = useNuxtApp()
@@ -39,15 +40,15 @@ watch(
 
 <template>
   <header
-    class="absolute left-1/2 -translate-x-1/2 z-40"
-    :class="EDGE_SPACING.TOP"
+    class="absolute left-1/2 -translate-x-1/2 z-40 flex items-center justify-center"
+    :class="[EDGE_SPACING.TOP, UI_SIZES.TOP_HEADER]"
   >
-    <h1
-      class="text-primary font-serif fl-text-sm/xl tracking-wide whitespace-nowrap"
-    >
-      <span class="font-medium uppercase">JOUR {{ gameStore.currentDay }}</span>
+    <h1 class="text-primary font-serif fl-text-sm/xl">
+      <span class="font-medium font-sans uppercase"
+        >JOUR {{ gameStore.currentDay }}</span
+      >
       <span class="mx-2">-</span>
-      <span ref="titleRef" class="italic font-light capitalize inline-block">
+      <span ref="titleRef" class="italic font-light capitalize">
         {{ displayTitle }}
       </span>
     </h1>

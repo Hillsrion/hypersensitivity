@@ -5,6 +5,7 @@ import DialogueBox from './DialogueBox.vue'
 import ChoiceButtons from './ChoiceButtons.vue'
 import MenuIcon from '../ui/MenuIcon.vue'
 import { EDGE_SPACING } from '~/app/constants/layout'
+import { UI_SIZES } from '~/app/constants/ui'
 
 const { $gsap } = useNuxtApp()
 
@@ -93,8 +94,8 @@ onUnmounted(() => {
       <Transition name="fade" appear>
         <button
           v-if="showDelayedGameUI && !isMilestoneAnnotation"
-          class="fixed z-70 text-primary cursor-pointer group"
-          :class="[EDGE_SPACING.TOP, EDGE_SPACING.LEFT]"
+          class="fixed z-70 text-primary cursor-pointer group flex items-center justify-center font-sans"
+          :class="[EDGE_SPACING.TOP, EDGE_SPACING.LEFT, UI_SIZES.TOP_ELEMENT]"
           @click.stop="gameStore.toggleMenu()"
         >
           <MenuIcon
