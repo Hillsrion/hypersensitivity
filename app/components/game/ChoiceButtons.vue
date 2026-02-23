@@ -42,7 +42,7 @@ const { hoveredIndex, isSelecting, selectedIndex, handleSelect } =
 
 <template>
   <div
-    class="absolute bottom-10 left-1/2 -translate-x-1/2 flex items-center justify-center gap-6 z-40"
+    class="absolute bottom-6 sm:bottom-10 left-1/2 -translate-x-1/2 flex items-center justify-center gap-4 sm:gap-6 z-40"
     :class="{ 'pointer-events-none': isSelecting }"
   >
     <template v-for="(choice, index) in choices" :key="choice.id">
@@ -94,7 +94,7 @@ const { hoveredIndex, isSelecting, selectedIndex, handleSelect } =
       <div
         v-if="index === 0 && choices.length > 1"
         ref="iconRef"
-        class="relative w-14 h-14 rounded-full border flex items-center justify-center transition-opacity duration-300"
+        class="relative w-11 h-11 sm:w-14 sm:h-14 rounded-full border flex items-center justify-center transition-opacity duration-300"
         :class="[
           !isSelecting && hoveredIndex !== null ? 'opacity-20' : 'opacity-100',
           isSelecting ? 'opacity-0' : '',

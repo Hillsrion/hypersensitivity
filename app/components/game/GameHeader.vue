@@ -42,7 +42,9 @@ watch(
     class="absolute left-1/2 -translate-x-1/2 z-40"
     :class="EDGE_SPACING.TOP"
   >
-    <h1 class="text-primary font-serif text-xl tracking-wide whitespace-nowrap">
+    <h1
+      class="text-primary font-serif fl-text-sm/xl tracking-wide whitespace-nowrap"
+    >
       <span class="font-medium uppercase">JOUR {{ gameStore.currentDay }}</span>
       <span class="mx-2">-</span>
       <span ref="titleRef" class="italic font-light capitalize inline-block">

@@ -23,7 +23,7 @@ watch(
   >
     <div class="border border-current p-0.5 rounded-full">
       <div
-        class="relative overflow-hidden rounded-full h-1 w-40 min-[590px]:w-1 min-[590px]:h-62.5"
+        class="relative overflow-hidden rounded-full h-1 w-32 min-[590px]:w-1 min-[590px]:h-62.5"
       >
         <div
           class="absolute bg-current rounded-full top-0 left-0 h-full w-(--energy) min-[590px]:top-auto min-[590px]:bottom-0 min-[590px]:w-full min-[590px]:h-(--energy)"

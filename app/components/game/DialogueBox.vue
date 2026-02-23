@@ -86,7 +86,7 @@ const {
       v-show="!isShowingOnlyAnnotation"
       v-if="dialogue.text"
       ref="textRef"
-      class="font-serif font-light text-2xl lg:text-title leading-normal text-primary mt-2"
+      class="font-serif font-light text-xl lg:text-title leading-normal text-primary mt-2"
       style="opacity: 0"
       :class="[
         { 'opacity-0': !showDialogueContent || !isReady },
