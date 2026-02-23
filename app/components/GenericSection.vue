@@ -58,6 +58,15 @@ onMounted(() => {
   const mm = $gsap.matchMedia()
 
   mm.add('(min-width: 375px)', () => {
+    // Helper to calculate minScale based on viewport width
+    const getMinScale = () => {
+      const width = window.innerWidth
+      if (width <= 375) return 0.65
+      if (width >= 1280) return 0.46
+      // Linear interpolation between 0.65 (mobile) and 0.46 (desktop)
+      return 0.65 - ((width - 375) * (0.65 - 0.46)) / (1280 - 375)
+    }
+
     // Collect DOM elements from component instances safely
     const titlesEl = (titlesRef.value || [])
       .map((el) => (el && '$el' in el ? el.$el : el))
@@ -65,9 +74,7 @@ onMounted(() => {
 
     if (titlesEl.length === 0) return
 
-    const totalHeight = window.innerHeight
-    const maxDistance = totalHeight * 0.525 // The bottom-most position
-    const minScale = 0.46
+    const listItems = contentRef.value.querySelectorAll('li')
 
     const tl = $gsap.timeline({
       scrollTrigger: {
@@ -76,24 +83,25 @@ onMounted(() => {
         pin: true,
         end: '+=400%',
         scrub: 1,
-        invalidateOnRefresh: true, // Handle resize better
+        invalidateOnRefresh: true,
         onEnter: setAuroraColorSafe,
         onEnterBack: setAuroraColorSafe,
       },
     })
 
     // Phase 1: Fan Out
-    // Top (0) stays, Bottom (8) moves to maxDistance.
     tl.to(
       titlesEl,
       {
         y: (index) => {
           if (index === 0) return 0
+          const maxDistance = window.innerHeight * 0.525
           return maxDistance * (index / (titlesEl.length - 1))
         },
         scale: (index) => {
           const total = titlesEl.length
           if (total <= 1) return 1
+          const minScale = getMinScale()
           return 1 - (index / (total - 1)) * (1 - minScale)
         },
         duration: 4,
@@ -103,12 +111,11 @@ onMounted(() => {
     )
 
     // Phase 2: Collapse Down
-    // All titles move to maxDistance and minScale.
     tl.to(
       titlesEl,
       {
-        y: maxDistance,
-        scale: minScale,
+        y: () => window.innerHeight * 0.525,
+        scale: () => getMinScale(),
         duration: 6,
         ease: 'power2.inOut',
       },
@@ -124,18 +131,18 @@ onMounted(() => {
     )
 
     // Phase 3: Move pack to top
-    const lastTitle = titlesEl[titlesEl.length - 1]
-    const scaledHeight = lastTitle.offsetHeight * minScale
-    const offset = 62 // 2rem offset
+    // Set initial position for content before moving up
+    tl.set(contentRef.value, {
+      y: () => {
+        const minScale = getMinScale()
+        const lastTitle = titlesEl[titlesEl.length - 1]
+        const scaledHeight = lastTitle.offsetHeight * minScale
+        const maxDistance = window.innerHeight * 0.525
+        const offset = 62 // 2rem offset
+        return maxDistance + scaledHeight + offset
+      },
+    })
 
-    // Set initial position for content before moving up (at the bottom)
-    tl.set(contentRef.value, { y: maxDistance + scaledHeight + offset })
-    tl.set(titlesEl.slice(0, -1), { autoAlpha: 0 })
-    tl.set(
-      titlesEl.map((el) => el.querySelector('span')).filter(Boolean),
-      { backgroundColor: 'transparent' },
-      '<'
-    )
     tl.to(
       titlesEl,
       {
@@ -150,7 +157,13 @@ onMounted(() => {
     tl.to(
       contentRef.value,
       {
-        y: scaledHeight + offset,
+        y: () => {
+          const minScale = getMinScale()
+          const lastTitle = titlesEl[titlesEl.length - 1]
+          const scaledHeight = lastTitle.offsetHeight * minScale
+          const offset = 62 // 2rem offset
+          return scaledHeight + offset
+        },
         duration: 6,
         ease: 'power2.inOut',
       },
@@ -167,8 +180,6 @@ onMounted(() => {
     )
 
     // Phase 4: Reveal Content
-    // Content fades in later during the move up
-    const listItems = contentRef.value.querySelectorAll('li')
     tl.to(
       listItems,
       { opacity: 1, duration: 1, ease: 'power2.out', stagger: 0.1 },
@@ -176,7 +187,6 @@ onMounted(() => {
     )
 
     // Phase 5: Fade Out
-    // Fade out only after the moveUp phase is complete (duration was 6)
     tl.to(
       containerRef.value,
       {
@@ -195,11 +205,6 @@ onMounted(() => {
       'moveUp+=6'
     )
 
-    // Pause finale : les animations se terminent à ~80% de la timeline
-    // Durée totale des animations: ~17 unités (16 + 0.5 fade out)
-    // Pour 80% de timeline: 17 / 0.8 = ~21.25 unités
-    // Pause nécessaire: ~4.25 unités (20% de la timeline)
-    // Position: juste après le fade out (">" = immédiatement après la dernière animation)
     tl.to({}, { duration: 4.25 }, '>')
   })
 })
