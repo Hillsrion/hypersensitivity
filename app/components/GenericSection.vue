@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { useTemplateRef, type ComponentPublicInstance } from 'vue'
+import type { ComponentPublicInstance } from 'vue'
 
 interface Props {
   title: string

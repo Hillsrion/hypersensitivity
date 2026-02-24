@@ -66,10 +66,63 @@ export function useGenericSectionAnimation(
 
       const listItems = contentRef.value!.querySelectorAll('li')
 
+      const calculateStartTop = () => {
+        const paragraphs = contentRef.value!.querySelectorAll('p')
+        // 1. Reset compact class before measuring to get natural height
+        paragraphs.forEach((p) => {
+          p.classList.remove('fl-text-sm/base')
+        })
+
+        const minScale = getMinScale()
+        const lastTitle = titlesEl[titlesEl.length - 1] as HTMLElement
+        const scaledHeight = lastTitle.offsetHeight * minScale
+        const offset = 62
+        let contentHeight = contentRef.value!.offsetHeight
+        const minMargin = 32
+
+        // 2. Default preferred start top (18% on desktop, 10% on mobile/tablet)
+        const preferredStartTopPercent = window.innerWidth < 1024 ? 0.1 : 0.18
+        let startTop = window.innerHeight * preferredStartTopPercent
+
+        const neededHeight =
+          startTop + scaledHeight + offset + contentHeight + minMargin
+
+        if (neededHeight > window.innerHeight) {
+          // Adjust startTop down to minMargin
+          let neededStartTop =
+            window.innerHeight -
+            (scaledHeight + offset + contentHeight + minMargin)
+
+          if (neededStartTop >= minMargin) {
+            startTop = neededStartTop
+          } else {
+            // Apply compact class directly to the DOM for synchronous measurement
+            paragraphs.forEach((p) => {
+              p.classList.add('fl-text-sm/base')
+            })
+
+            // Re-measure content height now that text is smaller
+            contentHeight = contentRef.value!.offsetHeight
+            neededStartTop =
+              window.innerHeight -
+              (scaledHeight + offset + contentHeight + minMargin)
+
+            startTop = Math.max(
+              minMargin,
+              Math.min(
+                window.innerHeight * preferredStartTopPercent,
+                neededStartTop
+              )
+            )
+          }
+        }
+        return startTop
+      }
+
       const tl = $gsap.timeline({
         scrollTrigger: {
           trigger: containerRef.value,
-          start: 'top 18%',
+          start: () => `top ${calculateStartTop()}px`,
           pin: true,
           end: '+=400%',
           scrub: 1,
