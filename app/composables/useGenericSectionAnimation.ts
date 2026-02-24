@@ -248,7 +248,11 @@ export function useGenericSectionAnimation(
         'moveUp+=6'
       )
 
-      tl.to({}, { duration: 4.25 }, '>')
+      tl.to(
+        {},
+        { duration: 4.25 + (calculateStartTop() / window.innerHeight) * 13 },
+        '>'
+      )
     })
   })
 
