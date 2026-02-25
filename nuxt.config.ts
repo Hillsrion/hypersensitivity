@@ -27,6 +27,11 @@ export default defineNuxtConfig({
 
   vite: {
     plugins: [tailwindcss()],
+    server: {
+      watch: {
+        ignored: ['**/.worktrees/**'],
+      },
+    },
   },
 
   googleFonts: {

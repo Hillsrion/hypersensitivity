@@ -59,35 +59,23 @@ export const useGameUiVisibility = () => {
       day: gameStore.currentDay,
     }),
     ({ phase, force, day }) => {
-      console.log(
-        `LOG_DEBUG: useGameController watcher trigger - phase: ${phase}, force: ${force}, day: ${day}`
-      )
       clearUiDelayTimer()
 
       if (force || isContentRevealedPhase(phase)) {
-        console.log('LOG_DEBUG: Setting showDelayedGameUI = true IMMEDIATELY')
         showDelayedGameUI.value = true
         return
       }
 
       if (isEntryAnnotationPhase(phase) && day > 1) {
-        console.log(
-          `LOG_DEBUG: Setting showDelayedGameUI = false initially, then true via ${DAY_TRANSITION_GAME_UI_REVEAL_DELAY_MS}ms TIMEOUT (day ${day})`
-        )
-
         showDelayedGameUI.value = false
 
         uiDelayTimer = setTimeout(() => {
           uiDelayTimer = null
-          console.log(
-            'LOG_DEBUG: delayed reveal complete, setting showDelayedGameUI = true'
-          )
           showDelayedGameUI.value = true
         }, DAY_TRANSITION_GAME_UI_REVEAL_DELAY_MS)
         return
       }
 
-      console.log('LOG_DEBUG: Setting showDelayedGameUI = false')
       showDelayedGameUI.value = false
     },
     { immediate: true }

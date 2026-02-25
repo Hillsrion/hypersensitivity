@@ -18,7 +18,7 @@ const onBottomElementClick = () => {
 <template>
   <div
     ref="containerElement"
-    class="h-screen w-screen flex flex-col items-center justify-center fixed inset-0"
+    class="h-svh w-screen flex flex-col items-center justify-center fixed inset-0"
     :class="{
       'z-99': !landing.mainTitle.exit.completed,
       'pointer-events-none': landing.mainTitle.exit.started,

@@ -55,7 +55,6 @@ const scrollTo = (position: 'top' | 'bottom') => {
 
   // @ts-expect-error: Necessary for DevTools bridge
   if (window.lenis) {
-    // @ts-expect-error: Necessary for DevTools bridge
     if (position === 'top') {
       // @ts-expect-error: Necessary for DevTools bridge
       window.lenis.start() // Force start to allow scrolling up if locked
@@ -106,6 +105,9 @@ const skipIntro = () => {
   // 3. Complete Intro Animations (SoundIntroduction)
   animationsStore.landing.intro.entry.started = true
   animationsStore.landing.intro.entry.completed = true
+
+  animationsStore.setCursorVariant('dark')
+  animationsStore.setAudiowaveVariant('dark')
 }
 
 const skipToGame = () => {

@@ -86,7 +86,7 @@ onUnmounted(() => {
 <template>
   <div
     ref="containerRef"
-    class="relative w-full h-screen overflow-hidden transition-colors duration-500"
+    class="relative w-full h-svh overflow-hidden transition-colors duration-500"
     @click="handleInteraction"
   >
     <!-- Menu Icon (top left) -->

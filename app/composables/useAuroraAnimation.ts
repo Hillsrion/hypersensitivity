@@ -1,10 +1,6 @@
-export const useAuroraAnimation = (
-  auroraInnerRef: Ref<HTMLElement | null>,
-  auroraRef: Ref<HTMLElement | null>
-) => {
+export const useAuroraAnimation = (auroraInnerRef: Ref<HTMLElement | null>) => {
   const { $gsap } = useNuxtApp()
   const animationsStore = useAnimationsStore()
-  const { landing } = storeToRefs(animationsStore)
 
   const auroraSteps = {
     1: ['#C6FFE9', '#A2CCFD'],
@@ -20,14 +16,24 @@ export const useAuroraAnimation = (
 
   onMounted(() => {
     const style = getComputedStyle(document.documentElement)
-    const initialColor = style.getPropertyValue('--color-gradient-green').trim()
-    if (initialColor && auroraInnerRef.value) {
-      // Set initial CSS variables
-      auroraInnerRef.value.style.setProperty('--aurora-color-1', '#FFFFFF')
-      auroraInnerRef.value.style.setProperty(
-        '--aurora-color-2',
-        initialColor || '#C6FFE9'
-      )
+    const initialColor =
+      style.getPropertyValue('--color-gradient-green').trim() || '#c6ffe9'
+    if (auroraInnerRef.value) {
+      // Set initial CSS variables so it displays correctly before the watcher ever fires
+      auroraInnerRef.value.style.setProperty('--aurora-color-1', initialColor)
+      auroraInnerRef.value.style.setProperty('--aurora-color-2', initialColor)
+
+      // Start Breathing Animation immediately
+      $gsap.to(auroraInnerRef.value, {
+        xPercent: 15,
+        yPercent: 20,
+        rotation: 10,
+        scale: 1.2,
+        duration: 4,
+        repeat: -1,
+        yoyo: true,
+        ease: 'sine.inOut',
+      })
     }
   })
 
@@ -146,40 +152,6 @@ export const useAuroraAnimation = (
           '--aurora-color-2': newHex,
           duration: isCurrentlyVisible ? 2 : 0,
           ease: 'power2.inOut',
-        })
-      }
-    }
-  )
-
-  // Visibility Animation
-  watch(
-    () => animationsStore.aurora.visible,
-    (visible) => {
-      if (auroraRef.value) {
-        $gsap.to(auroraRef.value, {
-          opacity: visible ? 1 : 0,
-          duration: 1,
-          ease: 'power2.inOut',
-        })
-      }
-    },
-    { immediate: true }
-  )
-
-  // Breathing Animation on Intro Complete
-  watch(
-    () => landing.value.intro.entry.completed,
-    (completed) => {
-      if (completed && auroraInnerRef.value) {
-        $gsap.to(auroraInnerRef.value, {
-          xPercent: 15,
-          yPercent: 20,
-          rotation: 10,
-          scale: 1.2,
-          duration: 4,
-          repeat: -1,
-          yoyo: true,
-          ease: 'sine.inOut',
         })
       }
     }

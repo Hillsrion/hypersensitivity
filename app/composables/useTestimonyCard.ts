@@ -52,9 +52,22 @@ export function useTestimonyCard(props: {
     // Set initial Aurora color
     if (props.color && auroraInnerRef.value) {
       const style = getComputedStyle(document.documentElement)
-      const colorHex = style
+      let colorHex = style
         .getPropertyValue(`--color-gradient-${props.color}`)
         .trim()
+
+      if (!colorHex) {
+        const colorMap: Record<string, string> = {
+          red: '#ffc1c3',
+          pink: '#ffb8e4',
+          blue: '#a2ccfd',
+          green: '#c6ffe9',
+          yellow: '#fdedb3',
+          violet: '#decafe',
+        }
+        colorHex = colorMap[props.color] || '#c6ffe9'
+      }
+
       if (colorHex) {
         auroraInnerRef.value.style.setProperty(
           '--aurora-middle-color',

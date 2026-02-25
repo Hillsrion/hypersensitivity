@@ -21,7 +21,7 @@ watch(
 )
 
 // Initialize Aurora Animation
-useAuroraAnimation(auroraInnerRef, auroraRef)
+useAuroraAnimation(auroraInnerRef)
 </script>
 
 <template>
@@ -32,18 +32,25 @@ useAuroraAnimation(auroraInnerRef, auroraRef)
       zIndex: animationsStore.aurora.zIndex,
     }"
   >
-    <div
-      ref="auroraRef"
-      class="absolute inset-0 flex items-center justify-center pointer-events-none z-0 overflow-hidden will-change-opacity backface-hidden opacity-0"
-    >
+    <ClientOnly>
       <div
-        ref="auroraInnerRef"
-        class="w-full h-full blur-[80px] scale-125 will-change-transform backface-hidden"
-        :style="{
-          background: `linear-gradient(180deg, #FFFFFF 0%, var(--aurora-color-1) 33%, var(--aurora-color-2) 66%, #FFFFFF 100%)`,
-          transform: 'rotate(-3deg)',
-        }"
-      />
-    </div>
+        ref="auroraRef"
+        class="absolute inset-0 flex items-center justify-center pointer-events-none z-0 overflow-hidden will-change-transform backface-hidden transition-all duration-1000"
+        :class="
+          animationsStore.aurora.visible
+            ? 'visible opacity-100'
+            : 'invisible opacity-0'
+        "
+      >
+        <div
+          ref="auroraInnerRef"
+          class="w-full h-full blur-[80px] scale-125 will-change-transform backface-hidden"
+          :style="{
+            background: `linear-gradient(180deg, #FFFFFF 0%, var(--aurora-color-1) 33%, var(--aurora-color-2) 66%, #FFFFFF 100%)`,
+            transform: 'rotate(-3deg)',
+          }"
+        />
+      </div>
+    </ClientOnly>
   </div>
 </template>

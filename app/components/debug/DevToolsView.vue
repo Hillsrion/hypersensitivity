@@ -80,7 +80,7 @@ watch(playbackRate, (rate) => {
 </script>
 
 <template>
-  <div class="bg-[#111] text-white min-h-screen p-4 font-mono text-xs">
+  <div class="bg-[#111] text-white min-h-svh p-4 font-mono text-xs">
     <div class="max-w-md mx-auto flex flex-col gap-4">
       <div
         class="font-bold border-b border-white/20 pb-2 mb-2 flex justify-between items-center"

@@ -117,8 +117,6 @@ const collectGameAudios = () => {
 onMounted(async () => {
   if (route.path === '/game-tools-view') return
 
-  console.log('LOG_DEBUG: app.vue onMounted start')
-  console.log('LOG_DEBUG: gameData scenes keys:', Object.keys(gameData.scenes))
   scrollTo(0, 0)
   if (!animations.landing.intro.entry.completed) {
     lenisRef.value?.lenis?.stop()

@@ -10,12 +10,10 @@ export function useGenericSectionAnimation(
   const { $gsap } = useNuxtApp()
   const animationsStore = useAnimationsStore()
 
-  let lastColorChangeTime = 0
   let visibilityTimeout: ReturnType<typeof setTimeout> | null = null
 
   const setAuroraColorSafe = () => {
     animationsStore.setAuroraColor(getColor())
-    lastColorChangeTime = Date.now()
   }
 
   const setAuroraVisibilitySafe = (visible: boolean) => {
@@ -23,20 +21,7 @@ export function useGenericSectionAnimation(
       clearTimeout(visibilityTimeout)
       visibilityTimeout = null
     }
-
-    if (visible) {
-      const elapsed = Date.now() - lastColorChangeTime
-      const delay = Math.max(0, 2000 - elapsed)
-      if (delay > 0) {
-        visibilityTimeout = setTimeout(() => {
-          animationsStore.setAuroraVisibility(true)
-        }, delay)
-      } else {
-        animationsStore.setAuroraVisibility(true)
-      }
-    } else {
-      animationsStore.setAuroraVisibility(false)
-    }
+    animationsStore.setAuroraVisibility(visible)
   }
 
   onMounted(() => {
@@ -45,15 +30,17 @@ export function useGenericSectionAnimation(
 
     const mm = $gsap.matchMedia()
 
-    mm.add('(min-width: 375px)', () => {
+    mm.add('(min-width: 360px)', () => {
       // Helper to calculate minScale based on viewport width
       const getMinScale = () => {
         const width = window.innerWidth
-        if (width <= 375) return 0.65
+        if (width <= 360) return 0.65
         if (width >= 1280) return 0.46
         // Linear interpolation between 0.65 (mobile) and 0.46 (desktop)
-        return 0.65 - ((width - 375) * (0.65 - 0.46)) / (1280 - 375)
+        return 0.65 - ((width - 360) * (0.65 - 0.46)) / (1280 - 360)
       }
+
+      const getOffset = () => (window.innerWidth < 768 ? 32 : 62)
 
       // Collect DOM elements from component instances safely
       const titlesEl = (titlesRef.value || [])
@@ -76,12 +63,13 @@ export function useGenericSectionAnimation(
         const minScale = getMinScale()
         const lastTitle = titlesEl[titlesEl.length - 1] as HTMLElement
         const scaledHeight = lastTitle.offsetHeight * minScale
-        const offset = 62
+        const offset = getOffset()
         let contentHeight = contentRef.value!.offsetHeight
         const minMargin = 32
 
-        // 2. Default preferred start top (18% on desktop, 10% on mobile/tablet)
-        const preferredStartTopPercent = window.innerWidth < 1024 ? 0.1 : 0.18
+        // 2. Default preferred start top (18% on desktop, 10% on mobile/tablet or landscape tablets)
+        const preferredStartTopPercent =
+          window.innerWidth < 1024 || window.innerHeight < 900 ? 0.1 : 0.18
         let startTop = window.innerHeight * preferredStartTopPercent
 
         const neededHeight =
@@ -127,8 +115,17 @@ export function useGenericSectionAnimation(
           end: '+=400%',
           scrub: 1,
           invalidateOnRefresh: true,
-          onEnter: setAuroraColorSafe,
-          onEnterBack: setAuroraColorSafe,
+          onToggle: (self) => {
+            console.log(
+              `[useGenericSection] onToggle isActive=${self.isActive}`
+            )
+            if (self.isActive) {
+              setAuroraColorSafe()
+              setAuroraVisibilitySafe(true)
+            } else {
+              setAuroraVisibilitySafe(false)
+            }
+          },
         },
       })
 
@@ -167,9 +164,9 @@ export function useGenericSectionAnimation(
 
       // After Phase 2: Hide all but last, and remove bg-white
       tl.set(titlesEl.slice(0, -1), { autoAlpha: 0 })
-      tl.set(
+      tl.to(
         titlesEl.map((el) => el.querySelector('span')).filter(Boolean),
-        { backgroundColor: 'transparent' },
+        { backgroundColor: 'rgba(255, 255, 255, 0)', duration: 0.5 },
         '<'
       )
 
@@ -181,7 +178,7 @@ export function useGenericSectionAnimation(
           const lastTitle = titlesEl[titlesEl.length - 1] as HTMLElement
           const scaledHeight = lastTitle.offsetHeight * minScale
           const maxDistance = window.innerHeight * 0.525
-          const offset = 62 // 2rem offset
+          const offset = getOffset()
           return maxDistance + scaledHeight + offset
         },
       })
@@ -204,22 +201,13 @@ export function useGenericSectionAnimation(
             const minScale = getMinScale()
             const lastTitle = titlesEl[titlesEl.length - 1] as HTMLElement
             const scaledHeight = lastTitle.offsetHeight * minScale
-            const offset = 62 // 2rem offset
+            const offset = getOffset()
             return scaledHeight + offset
           },
           duration: 6,
           ease: 'power2.inOut',
         },
         '<'
-      )
-
-      // Update Aurora State
-      tl.call(
-        () => {
-          setAuroraVisibilitySafe(true)
-        },
-        undefined,
-        'moveUp'
       )
 
       // Phase 4: Reveal Content
@@ -237,14 +225,6 @@ export function useGenericSectionAnimation(
           duration: 1,
           ease: 'power1.inOut',
         },
-        'moveUp+=6'
-      )
-
-      tl.call(
-        () => {
-          setAuroraVisibilitySafe(false)
-        },
-        undefined,
         'moveUp+=6'
       )
 

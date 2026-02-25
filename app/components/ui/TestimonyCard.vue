@@ -1,7 +1,7 @@
 <template>
   <div
     ref="containerRef"
-    class="relative rounded-2xl overflow-hidden grid grid-rows-[auto_1fr_auto] gap-4 cursor-pointer p-8 transition-colors duration-300 bg-white"
+    class="relative rounded-2xl overflow-hidden grid grid-rows-[auto_1fr_auto] gap-4 cursor-pointer p-8 transition-colors duration-300 bg-white ring-1 ring-inset ring-primary"
     @mouseenter="handleHover(true)"
     @mouseleave="handleHover(false)"
   >
@@ -10,17 +10,6 @@
       class="absolute inset-0 w-full h-full pointer-events-none z-20"
       style="overflow: visible"
     >
-      <rect
-        x="0.5"
-        y="0.5"
-        width="calc(100% - 1px)"
-        height="calc(100% - 1px)"
-        rx="15"
-        ry="15"
-        fill="none"
-        stroke-width="1"
-        class="stroke-primary"
-      />
       <rect
         ref="borderRect"
         x="0.5"

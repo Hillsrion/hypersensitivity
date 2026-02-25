@@ -1,8 +1,38 @@
-import type { GameData } from "../types/game";
-import { SCENE_IDS } from "./constants";
-import { dayOneWakeup, dayOneBathroom, dayOneOutfitSexy, dayOneOutfitComfort, dayOneMetroSexy, dayOneMetroComfort, dayOneOffice, dayOneConflictSubmit, dayOneConflictAssert, dayOnePartySexy, dayOnePartyComfort, dayOneGameEvent, dayOnePlay, dayOneRefuse, dayOneRefuseSubmit, dayOneRefuseAssert, dayOneEndCrash, dayOneEndGoodAssertSexy, dayOneEndGoodAssertComfort, dayOneEndGoodReflect } from "./scenes/day1";
-import { dayTwoWakeupCrash, dayTwoWakeupGood, dayTwoCall, dayTwoAccept, dayTwoRefuse, dayTwoMountain, dayTwoMoving, dayTwoSunset, gameEnd } from "./scenes/day2";
-
+import type { GameData } from '../types/game'
+import { SCENE_IDS } from './constants'
+import {
+  dayOneWakeup,
+  dayOneBathroom,
+  dayOneOutfitSexy,
+  dayOneOutfitComfort,
+  dayOneMetroSexy,
+  dayOneMetroComfort,
+  dayOneOffice,
+  dayOneConflictSubmit,
+  dayOneConflictAssert,
+  dayOnePartySexy,
+  dayOnePartyComfort,
+  dayOneGameEvent,
+  dayOnePlay,
+  dayOneRefuse,
+  dayOneRefuseSubmit,
+  dayOneRefuseAssert,
+  dayOneEndCrash,
+  dayOneEndGoodAssertSexy,
+  dayOneEndGoodAssertComfort,
+  dayOneEndGoodReflect,
+} from './scenes/day1'
+import {
+  dayTwoWakeupCrash,
+  dayTwoWakeupGood,
+  dayTwoCall,
+  dayTwoAccept,
+  dayTwoRefuse,
+  dayTwoMountain,
+  dayTwoMoving,
+  dayTwoSunset,
+  gameEnd,
+} from './scenes/day2'
 
 // ============================================
 // EXPORT
@@ -53,7 +83,4 @@ export const gameData: GameData = {
     [SCENE_IDS.DAY_TWO_SUNSET]: dayTwoSunset,
     [SCENE_IDS.GAME_END]: gameEnd,
   },
-};
-
-console.log("LOG_DEBUG: gameData initialized. Scenes count:", Object.keys(gameData.scenes).length);
-console.log("LOG_DEBUG: Initial scene check:", !!gameData.scenes[gameData.initialSceneId]);
+}
