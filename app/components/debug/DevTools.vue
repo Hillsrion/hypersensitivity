@@ -9,6 +9,7 @@ const audioStore = useAudioStore()
 const quizStore = useHspQuizStore()
 const route = useRoute()
 const { $gsap } = useNuxtApp()
+const bgGradient = useBackgroundGradient()
 
 const playbackRate = ref(audioStore.playbackRate)
 
@@ -108,6 +109,9 @@ const skipIntro = () => {
 
   animationsStore.setCursorVariant('dark')
   animationsStore.setAudiowaveVariant('dark')
+
+  // 4. Force Background to White immediately
+  bgGradient.animateToWhite().duration(0).play()
 }
 
 const skipToGame = () => {
@@ -118,6 +122,9 @@ const skipToGame = () => {
 
   // 2. Scroll to bottom
   scrollTo('bottom')
+
+  // Force Background to White immediately (in case they didn't skip intro but did skip to game)
+  bgGradient.animateToWhite().duration(0).play()
 
   // 3. Lock Scroll (simulating end of intro)
   setTimeout(() => {

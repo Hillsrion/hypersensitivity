@@ -117,12 +117,13 @@ export function useGenericSectionAnimation(
           invalidateOnRefresh: true,
           onToggle: (self) => {
             console.log(
-              `[useGenericSection] onToggle isActive=${self.isActive}`
+              `[useGenericSection] onToggle isActive=${self.isActive}, direction=${self.direction}`
             )
-            if (self.isActive) {
+            if (self.isActive && self.direction === -1) {
+              // When entering from the bottom (scrolling backwards up into the section)
               setAuroraColorSafe()
               setAuroraVisibilitySafe(true)
-            } else {
+            } else if (!self.isActive) {
               setAuroraVisibilitySafe(false)
             }
           },
@@ -164,9 +165,25 @@ export function useGenericSectionAnimation(
 
       // After Phase 2: Hide all but last, and remove bg-white
       tl.set(titlesEl.slice(0, -1), { autoAlpha: 0 })
-      tl.to(
+      tl.set(
         titlesEl.map((el) => el.querySelector('span')).filter(Boolean),
-        { backgroundColor: 'rgba(255, 255, 255, 0)', duration: 0.5 },
+        { backgroundColor: 'rgba(255, 255, 255, 0)' },
+        '<'
+      )
+
+      // Trigger aurora when title loses background
+      tl.to(
+        {},
+        {
+          duration: 0.01,
+          onComplete: () => {
+            setAuroraColorSafe()
+            setAuroraVisibilitySafe(true)
+          },
+          onReverseComplete: () => {
+            setAuroraVisibilitySafe(false)
+          },
+        },
         '<'
       )
 

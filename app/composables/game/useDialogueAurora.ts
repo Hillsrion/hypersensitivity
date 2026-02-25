@@ -5,6 +5,13 @@ export function useDialogueAurora() {
   const gameStore = useGameStore()
 
   const handleAuroraEffect = () => {
+    // Don't touch the aurora during the intro/landing phase.
+    // The intro sections control the aurora via useGenericSectionAnimation.
+    // useDialogueAurora only takes over once the game experience starts.
+    if (!gameStore.introPlayed) {
+      return
+    }
+
     // If the menu is open or opening, the menu component handles the Aurora (rainbow color)
     if (gameStore.isMenuOpen || gameStore.isMenuOpening) {
       return
@@ -111,18 +118,25 @@ export function useDialogueAurora() {
   }
 
   // Watch for dialogue or phase changes to update Aurora
-  watch(
-    [
-      () => gameStore.currentDialogue?.id,
-      () => gameStore.introAnimationPhase,
-      () => gameStore.isMenuOpen,
-      () => gameStore.isDayTransitioning,
-    ],
-    () => {
-      handleAuroraEffect()
-    },
-    { immediate: true }
-  )
+  // IMPORTANT: Only run on client. During SSR, useDialogueAurora was setting
+  // visible=true + color=violet based on initial dialogue data, which caused
+  // the aurora to render visible in the server HTML. After hydration, the
+  // ClientOnly inner div would mount with green default CSS vars but already
+  // at full opacity, creating a dark flash.
+  if (import.meta.client) {
+    watch(
+      [
+        () => gameStore.currentDialogue?.id,
+        () => gameStore.introAnimationPhase,
+        () => gameStore.isMenuOpen,
+        () => gameStore.isDayTransitioning,
+      ],
+      () => {
+        handleAuroraEffect()
+      },
+      { immediate: true }
+    )
+  }
 
   return {
     handleAuroraEffect,

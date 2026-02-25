@@ -7,14 +7,18 @@ const { landing } = storeToRefs(animationsStore)
 const auroraRef = useTemplateRef('auroraRef')
 const auroraInnerRef = useTemplateRef('auroraInnerRef')
 
-const { backgroundGradient, animate } = useBackgroundGradient()
+const { backgroundGradient, animate, animateToWhite } = useBackgroundGradient()
 
 // Handle the gradient animation based on landing state
 watch(
   () => landing.value.intro.entry.started,
   (started) => {
     if (started && import.meta.client) {
-      animate(animationsStore.skipIntro ? 0 : 2)
+      if (animationsStore.skipIntro) {
+        animateToWhite().duration(0).play()
+      } else {
+        animate(2)
+      }
     }
   },
   { immediate: true }
@@ -35,7 +39,7 @@ useAuroraAnimation(auroraInnerRef)
     <ClientOnly>
       <div
         ref="auroraRef"
-        class="absolute inset-0 flex items-center justify-center pointer-events-none z-0 overflow-hidden will-change-transform backface-hidden transition-all duration-1000"
+        class="absolute inset-0 flex items-center justify-center pointer-events-none z-0 overflow-hidden will-change-transform backface-hidden transition-opacity duration-1000"
         :class="
           animationsStore.aurora.visible
             ? 'visible opacity-100'

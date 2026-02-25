@@ -54,9 +54,11 @@ export const useAnimationsStore = defineStore('animations', {
       this.audiowave.variant = variant
     },
     setAuroraColor(color: string) {
+      console.log(`[Store] setAuroraColor: ${color}`)
       this.aurora.color = color
     },
     setAuroraVisibility(visible: boolean) {
+      console.log(`[Store] setAuroraVisibility: ${visible}`)
       this.aurora.visible = visible
     },
     setAuroraStep(step: number) {
