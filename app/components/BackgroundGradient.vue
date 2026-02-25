@@ -40,11 +40,7 @@ useAuroraAnimation(auroraInnerRef)
       <div
         ref="auroraRef"
         class="absolute inset-0 flex items-center justify-center pointer-events-none z-0 overflow-hidden will-change-transform backface-hidden transition-opacity duration-1000"
-        :class="
-          animationsStore.aurora.visible
-            ? 'visible opacity-100'
-            : 'invisible opacity-0'
-        "
+        :class="animationsStore.aurora.visible ? 'opacity-100' : 'opacity-0'"
       >
         <div
           ref="auroraInnerRef"

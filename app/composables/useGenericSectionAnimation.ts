@@ -123,8 +123,6 @@ export function useGenericSectionAnimation(
               // When entering from the bottom (scrolling backwards up into the section)
               setAuroraColorSafe()
               setAuroraVisibilitySafe(true)
-            } else if (!self.isActive) {
-              setAuroraVisibilitySafe(false)
             }
           },
         },
@@ -249,6 +247,21 @@ export function useGenericSectionAnimation(
         {},
         { duration: 4.25 + (calculateStartTop() / window.innerHeight) * 13 },
         '>'
+      )
+
+      // Turn off aurora when section is fully faded out (which happens at moveUp + 6 + 1 = 7)
+      tl.to(
+        {},
+        {
+          duration: 0.1,
+          onStart: () => {
+            setAuroraVisibilitySafe(false)
+          },
+          onReverseComplete: () => {
+            setAuroraVisibilitySafe(true)
+          },
+        },
+        'moveUp+=7'
       )
     })
   })
