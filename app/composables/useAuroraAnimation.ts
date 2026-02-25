@@ -2,30 +2,16 @@ export const useAuroraAnimation = (auroraInnerRef: Ref<HTMLElement | null>) => {
   const { $gsap } = useNuxtApp()
   const animationsStore = useAnimationsStore()
 
-  const forceRgb = (color: string) => {
-    if (color.startsWith('rgb')) return color
-    let c = color.trim().replace('#', '')
-    if (c.length === 3)
-      c = c
-        .split('')
-        .map((x) => x + x)
-        .join('')
-    const r = parseInt(c.slice(0, 2), 16) || 0
-    const g = parseInt(c.slice(2, 4), 16) || 0
-    const b = parseInt(c.slice(4, 6), 16) || 0
-    return `rgb(${r}, ${g}, ${b})`
-  }
-
   const auroraSteps = {
-    1: ['#C6FFE9', '#A2CCFD'].map(forceRgb),
-    2: ['#A2CCFD', '#DECAFE'].map(forceRgb),
-    3: ['#DECAFE', '#FFB8E4'].map(forceRgb),
-    4: ['#FFB8E4', '#FFC1C3'].map(forceRgb),
-    5: ['#FFC1C3', '#FAC087'].map(forceRgb),
-    6: ['#FAC087', '#FDEDB3'].map(forceRgb),
-    7: ['#FAC087', '#FDEDB3'].map(forceRgb),
-    8: ['#FDEDB3', '#C6FFE9'].map(forceRgb),
-    9: ['#C6FFE9', '#A2CCFD'].map(forceRgb),
+    1: ['#C6FFE9', '#A2CCFD'],
+    2: ['#A2CCFD', '#DECAFE'],
+    3: ['#DECAFE', '#FFB8E4'],
+    4: ['#FFB8E4', '#FFC1C3'],
+    5: ['#FFC1C3', '#FAC087'],
+    6: ['#FAC087', '#FDEDB3'],
+    7: ['#FAC087', '#FDEDB3'],
+    8: ['#FDEDB3', '#C6FFE9'],
+    9: ['#C6FFE9', '#A2CCFD'],
   }
 
   onMounted(() => {
@@ -52,16 +38,10 @@ export const useAuroraAnimation = (auroraInnerRef: Ref<HTMLElement | null>) => {
 
     if (auroraInnerRef.value) {
       console.log(
-        `[AuroraAnim] Initial color from store: ${storeColor} -> ${initialHex} -> rgb: ${forceRgb(initialHex)}`
+        `[AuroraAnim] Initial color from store: ${storeColor} -> ${initialHex}`
       )
-      auroraInnerRef.value.style.setProperty(
-        '--aurora-color-1',
-        forceRgb(initialHex)
-      )
-      auroraInnerRef.value.style.setProperty(
-        '--aurora-color-2',
-        forceRgb(initialHex)
-      )
+      auroraInnerRef.value.style.setProperty('--aurora-color-1', initialHex)
+      auroraInnerRef.value.style.setProperty('--aurora-color-2', initialHex)
 
       // Start Breathing Animation immediately
       $gsap.to(auroraInnerRef.value, {
@@ -182,16 +162,15 @@ export const useAuroraAnimation = (auroraInnerRef: Ref<HTMLElement | null>) => {
               hex = colorMap[currentColor] || ''
             }
             if (hex) {
-              const rgb = forceRgb(hex)
               console.log(
-                `[AuroraAnim] Pre-visibility color sync: ${currentColor} -> ${rgb}`
+                `[AuroraAnim] Pre-visibility color sync: ${currentColor} -> ${hex}`
               )
               $gsap.killTweensOf(
                 auroraInnerRef.value,
                 '--aurora-color-1,--aurora-color-2'
               )
-              auroraInnerRef.value.style.setProperty('--aurora-color-1', rgb)
-              auroraInnerRef.value.style.setProperty('--aurora-color-2', rgb)
+              auroraInnerRef.value.style.setProperty('--aurora-color-1', hex)
+              auroraInnerRef.value.style.setProperty('--aurora-color-2', hex)
             }
           }
         }
@@ -240,17 +219,16 @@ export const useAuroraAnimation = (auroraInnerRef: Ref<HTMLElement | null>) => {
           ? parseFloat(getComputedStyle(parentEl).opacity)
           : 0
         const isCurrentlyVisible = animationsStore.aurora.visible
-        const colorRgb = forceRgb(newHex)
 
         console.log(
-          `[AuroraAnim] Color change: ${newColor} -> ${colorRgb}, visible=${isCurrentlyVisible}, opacity=${currentOpacity}`
+          `[AuroraAnim] Color change: ${newColor} -> ${newHex}, visible=${isCurrentlyVisible}, opacity=${currentOpacity}`
         )
 
         if (isCurrentlyVisible && currentOpacity > 0.1) {
           // Aurora is already visually on screen — smooth GSAP transition
           $gsap.to(auroraInnerRef.value, {
-            '--aurora-color-1': colorRgb,
-            '--aurora-color-2': colorRgb,
+            '--aurora-color-1': newHex,
+            '--aurora-color-2': newHex,
             duration: 2,
             ease: 'power2.inOut',
           })
@@ -263,8 +241,8 @@ export const useAuroraAnimation = (auroraInnerRef: Ref<HTMLElement | null>) => {
             auroraInnerRef.value,
             '--aurora-color-1,--aurora-color-2'
           )
-          auroraInnerRef.value.style.setProperty('--aurora-color-1', colorRgb)
-          auroraInnerRef.value.style.setProperty('--aurora-color-2', colorRgb)
+          auroraInnerRef.value.style.setProperty('--aurora-color-1', newHex)
+          auroraInnerRef.value.style.setProperty('--aurora-color-2', newHex)
         }
       }
     }
