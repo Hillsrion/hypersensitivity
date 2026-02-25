@@ -215,7 +215,7 @@ onUnmounted(() => {
         />
       </div>
       <TestimoniesSection id="testimonies" class="relative z-10" />
-      <Experience id="experience" class="-mt-[35svh]" />
+      <Experience id="experience" />
       <Teleport to="body">
         <Transition name="fade">
           <HSPQuestionnaire

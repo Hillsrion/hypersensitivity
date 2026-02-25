@@ -44,7 +44,7 @@ onMounted(async () => {
       trigger: sectionRef.value,
       start: 'top top',
       end: 'bottom bottom',
-      scrub: 1,
+      scrub: true,
       invalidateOnRefresh: true,
     },
   })
