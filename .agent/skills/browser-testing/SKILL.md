@@ -162,4 +162,37 @@ The aurora is a blurred gradient overlay controlled by the `animationsStore`:
 - **Color**: set via CSS custom properties `--aurora-color-1` and `--aurora-color-2`
 - **During intro sections**: controlled by `useGenericSectionAnimation`
 - **During game**: controlled by `useDialogueAurora`
-- Colors: `red`, `pink`, `blue`, `green`, `yellow`, `violet`, `rainbow`
+
+## Scroll Debugging Script
+
+A utility script is available at **`.agent/skills/browser-testing/scroll-debug.ts`** to help identify exact scroll positions for ScrollTriggers.
+
+### How to use
+
+1. Open the browser console.
+2. Paste the contents of `scroll-debug.ts` (or the snippet below).
+3. The script will log a table of all active ScrollTriggers with their start and end positions.
+
+```javascript
+;(function () {
+  const triggers = ScrollTrigger.getAll()
+  console.table(
+    triggers.map((t) => ({
+      id: t.trigger?.id || 'unnamed',
+      start: Math.round(t.start),
+      end: Math.round(t.end),
+      distance: Math.round(t.end - t.start),
+    }))
+  )
+})()
+```
+
+### Manual Scroll Formula
+
+If you need to estimate the scroll position of a generic section without using the script:
+
+**`ScrollY(index) = (ViewportHeight * 0.4) + (index * ((ViewportHeight * 4) + 64))`**
+
+- **0.4**: Initial margin-top (`40svh`)
+- **4**: Each section's height (`400svh`)
+- **64**: Vertical gap between sections (`gap-y-16`)
