@@ -3,6 +3,7 @@ import type { ComponentPublicInstance } from 'vue'
 
 interface Props {
   title: string
+  shortTitle?: string
   content: string[]
   color: string
 }
@@ -55,8 +56,10 @@ useGenericSectionAnimation(
       >
         <span
           class="bg-white max-w-7xl mx-auto py-[0.2em] px-[0.2em] [box-decoration-break:clone]"
-          >{{ title }}</span
         >
+          <span :class="{ 'hidden md:inline': shortTitle }">{{ title }}</span>
+          <span v-if="shortTitle" class="md:hidden">{{ shortTitle }}</span>
+        </span>
       </AppHeading>
 
       <span class="sr-only">{{ title }}</span>

@@ -7,6 +7,7 @@
   "sections": [
     {
       "title": "Paralysie décisionnelle et surcharge cognitive",
+      "shortTitle": "Paralysie décisionnelle",
       "color": "red",
       "content": [
         "Les personnes hypersensibles peuvent facilement se retrouver submergées par un trop-plein d'informations et de stimuli dans leur quotidien.",
@@ -17,6 +18,7 @@
     },
     {
       "title": "Déconcentration liée aux stimuli sensoriels",
+      "shortTitle": "Stimuli sensoriels",
       "color": "pink",
       "content": [
         "L'hypersensible vit dans un monde où chaque bruit, odeur et sensation est perçu avec une intensité démultipliée",
@@ -37,6 +39,7 @@
     },
     {
       "title": "Sensibilité à la beauté de l'environnement",
+      "shortTitle": "Beauté de l'environnement",
       "color": "green",
       "content": [
         "La sensibilité accrue des personnes hypersensibles s'exprime également dans leur rapport à la nature et à leur environnement.",

@@ -1,6 +1,6 @@
 @import 'tailwindcss';
 @plugin "fluid-tailwindcss" {
-  minviewport: 375;
+  minviewport: 360;
   maxviewport: 1280;
 }
 

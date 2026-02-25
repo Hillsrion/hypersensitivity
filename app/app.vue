@@ -210,6 +210,7 @@ onUnmounted(() => {
           :id="`section-${index}`"
           :key="section.title"
           :title="section.title"
+          :short-title="section.shortTitle"
           :content="section.content"
           :color="section.color"
         />
