@@ -9,9 +9,9 @@
     "preview": "nuxt preview",
     "lint": "eslint .",
     "format": "prettier --write .",
-    "test": "node --experimental-strip-types --experimental-specifier-resolution=node --test tests/*.test.mjs",
-    "test:game": "node --experimental-strip-types --experimental-specifier-resolution=node --test tests/game-store-modules.test.mjs",
-    "test:quiz": "node --experimental-strip-types --experimental-specifier-resolution=node --test tests/hsp-quiz-store.test.mjs",
+    "test": "vitest",
+    "test:game": "vitest tests/game-store-modules.test.ts",
+    "test:quiz": "vitest tests/hsp-quiz-store.test.ts",
     "prepare": "husky"
   },
   "dependencies": {
@@ -34,12 +34,17 @@
     "@nuxt/devtools-kit": "^3.2.1",
     "@nuxt/eslint": "^1.15.1",
     "@nuxt/kit": "^4.3.1",
+    "@nuxt/test-utils": "^4.0.0",
     "@types/node": "^25.3.0",
+    "@vitest/ui": "^4.0.18",
+    "@vue/test-utils": "^2.4.6",
     "eslint": "^10.0.1",
+    "happy-dom": "^20.7.0",
     "husky": "^9.1.7",
     "lint-staged": "^16.2.7",
     "prettier": "^3.8.1",
     "typescript": "^5.9.3",
+    "vitest": "^4.0.18",
     "vue-tsc": "^3.2.5"
   }
 }

@@ -1,0 +1,112 @@
+import { describe, it, expect, beforeEach } from 'vitest'
+import { createPinia, setActivePinia } from 'pinia'
+import { useHspQuizStore } from '../app/stores/hspQuiz'
+import quizData from '../app/data/hsp-quiz.json'
+
+describe('hspQuizStore', () => {
+  beforeEach(() => {
+    setActivePinia(createPinia())
+  })
+
+  it('initial state is correct', () => {
+    const store = useHspQuizStore()
+
+    expect(store.currentView).toBe('intro')
+    expect(store.currentQuestionIndex).toBe(0)
+    expect(store.answers.length).toBe(quizData.questions.length)
+    expect(store.answers.every((a) => a === null)).toBe(true)
+  })
+
+  it('startQuiz changes view to quiz', () => {
+    const store = useHspQuizStore()
+
+    store.startQuiz()
+    expect(store.currentView).toBe('quiz')
+  })
+
+  it('selectAnswer updates answers array', () => {
+    const store = useHspQuizStore()
+
+    // Select answer '2' for the first question
+    store.selectAnswer(2)
+    expect(store.answers[0]).toBe(2)
+    expect(store.answers[1]).toBe(null)
+  })
+
+  it('nextQuestion and previousQuestion navigation', () => {
+    const store = useHspQuizStore()
+
+    // Check next behavior
+    store.nextQuestion()
+    expect(store.currentQuestionIndex).toBe(1)
+
+    // Check previous behavior
+    store.previousQuestion()
+    expect(store.currentQuestionIndex).toBe(0)
+
+    // Should not go below 0
+    store.previousQuestion()
+    expect(store.currentQuestionIndex).toBe(0)
+  })
+
+  it('nextQuestion on last question changes view to results', () => {
+    const store = useHspQuizStore()
+
+    store.currentQuestionIndex = store.totalQuestions - 1
+    store.nextQuestion()
+
+    expect(store.currentView).toBe('results')
+    expect(store.currentQuestionIndex).toBe(store.totalQuestions - 1)
+  })
+
+  it('restart resets state to default', () => {
+    const store = useHspQuizStore()
+
+    // Setup modified state
+    store.currentView = 'results'
+    store.currentQuestionIndex = 5
+    store.answers[0] = 3
+
+    store.restart()
+
+    expect(store.currentView).toBe('intro')
+    expect(store.currentQuestionIndex).toBe(0)
+    expect(store.answers.every((a) => a === null)).toBe(true)
+  })
+
+  it('completeWithFakeResults generates fake answers and goes to results', () => {
+    const store = useHspQuizStore()
+
+    store.completeWithFakeResults()
+
+    expect(store.currentView).toBe('results')
+    expect(store.answers.every((a) => a !== null && a >= 0 && a <= 3)).toBe(
+      true
+    ) // Assuming 0-3 rating mapping logic
+  })
+
+  it('computed scores and profiles', () => {
+    const store = useHspQuizStore()
+
+    // Simulate all answers as 1
+    store.answers = Array(store.totalQuestions).fill(1)
+
+    expect(store.totalScore).toBe(store.totalQuestions)
+    expect(store.sensitivityLevel.label).toBe('Sensibilité standard')
+
+    // Simulate all sections score logic
+    const sectionIndexToTest = 0
+    const testScore = store.getSectionScore(sectionIndexToTest)
+    expect(testScore).toBe(store.questionsPerSection) // 1 * questionsPerSection
+
+    // Check section sum maps correctly to array computation
+    expect(store.sectionScores[sectionIndexToTest]).toBe(
+      store.questionsPerSection
+    )
+
+    // Simulate all answers as max (e.g., 3)
+    store.answers = Array(store.totalQuestions).fill(3)
+    expect(store.totalScore).toBe(store.totalQuestions * 3)
+    expect(store.dominantProfile).not.toBeNull()
+  })
+})

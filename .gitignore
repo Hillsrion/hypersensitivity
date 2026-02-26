@@ -25,3 +25,5 @@ logs
 
 .claude/
 .worktrees/
+coverage/
+*.heapsnapshot
