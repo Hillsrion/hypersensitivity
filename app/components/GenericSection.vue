@@ -77,8 +77,7 @@ const { isCompact } = useGenericSectionAnimation(
         <li
           v-for="(item, index) in content"
           :key="index"
-          class="opacity-0"
-          style="will-change: transform, opacity"
+          class="opacity-0 will-change-[transform,opacity]"
         >
           <!-- Start hidden for GSAP to control -->
 
