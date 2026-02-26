@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { useElementVisibility } from '@vueuse/core'
+
 import { EDGE_SPACING } from '~/app/constants/layout'
 import { UI_SIZES } from '~/app/constants/ui'
 
@@ -11,6 +13,9 @@ import GameHeader from './GameHeader.vue'
 const { $gsap } = useNuxtApp()
 
 const containerRef = useTemplateRef<HTMLElement>('containerRef')
+
+// Use VueUse to detect if the game container is physically on screen
+const isContainerVisible = useElementVisibility(containerRef)
 
 const {
   gameStore,
@@ -44,34 +49,38 @@ const shouldShowCoreUi = computed(
   () => showDelayedGameUI.value && !isMenuBusy.value
 )
 
-watch(
-  () => audioStore.isPlaying,
-  (playing) => {
-    if (playing) {
-      if (progressResetTimer) {
-        clearTimeout(progressResetTimer)
-        progressResetTimer = null
-      }
-      if (barTransformOrigin.value !== 'left') {
-        barTransformOrigin.value = 'left'
-      }
-    } else {
-      // Audio stopped - trigger exit animation
-      visualProgress.value = 100
-      barTransformOrigin.value = 'right'
-      if (progressResetTimer) {
-        clearTimeout(progressResetTimer)
-      }
-      progressResetTimer = setTimeout(() => {
-        progressResetTimer = null
-        visualProgress.value = 0
-      }, 50)
+const isGameAudioPlaying = computed(() => {
+  return (
+    audioStore.isPlaying &&
+    (audioStore.currentAudio?.src.includes('experience') || false)
+  )
+})
+
+watch(isGameAudioPlaying, (playing) => {
+  if (playing) {
+    if (progressResetTimer) {
+      clearTimeout(progressResetTimer)
+      progressResetTimer = null
     }
+    if (barTransformOrigin.value !== 'left') {
+      barTransformOrigin.value = 'left'
+    }
+  } else {
+    // Audio stopped - trigger exit animation
+    visualProgress.value = 100
+    barTransformOrigin.value = 'right'
+    if (progressResetTimer) {
+      clearTimeout(progressResetTimer)
+    }
+    progressResetTimer = setTimeout(() => {
+      progressResetTimer = null
+      visualProgress.value = 0
+    }, 50)
   }
-)
+})
 
 watch(audioProgressPercent, (newVal) => {
-  if (audioStore.isPlaying) {
+  if (isGameAudioPlaying.value) {
     visualProgress.value = newVal
   }
 })
@@ -227,9 +236,11 @@ onUnmounted(() => {
     <!-- Fixed Progress Bar -->
     <div
       v-if="
-        (showGameUI || audioStore.isPlaying) &&
+        isContainerVisible &&
+        (showGameUI || isGameAudioPlaying) &&
         !gameStore.isMenuOpening &&
-        !gameStore.isMenuOpen
+        !gameStore.isMenuOpen &&
+        !gameStore.isGameEnded
       "
       class="fixed bottom-0 left-0 w-full h-[4px] bg-primary/10 z-50"
     >
