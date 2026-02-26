@@ -1,4 +1,8 @@
-import { gradientSteps } from '~/app/constants/gradients'
+import {
+  gradientSteps,
+  OUTRO_PRIMARY_COLOR,
+  outroFooterGradient,
+} from '~/app/constants/gradients'
 
 export interface ExperienceGradientState {
   color1: string
@@ -26,7 +30,9 @@ export const useExperienceGradient = (
 
   const isGameEnd = computed(
     () =>
-      gameStore.currentScene?.id === 'gameEnd' || gameStore.showQuestionnaire
+      gameStore.currentScene?.id === 'gameEnd' ||
+      gameStore.showQuestionnaire ||
+      gameStore.showFinalFooter
   )
   const showEndContent = ref(false)
 
@@ -51,6 +57,27 @@ export const useExperienceGradient = (
 
     return `linear-gradient(180deg, ${gradientState.color1} ${gradientState.stop1}%, ${gradientState.color2} ${gradientState.stop2}%, ${gradientState.color3} ${gradientState.stop3}%, ${gradientState.color4} ${gradientState.stop4}%)`
   })
+
+  const playFooterGradientTransition = () => {
+    $gsap.killTweensOf(gradientState)
+
+    Object.assign(gradientState, {
+      color1: OUTRO_PRIMARY_COLOR,
+      color2: OUTRO_PRIMARY_COLOR,
+      color3: OUTRO_PRIMARY_COLOR,
+      color4: OUTRO_PRIMARY_COLOR,
+      stop1: 0,
+      stop2: 33,
+      stop3: 66,
+      stop4: 100,
+    })
+
+    $gsap.to(gradientState, {
+      ...outroFooterGradient,
+      duration: 1.8,
+      ease: 'power2.inOut',
+    })
+  }
 
   watch(isGameEnd, (newVal) => {
     if (newVal) {
@@ -93,6 +120,14 @@ export const useExperienceGradient = (
       showEndContent.value = false
     }
   })
+
+  watch(
+    () => gameStore.showFinalFooter,
+    (show) => {
+      if (!show) return
+      playFooterGradientTransition()
+    }
+  )
 
   return {
     backgroundGradient,

@@ -107,6 +107,7 @@ export type GameState = {
   isAutoScrolling: boolean
   selectedChoice: Choice | null
   showQuestionnaire: boolean
+  showFinalFooter: boolean
   forceShowUI: boolean
   isDayTransitioning: boolean
   pendingTransitionSceneId: string | null

@@ -28,6 +28,7 @@ export const createInitialGameState = (): GameState => ({
   isAutoScrolling: false,
   selectedChoice: null,
   showQuestionnaire: false,
+  showFinalFooter: false,
   forceShowUI: false,
   isDayTransitioning: false,
   pendingTransitionSceneId: null,

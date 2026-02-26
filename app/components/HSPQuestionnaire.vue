@@ -1,12 +1,11 @@
 <script setup lang="ts">
-import { HSP_QUESTIONNAIRE_CONTENT_READY_DELAY_MS } from '~/app/constants/durations'
-
 import HSPIntro from './hsp/HSPIntro.vue'
 import HSPQuiz from './hsp/HSPQuiz.vue'
-import HSPResults from './hsp/HSPResults.vue'
+import { HSP_QUESTIONNAIRE_CONTENT_READY_DELAY_MS } from '~/app/constants/durations'
 
 const { $gsap } = useNuxtApp()
 const animationsStore = useAnimationsStore()
+const gameStore = useGameStore()
 const hspQuizStore = useHspQuizStore()
 const {
   currentView,
@@ -16,16 +15,11 @@ const {
   sections,
   questions,
   totalQuestions,
-  questionsPerSection,
   currentQuestion,
   currentSectionIndex,
   isLastQuestion,
   progressPercent,
   displaySectionName,
-  totalScore,
-  sensitivityLevel,
-  sectionScores,
-  dominantProfile,
 } = storeToRefs(hspQuizStore)
 
 const { startQuiz, selectAnswer, nextQuestion, previousQuestion, restart } =
@@ -34,7 +28,6 @@ const { startQuiz, selectAnswer, nextQuestion, previousQuestion, restart } =
 const route = useRoute()
 const introRef = useTemplateRef('introRef')
 const quizRef = useTemplateRef('quizRef')
-const resultsRef = useTemplateRef('resultsRef')
 const elementRef = useTemplateRef('elementRef')
 
 const handleStart = async () => {
@@ -53,15 +46,18 @@ const handleNext = async () => {
   nextQuestion()
 }
 
-const handleRestart = async () => {
-  if (resultsRef.value) {
-    await resultsRef.value.leave()
-  }
-  restart()
-}
-
 const contentReady = ref(false)
 let contentReadyTimer: ReturnType<typeof setTimeout> | null = null
+
+watch(currentView, (view, previousView) => {
+  if (view !== 'results' || previousView === 'results') {
+    return
+  }
+
+  gameStore.setShowQuestionnaire(false)
+  gameStore.setShowFinalFooter(true)
+  restart()
+})
 
 onMounted(() => {
   // Debug mode: jump straight to quiz
@@ -103,11 +99,7 @@ onUnmounted(() => {
 <template>
   <div
     ref="elementRef"
-    class="questionnaire-container fixed inset-0 z-100 w-full h-full flex flex-col items-center p-4 text-white overflow-y-auto transition-all duration-500"
-    :class="{
-      'justify-center': currentView !== 'results',
-      'justify-start md:pt-20 pt-10': currentView === 'results',
-    }"
+    class="questionnaire-container fixed inset-0 z-100 w-full h-full flex flex-col items-center justify-center p-4 text-white overflow-y-auto transition-all duration-500"
   >
     <!-- Delay content rendering until external gradient finishes if needed or just let it be handled by child components (HSPIntro handles its own enter fade) -->
     <template v-if="contentReady || currentView !== 'intro'">
@@ -138,20 +130,6 @@ onUnmounted(() => {
         @select-answer="selectAnswer"
         @next="handleNext"
         @previous="previousQuestion"
-      />
-
-      <!-- Results Screen -->
-      <HSPResults
-        v-if="currentView === 'results'"
-        ref="resultsRef"
-        :total-score="totalScore"
-        :total-questions="totalQuestions"
-        :sensitivity-level="sensitivityLevel"
-        :sections="sections"
-        :section-scores="sectionScores"
-        :questions-per-section="questionsPerSection"
-        :dominant-profile="dominantProfile"
-        @restart="handleRestart"
       />
     </template>
   </div>

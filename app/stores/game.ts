@@ -216,6 +216,7 @@ export const useGameStore = defineStore('game', {
       this.menuStatus = 'closed'
       this.selectedChoice = null
       this.showQuestionnaire = false
+      this.showFinalFooter = false
 
       animationsStore.setAuroraVisibility(false)
       animationsStore.setAuroraZIndex(0)
@@ -279,6 +280,13 @@ export const useGameStore = defineStore('game', {
 
     setShowQuestionnaire(show: boolean) {
       this.showQuestionnaire = show
+      if (show) {
+        this.showFinalFooter = false
+      }
+    },
+
+    setShowFinalFooter(show: boolean) {
+      this.showFinalFooter = show
     },
 
     setAutoScrolling(isAutoScrolling: boolean) {

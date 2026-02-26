@@ -1,14 +1,14 @@
 <script setup lang="ts">
-import { useExperienceDayTransition } from '~/app/composables/game/useExperienceDayTransition'
-import {
-  type ScrollTriggerHandle,
-  useExperienceGradient,
-} from '~/app/composables/game/useExperienceGradient'
-import { QUESTIONNAIRE_ENTRY_DELAY_MS } from '~/app/constants/durations'
-import type { Choice } from '~/app/types/game'
-
-import ChoiceButtons from './game/ChoiceButtons.vue'
 import GameContainer from './game/GameContainer.vue'
+import ChoiceButtons from './game/ChoiceButtons.vue'
+import GameOutroFooter from './game/GameOutroFooter.vue'
+import type { Choice } from '~/app/types/game'
+import {
+  useExperienceGradient,
+  type ScrollTriggerHandle,
+} from '~/app/composables/game/useExperienceGradient'
+import { useExperienceDayTransition } from '~/app/composables/game/useExperienceDayTransition'
+import { QUESTIONNAIRE_ENTRY_DELAY_MS } from '~/app/constants/durations'
 
 defineOptions({
   name: 'ExperienceScreen',
@@ -19,14 +19,19 @@ const animationsStore = useAnimationsStore()
 
 const endGameChoices: Choice[] = [
   { id: 'yes', text: 'OUI', nextSceneId: 'questionnaire' },
-  { id: 'no', text: 'NON', nextSceneId: 'reset' },
+  { id: 'no', text: 'NON', nextSceneId: 'outro' },
 ]
+
+const creditsLinks = {
+  development: 'https://www.malt.fr/profile/ismaelsebbane',
+  design: 'https://www.malt.fr/profile/anaisboucherie',
+}
 
 const handleEndChoiceSelect = (choice: Choice) => {
   if (choice.id === 'yes') {
     showQuestionnaire()
   } else {
-    gameStore.resetGame()
+    gameStore.setShowFinalFooter(true)
   }
 }
 
@@ -99,6 +104,7 @@ watch(
 
 const showQuestionnaire = () => {
   showEndContent.value = false
+  gameStore.setShowFinalFooter(false)
 
   questionnaireTimer = setTimeout(() => {
     questionnaireTimer = null
@@ -136,7 +142,11 @@ const showQuestionnaire = () => {
       <!-- End Screen Overlay -->
       <Transition name="fade">
         <div
-          v-if="showEndContent && !gameStore.showQuestionnaire"
+          v-if="
+            showEndContent &&
+            !gameStore.showQuestionnaire &&
+            !gameStore.showFinalFooter
+          "
           class="absolute inset-0 z-30 flex flex-col items-center justify-center pointer-events-auto"
         >
           <div
@@ -153,6 +163,14 @@ const showQuestionnaire = () => {
             @select="handleEndChoiceSelect"
           />
         </div>
+      </Transition>
+
+      <Transition name="fade">
+        <GameOutroFooter
+          v-if="gameStore.showFinalFooter && !gameStore.showQuestionnaire"
+          :development-credit-url="creditsLinks.development"
+          :design-credit-url="creditsLinks.design"
+        />
       </Transition>
 
       <!-- Content -->
