@@ -1,41 +1,41 @@
-import type { ChoiceCondition, GameFlags, Scene } from "../../types/game";
+import type { ChoiceCondition, GameFlags, Scene } from '../../types/game'
 
 export const evaluateCondition = (
   condition: ChoiceCondition,
   flags: GameFlags
 ): boolean => {
-  const value = flags[condition.flag];
+  const value = flags[condition.flag]
 
   switch (condition.operator) {
-    case "equals":
-      return value === condition.value;
-    case "notEquals":
-      return value !== condition.value;
-    case "greaterThan":
-      return typeof value === "number" && value > (condition.value as number);
-    case "lessThan":
-      return typeof value === "number" && value < (condition.value as number);
+    case 'equals':
+      return value === condition.value
+    case 'notEquals':
+      return value !== condition.value
+    case 'greaterThan':
+      return typeof value === 'number' && value > (condition.value as number)
+    case 'lessThan':
+      return typeof value === 'number' && value < (condition.value as number)
     default:
-      return true;
+      return true
   }
-};
+}
 
 export const isSceneEligible = (
-  scene: Pick<Scene, "condition" | "conditions"> | null | undefined,
+  scene: Pick<Scene, 'condition' | 'conditions'> | null | undefined,
   flags: GameFlags
 ): boolean => {
-  if (!scene) return false;
+  if (!scene) return false
 
   if (scene.condition && !evaluateCondition(scene.condition, flags)) {
-    return false;
+    return false
   }
 
   if (
     scene.conditions &&
     scene.conditions.some((condition) => !evaluateCondition(condition, flags))
   ) {
-    return false;
+    return false
   }
 
-  return true;
-};
+  return true
+}

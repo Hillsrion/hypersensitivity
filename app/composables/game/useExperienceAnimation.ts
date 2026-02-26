@@ -1,18 +1,13 @@
-import { eyePaths } from "~/app/constants/eyePaths";
-import { useEyeAnimation } from "./useEyeAnimation";
-import { useIntroSequenceAnimation } from "./useIntroSequenceAnimation";
+import { eyePaths } from '~/app/constants/eyePaths'
+import { useEyeAnimation } from './useEyeAnimation'
+import { useIntroSequenceAnimation } from './useIntroSequenceAnimation'
 
 export const useExperienceAnimation = () => {
-  const {
-    eyePath,
-    playCloseEyeAnimation,
-    playOpenEyeAnimation,
-  } = useEyeAnimation();
+  const { eyePath, playCloseEyeAnimation, playOpenEyeAnimation } =
+    useEyeAnimation()
 
-  const {
-    gradientState,
-    setupIntroSequence,
-  } = useIntroSequenceAnimation(eyePath);
+  const { gradientState, setupIntroSequence } =
+    useIntroSequenceAnimation(eyePath)
 
   return {
     eyePath,
@@ -21,5 +16,5 @@ export const useExperienceAnimation = () => {
     playCloseEyeAnimation,
     playOpenEyeAnimation,
     setupIntroSequence,
-  };
-};
+  }
+}

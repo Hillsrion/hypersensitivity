@@ -1,20 +1,20 @@
-import type { MilestoneDef } from "../../data/milestones";
-import type { GameFlags, Scene } from "../../types/game";
-import { isSceneEligible } from "./conditions.ts";
+import type { MilestoneDef } from '../../data/milestones'
+import type { GameFlags, Scene } from '../../types/game'
+import { isSceneEligible } from './conditions.ts'
 
 interface ProgressionContext {
-  currentSceneId: string;
-  flags: GameFlags;
-  scenes: Record<string, Scene>;
-  milestones: Record<string, MilestoneDef>;
-  milestoneOrder: string[];
-  getMilestoneForScene: (sceneId: string) => MilestoneDef | undefined;
+  currentSceneId: string
+  flags: GameFlags
+  scenes: Record<string, Scene>
+  milestones: Record<string, MilestoneDef>
+  milestoneOrder: string[]
+  getMilestoneForScene: (sceneId: string) => MilestoneDef | undefined
 }
 
 export type NextProgressionStep =
-  | { type: "scene"; sceneId: string }
-  | { type: "milestone"; milestoneId: string }
-  | { type: "none" };
+  | { type: 'scene'; sceneId: string }
+  | { type: 'milestone'; milestoneId: string }
+  | { type: 'none' }
 
 export const resolveNextProgressionStep = ({
   currentSceneId,
@@ -23,36 +23,40 @@ export const resolveNextProgressionStep = ({
   milestoneOrder,
   getMilestoneForScene,
 }: ProgressionContext): NextProgressionStep => {
-  const currentMilestone = getMilestoneForScene(currentSceneId);
+  const currentMilestone = getMilestoneForScene(currentSceneId)
   if (!currentMilestone) {
-    return { type: "none" };
+    return { type: 'none' }
   }
 
-  const currentIndex = currentMilestone.scenes.indexOf(currentSceneId);
+  const currentIndex = currentMilestone.scenes.indexOf(currentSceneId)
 
-  for (let index = currentIndex + 1; index < currentMilestone.scenes.length; index++) {
-    const nextSceneId = currentMilestone.scenes[index];
-    if (!nextSceneId) continue;
+  for (
+    let index = currentIndex + 1;
+    index < currentMilestone.scenes.length;
+    index++
+  ) {
+    const nextSceneId = currentMilestone.scenes[index]
+    if (!nextSceneId) continue
 
-    const nextScene = scenes[nextSceneId];
+    const nextScene = scenes[nextSceneId]
     if (nextScene && isSceneEligible(nextScene, flags)) {
-      return { type: "scene", sceneId: nextSceneId };
+      return { type: 'scene', sceneId: nextSceneId }
     }
   }
 
-  const currentMilestoneIndex = milestoneOrder.indexOf(currentMilestone.id);
+  const currentMilestoneIndex = milestoneOrder.indexOf(currentMilestone.id)
   if (
     currentMilestoneIndex !== -1 &&
     currentMilestoneIndex < milestoneOrder.length - 1
   ) {
-    const milestoneId = milestoneOrder[currentMilestoneIndex + 1];
+    const milestoneId = milestoneOrder[currentMilestoneIndex + 1]
     if (milestoneId) {
-      return { type: "milestone", milestoneId };
+      return { type: 'milestone', milestoneId }
     }
   }
 
-  return { type: "none" };
-};
+  return { type: 'none' }
+}
 
 export const findFirstValidSceneIdInMilestone = (
   milestoneId: string,
@@ -60,19 +64,19 @@ export const findFirstValidSceneIdInMilestone = (
   scenes: Record<string, Scene>,
   flags: GameFlags
 ): string | null => {
-  const milestone = milestones[milestoneId];
+  const milestone = milestones[milestoneId]
   if (!milestone) {
-    return null;
+    return null
   }
 
   for (const sceneId of milestone.scenes) {
-    const scene = scenes[sceneId];
-    if (!scene) continue;
+    const scene = scenes[sceneId]
+    if (!scene) continue
 
     if (isSceneEligible(scene, flags)) {
-      return sceneId;
+      return sceneId
     }
   }
 
-  return null;
-};
+  return null
+}

@@ -1,12 +1,12 @@
 <script setup lang="ts">
-import HSPIntro from './hsp/HSPIntro.vue';
-import HSPQuiz from './hsp/HSPQuiz.vue';
-import HSPResults from './hsp/HSPResults.vue';
-import { HSP_QUESTIONNAIRE_CONTENT_READY_DELAY_MS } from '~/app/constants/durations';
+import HSPIntro from './hsp/HSPIntro.vue'
+import HSPQuiz from './hsp/HSPQuiz.vue'
+import HSPResults from './hsp/HSPResults.vue'
+import { HSP_QUESTIONNAIRE_CONTENT_READY_DELAY_MS } from '~/app/constants/durations'
 
-const { $gsap } = useNuxtApp();
-const animationsStore = useAnimationsStore();
-const hspQuizStore = useHspQuizStore();
+const { $gsap } = useNuxtApp()
+const animationsStore = useAnimationsStore()
+const hspQuizStore = useHspQuizStore()
 const {
   currentView,
   currentQuestionIndex,
@@ -24,110 +24,103 @@ const {
   totalScore,
   sensitivityLevel,
   sectionScores,
-  dominantProfile
-} = storeToRefs(hspQuizStore);
+  dominantProfile,
+} = storeToRefs(hspQuizStore)
 
-const {
-  startQuiz,
-  selectAnswer,
-  nextQuestion,
-  previousQuestion,
-  restart
-} = hspQuizStore;
+const { startQuiz, selectAnswer, nextQuestion, previousQuestion, restart } =
+  hspQuizStore
 
-
-const route = useRoute();
-const introRef = useTemplateRef("introRef");
-const quizRef = useTemplateRef("quizRef");
-const resultsRef = useTemplateRef("resultsRef");
-const elementRef = useTemplateRef("elementRef");
+const route = useRoute()
+const introRef = useTemplateRef('introRef')
+const quizRef = useTemplateRef('quizRef')
+const resultsRef = useTemplateRef('resultsRef')
+const elementRef = useTemplateRef('elementRef')
 
 const handleStart = async () => {
-    if (introRef.value) {
-        await introRef.value.leave();
-    }
-    startQuiz();
-};
+  if (introRef.value) {
+    await introRef.value.leave()
+  }
+  startQuiz()
+}
 
 const handleNext = async () => {
-    if (isLastQuestion.value) {
-        if (quizRef.value) {
-            await quizRef.value.leave();
-        }
+  if (isLastQuestion.value) {
+    if (quizRef.value) {
+      await quizRef.value.leave()
     }
-    nextQuestion();
-};
+  }
+  nextQuestion()
+}
 
 const handleRestart = async () => {
-    if (resultsRef.value) {
-        await resultsRef.value.leave();
-    }
-    restart();
-};
+  if (resultsRef.value) {
+    await resultsRef.value.leave()
+  }
+  restart()
+}
 
-const contentReady = ref(false);
-let contentReadyTimer: ReturnType<typeof setTimeout> | null = null;
+const contentReady = ref(false)
+let contentReadyTimer: ReturnType<typeof setTimeout> | null = null
 
 onMounted(() => {
   // Debug mode: jump straight to quiz
   if (route.query.debug === 'quiz') {
-    startQuiz();
+    startQuiz()
   }
 
   // Delay content rendering to match the external background transition duration from Experience.vue
   contentReadyTimer = setTimeout(() => {
-    contentReadyTimer = null;
-    contentReady.value = true;
-  }, HSP_QUESTIONNAIRE_CONTENT_READY_DELAY_MS);
+    contentReadyTimer = null
+    contentReady.value = true
+  }, HSP_QUESTIONNAIRE_CONTENT_READY_DELAY_MS)
 
   $gsap.timeline({
     scrollTrigger: {
       trigger: elementRef.value,
-      start: "top 50%",
-      end: "bottom 50%",
+      start: 'top 50%',
+      end: 'bottom 50%',
       onEnter: () => {
-        animationsStore.setCursorVariant("light");
-        animationsStore.setAudiowaveVariant("light");
+        animationsStore.setCursorVariant('light')
+        animationsStore.setAudiowaveVariant('light')
       },
       onEnterBack: () => {
-        animationsStore.setCursorVariant("light");
-        animationsStore.setAudiowaveVariant("light");
-      }
-    }
-  });
-});
+        animationsStore.setCursorVariant('light')
+        animationsStore.setAudiowaveVariant('light')
+      },
+    },
+  })
+})
 
 onUnmounted(() => {
   if (contentReadyTimer) {
-    clearTimeout(contentReadyTimer);
-    contentReadyTimer = null;
+    clearTimeout(contentReadyTimer)
+    contentReadyTimer = null
   }
-});
+})
 </script>
 
 <template>
-  <div 
-    ref="elementRef" 
+  <div
+    ref="elementRef"
     class="questionnaire-container fixed inset-0 z-100 w-full h-full flex flex-col items-center p-4 text-white overflow-y-auto transition-all duration-500"
     :class="{
       'justify-center': currentView !== 'results',
-      'justify-start md:pt-20 pt-10': currentView === 'results'
+      'justify-start md:pt-20 pt-10': currentView === 'results',
     }"
   >
-    
     <!-- Delay content rendering until external gradient finishes if needed or just let it be handled by child components (HSPIntro handles its own enter fade) -->
     <template v-if="contentReady || currentView !== 'intro'">
       <!-- Intro Screen -->
-      <HSPIntro 
+      <HSPIntro
         v-if="currentView === 'intro'"
         ref="introRef"
-        :total-questions="totalQuestions" 
+        :total-questions="totalQuestions"
         :sections-count="sections.length"
         @start="handleStart"
       />
-      
+
       <!-- Quiz Screen -->
-      <HSPQuiz 
+      <HSPQuiz
         v-if="currentView === 'quiz'"
         ref="quizRef"
         :sections="sections"
@@ -145,9 +138,9 @@ onUnmounted(() => {
         @next="handleNext"
         @previous="previousQuestion"
       />
-      
+
       <!-- Results Screen -->
-      <HSPResults 
+      <HSPResults
         v-if="currentView === 'results'"
         ref="resultsRef"
         :total-score="totalScore"

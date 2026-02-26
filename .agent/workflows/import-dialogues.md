@@ -13,6 +13,7 @@ node scripts/import-dialogues.js <path_to_json> <id_prefix> <start_number> <pens
 ```
 
 **Arguments:**
+
 - `<path_to_json>`: Path to the transcription JSON file.
 - `<id_prefix>`: Prefix for the dialogue IDs (e.g., `d1` for day 1).
 - `<start_number>`: The number to start the ID counter from (e.g., `24` creates `d1_24`).
@@ -20,6 +21,7 @@ node scripts/import-dialogues.js <path_to_json> <id_prefix> <start_number> <pens
 
 **Example:**
 To import a file starting at ID `d2_10` where the 3rd and 5th segments are inner thoughts:
+
 ```bash
 node scripts/import-dialogues.js public/audios/experience/Day2_Scene1.json d2 10 "2,4"
 ```

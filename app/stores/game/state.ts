@@ -1,17 +1,17 @@
-import type { GameFlags, GameState } from "../../types/game";
-import { gameData } from "../../data/game";
+import type { GameFlags, GameState } from '../../types/game'
+import { gameData } from '../../data/game'
 import {
   DEFAULT_REACHED_MILESTONES,
   ensureInitialMilestone,
-} from "./milestones";
+} from './milestones'
 
-export const STORAGE_KEY = "hypersensitivity-game-state";
+export const STORAGE_KEY = 'hypersensitivity-game-state'
 
 export const createInitialFlags = (): GameFlags => ({
   ...gameData.initialFlags,
-});
+})
 
-export { DEFAULT_REACHED_MILESTONES, ensureInitialMilestone };
+export { DEFAULT_REACHED_MILESTONES, ensureInitialMilestone }
 
 export const createInitialGameState = (): GameState => ({
   currentSceneId: gameData.initialSceneId,
@@ -20,9 +20,10 @@ export const createInitialGameState = (): GameState => ({
   reachedMilestones: [...DEFAULT_REACHED_MILESTONES],
   isTransitioning: false,
   showChoices: false,
-  menuStatus: "closed",
+  menuStatus: 'closed',
   introPlayed: false,
-  introAnimationPhase: "hidden" as import("../../types/game").IntroAnimationPhase,
+  introAnimationPhase:
+    'hidden' as import('../../types/game').IntroAnimationPhase,
   introBlurAmount: 8,
   isAutoScrolling: false,
   selectedChoice: null,
@@ -31,4 +32,4 @@ export const createInitialGameState = (): GameState => ({
   isDayTransitioning: false,
   pendingTransitionSceneId: null,
   _annotationTimerId: null,
-});
+})

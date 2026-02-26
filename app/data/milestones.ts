@@ -1,27 +1,27 @@
-import { SCENE_IDS } from "./constants";
+import { SCENE_IDS } from './constants'
 
 export interface MilestoneDef {
-  id: string;
-  label: string;
-  day: 1 | 2;
-  scenes: string[];
+  id: string
+  label: string
+  day: 1 | 2
+  scenes: string[]
 }
 
 export const MILESTONE_ORDER = [
-  "reveil",
-  "trajet",
-  "bureau",
-  "soiree",
-  "retour",
-  "reveil2",
-  "demenagement",
-  "montagne",
-];
+  'reveil',
+  'trajet',
+  'bureau',
+  'soiree',
+  'retour',
+  'reveil2',
+  'demenagement',
+  'montagne',
+]
 
 export const MILESTONES: Record<string, MilestoneDef> = {
   reveil: {
-    id: "reveil",
-    label: "Réveil",
+    id: 'reveil',
+    label: 'Réveil',
     day: 1,
     scenes: [
       SCENE_IDS.DAY_ONE_WAKEUP,
@@ -31,17 +31,14 @@ export const MILESTONES: Record<string, MilestoneDef> = {
     ],
   },
   trajet: {
-    id: "trajet",
-    label: "Trajet",
+    id: 'trajet',
+    label: 'Trajet',
     day: 1,
-    scenes: [
-      SCENE_IDS.DAY_ONE_METRO_SEXY,
-      SCENE_IDS.DAY_ONE_METRO_COMFORT,
-    ],
+    scenes: [SCENE_IDS.DAY_ONE_METRO_SEXY, SCENE_IDS.DAY_ONE_METRO_COMFORT],
   },
   bureau: {
-    id: "bureau",
-    label: "Bureau",
+    id: 'bureau',
+    label: 'Bureau',
     day: 1,
     scenes: [
       SCENE_IDS.DAY_ONE_OFFICE,
@@ -50,8 +47,8 @@ export const MILESTONES: Record<string, MilestoneDef> = {
     ],
   },
   soiree: {
-    id: "soiree",
-    label: "Soirée",
+    id: 'soiree',
+    label: 'Soirée',
     day: 1,
     scenes: [
       SCENE_IDS.DAY_ONE_PARTY_SEXY,
@@ -64,8 +61,8 @@ export const MILESTONES: Record<string, MilestoneDef> = {
     ],
   },
   retour: {
-    id: "retour",
-    label: "Retour",
+    id: 'retour',
+    label: 'Retour',
     day: 1,
     scenes: [
       SCENE_IDS.DAY_ONE_END_CRASH,
@@ -75,8 +72,8 @@ export const MILESTONES: Record<string, MilestoneDef> = {
     ],
   },
   reveil2: {
-    id: "reveil2",
-    label: "Réveil",
+    id: 'reveil2',
+    label: 'Réveil',
     day: 2,
     scenes: [
       SCENE_IDS.DAY_TWO_WAKEUP_CRASH,
@@ -87,24 +84,21 @@ export const MILESTONES: Record<string, MilestoneDef> = {
     ],
   },
   demenagement: {
-    id: "demenagement",
-    label: "Déménagement",
+    id: 'demenagement',
+    label: 'Déménagement',
     day: 2,
-    scenes: [
-      SCENE_IDS.DAY_TWO_MOVING,
-    ],
+    scenes: [SCENE_IDS.DAY_TWO_MOVING],
   },
   montagne: {
-    id: "montagne",
-    label: "Montagne",
+    id: 'montagne',
+    label: 'Montagne',
     day: 2,
-    scenes: [
-      SCENE_IDS.DAY_TWO_MOUNTAIN,
-      SCENE_IDS.DAY_TWO_SUNSET,
-    ],
+    scenes: [SCENE_IDS.DAY_TWO_MOUNTAIN, SCENE_IDS.DAY_TWO_SUNSET],
   },
-};
+}
 
-export const getMilestoneForScene = (sceneId: string): MilestoneDef | undefined => {
-  return Object.values(MILESTONES).find((m) => m.scenes.includes(sceneId));
-};
+export const getMilestoneForScene = (
+  sceneId: string
+): MilestoneDef | undefined => {
+  return Object.values(MILESTONES).find((m) => m.scenes.includes(sceneId))
+}

@@ -1,4 +1,5 @@
 # Hypersensitivity
+
 ### An Interactive Audio Journey into Sensory Perception
 
 **Hypersensitivity** is an immersive web experience designed to simulate the daily life of someone living with auditory hypersensitivity. Through a combination of interactive storytelling, reactive audio, and fluid visuals, this project invites users to step into a world where every sound matters.
@@ -24,6 +25,7 @@ Follow these instructions to set up the project locally for development or explo
 ### Installation
 
 1.  **Clone the repository:**
+
     ```bash
     git clone https://github.com/your-username/hypersensitivity-v2.git
     cd hypersensitivity-v2
@@ -58,12 +60,9 @@ To preview the production build locally:
 pnpm preview
 ```
 
-
 ## 📚 Documentation
 
 For a deep dive into the technical details, scene structure, and content workflow, please read the [Game Architecture & Workflow](docs/GAME_ARCHITECTURE.md) guide.
-
-
 
 ## 🛠️ Built With
 
