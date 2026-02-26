@@ -49,7 +49,11 @@ export function useGenericSectionAnimation(
         .map((el) =>
           el && '$el' in el ? (el as ComponentPublicInstance).$el : el
         )
-        .filter((el): el is HTMLElement => el instanceof HTMLElement)
+        .filter(
+          (el): el is HTMLElement =>
+            el instanceof HTMLElement &&
+            window.getComputedStyle(el).display !== 'none'
+        )
 
       if (titlesEl.length === 0) return
 
@@ -107,7 +111,11 @@ export function useGenericSectionAnimation(
         .map((el) =>
           el && '$el' in el ? (el as ComponentPublicInstance).$el : el
         )
-        .filter((el): el is HTMLElement => el instanceof HTMLElement)
+        .filter(
+          (el): el is HTMLElement =>
+            el instanceof HTMLElement &&
+            window.getComputedStyle(el).display !== 'none'
+        )
 
       if (titlesEl.length === 0) return
 
@@ -145,8 +153,9 @@ export function useGenericSectionAnimation(
           trigger: containerRef.value,
           start: () => `top ${calculateStartTop()}px`,
           pin: true,
+          anticipatePin: 1,
           end: '+=400%',
-          scrub: 1,
+          scrub: true,
           invalidateOnRefresh: true,
           onToggle: (self) => {
             console.log(
@@ -178,6 +187,7 @@ export function useGenericSectionAnimation(
           },
           duration: 4,
           ease: 'power2.out',
+          force3D: true,
         },
         'fanOut'
       )
@@ -190,6 +200,7 @@ export function useGenericSectionAnimation(
           scale: () => getMinScale(),
           duration: 6,
           ease: 'power2.inOut',
+          force3D: true,
         },
         '>'
       )
@@ -237,6 +248,7 @@ export function useGenericSectionAnimation(
           y: 0,
           duration: 6,
           ease: 'power2.inOut',
+          force3D: true,
         },
         'moveUp'
       )
@@ -254,6 +266,7 @@ export function useGenericSectionAnimation(
           },
           duration: 6,
           ease: 'power2.inOut',
+          force3D: true,
         },
         '<'
       )
@@ -261,7 +274,13 @@ export function useGenericSectionAnimation(
       // Phase 4: Reveal Content
       tl.to(
         listItems,
-        { opacity: 1, duration: 1, ease: 'power2.out', stagger: 0.1 },
+        {
+          opacity: 1,
+          duration: 1,
+          ease: 'power2.out',
+          stagger: 0.1,
+          force3D: true,
+        },
         'moveUp+=2'
       )
 

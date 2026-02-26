@@ -30,7 +30,7 @@ const { isCompact } = useGenericSectionAnimation(
 <template>
   <section
     ref="containerRef"
-    class="h-[400svh] w-full relative overflow-hidden flex flex-col items-center justify-start z-10"
+    class="h-[400svh] w-full relative overflow-hidden flex flex-col items-center justify-start z-10 will-change-[opacity,visibility]"
   >
     <!-- Title Wrapper: Holds the stack of titles -->
 
@@ -44,13 +44,16 @@ const { isCompact } = useGenericSectionAnimation(
         ref="titlesRef"
         as="p"
         variant="display"
-        class="col-start-1 row-start-1 w-full font-serif font-light text-center origin-top select-none text-primary"
+        class="col-start-1 row-start-1 w-full font-serif font-light text-center origin-top select-none text-primary will-change-transform"
         :class="{
           'z-10': i === 1,
           'z-20': i > 1,
           'leading-[1.13]': i < 3,
           'leading-[1.2]': i < 5,
           'leading-[1.28]': i > 5,
+          // Mobile first: hide even indexes by default (to reduce to 5 layers), show on md screens
+          hidden: i % 2 === 0 && i > 1,
+          'md:block': i % 2 === 0 && i > 1,
         }"
         aria-hidden="true"
       >
@@ -66,9 +69,17 @@ const { isCompact } = useGenericSectionAnimation(
     </div>
 
     <!-- Content Paragraphs -->
-    <div ref="contentRef" class="absolute top-0 w-full max-w-lg px-6 z-30">
+    <div
+      ref="contentRef"
+      class="absolute top-0 w-full max-w-lg px-6 z-30 will-change-transform"
+    >
       <ul class="flex flex-col gap-y-4 min-[390px]:gap-y-6">
-        <li v-for="(item, index) in content" :key="index" class="opacity-0">
+        <li
+          v-for="(item, index) in content"
+          :key="index"
+          class="opacity-0"
+          style="will-change: transform, opacity"
+        >
           <!-- Start hidden for GSAP to control -->
 
           <AppText
