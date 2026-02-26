@@ -19,13 +19,15 @@ Expert guidance for writing robust E2E tests in the Hypersensitivity-v2 project.
 
 - **Bypass Overlays**: Use query parameters like `?test=true` if you need to skip the `LoadingSection`.
 - **Mirror Console**: Always use `page.on('console', (msg) => console.log(\`BROWSER: \${msg.text()}\`))` to debug store updates and GSAP logs.
+- **Execution**: Use `npx playwright test <path> --reporter=list` to avoid interactive hangs and get clear, sequential logs in the CLI.
 - **Extend Timeouts**: Complex animations often exceed the default 30s timeout; use `test.setTimeout(60000)`.
 
 ### 3. Handle Common Nuxt/Animation Pitfalls
 
-- **Text Splitting**: `split-type` creates multiple DOM elements for the same text. Use `.first()` or specific locators to avoid Playwright strict mode violations.
+- **Text Splitting**: `split-type` creates multiple DOM elements for the same text. Use `.first()` and partial text matching (`page.getByText('substring').first()`) to avoid strict mode violations and resilience against character-level animations.
+- **Scroll-Triggered UI**: Some UI (like DevTools options) only appears after a specific scroll position. Use `await page.evaluate(() => window.scrollTo(0, document.body.scrollHeight))` to force visibility.
 - **Scroll Verification**: Use `page.evaluate(() => window.scrollY)` or `window.lenis` to confirm scrolling is actually working or locked.
-- **Wait for Completion**: Don't rely on `waitForLoadState`. Use `page.waitForTimeout()` based on researched GSAP durations, or wait for specific element visibility.
+- **Wait for Completion**: Don't rely on `waitForLoadState`. Use `page.waitForTimeout()` (e.g., 2000ms) after major transitions to allow GSAP/Lenis and intersection observers to settle.
 
 ## Common Patterns
 
