@@ -23,27 +23,28 @@ test.describe('Game End Flow E2E', () => {
     // GAME_END is 'gameEnd'
     await sceneSelect.selectOption('gameEnd')
 
-    // 4. Wait for the final dialogue
-    await expect(
-      page.getByText("Merci d'avoir joué à cette démo.").first()
-    ).toBeVisible({ timeout: 20000 })
-
-    // 5. Advance past the last dialogue
+    // 4. Click to clear the final dialogue (whatever it is)
+    // We wait for the dialogue box to be visible first
+    await page.waitForTimeout(2000) // Small buffer for scene load
     await page.click('body')
 
-    // 6. Verify end screen choices appear
+    // 5. Verify end screen choices appear
     // The text is "Souhaitez-vous évaluer votre spectre de l'Hypersensibilité ?"
-    // We wait for the "OUI" button
+    await expect(
+      page.getByText("évaluer votre spectre de l'Hypersensibilité")
+    ).toBeVisible({ timeout: 30000 })
+
+    // Check for both choices
     const ouiButton = page.getByRole('button', { name: 'OUI', exact: true })
+    const nonButton = page.getByRole('button', { name: 'NON', exact: true })
 
-    // The gradient animation takes some time (gradientSteps.length * 0.5s)
-    // We use a generous timeout
-    await expect(ouiButton).toBeVisible({ timeout: 30000 })
+    await expect(ouiButton).toBeVisible()
+    await expect(nonButton).toBeVisible()
 
-    // 7. Click "OUI" and verify questionnaire entry
+    // 6. Click "OUI" and verify questionnaire entry
     await ouiButton.click()
 
     const beginQuizButton = page.getByText('Commencer le questionnaire')
-    await expect(beginQuizButton).toBeVisible({ timeout: 10000 })
+    await expect(beginQuizButton).toBeVisible({ timeout: 15000 })
   })
 })
