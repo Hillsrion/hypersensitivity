@@ -1,8 +1,9 @@
 <script setup lang="ts">
-import GameMilestoneItem from './GameMilestoneItem.vue'
-import type { Milestone } from '../../types/game'
 import { QUESTIONNAIRE_ENTRY_DELAY_MS } from '~/app/constants/durations'
 import { EDGE_SPACING } from '~/app/constants/layout'
+
+import type { Milestone } from '../../types/game'
+import GameMilestoneItem from './GameMilestoneItem.vue'
 
 const gameStore = useGameStore()
 const animationsStore = useAnimationsStore()

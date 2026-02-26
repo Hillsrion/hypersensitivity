@@ -37,6 +37,7 @@
     "@nuxt/kit": "^4.3.1",
     "@nuxt/test-utils": "^4.0.0",
     "@playwright/test": "^1.58.2",
+    "@trivago/prettier-plugin-sort-imports": "^6.0.2",
     "@types/node": "^25.3.0",
     "@vitest/ui": "^4.0.18",
     "@vue/test-utils": "^2.4.6",

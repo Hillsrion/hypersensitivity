@@ -1,11 +1,12 @@
-import { gradientSteps } from '~/app/constants/gradients'
 import {
   DAY_TRANSITION_ANNOTATION_AUTO_COMPLETE_DELAY_MS,
   DAY_TRANSITION_EYE_CLOSED_PAUSE_MS,
   DAY_TRANSITION_UI_FADE_OUT_DELAY_MS,
 } from '~/app/constants/durations'
-import type { ExperienceGradientState } from './useExperienceGradient'
+import { gradientSteps } from '~/app/constants/gradients'
 import { isEntryAnnotationPhase } from '~/app/stores/game/intro'
+
+import type { ExperienceGradientState } from './useExperienceGradient'
 
 export const useExperienceDayTransition = (
   gradientState: ExperienceGradientState,

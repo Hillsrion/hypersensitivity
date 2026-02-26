@@ -1,7 +1,8 @@
-import { watch, nextTick, onMounted, onUnmounted } from 'vue'
-import type { Ref, ComponentPublicInstance } from 'vue'
-import { storeToRefs } from 'pinia'
+import { nextTick, onMounted, onUnmounted, watch } from 'vue'
+import type { ComponentPublicInstance, Ref } from 'vue'
+
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
+import { storeToRefs } from 'pinia'
 
 export function useGenericSectionAnimation(
   getColor: () => string,

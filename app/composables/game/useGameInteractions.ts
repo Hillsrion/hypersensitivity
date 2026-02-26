@@ -1,5 +1,6 @@
-import type { Choice } from '../../types/game'
 import { isEntryAnnotationPhase } from '~/app/stores/game/intro'
+
+import type { Choice } from '../../types/game'
 
 export const useGameInteractions = (
   showGameUI: Ref<boolean>,

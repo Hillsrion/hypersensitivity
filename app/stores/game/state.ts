@@ -1,5 +1,5 @@
-import type { GameFlags, GameState } from '../../types/game'
 import { gameData } from '../../data/game'
+import type { GameFlags, GameState } from '../../types/game'
 import {
   DEFAULT_REACHED_MILESTONES,
   ensureInitialMilestone,

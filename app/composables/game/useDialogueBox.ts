@@ -1,9 +1,11 @@
 import type { ComponentPublicInstance, Ref } from 'vue'
-import type { DialogueLine } from '../../types/game'
+
 import type SplitType from 'split-type'
-import { useDialogueDisplay } from './useDialogueDisplay'
-import { useDialogueAudio } from './useDialogueAudio'
+
+import type { DialogueLine } from '../../types/game'
 import { useDialogueAnimation } from './useDialogueAnimation'
+import { useDialogueAudio } from './useDialogueAudio'
+import { useDialogueDisplay } from './useDialogueDisplay'
 
 type MaybeElement = HTMLElement | ComponentPublicInstance | null
 

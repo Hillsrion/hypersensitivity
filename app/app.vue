@@ -1,20 +1,21 @@
 <script setup>
 import { VueLenis } from 'lenis/vue'
-import LoadingSection from './components/ui/LoadingSection.vue'
-import SoundIntroduction from './components/SoundIntroduction.vue'
-import Experience from './components/Experience.vue'
-import mainData from './data/main.json'
-import TestimoniesSection from './components/TestimoniesSection.vue'
-import HSPQuestionnaire from './components/HSPQuestionnaire.vue'
-import { useCustomCursor } from './composables/useCustomCursor'
-import GameMilestoneMenu from '~/app/components/game/GameMilestoneMenu.vue'
-import DevTools from '~/app/components/debug/DevTools.vue'
-import CircleAudiowave from './components/ui/CircleAudiowave.vue'
-import BackgroundGradient from './components/BackgroundGradient.vue'
 
+import DevTools from '~/app/components/debug/DevTools.vue'
+import GameMilestoneMenu from '~/app/components/game/GameMilestoneMenu.vue'
 import { EDGE_SPACING } from '~/app/constants/layout'
 import { UI_SIZES } from '~/app/constants/ui'
 import { gameData } from '~/app/data/game'
+
+import BackgroundGradient from './components/BackgroundGradient.vue'
+import Experience from './components/Experience.vue'
+import HSPQuestionnaire from './components/HSPQuestionnaire.vue'
+import SoundIntroduction from './components/SoundIntroduction.vue'
+import TestimoniesSection from './components/TestimoniesSection.vue'
+import CircleAudiowave from './components/ui/CircleAudiowave.vue'
+import LoadingSection from './components/ui/LoadingSection.vue'
+import { useCustomCursor } from './composables/useCustomCursor'
+import mainData from './data/main.json'
 
 const timingsModules = import.meta.glob('./data/timings/*.json', {
   eager: true,

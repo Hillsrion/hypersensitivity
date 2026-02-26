@@ -1,7 +1,8 @@
-import { describe, it, expect, beforeEach } from 'vitest'
 import { createPinia, setActivePinia } from 'pinia'
-import { useHspQuizStore } from '../app/stores/hspQuiz'
+import { beforeEach, describe, expect, it } from 'vitest'
+
 import quizData from '../app/data/hsp-quiz.json'
+import { useHspQuizStore } from '../app/stores/hspQuiz'
 
 describe('hspQuizStore', () => {
   beforeEach(() => {

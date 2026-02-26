@@ -1,32 +1,33 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { describe, it, expect } from 'vitest'
+import { describe, expect, it } from 'vitest'
+
 import {
   evaluateCondition,
   isSceneEligible,
 } from '../app/stores/game/conditions'
 import {
-  clampEnergy,
-  applyDialogueEnergyChange,
   applyChoiceEffects,
+  applyDialogueEnergyChange,
+  clampEnergy,
 } from '../app/stores/game/effects'
 import {
-  resolveNextProgressionStep,
-  findFirstValidSceneIdInMilestone,
-} from '../app/stores/game/progression'
+  computeAnnotationDelayMs,
+  getEntryAnnotationPhase,
+} from '../app/stores/game/intro'
 import {
-  getToggleTargetMenuStatus,
   finalizeClosingStatus,
+  getToggleTargetMenuStatus,
 } from '../app/stores/game/menu'
 import {
-  toPersistedGameState,
+  loadSnapshot,
   normalizePersistedSnapshot,
   saveSnapshot,
-  loadSnapshot,
+  toPersistedGameState,
 } from '../app/stores/game/persistence'
 import {
-  getEntryAnnotationPhase,
-  computeAnnotationDelayMs,
-} from '../app/stores/game/intro'
+  findFirstValidSceneIdInMilestone,
+  resolveNextProgressionStep,
+} from '../app/stores/game/progression'
 
 const baseFlags = {
   outfitChoice: null,

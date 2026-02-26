@@ -1,6 +1,8 @@
 <script setup lang="ts">
-import type { Choice } from '../../types/game'
 import type { ComponentPublicInstance } from 'vue'
+
+import type { Choice } from '../../types/game'
+
 const props = withDefaults(
   defineProps<{
     choices: Choice[]

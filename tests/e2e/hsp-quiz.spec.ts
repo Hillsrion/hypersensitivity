@@ -1,4 +1,4 @@
-import { test, expect } from '@playwright/test'
+import { expect, test } from '@playwright/test'
 
 test.describe('HSP Quiz E2E', () => {
   test('can open and complete the HSP quiz using DevTools shortcuts', async ({

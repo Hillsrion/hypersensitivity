@@ -1,4 +1,5 @@
 import { eyePaths } from '~/app/constants/eyePaths'
+
 import { useEyeAnimation } from './useEyeAnimation'
 import { useIntroSequenceAnimation } from './useIntroSequenceAnimation'
 

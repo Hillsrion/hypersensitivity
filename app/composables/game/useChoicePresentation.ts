@@ -1,4 +1,5 @@
 import type { ComponentPublicInstance, Ref } from 'vue'
+
 import type { Choice } from '../../types/game'
 
 export const useChoicePresentation = (

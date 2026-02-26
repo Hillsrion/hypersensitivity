@@ -1,8 +1,9 @@
 // @vitest-environment nuxt
-import { describe, it, expect, vi } from 'vitest'
 import { mountSuspended } from '@nuxt/test-utils/runtime'
-import DialogueBox from '~/app/components/game/DialogueBox.vue'
 import { createPinia, setActivePinia } from 'pinia'
+import { describe, expect, it, vi } from 'vitest'
+
+import DialogueBox from '~/app/components/game/DialogueBox.vue'
 
 // Mock gsap
 const mockGsap = {

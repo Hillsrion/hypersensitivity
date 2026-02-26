@@ -1,13 +1,14 @@
 <script setup lang="ts">
-import GameContainer from './game/GameContainer.vue'
-import ChoiceButtons from './game/ChoiceButtons.vue'
-import type { Choice } from '~/app/types/game'
-import {
-  useExperienceGradient,
-  type ScrollTriggerHandle,
-} from '~/app/composables/game/useExperienceGradient'
 import { useExperienceDayTransition } from '~/app/composables/game/useExperienceDayTransition'
+import {
+  type ScrollTriggerHandle,
+  useExperienceGradient,
+} from '~/app/composables/game/useExperienceGradient'
 import { QUESTIONNAIRE_ENTRY_DELAY_MS } from '~/app/constants/durations'
+import type { Choice } from '~/app/types/game'
+
+import ChoiceButtons from './game/ChoiceButtons.vue'
+import GameContainer from './game/GameContainer.vue'
 
 defineOptions({
   name: 'ExperienceScreen',

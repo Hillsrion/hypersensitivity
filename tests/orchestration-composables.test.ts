@@ -1,11 +1,11 @@
-import { describe, it, expect } from 'vitest'
+import { describe, expect, it } from 'vitest'
 
 import {
-  getCursorVariantForProgress,
-  shouldTriggerIntroAutoScroll,
-  normalizeAudioPath,
   areAudioPathsEquivalent,
+  getCursorVariantForProgress,
+  normalizeAudioPath,
   resolveTimingEnd,
+  shouldTriggerIntroAutoScroll,
 } from '../app/composables/game/orchestration'
 
 describe('orchestration-composables', () => {

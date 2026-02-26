@@ -1,6 +1,6 @@
 <script setup>
-import MainTitle from './MainTitle.vue'
 import CircleAudiowave from './CircleAudiowave.vue'
+import MainTitle from './MainTitle.vue'
 
 const route = useRoute()
 const isTest = computed(() => route.query.test === 'true')

@@ -1,6 +1,7 @@
 // @vitest-environment nuxt
-import { describe, it, expect, vi } from 'vitest'
 import { mountSuspended } from '@nuxt/test-utils/runtime'
+import { describe, expect, it, vi } from 'vitest'
+
 import HSPQuiz from '~/app/components/hsp/HSPQuiz.vue'
 
 // Minimal GSAP mock

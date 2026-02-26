@@ -1,8 +1,9 @@
 <script setup lang="ts">
+import { HSP_QUESTIONNAIRE_CONTENT_READY_DELAY_MS } from '~/app/constants/durations'
+
 import HSPIntro from './hsp/HSPIntro.vue'
 import HSPQuiz from './hsp/HSPQuiz.vue'
 import HSPResults from './hsp/HSPResults.vue'
-import { HSP_QUESTIONNAIRE_CONTENT_READY_DELAY_MS } from '~/app/constants/durations'
 
 const { $gsap } = useNuxtApp()
 const animationsStore = useAnimationsStore()

@@ -1,4 +1,4 @@
-import { test, expect } from '@playwright/test'
+import { expect, test } from '@playwright/test'
 
 test.describe('Scene Navigation & Audio E2E', () => {
   test('should load correct scene content and audio when jumping and advancing', async ({

@@ -1,4 +1,4 @@
-import { test, expect } from '@playwright/test'
+import { expect, test } from '@playwright/test'
 
 test.describe('Loading Sequence E2E', () => {
   test('should go through loading section, intro animation and then allow scrolling', async ({

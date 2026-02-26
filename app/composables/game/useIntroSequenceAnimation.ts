@@ -1,5 +1,6 @@
-import { gradientSteps } from '~/app/constants/gradients'
 import { eyePaths } from '~/app/constants/eyePaths'
+import { gradientSteps } from '~/app/constants/gradients'
+
 import {
   getCursorVariantForProgress,
   shouldTriggerIntroAutoScroll,

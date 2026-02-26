@@ -1,4 +1,5 @@
 import { defineStore } from 'pinia'
+
 import type { AudioPreloadItem, RawAudioTiming } from '../types/game'
 
 export type AudioTiming = {

@@ -1,9 +1,9 @@
-import { useGameStore } from '~/stores/game'
-import { useAnimationsStore } from '~/stores/animations'
-import { useAudioStore } from '~/stores/audio'
 import { SCENE_IDS } from '~/app/data/constants'
 import { gameData } from '~/app/data/game'
 import { getFlagsForScene } from '~/app/data/sceneFlagRequirements'
+import { useAnimationsStore } from '~/stores/animations'
+import { useAudioStore } from '~/stores/audio'
+import { useGameStore } from '~/stores/game'
 
 export default defineNuxtPlugin((_nuxtApp) => {
   // Only play in dev mode

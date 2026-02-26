@@ -1,4 +1,4 @@
-import { test, expect } from '@playwright/test'
+import { expect, test } from '@playwright/test'
 
 test.describe('Day Transition E2E', () => {
   test('should transition from Day 1 to Day 2', async ({ page }) => {

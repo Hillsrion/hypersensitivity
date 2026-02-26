@@ -1,4 +1,4 @@
-import type { Ref, ComponentPublicInstance } from 'vue'
+import type { ComponentPublicInstance, Ref } from 'vue'
 
 export function useTestimoniesAnimation(
   sectionRef: Readonly<Ref<HTMLElement | null>>,
@@ -52,28 +52,29 @@ export function useTestimoniesAnimation(
     // Re-measure Hero Text after width adjustment
     const startRect = heroTextEl.getBoundingClientRect()
 
-    // Calculate initial scale to fit screen width (with some padding)
-    const fitScale = (window.innerWidth * 0.9) / startRect.width
-
-    // Calculate initial centering offsets
-    // We want the text to appear centered on screen initially
-    const screenCenterX = window.innerWidth / 2
-    const screenCenterY = window.innerHeight / 2
-
-    // We calculate position relative to sticky container to avoid scroll offset issues
-    const stickyRect = stickyRef.value.getBoundingClientRect()
-    const relativeTop = startRect.top - stickyRect.top
-    const relativeLeft = startRect.left - stickyRect.left
-
-    const startCenterX = relativeLeft + startRect.width / 2
-    const startCenterY = relativeTop + startRect.height / 2
-
-    const initialX = screenCenterX - startCenterX
-    const initialY = screenCenterY - startCenterY
-
     // Calculate final position (relative to initial startRect position)
     const finalX = endRect.left - startRect.left
     const finalY = endRect.top - startRect.top
+
+    // Calculate initial offsets
+    // We want the text to appear vertically centered on screen initially,
+    // but horizontally aligned to its final left position.
+    const screenCenterY = window.innerHeight / 2
+    const stickyRect = stickyRef.value.getBoundingClientRect()
+    const relativeTop = startRect.top - stickyRect.top
+    const startCenterY = relativeTop + startRect.height / 2
+
+    const initialX = finalX // Align to final left edge continually
+    const initialY = screenCenterY - startCenterY
+
+    // Calculate initial scale. Taking the max of width/height proportion
+    // ensures a dramatic zoom effect even on portrait screens (like mobile).
+    // The width available starts from the actual left edge where it will be anchored.
+    // The width available starts from the actual left edge where it will be anchored.
+    // We use the available width to calculate scaleX, making sure it doesn't leak out unreadably if possible
+    const scaleX = (window.innerWidth * 0.9) / startRect.width
+    const scaleY = (window.innerHeight * 0.8) / startRect.height
+    const fitScale = Math.max(scaleX, scaleY)
 
     // --- 2. Build Timeline ---
 
@@ -82,7 +83,7 @@ export function useTestimoniesAnimation(
       scale: fitScale,
       x: initialX,
       y: initialY,
-      transformOrigin: 'center center',
+      transformOrigin: 'left center',
       immediateRender: true,
     })
 
@@ -96,7 +97,7 @@ export function useTestimoniesAnimation(
         x: finalX,
         y: finalY,
         scale: 1,
-        transformOrigin: 'center center', // Scale from center
+        transformOrigin: 'left center', // Scale from left edge
         ease: 'power2.inOut',
         duration: 3,
       })

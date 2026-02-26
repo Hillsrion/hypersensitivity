@@ -1,5 +1,5 @@
-import { defineNuxtModule } from '@nuxt/kit'
 import { addCustomTab } from '@nuxt/devtools-kit'
+import { defineNuxtModule } from '@nuxt/kit'
 import type { Nuxt } from '@nuxt/schema'
 
 export default defineNuxtModule({

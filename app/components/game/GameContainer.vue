@@ -1,11 +1,12 @@
 <script setup lang="ts">
-import GameHeader from './GameHeader.vue'
-import GameEnergyBar from './GameEnergyBar.vue'
-import DialogueBox from './DialogueBox.vue'
-import ChoiceButtons from './ChoiceButtons.vue'
-import MenuIcon from '../ui/MenuIcon.vue'
 import { EDGE_SPACING } from '~/app/constants/layout'
 import { UI_SIZES } from '~/app/constants/ui'
+
+import MenuIcon from '../ui/MenuIcon.vue'
+import ChoiceButtons from './ChoiceButtons.vue'
+import DialogueBox from './DialogueBox.vue'
+import GameEnergyBar from './GameEnergyBar.vue'
+import GameHeader from './GameHeader.vue'
 
 const { $gsap } = useNuxtApp()
 

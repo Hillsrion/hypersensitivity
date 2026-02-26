@@ -1,4 +1,14 @@
 import { defineStore } from 'pinia'
+
+import { devConfig } from '../config/dev'
+import { ENTRY_ANNOTATION_AUTO_COMPLETE_DELAY_MS } from '../constants/durations'
+import { SCENE_IDS } from '../data/constants'
+import { gameData } from '../data/game'
+import {
+  MILESTONES,
+  MILESTONE_ORDER,
+  getMilestoneForScene,
+} from '../data/milestones'
 import type {
   Choice,
   DialogueLine,
@@ -7,27 +17,9 @@ import type {
   Milestone,
   Scene,
 } from '../types/game'
-import { gameData } from '../data/game'
-import { SCENE_IDS } from '../data/constants'
-import { devConfig } from '../config/dev'
-import { useAudioStore } from './audio'
 import { useAnimationsStore } from './animations'
-import {
-  MILESTONES,
-  MILESTONE_ORDER,
-  getMilestoneForScene,
-} from '../data/milestones'
-import {
-  STORAGE_KEY,
-  createInitialFlags,
-  createInitialGameState,
-  ensureInitialMilestone,
-} from './game/state'
+import { useAudioStore } from './audio'
 import { applyChoiceEffects, applyDialogueEnergyChange } from './game/effects'
-import {
-  findFirstValidSceneIdInMilestone,
-  resolveNextProgressionStep,
-} from './game/progression'
 import {
   clearScheduledTimer,
   computeAnnotationDelayMs,
@@ -36,7 +28,6 @@ import {
   scheduleTimer,
   shouldAutoCompleteAnnotation,
 } from './game/intro'
-import { loadSnapshot, saveSnapshot } from './game/persistence'
 import {
   MENU_CLOSE_DELAY_MS,
   finalizeClosingStatus,
@@ -44,6 +35,11 @@ import {
   getMenuOpenStatus,
   getToggleTargetMenuStatus,
 } from './game/menu'
+import { loadSnapshot, saveSnapshot } from './game/persistence'
+import {
+  findFirstValidSceneIdInMilestone,
+  resolveNextProgressionStep,
+} from './game/progression'
 import {
   getAvailableChoices,
   getCurrentDay,
@@ -61,7 +57,12 @@ import {
   isFirstDialogueOfInitialScene,
   isGameEnded,
 } from './game/selectors'
-import { ENTRY_ANNOTATION_AUTO_COMPLETE_DELAY_MS } from '../constants/durations'
+import {
+  STORAGE_KEY,
+  createInitialFlags,
+  createInitialGameState,
+  ensureInitialMilestone,
+} from './game/state'
 
 export const useGameStore = defineStore('game', {
   state: createInitialGameState,

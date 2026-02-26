@@ -1,4 +1,4 @@
-import { test, expect } from '@playwright/test'
+import { expect, test } from '@playwright/test'
 
 test.describe('Game Choices E2E', () => {
   test('should skip to game, select a choice and see the next part of the story', async ({

@@ -1,7 +1,8 @@
-import { describe, it, expect } from 'vitest'
+import { describe, expect, it } from 'vitest'
+
+import { SCENE_IDS } from '../app/data/constants'
 import { gameData } from '../app/data/game'
 import { MILESTONES, MILESTONE_ORDER } from '../app/data/milestones'
-import { SCENE_IDS } from '../app/data/constants'
 
 describe('Game Data Integrity', () => {
   const allSceneIds = Object.keys(gameData.scenes)

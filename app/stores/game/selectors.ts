@@ -1,3 +1,4 @@
+import { MILESTONES } from '../../data/milestones'
 import type {
   Choice,
   DialogueLine,
@@ -5,7 +6,6 @@ import type {
   Milestone,
   Scene,
 } from '../../types/game'
-import { MILESTONES } from '../../data/milestones'
 import { evaluateCondition } from './conditions.ts'
 
 export const getCurrentScene = (

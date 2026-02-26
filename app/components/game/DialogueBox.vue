@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import type { DialogueLine } from '../../types/game'
+
 const props = defineProps<{
   dialogue: DialogueLine | null
   isSelecting?: boolean

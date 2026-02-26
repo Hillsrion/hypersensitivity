@@ -1,8 +1,10 @@
 <script setup lang="ts">
-import { ref, computed, type ComponentPublicInstance } from 'vue'
-import mainData from '~/app/data/main.json'
-import TestimonyCard from './ui/TestimonyCard.vue'
+import { type ComponentPublicInstance, computed, ref } from 'vue'
+
 import { useTestimoniesAnimation } from '~/app/composables/ui/useTestimoniesAnimation'
+import mainData from '~/app/data/main.json'
+
+import TestimonyCard from './ui/TestimonyCard.vue'
 
 const sectionRef = useTemplateRef<HTMLElement>('sectionRef')
 const stickyRef = useTemplateRef<HTMLElement>('stickyRef')

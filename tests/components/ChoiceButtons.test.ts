@@ -1,9 +1,11 @@
 // @vitest-environment nuxt
-import { describe, it, expect, vi, beforeEach } from 'vitest'
-import { mountSuspended } from '@nuxt/test-utils/runtime'
-import ChoiceButtons from '~/app/components/game/ChoiceButtons.vue'
-import { createPinia, setActivePinia } from 'pinia'
 import { nextTick } from 'vue'
+
+import { mountSuspended } from '@nuxt/test-utils/runtime'
+import { createPinia, setActivePinia } from 'pinia'
+import { beforeEach, describe, expect, it, vi } from 'vitest'
+
+import ChoiceButtons from '~/app/components/game/ChoiceButtons.vue'
 
 // Global mock state
 let capturedOnComplete: (() => void) | undefined

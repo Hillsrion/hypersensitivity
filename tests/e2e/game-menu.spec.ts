@@ -1,4 +1,4 @@
-import { test, expect } from '@playwright/test'
+import { expect, test } from '@playwright/test'
 
 test.describe('Game Menu E2E', () => {
   test('should open/close menu, show milestones and perform bottom actions', async ({

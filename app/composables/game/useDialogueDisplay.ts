@@ -1,8 +1,9 @@
-import type { DialogueLine } from '../../types/game'
 import {
   isContentRevealedPhase,
   isEntryAnnotationPhase,
 } from '~/app/stores/game/intro'
+
+import type { DialogueLine } from '../../types/game'
 
 export function useDialogueDisplay(dialogue: Ref<DialogueLine | null>) {
   const gameStore = useGameStore()
