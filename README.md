@@ -60,6 +60,20 @@ To preview the production build locally:
 pnpm preview
 ```
 
+### Testing
+
+Run unit and integration tests (Vitest):
+
+```bash
+pnpm test
+```
+
+Run end-to-end tests (Playwright):
+
+```bash
+pnpm test:e2e
+```
+
 ## 📚 Documentation
 
 For a deep dive into the technical details, scene structure, and content workflow, please read the [Game Architecture & Workflow](docs/GAME_ARCHITECTURE.md) guide.
@@ -69,11 +83,12 @@ For a deep dive into the technical details, scene structure, and content workflo
 This project utilizes a modern tech stack to deliver high-performance animations and seamless audio integration.
 
 - **[Nuxt 4](https://nuxt.com/)** - The Intuitive Vue Framework
-- **[Vue 3](https://vuejs.org/)** - Progressive JavaScript Framework
+- **[Vue 3](https://vuejs.org/)** - Progressive JavaScript Framework (Composition API + useTemplateRef)
 - **[Tailwind CSS v4](https://tailwindcss.com/)** - With `fluid-tailwindcss` for responsive scaling
 - **[GSAP](https://greensock.com/gsap/)** - Professional-grade animation library
 - **[Lenis](https://lenis.darkroom.engineering/)** - Smooth scrolling
 - **[Pinia](https://pinia.vuejs.org/)** - Intuitive state management
+- **[Vitest](https://vitest.dev/)** & **[Playwright](https://playwright.dev/)** - Comprehensive testing suite
 
 ## 📄 License
 

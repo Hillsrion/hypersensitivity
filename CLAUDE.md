@@ -9,6 +9,9 @@ pnpm dev        # Start dev server on localhost:3000
 pnpm build      # Production build
 pnpm generate   # Static site generation
 pnpm preview    # Preview production build
+pnpm test       # Run unit/integration tests (Vitest)
+pnpm test:e2e   # Run E2E tests (Playwright)
+pnpm format     # Format code with Prettier
 ```
 
 ## Git Conventions
@@ -43,40 +46,33 @@ This is a Nuxt 4 content-driven website with animation capabilities.
 
 ### Tech Stack
 
-- **Nuxt 4** with Vue 3 Composition API
-- **@nuxt/content v3** for Markdown-based content management
+- **Nuxt 4** with Vue 3 Composition API (+ Vue 3.5 `useTemplateRef`)
 - **Tailwind CSS v4** via Vite plugin with fluid-tailwindcss
 - **@hypernym/nuxt-gsap** for GSAP animations
 - **nuxt-split-type** for text splitting animations
+- **Testing**: Vitest (Unit/Integration), Playwright (E2E)
+- **Quality**: ESLint, Prettier (with auto-sort imports)
 - **Typography**: Epilogue (Google Fonts - 400, 500, 600), Satoshi Regular (custom - 400), PP Eiko Thin (custom - 100)
 
 ### Project Structure
 
-- `app/` - Nuxt application (pages, components, app.vue)
-- `content/` - Markdown content files with YAML frontmatter
+- `app/` - Nuxt application (components, composables, stores, pages)
 - `plugins/` - Nuxt plugins
 - `assets/css/` - Tailwind entry point
+- `tests/` - Vitest and Playwright test suites
+- `docs/` - Project documentation
 
 ### Key Patterns
 
-**Content Pages**: The catch-all route `app/pages/[...slug].vue` renders all content from `content/` directory using ContentRenderer.
+**Auto-imports**: Nuxt automatically imports Vue APIs and all composables/stores in `app/`. **DO NOT** import them manually.
 
-**GSAP Usage**: Access via explicit import from Nuxt app instance:
+**Template Refs**: Use Vue 3.5 `useTemplateRef()` for DOM elements.
 
-```ts
-const { $gsap } = useNuxtApp()
-```
+**GSAP Usage**: Access via explicit import from Nuxt app instance or use domain-specific animation composables.
 
-**SplitType Usage**: Use the composable for text animations:
+**SplitType Usage**: Use the `useSplitText` composable for text animations.
 
-```ts
-const el = ref<HTMLElement>()
-const { chars, words, lines } = useSplitText(el, {
-  splitBy: 'lines, words, chars',
-})
-```
-
-**Content Components**: Markdown files support inline Vue components using `::component-name` syntax.
+**Fluid Tailwind**: Use `fl-` utilities for responsive scaling (e.g., `fl-text-2xl/5xl`).
 
 **Typography**: Custom fonts are configured via `@theme` in CSS:
 
@@ -117,11 +113,9 @@ Uses `fluid-tailwindcss` for responsive sizing with CSS `clamp()`. Configured vi
 - **Border**: `fl-rounded`, `fl-rounded-t/r/b/l`, `fl-rounded-tl/tr/br/bl`, `fl-border`
 - **Transform**: `fl-translate-x`, `fl-translate-y`
 
-**Configuration** (in CSS file):
+## Testing & Quality
 
-```css
-@plugin "fluid-tailwindcss" {
-  minviewport: 375; /* Default: 375px */
-  maxviewport: 1440; /* Default: 1440px */
-}
-```
+- **Linting**: ESLint + Prettier.
+- **Unit/Integration**: `pnpm test` (Vitest).
+- **End-to-End**: `pnpm test:e2e` (Playwright). Use `?test=true` query param to bypass the `LoadingSection`.
+- **Pre-commit**: Husky ensures code is formatted before committing.
