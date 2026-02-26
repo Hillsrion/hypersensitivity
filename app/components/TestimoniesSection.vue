@@ -1,17 +1,20 @@
-<script setup>
+<script setup lang="ts">
+import { ref, computed, type ComponentPublicInstance } from 'vue'
 import mainData from '~/app/data/main.json'
 import TestimonyCard from './ui/TestimonyCard.vue'
+import { useTestimoniesAnimation } from '~/app/composables/ui/useTestimoniesAnimation'
 
-const sectionRef = useTemplateRef('sectionRef')
-const stickyRef = useTemplateRef('stickyRef')
-const heroTextRef = useTemplateRef('heroTextRef')
-const trackRef = useTemplateRef('trackRef')
-const firstCardContentRef = ref(null) // Will hold the inner content div of the first card
+const sectionRef = useTemplateRef<HTMLElement>('sectionRef')
+const stickyRef = useTemplateRef<HTMLElement>('stickyRef')
+const heroTextRef = useTemplateRef<ComponentPublicInstance>('heroTextRef')
+const trackRef = useTemplateRef<HTMLElement>('trackRef')
+const firstCardContentRef = ref<HTMLElement | null>(null)
 
-const testimonies = mainData.testimonies
+const testimonies = mainData?.testimonies || []
+const firstTestimony = computed(() => testimonies[0] || { content: '' })
 
 // Function ref to capture the first card's content element reliably
-const setFirstCardRef = (el, index) => {
+const setFirstCardRef = (el: ComponentPublicInstance | null, index: number) => {
   if (index === 0 && el) {
     // el is the component instance, we want the textRef element
     firstCardContentRef.value = el.textRef
@@ -43,7 +46,7 @@ useTestimoniesAnimation(
           variant="body"
           class="text-primary font-serif font-light origin-center opacity-0"
         >
-          {{ testimonies[0].content }}
+          {{ firstTestimony.content }}
         </AppText>
       </div>
 

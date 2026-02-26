@@ -50,7 +50,7 @@ export default defineNuxtConfig({
   ],
 
   imports: {
-    dirs: ['composables/game', 'composables/hsp'],
+    dirs: ['composables/game', 'composables/hsp', 'composables/ui'],
   },
 
   typescript: {
