@@ -44,18 +44,28 @@ export const useSoundIntroAnimation = (
 
   tl.pause()
 
-  onMounted(() => {
-    const scrollTl = $gsap.timeline({
-      scrollTrigger: {
-        trigger: containerRef.value,
-        start: 'center center',
-        end: 'bottom top',
-        scrub: true,
-      },
-    })
+  let scrollTl: gsap.core.Timeline | undefined
 
-    scrollTl.add(animateToWhite())
-  })
+  watch(
+    () => animations.landing.intro.entry.completed,
+    (completed) => {
+      if (completed) {
+        nextTick(() => {
+          if (!containerRef.value) return
+          scrollTl = $gsap.timeline({
+            scrollTrigger: {
+              trigger: containerRef.value,
+              start: 'center center',
+              end: 'bottom top',
+              scrub: true,
+            },
+          })
+          scrollTl.add(animateToWhite())
+        })
+      }
+    },
+    { immediate: true }
+  )
 
   const animate = () => {
     if (animations.skipIntro) {

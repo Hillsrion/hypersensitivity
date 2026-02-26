@@ -113,6 +113,7 @@ export const useBackgroundGradient = () => {
   }
 
   const animateToWhite = () => {
+    if (Object.keys(palette).length === 0) updatePalette()
     const tl = $gsap.timeline()
     tl.to(gradientState.value, {
       color1: '#ffffff',
