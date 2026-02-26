@@ -1,4 +1,3 @@
-import { onMounted, nextTick } from 'vue'
 import type { Ref, ComponentPublicInstance } from 'vue'
 
 export function useTestimoniesAnimation(
