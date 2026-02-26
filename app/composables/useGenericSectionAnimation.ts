@@ -1,4 +1,7 @@
+import { watch, nextTick, onMounted, onUnmounted } from 'vue'
 import type { Ref, ComponentPublicInstance } from 'vue'
+import { storeToRefs } from 'pinia'
+import { ScrollTrigger } from 'gsap/ScrollTrigger'
 
 export function useGenericSectionAnimation(
   getColor: () => string,
@@ -9,6 +12,7 @@ export function useGenericSectionAnimation(
 ) {
   const { $gsap } = useNuxtApp()
   const animationsStore = useAnimationsStore()
+  const { genericSectionsCompact: isCompact } = storeToRefs(animationsStore)
 
   let visibilityTimeout: ReturnType<typeof setTimeout> | null = null
 
@@ -28,20 +32,76 @@ export function useGenericSectionAnimation(
     if (!containerRef.value || !titleWrapperRef.value || !contentRef.value)
       return
 
+    // Helpers moved up for accessibility
+    const getMinScale = () => {
+      const width = window.innerWidth
+      if (width <= 360) return 0.65
+      if (width >= 1280) return 0.46
+      // Linear interpolation between 0.65 (mobile) and 0.46 (desktop)
+      return 0.65 - ((width - 360) * (0.65 - 0.46)) / (1280 - 360)
+    }
+
+    const getOffset = () => (window.innerWidth < 768 ? 32 : 62)
+
+    // Initial check for compact state
+    const performCompactCheck = () => {
+      const titlesEl = (titlesRef.value || [])
+        .map((el) =>
+          el && '$el' in el ? (el as ComponentPublicInstance).$el : el
+        )
+        .filter((el): el is HTMLElement => el instanceof HTMLElement)
+
+      if (titlesEl.length === 0) return
+
+      const minScale = getMinScale()
+      const lastTitle = titlesEl[titlesEl.length - 1] as HTMLElement
+      const scaledHeight = lastTitle.offsetHeight * minScale
+      const offset = getOffset()
+      const contentHeight = contentRef.value!.offsetHeight
+      const minMargin = 32
+
+      const preferredStartTopPercent =
+        window.innerWidth < 1024 || window.innerHeight < 900 ? 0.1 : 0.18
+      const startTop = window.innerHeight * preferredStartTopPercent
+
+      const neededHeight =
+        startTop + scaledHeight + offset + contentHeight + minMargin
+
+      if (neededHeight > window.innerHeight) {
+        const neededStartTop =
+          window.innerHeight -
+          (scaledHeight + offset + contentHeight + minMargin)
+
+        if (neededStartTop < minMargin) {
+          animationsStore.setGenericSectionsCompact(true)
+        }
+      }
+    }
+
+    // Run check after initial render and on resize
+    const onResize = () => {
+      // Small delay to let layout settle
+      setTimeout(() => {
+        // We reset to false to measure natural height
+        animationsStore.setGenericSectionsCompact(false)
+        nextTick(() => {
+          performCompactCheck()
+        })
+      }, 100)
+    }
+
+    nextTick(() => {
+      performCompactCheck()
+    })
+
+    window.addEventListener('resize', onResize)
+    onUnmounted(() => {
+      window.removeEventListener('resize', onResize)
+    })
+
     const mm = $gsap.matchMedia()
 
     mm.add('(min-width: 360px)', () => {
-      // Helper to calculate minScale based on viewport width
-      const getMinScale = () => {
-        const width = window.innerWidth
-        if (width <= 360) return 0.65
-        if (width >= 1280) return 0.46
-        // Linear interpolation between 0.65 (mobile) and 0.46 (desktop)
-        return 0.65 - ((width - 360) * (0.65 - 0.46)) / (1280 - 360)
-      }
-
-      const getOffset = () => (window.innerWidth < 768 ? 32 : 62)
-
       // Collect DOM elements from component instances safely
       const titlesEl = (titlesRef.value || [])
         .map((el) =>
@@ -54,20 +114,14 @@ export function useGenericSectionAnimation(
       const listItems = contentRef.value!.querySelectorAll('li')
 
       const calculateStartTop = () => {
-        const paragraphs = contentRef.value!.querySelectorAll('p')
-        // 1. Reset compact class before measuring to get natural height
-        paragraphs.forEach((p) => {
-          p.classList.remove('fl-text-sm/base')
-        })
-
         const minScale = getMinScale()
         const lastTitle = titlesEl[titlesEl.length - 1] as HTMLElement
         const scaledHeight = lastTitle.offsetHeight * minScale
         const offset = getOffset()
-        let contentHeight = contentRef.value!.offsetHeight
+        const contentHeight = contentRef.value!.offsetHeight
         const minMargin = 32
 
-        // 2. Default preferred start top (18% on desktop, 10% on mobile/tablet or landscape tablets)
+        // Default preferred start top (18% on desktop, 10% on mobile/tablet or landscape tablets)
         const preferredStartTopPercent =
           window.innerWidth < 1024 || window.innerHeight < 900 ? 0.1 : 0.18
         let startTop = window.innerHeight * preferredStartTopPercent
@@ -76,33 +130,12 @@ export function useGenericSectionAnimation(
           startTop + scaledHeight + offset + contentHeight + minMargin
 
         if (neededHeight > window.innerHeight) {
-          // Adjust startTop down to minMargin
-          let neededStartTop =
+          // Adjust startTop down to minMargin to try to fit within viewport
+          const neededStartTop =
             window.innerHeight -
             (scaledHeight + offset + contentHeight + minMargin)
 
-          if (neededStartTop >= minMargin) {
-            startTop = neededStartTop
-          } else {
-            // Apply compact class directly to the DOM for synchronous measurement
-            paragraphs.forEach((p) => {
-              p.classList.add('fl-text-sm/base')
-            })
-
-            // Re-measure content height now that text is smaller
-            contentHeight = contentRef.value!.offsetHeight
-            neededStartTop =
-              window.innerHeight -
-              (scaledHeight + offset + contentHeight + minMargin)
-
-            startTop = Math.max(
-              minMargin,
-              Math.min(
-                window.innerHeight * preferredStartTopPercent,
-                neededStartTop
-              )
-            )
-          }
+          startTop = Math.max(minMargin, neededStartTop)
         }
         return startTop
       }
@@ -271,4 +304,15 @@ export function useGenericSectionAnimation(
       clearTimeout(visibilityTimeout)
     }
   })
+
+  // Watch for compact state change to refresh ScrollTrigger
+  watch(isCompact, () => {
+    nextTick(() => {
+      ScrollTrigger.refresh()
+    })
+  })
+
+  return {
+    isCompact,
+  }
 }

@@ -44,9 +44,13 @@ export const useAnimationsStore = defineStore('animations', {
       scroll: {
         locked: false,
       },
+      genericSectionsCompact: false,
     }
   },
   actions: {
+    setGenericSectionsCompact(compact: boolean) {
+      this.genericSectionsCompact = compact
+    },
     setCursorVariant(variant: 'dark' | 'light') {
       this.cursor.variant = variant
     },

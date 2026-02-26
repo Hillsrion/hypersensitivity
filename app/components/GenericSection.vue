@@ -18,7 +18,7 @@ const contentRef = useTemplateRef<HTMLElement>('contentRef')
 const titlesRef =
   useTemplateRef<Array<HTMLElement | ComponentPublicInstance>>('titlesRef')
 
-useGenericSectionAnimation(
+const { isCompact } = useGenericSectionAnimation(
   () => props.color,
   containerRef,
   titleWrapperRef,
@@ -67,13 +67,13 @@ useGenericSectionAnimation(
 
     <!-- Content Paragraphs -->
     <div ref="contentRef" class="absolute top-0 w-full max-w-lg px-6 z-30">
-      <ul class="flex flex-col gap-y-6">
+      <ul class="flex flex-col gap-y-4 min-[390px]:gap-y-6">
         <li v-for="(item, index) in content" :key="index" class="opacity-0">
           <!-- Start hidden for GSAP to control -->
 
           <AppText
             as="p"
-            variant="body"
+            :variant="isCompact ? 'body-sm' : 'body'"
             class="text-primary/60 font-sans font-light"
           >
             {{ item }}

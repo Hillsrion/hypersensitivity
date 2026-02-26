@@ -1,6 +1,4 @@
 <script setup lang="ts">
-import { computed } from 'vue'
-
 const props = withDefaults(
   defineProps<{
     /** The semantic HTML tag to render (e.g., h1, h2, span) */

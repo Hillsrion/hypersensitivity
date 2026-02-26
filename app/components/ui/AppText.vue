@@ -1,12 +1,10 @@
 <script setup lang="ts">
-import { computed } from 'vue'
-
 const props = withDefaults(
   defineProps<{
     /** The semantic HTML tag to render */
     as?: string
     /** The typography scale variant */
-    variant?: 'body' | 'quiz' | 'label'
+    variant?: 'body' | 'body-sm' | 'quiz' | 'label'
   }>(),
   {
     as: 'p',
@@ -16,9 +14,11 @@ const props = withDefaults(
 
 const classes = computed(() => {
   return {
-    'fl-text-lg/xl leading-[1.4]': props.variant === 'body',
-    'fl-text-xl/2xl leading-[1.75rem]': props.variant === 'quiz',
+    'fl-text-lg/xl': props.variant === 'body',
+    'fl-text-base/lg': props.variant === 'body-sm',
+    'leading-[1.4]': props.variant === 'body-sm' || props.variant === 'label',
     'fl-text-sm/base leading-[1.5]': props.variant === 'label',
+    'fl-text-xl/2xl leading-[1.75rem]': props.variant === 'quiz',
   }
 })
 </script>
