@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import type { ComponentPublicInstance } from 'vue'
+import { useWindowSize } from '@vueuse/core'
 
 interface Props {
   title: string
@@ -25,6 +26,13 @@ const { isCompact } = useGenericSectionAnimation(
   contentRef,
   titlesRef
 )
+
+// Dynamically compute the number of titles based on window width to reduce DOM nodes on mobile
+const { width } = useWindowSize()
+const numTitles = computed(() => {
+  if (import.meta.server) return 9 // Default for SSR
+  return width.value < 768 ? 5 : 9
+})
 </script>
 
 <template>
@@ -39,7 +47,7 @@ const { isCompact } = useGenericSectionAnimation(
       class="relative w-full grid place-items-center z-10 px-4 md:px-0"
     >
       <AppHeading
-        v-for="i in 9"
+        v-for="i in numTitles"
         :key="i"
         ref="titlesRef"
         as="p"
@@ -48,12 +56,9 @@ const { isCompact } = useGenericSectionAnimation(
         :class="{
           'z-10': i === 1,
           'z-20': i > 1,
-          'leading-[1.13]': i < 3,
-          'leading-[1.2]': i < 5,
-          'leading-[1.28]': i > 5,
-          // Mobile first: hide even indexes by default (to reduce to 5 layers), show on md screens
-          hidden: i % 2 === 0 && i > 1,
-          'md:block': i % 2 === 0 && i > 1,
+          'leading-[1.13]': numTitles === 9 ? i < 3 : i < 2,
+          'leading-[1.2]': numTitles === 9 ? i >= 3 && i < 5 : i >= 2 && i < 3,
+          'leading-[1.28]': numTitles === 9 ? i >= 5 : i >= 3,
         }"
         aria-hidden="true"
       >

@@ -8,6 +8,7 @@ export default defineNuxtConfig({
     '@nuxtjs/google-fonts',
     '@hypernym/nuxt-gsap',
     '@nuxt/eslint',
+    '@vueuse/nuxt',
     '~/modules/devtools-extension.ts',
   ],
 
