@@ -2,6 +2,9 @@
 import MainTitle from './MainTitle.vue'
 import CircleAudiowave from './CircleAudiowave.vue'
 
+const route = useRoute()
+const isTest = computed(() => route.query.test === 'true')
+
 const animationsStore = useAnimationsStore()
 const { landing } = storeToRefs(animationsStore)
 // Keep audioStore usage direct
@@ -17,6 +20,7 @@ const onBottomElementClick = () => {
 
 <template>
   <div
+    v-if="!isTest"
     ref="containerElement"
     class="h-svh w-screen flex flex-col items-center justify-center fixed inset-0"
     :class="{

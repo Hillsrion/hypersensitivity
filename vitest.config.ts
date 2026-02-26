@@ -4,6 +4,6 @@ export default defineVitestConfig({
   test: {
     environment: 'happy-dom',
     globals: true,
-    exclude: ['**/node_modules/**', '**/.worktrees/**'],
+    exclude: ['**/node_modules/**', '**/.worktrees/**', 'tests/e2e/**'],
   },
 })

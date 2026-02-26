@@ -12,6 +12,7 @@
     "test": "vitest",
     "test:game": "vitest tests/game-store-modules.test.ts",
     "test:quiz": "vitest tests/hsp-quiz-store.test.ts",
+    "test:e2e": "playwright test",
     "prepare": "husky"
   },
   "dependencies": {
@@ -35,6 +36,7 @@
     "@nuxt/eslint": "^1.15.1",
     "@nuxt/kit": "^4.3.1",
     "@nuxt/test-utils": "^4.0.0",
+    "@playwright/test": "^1.58.2",
     "@types/node": "^25.3.0",
     "@vitest/ui": "^4.0.18",
     "@vue/test-utils": "^2.4.6",

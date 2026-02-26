@@ -27,3 +27,7 @@ logs
 .worktrees/
 coverage/
 *.heapsnapshot
+
+# Playwright
+playwright-report/
+test-results/
