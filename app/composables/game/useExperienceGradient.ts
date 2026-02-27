@@ -1,6 +1,6 @@
 import {
-  gradientSteps,
   OUTRO_PRIMARY_COLOR,
+  gradientSteps,
   outroFooterGradient,
 } from '~/app/constants/gradients'
 

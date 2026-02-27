@@ -117,25 +117,39 @@ const handleRestart = async () => {
   })
 }
 
-watch(currentView, (view, previousView) => {
-  const isEndingView = view === 'results' || view === 'skipped'
-  const wasEndingView = previousView === 'results' || previousView === 'skipped'
+watch(
+  currentView,
+  (view, previousView) => {
+    const isEndingView = view === 'results' || view === 'skipped'
+    const prevViewStr = previousView as string | undefined
+    const wasEndingView = prevViewStr === 'results' || prevViewStr === 'skipped'
 
-  if (isEndingView && !wasEndingView) {
-    gameStore.setShowFinalFooter(false)
+    if (isEndingView && !wasEndingView) {
+      if (view === 'skipped') {
+        gameStore.setShowFinalFooter(true)
+        footerRevealTriggered.value = true
+      } else {
+        gameStore.setShowFinalFooter(false)
+        footerRevealTriggered.value = false
+      }
 
-    nextTick(() => {
-      resetResultsTransitionState()
-    })
+      nextTick(() => {
+        resultsScrollTop.value = 0
+        if (elementRef.value) {
+          elementRef.value.scrollTop = 0
+        }
+      })
 
-    return
-  }
+      return
+    }
 
-  if (!isEndingView) {
-    resultsScrollTop.value = 0
-    footerRevealTriggered.value = false
-  }
-})
+    if (!isEndingView) {
+      resultsScrollTop.value = 0
+      footerRevealTriggered.value = false
+    }
+  },
+  { immediate: true }
+)
 
 onMounted(() => {
   // Debug mode: jump straight to quiz
