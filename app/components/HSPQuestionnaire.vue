@@ -1,9 +1,10 @@
 <script setup lang="ts">
+import { HSP_QUESTIONNAIRE_CONTENT_READY_DELAY_MS } from '~/app/constants/durations'
+
+import GameOutroFooter from './game/GameOutroFooter.vue'
 import HSPIntro from './hsp/HSPIntro.vue'
 import HSPQuiz from './hsp/HSPQuiz.vue'
 import HSPResults from './hsp/HSPResults.vue'
-import GameOutroFooter from './game/GameOutroFooter.vue'
-import { HSP_QUESTIONNAIRE_CONTENT_READY_DELAY_MS } from '~/app/constants/durations'
 
 const props = defineProps<{
   developmentCreditUrl: string
@@ -54,7 +55,10 @@ let contentReadyTimer: ReturnType<typeof setTimeout> | null = null
 const resultsOpacity = computed(() => {
   if (currentView.value !== 'results') return 1
 
-  const progress = Math.min(resultsScrollTop.value / RESULTS_FADE_DISTANCE_PX, 1)
+  const progress = Math.min(
+    resultsScrollTop.value / RESULTS_FADE_DISTANCE_PX,
+    1
+  )
   return 1 - progress
 })
 
@@ -114,7 +118,10 @@ const handleRestart = async () => {
 }
 
 watch(currentView, (view, previousView) => {
-  if (view === 'results' && previousView !== 'results') {
+  const isEndingView = view === 'results' || view === 'skipped'
+  const wasEndingView = previousView === 'results' || previousView === 'skipped'
+
+  if (isEndingView && !wasEndingView) {
     gameStore.setShowFinalFooter(false)
 
     nextTick(() => {
@@ -124,7 +131,7 @@ watch(currentView, (view, previousView) => {
     return
   }
 
-  if (view !== 'results') {
+  if (!isEndingView) {
     resultsScrollTop.value = 0
     footerRevealTriggered.value = false
   }
@@ -172,8 +179,8 @@ onUnmounted(() => {
     ref="elementRef"
     class="questionnaire-container fixed inset-0 z-100 w-full h-full flex flex-col items-center p-4 text-white overflow-y-auto transition-all duration-500"
     :class="{
-      'justify-center': currentView !== 'results',
-      'justify-start': currentView === 'results',
+      'justify-center': currentView !== 'results' && currentView !== 'skipped',
+      'justify-start': currentView === 'results' || currentView === 'skipped',
     }"
     @scroll.passive="handleContainerScroll"
   >
@@ -198,7 +205,7 @@ onUnmounted(() => {
         :current-question-index="currentQuestionIndex"
         :total-questions="totalQuestions"
         :ratings="ratings"
-        :current-answer="answers[currentQuestionIndex]"
+        :current-answer="answers[currentQuestionIndex] ?? null"
         :current-section-index="currentSectionIndex"
         :display-section-name="displaySectionName"
         :progress-percent="progressPercent"
@@ -209,8 +216,12 @@ onUnmounted(() => {
       />
 
       <!-- Results + Footer Scroll Continuum -->
-      <div v-if="currentView === 'results'" class="w-full">
+      <div
+        v-if="currentView === 'results' || currentView === 'skipped'"
+        class="w-full"
+      >
         <div
+          v-if="currentView === 'results'"
           class="min-h-svh w-full flex items-start justify-center transition-opacity duration-300"
           :style="{ opacity: resultsOpacity }"
         >

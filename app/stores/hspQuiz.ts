@@ -25,7 +25,7 @@ type QuizQuestion = {
 }
 
 export type HspQuizState = {
-  currentView: 'intro' | 'quiz' | 'results'
+  currentView: 'intro' | 'quiz' | 'results' | 'skipped'
   currentQuestionIndex: number
   answers: (number | null)[]
 }
@@ -156,6 +156,10 @@ export const useHspQuizStore = defineStore('hspQuiz', {
   actions: {
     startQuiz() {
       this.currentView = 'quiz'
+    },
+
+    skipQuiz() {
+      this.currentView = 'skipped'
     },
 
     selectAnswer(value: number) {

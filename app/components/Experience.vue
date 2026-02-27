@@ -1,13 +1,14 @@
 <script setup lang="ts">
-import GameContainer from './game/GameContainer.vue'
-import ChoiceButtons from './game/ChoiceButtons.vue'
-import type { Choice } from '~/app/types/game'
-import {
-  useExperienceGradient,
-  type ScrollTriggerHandle,
-} from '~/app/composables/game/useExperienceGradient'
 import { useExperienceDayTransition } from '~/app/composables/game/useExperienceDayTransition'
+import {
+  type ScrollTriggerHandle,
+  useExperienceGradient,
+} from '~/app/composables/game/useExperienceGradient'
 import { QUESTIONNAIRE_ENTRY_DELAY_MS } from '~/app/constants/durations'
+import type { Choice } from '~/app/types/game'
+
+import ChoiceButtons from './game/ChoiceButtons.vue'
+import GameContainer from './game/GameContainer.vue'
 
 defineOptions({
   name: 'ExperienceScreen',
@@ -23,9 +24,9 @@ const endGameChoices: Choice[] = [
 
 const handleEndChoiceSelect = (choice: Choice) => {
   if (choice.id === 'yes') {
-    showQuestionnaire()
+    showQuestionnaire('intro')
   } else {
-    gameStore.setShowFinalFooter(true)
+    showQuestionnaire('skipped')
   }
 }
 
@@ -86,22 +87,22 @@ watch(
           scrollTriggerInstance.value.kill()
         }
 
-        scrollTriggerInstance.value = setupIntroSequence(
-          containerEl,
-          lineElements
-        )
+        scrollTriggerInstance.value =
+          setupIntroSequence(containerEl, lineElements) ?? null
       })
     }
   },
   { immediate: true }
 )
 
-const showQuestionnaire = () => {
+const showQuestionnaire = (view: 'intro' | 'skipped' = 'intro') => {
   showEndContent.value = false
   gameStore.setShowFinalFooter(false)
 
   questionnaireTimer = setTimeout(() => {
     questionnaireTimer = null
+    const hspQuizStore = useHspQuizStore()
+    if (view === 'skipped') hspQuizStore.skipQuiz()
     gameStore.setShowQuestionnaire(true)
   }, QUESTIONNAIRE_ENTRY_DELAY_MS)
 }
@@ -136,11 +137,7 @@ const showQuestionnaire = () => {
       <!-- End Screen Overlay -->
       <Transition name="fade">
         <div
-          v-if="
-            showEndContent &&
-            !gameStore.showQuestionnaire &&
-            !gameStore.showFinalFooter
-          "
+          v-if="showEndContent && !gameStore.showQuestionnaire"
           class="absolute inset-0 z-30 flex flex-col items-center justify-center pointer-events-auto"
         >
           <div

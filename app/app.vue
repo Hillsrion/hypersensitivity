@@ -1,21 +1,21 @@
 <script setup>
 import { VueLenis } from 'lenis/vue'
-import LoadingSection from './components/ui/LoadingSection.vue'
-import SoundIntroduction from './components/SoundIntroduction.vue'
-import Experience from './components/Experience.vue'
-import mainData from './data/main.json'
-import TestimoniesSection from './components/TestimoniesSection.vue'
-import HSPQuestionnaire from './components/HSPQuestionnaire.vue'
-import GameOutroFooter from './components/game/GameOutroFooter.vue'
-import { useCustomCursor } from './composables/useCustomCursor'
-import GameMilestoneMenu from '~/app/components/game/GameMilestoneMenu.vue'
-import DevTools from '~/app/components/debug/DevTools.vue'
-import CircleAudiowave from './components/ui/CircleAudiowave.vue'
-import BackgroundGradient from './components/BackgroundGradient.vue'
 
+import DevTools from '~/app/components/debug/DevTools.vue'
+import GameMilestoneMenu from '~/app/components/game/GameMilestoneMenu.vue'
 import { EDGE_SPACING } from '~/app/constants/layout'
 import { UI_SIZES } from '~/app/constants/ui'
 import { gameData } from '~/app/data/game'
+
+import BackgroundGradient from './components/BackgroundGradient.vue'
+import Experience from './components/Experience.vue'
+import HSPQuestionnaire from './components/HSPQuestionnaire.vue'
+import SoundIntroduction from './components/SoundIntroduction.vue'
+import TestimoniesSection from './components/TestimoniesSection.vue'
+import CircleAudiowave from './components/ui/CircleAudiowave.vue'
+import LoadingSection from './components/ui/LoadingSection.vue'
+import { useCustomCursor } from './composables/useCustomCursor'
+import mainData from './data/main.json'
 
 const timingsModules = import.meta.glob('./data/timings/*.json', {
   eager: true,
@@ -50,8 +50,8 @@ const introductionData = {
 }
 
 const creditsLinks = {
-  development: 'https://www.malt.fr/profile/ismaelsebbane',
-  design: 'https://www.malt.fr/profile/anaisboucherie',
+  development: 'https://ismaelsebbane.fr',
+  design: 'https://anabanana.fr',
 }
 
 // Watch loading state and control Lenis scrolling
@@ -230,19 +230,6 @@ onUnmounted(() => {
             :development-credit-url="creditsLinks.development"
             :design-credit-url="creditsLinks.design"
           />
-        </Transition>
-      </Teleport>
-      <Teleport to="body">
-        <Transition name="fade">
-          <div
-            v-if="gameStore.showFinalFooter && !gameStore.showQuestionnaire"
-            class="fixed inset-0 z-100 pointer-events-auto"
-          >
-            <GameOutroFooter
-              :development-credit-url="creditsLinks.development"
-              :design-credit-url="creditsLinks.design"
-            />
-          </div>
         </Transition>
       </Teleport>
 
