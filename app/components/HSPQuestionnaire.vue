@@ -191,12 +191,13 @@ onUnmounted(() => {
 <template>
   <div
     ref="elementRef"
-    class="questionnaire-container fixed inset-0 z-100 w-full h-svh flex flex-col items-center p-4 text-white transition-all duration-500"
+    class="questionnaire-container fixed inset-0 z-100 w-full h-svh flex flex-col items-center text-white transition-opacity duration-500"
     :class="{
       'justify-center overflow-hidden':
         currentView !== 'results' && currentView !== 'skipped',
       'justify-start overflow-y-auto overflow-x-hidden':
         currentView === 'results' || currentView === 'skipped',
+      'p-4': currentView !== 'skipped',
     }"
     @scroll.passive="handleContainerScroll"
   >

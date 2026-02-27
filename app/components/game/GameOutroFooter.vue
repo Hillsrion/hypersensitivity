@@ -28,10 +28,13 @@ useTextWaveAnimation(
       </h2>
     </div>
 
-    <footer class="absolute left-0 w-full" :class="EDGE_SPACING.BOTTOM">
+    <footer
+      class="absolute"
+      :class="[EDGE_SPACING.BOTTOM, EDGE_SPACING.LEFT, EDGE_SPACING.RIGHT]"
+    >
       <div>
         <div
-          class="flex flex-wrap items-end justify-between gap-x-8 gap-y-3 text-base/5 font-medium text-white"
+          class="flex flex-wrap items-end justify-between gap-x-8 gap-y-3 text-base/7 font-medium text-white"
         >
           <p class="uppercase shrink-0">© {{ currentYear }} Hypersensibles</p>
 
