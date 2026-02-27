@@ -191,10 +191,12 @@ onUnmounted(() => {
 <template>
   <div
     ref="elementRef"
-    class="questionnaire-container fixed inset-0 z-100 w-full h-full flex flex-col items-center p-4 text-white overflow-y-auto transition-all duration-500"
+    class="questionnaire-container fixed inset-0 z-100 w-full h-svh flex flex-col items-center p-4 text-white transition-all duration-500"
     :class="{
-      'justify-center': currentView !== 'results' && currentView !== 'skipped',
-      'justify-start': currentView === 'results' || currentView === 'skipped',
+      'justify-center overflow-hidden':
+        currentView !== 'results' && currentView !== 'skipped',
+      'justify-start overflow-y-auto overflow-x-hidden':
+        currentView === 'results' || currentView === 'skipped',
     }"
     @scroll.passive="handleContainerScroll"
   >
@@ -232,7 +234,7 @@ onUnmounted(() => {
       <!-- Results + Footer Scroll Continuum -->
       <div
         v-if="currentView === 'results' || currentView === 'skipped'"
-        class="w-full"
+        class="w-full flex-1 flex flex-col"
       >
         <div
           v-if="currentView === 'results'"
@@ -253,7 +255,6 @@ onUnmounted(() => {
         </div>
 
         <GameOutroFooter
-          in-flow
           :development-credit-url="props.developmentCreditUrl"
           :design-credit-url="props.designCreditUrl"
         />

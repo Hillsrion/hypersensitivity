@@ -164,7 +164,7 @@ const showQuestionnaire = (view: 'intro' | 'skipped' = 'intro') => {
         <span
           v-for="(line, index) in lines"
           :key="index"
-          class="font-serif font-light text-title sm:text-2xl lg:text-[2.75rem] leading-[1.45] text-primary opacity-0 col-start-1 row-start-1 w-full"
+          class="font-serif font-light text-title sm:text-2xl lg:text-intro-max leading-[1.45] text-primary opacity-0 col-start-1 row-start-1 w-full"
         >
           {{ line }}
         </span>

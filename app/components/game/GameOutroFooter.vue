@@ -1,54 +1,25 @@
 <script setup lang="ts">
 import { EDGE_SPACING } from '~/app/constants/layout'
 
-const props = withDefaults(
-  defineProps<{
-    inFlow?: boolean
-    developmentCreditUrl: string
-    designCreditUrl: string
-  }>(),
-  {
-    inFlow: false,
-  }
-)
+const props = defineProps<{
+  developmentCreditUrl: string
+  designCreditUrl: string
+}>()
 
-const { $gsap } = useNuxtApp()
 const titleRef = useTemplateRef<HTMLElement>('titleRef')
 const { chars } = useSplitText(titleRef, { splitBy: 'chars,words' })
 const currentYear = new Date().getFullYear()
-const rootClasses = computed(() =>
-  props.inFlow
-    ? 'relative min-h-svh w-full text-white'
-    : 'absolute inset-0 z-30 text-white'
-)
+const rootClasses = 'relative flex-1 w-full text-white'
 
-watch(
-  chars,
-  (newChars) => {
-    if (!newChars?.length) return
-
-    nextTick(() => {
-      const elements = [...newChars]
-      const phaseTime = 0.1
-
-      $gsap.set(elements, { autoAlpha: 0 })
-      $gsap.to(elements, {
-        keyframes: [
-          { autoAlpha: 0.2, duration: phaseTime, ease: 'power1.out' },
-          { autoAlpha: 0.8, duration: phaseTime, ease: 'power1.inOut' },
-          { autoAlpha: 1, duration: phaseTime, ease: 'power1.in' },
-        ],
-        stagger: phaseTime,
-      })
-    })
-  },
-  { immediate: true }
+useTextWaveAnimation(
+  computed(() => chars.value as HTMLElement[]),
+  { immediate: true, skipIntroOverride: false }
 )
 </script>
 
 <template>
   <section :class="rootClasses">
-    <div class="absolute inset-0 flex items-center justify-center px-4 md:px-8">
+    <div class="flex items-center justify-center px-4 md:px-8 h-full">
       <h2
         ref="titleRef"
         class="font-epilogue font-semibold fl-text-footer-min/footer-max leading-[1.05] text-center"
@@ -57,8 +28,8 @@ watch(
       </h2>
     </div>
 
-    <footer class="absolute inset-x-0 bottom-0 w-full">
-      <div :class="[EDGE_SPACING.PX, EDGE_SPACING.PB]">
+    <footer class="absolute left-0 w-full" :class="EDGE_SPACING.BOTTOM">
+      <div>
         <div
           class="flex flex-wrap items-end justify-between gap-x-8 gap-y-3 text-base/5 font-medium text-white"
         >
