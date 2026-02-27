@@ -17,7 +17,9 @@ const titleRef = useTemplateRef<HTMLElement>('titleRef')
 const { chars } = useSplitText(titleRef, { splitBy: 'chars,words' })
 const currentYear = new Date().getFullYear()
 const rootClasses = computed(() =>
-  props.inFlow ? 'relative min-h-svh w-full text-white' : 'absolute inset-0 z-30 text-white'
+  props.inFlow
+    ? 'relative min-h-svh w-full text-white'
+    : 'absolute inset-0 z-30 text-white'
 )
 
 watch(
@@ -60,10 +62,10 @@ watch(
         <div
           class="flex flex-wrap items-end justify-between gap-x-8 gap-y-3 text-base/5 font-medium text-white"
         >
-          <p class="uppercase shrink-0">{{ currentYear }} Hypersensibles</p>
+          <p class="uppercase shrink-0">© {{ currentYear }} Hypersensibles</p>
 
           <div
-            class="basis-full md:basis-auto flex flex-wrap md:justify-end gap-x-6 gap-y-2"
+            class="basis-full md:basis-auto flex flex-wrap md:justify-end fl-gap-x-8/12 gap-y-2"
           >
             <p class="whitespace-normal md:whitespace-nowrap">
               Développement / Court-métrage par
