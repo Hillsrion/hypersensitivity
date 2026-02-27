@@ -5,14 +5,14 @@ export interface GradientStep {
   color4: string
 }
 
-export const OUTRO_PRIMARY_COLOR = "#0B1018";
+export const OUTRO_PRIMARY_COLOR = '#0B1018'
 
 export const outroFooterGradient: GradientStep = {
-  color1: "#0B1018",
-  color2: "#1C2032",
-  color3: "#2B3E5F",
-  color4: "#627EA4",
-};
+  color1: OUTRO_PRIMARY_COLOR,
+  color2: OUTRO_PRIMARY_COLOR,
+  color3: '#1C2032',
+  color4: '#2B3E5F',
+}
 
 export const gradientSteps: GradientStep[] = [
   {
