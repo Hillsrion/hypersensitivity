@@ -1,7 +1,14 @@
 <script setup lang="ts">
 import HSPIntro from './hsp/HSPIntro.vue'
 import HSPQuiz from './hsp/HSPQuiz.vue'
+import HSPResults from './hsp/HSPResults.vue'
+import GameOutroFooter from './game/GameOutroFooter.vue'
 import { HSP_QUESTIONNAIRE_CONTENT_READY_DELAY_MS } from '~/app/constants/durations'
+
+const props = defineProps<{
+  developmentCreditUrl: string
+  designCreditUrl: string
+}>()
 
 const { $gsap } = useNuxtApp()
 const animationsStore = useAnimationsStore()
@@ -15,20 +22,67 @@ const {
   sections,
   questions,
   totalQuestions,
+  questionsPerSection,
   currentQuestion,
   currentSectionIndex,
   isLastQuestion,
   progressPercent,
   displaySectionName,
+  totalScore,
+  sensitivityLevel,
+  sectionScores,
+  dominantProfile,
 } = storeToRefs(hspQuizStore)
 
 const { startQuiz, selectAnswer, nextQuestion, previousQuestion, restart } =
   hspQuizStore
 
+const RESULTS_FADE_DISTANCE_PX = 220
+const FOOTER_REVEAL_SCROLL_THRESHOLD_PX = 280
+
 const route = useRoute()
 const introRef = useTemplateRef('introRef')
 const quizRef = useTemplateRef('quizRef')
-const elementRef = useTemplateRef('elementRef')
+const resultsRef = useTemplateRef('resultsRef')
+const elementRef = useTemplateRef<HTMLElement>('elementRef')
+
+const contentReady = ref(false)
+const resultsScrollTop = ref(0)
+const footerRevealTriggered = ref(false)
+let contentReadyTimer: ReturnType<typeof setTimeout> | null = null
+
+const resultsOpacity = computed(() => {
+  if (currentView.value !== 'results') return 1
+
+  const progress = Math.min(resultsScrollTop.value / RESULTS_FADE_DISTANCE_PX, 1)
+  return 1 - progress
+})
+
+const resetResultsTransitionState = () => {
+  resultsScrollTop.value = 0
+  footerRevealTriggered.value = false
+
+  if (elementRef.value) {
+    elementRef.value.scrollTop = 0
+  }
+}
+
+const handleContainerScroll = () => {
+  if (currentView.value !== 'results' || !elementRef.value) {
+    return
+  }
+
+  const scrollTop = Math.max(elementRef.value.scrollTop, 0)
+  resultsScrollTop.value = scrollTop
+
+  if (
+    !footerRevealTriggered.value &&
+    scrollTop >= FOOTER_REVEAL_SCROLL_THRESHOLD_PX
+  ) {
+    footerRevealTriggered.value = true
+    gameStore.setShowFinalFooter(true)
+  }
+}
 
 const handleStart = async () => {
   if (introRef.value) {
@@ -46,17 +100,34 @@ const handleNext = async () => {
   nextQuestion()
 }
 
-const contentReady = ref(false)
-let contentReadyTimer: ReturnType<typeof setTimeout> | null = null
+const handleRestart = async () => {
+  if (resultsRef.value) {
+    await resultsRef.value.leave()
+  }
+
+  restart()
+  gameStore.setShowFinalFooter(false)
+
+  nextTick(() => {
+    resetResultsTransitionState()
+  })
+}
 
 watch(currentView, (view, previousView) => {
-  if (view !== 'results' || previousView === 'results') {
+  if (view === 'results' && previousView !== 'results') {
+    gameStore.setShowFinalFooter(false)
+
+    nextTick(() => {
+      resetResultsTransitionState()
+    })
+
     return
   }
 
-  gameStore.setShowQuestionnaire(false)
-  gameStore.setShowFinalFooter(true)
-  restart()
+  if (view !== 'results') {
+    resultsScrollTop.value = 0
+    footerRevealTriggered.value = false
+  }
 })
 
 onMounted(() => {
@@ -99,7 +170,12 @@ onUnmounted(() => {
 <template>
   <div
     ref="elementRef"
-    class="questionnaire-container fixed inset-0 z-100 w-full h-full flex flex-col items-center justify-center p-4 text-white overflow-y-auto transition-all duration-500"
+    class="questionnaire-container fixed inset-0 z-100 w-full h-full flex flex-col items-center p-4 text-white overflow-y-auto transition-all duration-500"
+    :class="{
+      'justify-center': currentView !== 'results',
+      'justify-start': currentView === 'results',
+    }"
+    @scroll.passive="handleContainerScroll"
   >
     <!-- Delay content rendering until external gradient finishes if needed or just let it be handled by child components (HSPIntro handles its own enter fade) -->
     <template v-if="contentReady || currentView !== 'intro'">
@@ -131,6 +207,32 @@ onUnmounted(() => {
         @next="handleNext"
         @previous="previousQuestion"
       />
+
+      <!-- Results + Footer Scroll Continuum -->
+      <div v-if="currentView === 'results'" class="w-full">
+        <div
+          class="min-h-svh w-full flex items-start justify-center transition-opacity duration-300"
+          :style="{ opacity: resultsOpacity }"
+        >
+          <HSPResults
+            ref="resultsRef"
+            :total-score="totalScore"
+            :total-questions="totalQuestions"
+            :sensitivity-level="sensitivityLevel"
+            :sections="sections"
+            :section-scores="sectionScores"
+            :questions-per-section="questionsPerSection"
+            :dominant-profile="dominantProfile"
+            @restart="handleRestart"
+          />
+        </div>
+
+        <GameOutroFooter
+          in-flow
+          :development-credit-url="props.developmentCreditUrl"
+          :design-credit-url="props.designCreditUrl"
+        />
+      </div>
     </template>
   </div>
 </template>

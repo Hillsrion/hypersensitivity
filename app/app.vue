@@ -1,21 +1,21 @@
 <script setup>
 import { VueLenis } from 'lenis/vue'
-
-import DevTools from '~/app/components/debug/DevTools.vue'
+import LoadingSection from './components/ui/LoadingSection.vue'
+import SoundIntroduction from './components/SoundIntroduction.vue'
+import Experience from './components/Experience.vue'
+import mainData from './data/main.json'
+import TestimoniesSection from './components/TestimoniesSection.vue'
+import HSPQuestionnaire from './components/HSPQuestionnaire.vue'
+import GameOutroFooter from './components/game/GameOutroFooter.vue'
+import { useCustomCursor } from './composables/useCustomCursor'
 import GameMilestoneMenu from '~/app/components/game/GameMilestoneMenu.vue'
+import DevTools from '~/app/components/debug/DevTools.vue'
+import CircleAudiowave from './components/ui/CircleAudiowave.vue'
+import BackgroundGradient from './components/BackgroundGradient.vue'
+
 import { EDGE_SPACING } from '~/app/constants/layout'
 import { UI_SIZES } from '~/app/constants/ui'
 import { gameData } from '~/app/data/game'
-
-import BackgroundGradient from './components/BackgroundGradient.vue'
-import Experience from './components/Experience.vue'
-import HSPQuestionnaire from './components/HSPQuestionnaire.vue'
-import SoundIntroduction from './components/SoundIntroduction.vue'
-import TestimoniesSection from './components/TestimoniesSection.vue'
-import CircleAudiowave from './components/ui/CircleAudiowave.vue'
-import LoadingSection from './components/ui/LoadingSection.vue'
-import { useCustomCursor } from './composables/useCustomCursor'
-import mainData from './data/main.json'
 
 const timingsModules = import.meta.glob('./data/timings/*.json', {
   eager: true,
@@ -47,6 +47,11 @@ const lenisRef = useTemplateRef('lenisRef')
 const introductionData = {
   ...mainData.introduction,
   timings: getTimings(mainData.introduction.audio),
+}
+
+const creditsLinks = {
+  development: 'https://www.malt.fr/profile/ismaelsebbane',
+  design: 'https://www.malt.fr/profile/anaisboucherie',
 }
 
 // Watch loading state and control Lenis scrolling
@@ -117,7 +122,6 @@ const collectGameAudios = () => {
 
 onMounted(async () => {
   if (route.path === '/game-tools-view') return
-
   scrollTo(0, 0)
   if (!animations.landing.intro.entry.completed) {
     lenisRef.value?.lenis?.stop()
@@ -211,20 +215,34 @@ onUnmounted(() => {
           :id="`section-${index}`"
           :key="section.title"
           :title="section.title"
-          :short-title="section.shortTitle"
           :content="section.content"
           :color="section.color"
         />
       </div>
       <TestimoniesSection id="testimonies" class="relative z-10" />
-      <Experience id="experience" />
+      <Experience id="experience" class="-mt-[35svh]" />
       <Teleport to="body">
         <Transition name="fade">
           <HSPQuestionnaire
             v-if="gameStore.showQuestionnaire"
             id="hsp-questionnaire"
             class="z-100"
+            :development-credit-url="creditsLinks.development"
+            :design-credit-url="creditsLinks.design"
           />
+        </Transition>
+      </Teleport>
+      <Teleport to="body">
+        <Transition name="fade">
+          <div
+            v-if="gameStore.showFinalFooter && !gameStore.showQuestionnaire"
+            class="fixed inset-0 z-100 pointer-events-auto"
+          >
+            <GameOutroFooter
+              :development-credit-url="creditsLinks.development"
+              :design-credit-url="creditsLinks.design"
+            />
+          </div>
         </Transition>
       </Teleport>
 

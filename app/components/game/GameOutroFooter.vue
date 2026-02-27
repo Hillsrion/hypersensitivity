@@ -1,15 +1,24 @@
 <script setup lang="ts">
 import { EDGE_SPACING } from '~/app/constants/layout'
 
-const props = defineProps<{
-  developmentCreditUrl: string
-  designCreditUrl: string
-}>()
+const props = withDefaults(
+  defineProps<{
+    inFlow?: boolean
+    developmentCreditUrl: string
+    designCreditUrl: string
+  }>(),
+  {
+    inFlow: false,
+  }
+)
 
 const { $gsap } = useNuxtApp()
 const titleRef = useTemplateRef<HTMLElement>('titleRef')
 const { chars } = useSplitText(titleRef, { splitBy: 'chars,words' })
 const currentYear = new Date().getFullYear()
+const rootClasses = computed(() =>
+  props.inFlow ? 'relative min-h-svh w-full text-white' : 'absolute inset-0 z-30 text-white'
+)
 
 watch(
   chars,
@@ -36,7 +45,7 @@ watch(
 </script>
 
 <template>
-  <section class="absolute inset-0 z-30 text-white">
+  <section :class="rootClasses">
     <div class="absolute inset-0 flex items-center justify-center px-4 md:px-8">
       <h2
         ref="titleRef"

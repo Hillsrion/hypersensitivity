@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import GameContainer from './game/GameContainer.vue'
 import ChoiceButtons from './game/ChoiceButtons.vue'
-import GameOutroFooter from './game/GameOutroFooter.vue'
 import type { Choice } from '~/app/types/game'
 import {
   useExperienceGradient,
@@ -21,11 +20,6 @@ const endGameChoices: Choice[] = [
   { id: 'yes', text: 'OUI', nextSceneId: 'questionnaire' },
   { id: 'no', text: 'NON', nextSceneId: 'outro' },
 ]
-
-const creditsLinks = {
-  development: 'https://www.malt.fr/profile/ismaelsebbane',
-  design: 'https://www.malt.fr/profile/anaisboucherie',
-}
 
 const handleEndChoiceSelect = (choice: Choice) => {
   if (choice.id === 'yes') {
@@ -163,14 +157,6 @@ const showQuestionnaire = () => {
             @select="handleEndChoiceSelect"
           />
         </div>
-      </Transition>
-
-      <Transition name="fade">
-        <GameOutroFooter
-          v-if="gameStore.showFinalFooter && !gameStore.showQuestionnaire"
-          :development-credit-url="creditsLinks.development"
-          :design-credit-url="creditsLinks.design"
-        />
       </Transition>
 
       <!-- Content -->
