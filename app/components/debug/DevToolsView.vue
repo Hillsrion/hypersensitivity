@@ -17,6 +17,7 @@ type DevtoolsCommandMessage =
   | { type: 'RESET_INTRO' }
   | { type: 'SKIP_TO_GAME' }
   | { type: 'SKIP_TO_END' }
+  | { type: 'SKIP_TO_FOOTER' }
   | { type: 'TOGGLE_UI' }
   | { type: 'SCROLL_TO'; payload: 'top' | 'bottom' }
   | { type: 'SET_PLAYBACK_RATE'; payload: number }
@@ -67,6 +68,7 @@ const sendCommand = (message: DevtoolsCommandMessage) => {
 const resetIntro = () => sendCommand({ type: 'RESET_INTRO' })
 const skipToGame = () => sendCommand({ type: 'SKIP_TO_GAME' })
 const skipToEnd = () => sendCommand({ type: 'SKIP_TO_END' })
+const skipToFooter = () => sendCommand({ type: 'SKIP_TO_FOOTER' })
 const toggleForceShowUI = () => {
   // We send the toggle command, the game updates state and sends it back via sync
   sendCommand({ type: 'TOGGLE_UI' })
@@ -127,12 +129,18 @@ watch(playbackRate, (rate) => {
         </button>
       </div>
 
-      <div class="grid grid-cols-1 gap-2">
+      <div class="grid grid-cols-2 gap-2">
         <button
           class="px-3 py-2 bg-green-500/20 hover:bg-green-500/40 text-green-300 rounded text-center transition-colors border border-green-500/20"
           @click="skipToGame"
         >
           Skip to Game
+        </button>
+        <button
+          class="px-3 py-2 bg-blue-500/20 hover:bg-blue-500/40 text-blue-300 rounded text-center transition-colors border border-blue-500/20"
+          @click="skipToFooter"
+        >
+          Skip to Footer
         </button>
       </div>
 

@@ -151,6 +151,18 @@ const skipToGame = () => {
   }, 100)
 }
 
+const skipToFooter = () => {
+  // Jump to the end scene and skip the questionnaire
+  jumpToScene(SCENE_IDS.GAME_END)
+
+  setTimeout(() => {
+    gameStore.setShowFinalFooter(false)
+    const hspQuizStore = useHspQuizStore()
+    hspQuizStore.skipQuiz()
+    gameStore.setShowQuestionnaire(true)
+  }, 100)
+}
+
 onMounted(() => {
   // Check env variable for SKIP_INTRO from stores/animations.ts:L5 logic
   const SKIP_INTRO = import.meta.env.VITE_SKIP_INTRO === 'true'
@@ -305,6 +317,12 @@ const jumpToScene = (sceneId: string) => {
               @click="jumpToScene(SCENE_IDS.GAME_END)"
             >
               Skip to End
+            </button>
+            <button
+              class="px-2 py-1 bg-blue-500/20 hover:bg-blue-500/40 text-blue-300 rounded text-left transition-colors"
+              @click="skipToFooter"
+            >
+              Skip to Footer
             </button>
 
             <div class="h-px bg-white/10 my-1" />
