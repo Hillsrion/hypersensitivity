@@ -45,7 +45,6 @@ export const gameData: GameData = {
     conflictOutcome: null,
     gameEventChoice: null,
     callChoice: null,
-    refuseOutcome: null,
     hadBreakdown: false,
     energy: 100,
   },

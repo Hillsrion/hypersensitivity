@@ -15,7 +15,6 @@ const DEFAULT_FLAGS: GameFlags = {
   gameEventChoice: null,
   hadBreakdown: false,
   callChoice: null,
-  refuseOutcome: null,
   energy: 100,
 }
 
@@ -53,10 +52,6 @@ const normalizeFlags = (value: unknown): GameFlags => {
     callChoice:
       value.callChoice === 'accept' || value.callChoice === 'refuse'
         ? value.callChoice
-        : null,
-    refuseOutcome:
-      value.refuseOutcome === 'submit' || value.refuseOutcome === 'assert'
-        ? value.refuseOutcome
         : null,
     energy:
       typeof value.energy === 'number'

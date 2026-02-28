@@ -30,32 +30,13 @@ export const dayOneRefuse: Scene = {
     ),
     d('d1_39', 'Ines', 'Vas-y, raconte.', {}),
   ],
-  choices: [
-    {
-      id: 'refuse_submit',
-      text: 'SE LAISSER FAIRE',
-      nextSceneId: SCENE_IDS.DAY_ONE_REFUSE_SUBMIT,
-      effects: {
-        energy: -20,
-        flags: { refuseOutcome: 'submit' },
-      },
-    },
-    {
-      id: 'refuse_assert',
-      text: "S'AFFIRMER",
-      nextSceneId: SCENE_IDS.DAY_ONE_REFUSE_ASSERT,
-      effects: {
-        flags: { refuseOutcome: 'assert' },
-      },
-    },
-  ],
 }
 
 export const dayOneRefuseAssert: Scene = {
   id: SCENE_IDS.DAY_ONE_REFUSE_ASSERT,
   day: 1,
   title: 'Soiree',
-  condition: { flag: 'refuseOutcome', operator: 'equals', value: 'assert' },
+  condition: { flag: 'conflictOutcome', operator: 'equals', value: 'assert' },
   dialogues: [
     d(
       'd1_42a',
@@ -69,7 +50,7 @@ export const dayOneRefuseSubmit: Scene = {
   id: SCENE_IDS.DAY_ONE_REFUSE_SUBMIT,
   day: 1,
   title: 'Soiree',
-  condition: { flag: 'refuseOutcome', operator: 'equals', value: 'submit' },
+  condition: { flag: 'conflictOutcome', operator: 'equals', value: 'submit' },
   audio: 'experience/J01_C03B_Discussion_Calme.mp3',
   dialogues: [
     d(
@@ -78,6 +59,7 @@ export const dayOneRefuseSubmit: Scene = {
       "J'ai pas eu la force de me battre encore, cette fois pour cette putain de cabine. Ces derniers temps, je suis usée. Le pire, c'est que ça me dégoûte. Je sais quoi faire. Mais tu sais pourquoi ces gens, ils font ça ? Parce qu'ils sont pas encore tombés sur quelqu'un qui va les choquer.",
       {
         color: 'blue',
+        energyChange: -20,
       }
     ),
     d(

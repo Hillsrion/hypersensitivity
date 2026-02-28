@@ -10,7 +10,6 @@ export type GameFlags = {
   gameEventChoice: GameEventChoice
   hadBreakdown: boolean
   callChoice: 'accept' | 'refuse' | null
-  refuseOutcome: 'submit' | 'assert' | null
   energy: number // 0-100
 }
 

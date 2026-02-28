@@ -33,11 +33,11 @@ const SCENE_FLAG_REQUIREMENTS: Partial<Record<string, Partial<GameFlags>>> = {
   // Refuse branches
   [SCENE_IDS.DAY_ONE_REFUSE_ASSERT]: {
     gameEventChoice: 'refuse',
-    refuseOutcome: 'assert',
+    conflictOutcome: 'assert',
   },
   [SCENE_IDS.DAY_ONE_REFUSE_SUBMIT]: {
     gameEventChoice: 'refuse',
-    refuseOutcome: 'submit',
+    conflictOutcome: 'submit',
   },
 
   // End of Day 1 — crash (hadBreakdown=true means they played and broke down)
@@ -84,7 +84,6 @@ const CANONICAL_DEFAULT_FLAGS: Partial<GameFlags> = {
   outfitChoice: 'sexy',
   conflictOutcome: 'assert',
   gameEventChoice: 'refuse',
-  refuseOutcome: 'assert',
   hadBreakdown: false,
   callChoice: 'accept',
 }
