@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import type { ComponentPublicInstance } from 'vue'
 
+import { EDGE_SPACING } from '../../constants/layout'
 import type { Choice } from '../../types/game'
 
 const props = withDefaults(
@@ -44,15 +45,15 @@ const { hoveredIndex, isSelecting, selectedIndex, handleSelect } =
 
 <template>
   <div
-    class="absolute bottom-6 sm:bottom-10 left-1/2 -translate-x-1/2 flex items-center justify-center gap-4 sm:gap-6 z-40"
-    :class="{ 'pointer-events-none': isSelecting }"
+    class="absolute left-1/2 -translate-x-1/2 flex items-center justify-center gap-6 z-40 w-4/5"
+    :class="[EDGE_SPACING.BOTTOM, { 'pointer-events-none': isSelecting }]"
   >
     <template v-for="(choice, index) in choices" :key="choice.id">
       <!-- CHOICE BUTTON -->
       <AppText
         :ref="(el: any) => setButtonRef(el, index)"
         as="button"
-        variant="body"
+        variant="choice"
         class="group relative py-4 font-sans font-semibold uppercase flex flex-col items-center"
         :class="{
           'transition-[color,opacity] duration-300': !isSelecting,
@@ -96,7 +97,7 @@ const { hoveredIndex, isSelecting, selectedIndex, handleSelect } =
       <div
         v-if="index === 0 && choices.length > 1"
         ref="iconRef"
-        class="relative w-11 h-11 sm:w-14 sm:h-14 rounded-full border flex items-center justify-center transition-opacity duration-300"
+        class="relative fl-size-11/14 shrink-0 rounded-full border flex items-center justify-center transition-opacity duration-300"
         :class="[
           !isSelecting && hoveredIndex !== null ? 'opacity-20' : 'opacity-100',
           isSelecting ? 'opacity-0' : '',
@@ -105,14 +106,14 @@ const { hoveredIndex, isSelecting, selectedIndex, handleSelect } =
             : 'border-white text-white',
         ]"
       >
-        <div class="transform -rotate-20">
+        <div
+          class="flex size-full items-center justify-center max-w-[60%] transform -rotate-20"
+        >
           <svg
-            width="32"
-            height="42"
             viewBox="0 0 32 42"
             fill="none"
             xmlns="http://www.w3.org/2000/svg"
-            class="fill-current"
+            class="size-full fill-current"
           >
             <path
               d="M23.6247 16.1961L27.1646 25.9219C28.861 30.5828 26.4464 35.7609 21.7856 37.4574C17.1247 39.1538 11.9466 36.7392 10.2501 32.0783L6.71024 22.3525L23.6247 16.1961ZM24.2224 14.9144L5.42853 21.7548L9.31046 32.4203C11.1984 37.6074 16.9405 40.285 22.1276 38.3971C27.3147 36.5091 29.9923 30.767 28.1043 25.5799L24.2224 14.9144Z"
