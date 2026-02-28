@@ -116,7 +116,7 @@ const showQuestionnaire = (view: 'intro' | 'skipped' = 'intro') => {
     >
       <!-- Eye Animation -->
       <svg
-        class="absolute top-1/2 left-0 w-full h-auto -translate-y-1/2 pointer-events-none z-0 overflow-visible blur-sm transition-all duration-1000 portrait:-rotate-90 origin-center"
+        class="absolute top-1/2 left-1/2 w-[100vmax] h-[100vmax] max-w-none -translate-x-1/2 -translate-y-1/2 pointer-events-none z-0 overflow-visible blur-sm transition-all duration-1000 portrait:-rotate-90 origin-center"
         :class="{
           'opacity-0':
             (animationsStore.aurora.visible && !isDayTransition) || isGameEnd,
