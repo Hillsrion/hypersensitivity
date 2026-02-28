@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { QUESTIONNAIRE_ENTRY_DELAY_MS } from '~/app/constants/durations'
+import { QUIZ_ENTRY_DELAY_MS } from '~/app/constants/durations'
 import { EDGE_SPACING } from '~/app/constants/layout'
 
 import type { Milestone } from '../../types/game'
@@ -13,7 +13,7 @@ const menuRef = useTemplateRef<HTMLElement>('menuRef')
 const itemsRef = ref<HTMLElement[]>([])
 const itemComponents = ref<Array<{ labelRef: HTMLElement | null }>>([])
 const isMenuOpen = computed(() => gameStore.isMenuOpen)
-let questionnaireTimer: ReturnType<typeof setTimeout> | null = null
+let quizTimer: ReturnType<typeof setTimeout> | null = null
 
 // Filtered milestones (only reached)
 const visibleMilestones = computed<Milestone[]>(() => {
@@ -104,22 +104,22 @@ const handleMilestoneClick = (milestoneId: string) => {
 
 const navigateToTest = () => {
   gameStore.closeMenu(false)
-  if (questionnaireTimer) {
-    clearTimeout(questionnaireTimer)
+  if (quizTimer) {
+    clearTimeout(quizTimer)
   }
-  questionnaireTimer = setTimeout(() => {
-    questionnaireTimer = null
-    gameStore.setShowQuestionnaire(true)
-  }, QUESTIONNAIRE_ENTRY_DELAY_MS)
+  quizTimer = setTimeout(() => {
+    quizTimer = null
+    gameStore.setShowQuiz(true)
+  }, QUIZ_ENTRY_DELAY_MS)
 }
 
 const navItemClasses =
   'flex items-center gap-2 font-sans text-base/7 uppercase hover:text-primary transition-colors cursor-pointer'
 
 onUnmounted(() => {
-  if (questionnaireTimer) {
-    clearTimeout(questionnaireTimer)
-    questionnaireTimer = null
+  if (quizTimer) {
+    clearTimeout(quizTimer)
+    quizTimer = null
   }
 })
 </script>

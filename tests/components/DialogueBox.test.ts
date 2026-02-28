@@ -69,10 +69,10 @@ describe('DialogueBox', () => {
     expect(wrapper.text()).toContain('Thinking deeply...')
   })
 
-  it('shows pensees tag if speakerType is pensees', async () => {
+  it('shows thoughts tag if speakerType is thoughts', async () => {
     const wrapper = await mountSuspended(DialogueBox, {
       props: {
-        dialogue: { ...defaultDialogue, speakerType: 'pensees' },
+        dialogue: { ...defaultDialogue, speakerType: 'thoughts' },
       },
       global: {
         provide: {
@@ -81,6 +81,6 @@ describe('DialogueBox', () => {
       },
     })
 
-    expect(wrapper.text()).toContain('(en pensées)')
+    expect(wrapper.text()).toContain('(thinking)')
   })
 })

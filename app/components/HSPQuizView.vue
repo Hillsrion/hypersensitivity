@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { HSP_QUESTIONNAIRE_CONTENT_READY_DELAY_MS } from '~/app/constants/durations'
+import { HSP_QUIZ_CONTENT_READY_DELAY_MS } from '~/app/constants/durations'
 
 import GameOutroFooter from './game/GameOutroFooter.vue'
 import HSPIntro from './hsp/HSPIntro.vue'
@@ -161,7 +161,7 @@ onMounted(() => {
   contentReadyTimer = setTimeout(() => {
     contentReadyTimer = null
     contentReady.value = true
-  }, HSP_QUESTIONNAIRE_CONTENT_READY_DELAY_MS)
+  }, HSP_QUIZ_CONTENT_READY_DELAY_MS)
 
   $gsap.timeline({
     scrollTrigger: {
@@ -191,7 +191,7 @@ onUnmounted(() => {
 <template>
   <div
     ref="elementRef"
-    class="questionnaire-container fixed inset-0 z-100 w-full h-svh flex flex-col items-center text-white transition-opacity duration-500"
+    class="quiz-container fixed inset-0 z-100 w-full h-svh flex flex-col items-center text-white transition-opacity duration-500"
     :class="{
       'justify-center overflow-hidden':
         currentView !== 'results' && currentView !== 'skipped',

@@ -160,7 +160,6 @@ const skipToFooter = () => {
   animationsStore.setScrollLocked(false)
   bgGradient.animateToWhite().duration(0).play()
 
-  // Jump to the end scene and skip the questionnaire
   jumpToScene(SCENE_IDS.GAME_END)
 
   // Force scroll to bottom so the Experience sticky background is visible
@@ -171,7 +170,7 @@ const skipToFooter = () => {
     gameStore.setShowFinalFooter(false)
     const hspQuizStore = useHspQuizStore()
     hspQuizStore.skipQuiz()
-    gameStore.setShowQuestionnaire(true)
+    gameStore.setShowQuiz(true)
   }, 100)
 }
 
@@ -285,7 +284,7 @@ const jumpToScene = (sceneId: string) => {
       </div>
 
       <div class="flex flex-col gap-1 max-h-[80vh] overflow-y-auto pr-1">
-        <template v-if="!gameStore.showQuestionnaire">
+        <template v-if="!gameStore.showQuiz">
           <button
             class="px-2 py-1 bg-white/10 hover:bg-white/20 rounded text-left transition-colors"
             @click="scrollTo('top')"
@@ -376,11 +375,11 @@ const jumpToScene = (sceneId: string) => {
           <div class="h-px bg-white/10 my-1" />
         </template>
 
-        <template v-if="gameStore.showQuestionnaire">
+        <template v-if="gameStore.showQuiz">
           <div
             class="text-[10px] text-gray-500 mb-1 px-1 uppercase tracking-wider"
           >
-            HSP Questionnaire
+            HSP Quiz
           </div>
 
           <button
@@ -391,8 +390,8 @@ const jumpToScene = (sceneId: string) => {
             {{
               quizStore.currentView === 'intro' ||
               quizStore.currentQuestionIndex === 0
-                ? 'Passer directement à la fin'
-                : 'Terminer avec faux résultats'
+                ? 'Skip directly to the end'
+                : 'Finish with fake results'
             }}
           </button>
 
@@ -406,7 +405,7 @@ const jumpToScene = (sceneId: string) => {
           <div class="h-px bg-white/10 my-1" />
         </template>
 
-        <template v-if="!gameStore.showQuestionnaire && showExperienceOptions">
+        <template v-if="!gameStore.showQuiz && showExperienceOptions">
           <div class="flex flex-col gap-1 px-2 py-1 bg-white/5 rounded">
             <label class="text-[10px] text-gray-400">Jump to Scene</label>
             <select

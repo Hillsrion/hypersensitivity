@@ -69,7 +69,7 @@ export const toPersistedGameState = (
     | 'reachedMilestones'
     | 'introPlayed'
     | 'menuStatus'
-    | 'showQuestionnaire'
+    | 'showQuiz'
     | 'forceShowUI'
   >
 ): PersistedGameState => ({
@@ -80,7 +80,7 @@ export const toPersistedGameState = (
   reachedMilestones: ensureInitialMilestone(state.reachedMilestones),
   introPlayed: state.introPlayed,
   menuStatus: state.menuStatus,
-  showQuestionnaire: state.showQuestionnaire,
+  showQuiz: state.showQuiz,
   forceShowUI: state.forceShowUI,
 })
 
@@ -121,10 +121,7 @@ export const normalizePersistedSnapshot = (
     introPlayed:
       typeof input.introPlayed === 'boolean' ? input.introPlayed : false,
     menuStatus: isMenuStatus(input.menuStatus) ? input.menuStatus : 'closed',
-    showQuestionnaire:
-      typeof input.showQuestionnaire === 'boolean'
-        ? input.showQuestionnaire
-        : false,
+    showQuiz: typeof input.showQuiz === 'boolean' ? input.showQuiz : false,
     forceShowUI:
       typeof input.forceShowUI === 'boolean' ? input.forceShowUI : false,
   }
@@ -159,7 +156,7 @@ export const saveSnapshot = (
     | 'reachedMilestones'
     | 'introPlayed'
     | 'menuStatus'
-    | 'showQuestionnaire'
+    | 'showQuiz'
     | 'forceShowUI'
   >,
   storage: Pick<Storage, 'setItem'> | null = import.meta.client

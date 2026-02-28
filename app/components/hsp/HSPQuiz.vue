@@ -124,7 +124,7 @@ const getRatingClass = (value: number) => {
             v-if="currentQuestion.inversed"
             class="bg-white text-primary px-4 py-2 rounded-full text-xl font-medium"
           >
-            Inversée
+            Inversed
           </div>
         </div>
         <AppText as="div" variant="quiz">
@@ -178,14 +178,14 @@ const getRatingClass = (value: number) => {
         :disabled="currentQuestionIndex === 0 || isAnimating"
         @click="onPrevious"
       >
-        ← Précédent
+        ← Previous
       </button>
       <button
         class="bg-white text-black px-8 py-3 rounded-full font-medium hover:bg-gray-200 transition-colors duration-300 disabled:opacity-30 disabled:cursor-not-allowed flex items-center gap-2"
         :disabled="currentAnswer === null || isAnimating"
         @click="onNext"
       >
-        {{ isLastQuestion ? 'Voir les résultats' : 'Suivant' }}
+        {{ isLastQuestion ? 'See results' : 'Next' }}
         <span v-if="!isLastQuestion">→</span>
       </button>
     </div>

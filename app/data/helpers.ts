@@ -5,7 +5,7 @@ type SceneTimings = NonNullable<DialogueLine['timings']>
 type SceneTimingsMap = Record<string, SceneTimings>
 const typedScenesTimings = scenesTimings as SceneTimingsMap
 
-// Helper pour creer des dialogues
+// Helper to create dialogues
 export const d = (
   id: string,
   speaker: string,
@@ -23,7 +23,7 @@ export const d = (
   }
 }
 
-export const pensees = (
+export const thoughts = (
   id: string,
   text: string,
   options?: Partial<DialogueLine>
@@ -32,7 +32,7 @@ export const pensees = (
   return {
     id,
     speaker: 'Lucie',
-    speakerType: 'pensees',
+    speakerType: 'thoughts',
     text,
     timings: timingsData || options?.timings,
     ...options,

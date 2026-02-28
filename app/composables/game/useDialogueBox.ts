@@ -56,7 +56,7 @@ export function useDialogueBox(
 
   // Sub-composables
   const {
-    isPensees,
+    isThoughts,
     isRightAligned,
     isInIntroAnimation,
     showAnnotation: getShowAnnotation,
@@ -230,7 +230,7 @@ export function useDialogueBox(
   })
 
   return {
-    isPensees,
+    isThoughts,
     isRightAligned,
     displayAnnotation,
     showAnnotation,

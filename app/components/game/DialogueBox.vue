@@ -17,7 +17,7 @@ const annotationRef = useTemplateRef<HTMLElement>('annotationRef')
 const speakerRef = useTemplateRef<HTMLElement>('speakerRef')
 
 const {
-  isPensees,
+  isThoughts,
   isRightAligned,
   displayAnnotation,
   showAnnotation,
@@ -77,8 +77,8 @@ const {
       ]"
     >
       {{ dialogue.speaker }}
-      <span v-if="isPensees" class="font-serif text-primary/60 lowercase"
-        >(en pensées)</span
+      <span v-if="isThoughts" class="font-serif text-primary/60 lowercase"
+        >(thinking)</span
       >
     </AppText>
 

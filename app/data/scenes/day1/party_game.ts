@@ -1,6 +1,6 @@
 import type { Scene } from '../../../types/game'
 import { SCENE_IDS } from '../../constants'
-import { d, pensees } from '../../helpers'
+import { d, thoughts } from '../../helpers'
 
 export const dayOneGameEvent: Scene = {
   id: SCENE_IDS.DAY_ONE_GAME_EVENT,
@@ -14,7 +14,7 @@ export const dayOneGameEvent: Scene = {
       'Lucie, tu veux jouer avec nous à Presque Consensus ?',
       {}
     ),
-    pensees(
+    thoughts(
       'd1_23',
       "Mon Dieu, la dernière fois, j'ai rien compris. Je me suis trompée quatre fois devant tout le monde et je sentais bien qu'ils étaient saoulés. Je me suis sentie trop conne !",
       {
@@ -73,7 +73,7 @@ export const dayOnePlay: Scene = {
         energyChange: -5,
       }
     ),
-    pensees('d1_28', 'Je comprends rien.', {
+    thoughts('d1_28', 'Je comprends rien.', {
       color: 'violet',
       energyChange: -10,
     }),
@@ -87,7 +87,7 @@ export const dayOnePlay: Scene = {
       color: 'red',
       energyChange: -10,
     }),
-    pensees(
+    thoughts(
       'd1_31',
       "[respiration] Tout va bien. Ça va aller, c'est rien. C'est rien.",
       {

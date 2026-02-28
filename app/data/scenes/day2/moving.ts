@@ -1,6 +1,6 @@
 import type { Scene } from '../../../types/game'
 import { SCENE_IDS } from '../../constants'
-import { d, pensees } from '../../helpers'
+import { d, thoughts } from '../../helpers'
 
 export const dayTwoMoving: Scene = {
   id: SCENE_IDS.DAY_TWO_MOVING,
@@ -19,7 +19,7 @@ export const dayTwoMoving: Scene = {
     d('d2_13', 'LUCIE', "Attends, je fais une pause la, j'en peux plus.", {
       color: 'blue',
     }),
-    pensees(
+    thoughts(
       'd2_14',
       "J'ai mal partout, il y a trop de bruit, trop de monde. Je vais exploser.",
       {
@@ -40,7 +40,7 @@ export const dayTwoSunset: Scene = {
       annotation: 'Musique douce et vent, Lucie regarde le coucher de soleil',
       color: 'violet',
     }),
-    pensees(
+    thoughts(
       'd2_16',
       "Finalement, c'est pas si mal d'être sensible. Je ressens tout plus fort, le moche comme le beau. C'est à moi de choisir ce que je garde.",
       {

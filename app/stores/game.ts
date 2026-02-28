@@ -215,7 +215,7 @@ export const useGameStore = defineStore('game', {
       this.showChoices = false
       this.menuStatus = 'closed'
       this.selectedChoice = null
-      this.showQuestionnaire = false
+      this.showQuiz = false
       this.showFinalFooter = false
 
       animationsStore.setAuroraVisibility(false)
@@ -278,8 +278,8 @@ export const useGameStore = defineStore('game', {
       this.introBlurAmount = amount
     },
 
-    setShowQuestionnaire(show: boolean) {
-      this.showQuestionnaire = show
+    setShowQuiz(show: boolean) {
+      this.showQuiz = show
       if (show) {
         this.showFinalFooter = false
       }

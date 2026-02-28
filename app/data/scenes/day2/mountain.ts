@@ -1,6 +1,6 @@
 import type { Scene } from '../../../types/game'
 import { SCENE_IDS } from '../../constants'
-import { d, pensees } from '../../helpers'
+import { d, thoughts } from '../../helpers'
 
 export const dayTwoMountain: Scene = {
   id: SCENE_IDS.DAY_TWO_MOUNTAIN,
@@ -31,7 +31,7 @@ export const dayTwoMountain: Scene = {
     d('d2_9', 'Randonneur', 'Bonjour ! Il fait beau hein ?', {
       color: 'yellow',
     }),
-    pensees('d2_10', 'Vos gueules.', {
+    thoughts('d2_10', 'Vos gueules.', {
       color: 'red',
     }),
   ],

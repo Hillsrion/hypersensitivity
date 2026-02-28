@@ -1,6 +1,6 @@
 import type { Scene } from '../../../types/game'
 import { SCENE_IDS } from '../../constants'
-import { d, pensees } from '../../helpers'
+import { d, thoughts } from '../../helpers'
 
 export const dayOneMetroSexy: Scene = {
   id: SCENE_IDS.DAY_ONE_METRO_SEXY,
@@ -18,10 +18,10 @@ export const dayOneMetroSexy: Scene = {
         color: 'red',
       }
     ),
-    pensees('d1a_5', "Mais qu'est-ce que je fous là ? C'est trop !", {
+    thoughts('d1a_5', "Mais qu'est-ce que je fous là ? C'est trop !", {
       color: 'red',
     }),
-    pensees(
+    thoughts(
       'd1a_6',
       'Je vais aller prendre un vélo et je vais me faire siffler cinq fois sur le chemin. Super.',
       {
@@ -59,10 +59,10 @@ export const dayOneMetroComfort: Scene = {
     d('d1b_4', 'Annonce', "En raison d'un bagage abandonné, le métro A et B-", {
       color: 'red',
     }),
-    pensees('d1b_5', "Mais qu'est-ce que je fous là ? C'est trop !", {
+    thoughts('d1b_5', "Mais qu'est-ce que je fous là ? C'est trop !", {
       color: 'red',
     }),
-    pensees(
+    thoughts(
       'd1b_6',
       'Bah, [souffle] vélo hein, ça aurait été relou avec la robe.',
       {

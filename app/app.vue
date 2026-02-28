@@ -9,7 +9,7 @@ import { gameData } from '~/app/data/game'
 
 import BackgroundGradient from './components/BackgroundGradient.vue'
 import Experience from './components/Experience.vue'
-import HSPQuestionnaire from './components/HSPQuestionnaire.vue'
+import HSPQuizView from './components/HSPQuizView.vue'
 import SoundIntroduction from './components/SoundIntroduction.vue'
 import TestimoniesSection from './components/TestimoniesSection.vue'
 import CircleAudiowave from './components/ui/CircleAudiowave.vue'
@@ -223,9 +223,9 @@ onUnmounted(() => {
       <Experience id="experience" class="-mt-[35svh]" />
       <Teleport to="body">
         <Transition name="fade">
-          <HSPQuestionnaire
-            v-if="gameStore.showQuestionnaire"
-            id="hsp-questionnaire"
+          <HSPQuizView
+            v-if="gameStore.showQuiz"
+            id="hsp-quiz"
             class="z-100"
             :development-credit-url="creditsLinks.development"
             :design-credit-url="creditsLinks.design"

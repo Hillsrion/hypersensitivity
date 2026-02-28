@@ -1,6 +1,6 @@
 import type { Scene } from '../../../types/game'
 import { SCENE_IDS } from '../../constants'
-import { pensees } from '../../helpers'
+import { thoughts } from '../../helpers'
 
 export const dayOneWakeup: Scene = {
   id: SCENE_IDS.DAY_ONE_WAKEUP,
@@ -10,7 +10,7 @@ export const dayOneWakeup: Scene = {
   entryAnnotation:
     'Le réveil sonne, les oiseaux chantent, bruits de couette qui bouge, bruits de pas',
   dialogues: [
-    pensees('d1_1', 'Oh purée, un autre jour dans la France de Macron..', {
+    thoughts('d1_1', 'Oh purée, un autre jour dans la France de Macron..', {
       color: 'violet',
     }),
   ],
@@ -22,7 +22,7 @@ export const dayOneBathroom: Scene = {
   title: 'Réveil',
   audio: 'experience/J01_C01_Tenue_base.mp3',
   dialogues: [
-    pensees(
+    thoughts(
       'd1_2',
       'OK, alors soit la robe qui me serre avec cette foutue étiquette dedans, mais je suis maxi fraîche, soit je mets pantalon oversize avec une chemise, mais je suis maxi confort pour la journée de taf',
       {
@@ -58,7 +58,7 @@ export const dayOneOutfitSexy: Scene = {
   condition: { flag: 'outfitChoice', operator: 'equals', value: 'sexy' },
   audio: 'experience/J01_C01_TenueA.mp3',
   dialogues: [
-    pensees(
+    thoughts(
       'd1_3a',
       "Vas-y, one life, ça va le faire ! Je coupe les étiquettes et c'est carré.",
       {
@@ -76,7 +76,7 @@ export const dayOneOutfitComfort: Scene = {
   condition: { flag: 'outfitChoice', operator: 'equals', value: 'comfort' },
   audio: 'experience/J01_C01_TenueB.mp3',
   dialogues: [
-    pensees(
+    thoughts(
       'd1_3b',
       "déjà que j'ai c'te réu de deux heures trente qui va me faire mal à la tête, autant être confort.",
       {

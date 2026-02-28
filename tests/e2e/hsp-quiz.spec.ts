@@ -37,12 +37,12 @@ test.describe('HSP Quiz E2E', () => {
 
     // 5. Wait for Questionnaire overlay (HSPIntro)
     // Internal delays: QUESTIONNAIRE_ENTRY (1s) + CONTENT_READY (2s)
-    const startQuizButton = page.getByText('Commencer le questionnaire')
+    const startQuizButton = page.getByText('Start the quiz')
     await expect(startQuizButton).toBeVisible({ timeout: 20000 })
     await startQuizButton.dispatchEvent('click')
 
     // 6. Skip questions via DevTools (Passer directement à la fin)
-    const skipToResultsButton = page.getByText('Passer directement à la fin')
+    const skipToResultsButton = page.getByText('Skip directly to the end')
     await expect(skipToResultsButton).toBeVisible({ timeout: 10000 })
     await skipToResultsButton.click()
 
@@ -52,6 +52,6 @@ test.describe('HSP Quiz E2E', () => {
       timeout: 20000,
     })
     await expect(page.getByText('Scores par section')).toBeVisible()
-    await expect(page.getByText('Recommencer le questionnaire')).toBeVisible()
+    await expect(page.getByText('Restart the quiz')).toBeVisible()
   })
 })

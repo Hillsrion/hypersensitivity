@@ -1,6 +1,6 @@
 import type { Scene } from '../../../types/game'
 import { SCENE_IDS } from '../../constants'
-import { d, pensees } from '../../helpers'
+import { d, thoughts } from '../../helpers'
 
 export const dayOneOffice: Scene = {
   id: SCENE_IDS.DAY_ONE_OFFICE,
@@ -70,7 +70,7 @@ export const dayOneConflictSubmit: Scene = {
     d('d1_14a', 'LUCIE', 'Oui, oui, pas de souci.', {
       color: 'blue',
     }),
-    pensees(
+    thoughts(
       'd1_15a',
       "Tu sais très bien que c'est tout rempli à cette heure-là. C'est la troisième fois que tu me fais le coup.",
       {
@@ -122,7 +122,7 @@ export const dayOneConflictAssert: Scene = {
         color: 'red',
       }
     ),
-    pensees('d1_16b', 'Et puis quoi encore ?', {
+    thoughts('d1_16b', 'Et puis quoi encore ?', {
       color: 'red',
     }),
     d(

@@ -8,13 +8,13 @@ import type { DialogueLine } from '../../types/game'
 export function useDialogueDisplay(dialogue: Ref<DialogueLine | null>) {
   const gameStore = useGameStore()
 
-  const isPensees = computed(() => {
-    return dialogue.value?.speakerType === 'pensees'
+  const isThoughts = computed(() => {
+    return dialogue.value?.speakerType === 'thoughts'
   })
 
   const isRightAligned = computed(() => {
     if (!dialogue.value) return false
-    if (isPensees.value) return false
+    if (isThoughts.value) return false
     if (
       dialogue.value.id === 'milestone-entry' ||
       dialogue.value.id === 'intro-anno'
@@ -90,7 +90,7 @@ export function useDialogueDisplay(dialogue: Ref<DialogueLine | null>) {
   })
 
   return {
-    isPensees,
+    isThoughts,
     isRightAligned,
     isInIntroAnimation,
     showAnnotation,

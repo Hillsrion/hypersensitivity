@@ -42,11 +42,10 @@ onMounted(() => {
       variant="body"
       class="mb-8 max-w-2xl mx-auto leading-relaxed space-y-4"
     >
-      <h2 ref="titleRef" class="text-white uppercase">Avertissement</h2>
+      <h2 ref="titleRef" class="text-white uppercase">Warning</h2>
       <p ref="desc1Ref" class="font-serif">
-        Ce questionnaire est un outil d'auto-exploration, non un diagnostic
-        clinique. Il s'appuie sur le modèle de la Haute Sensibilité (HSP)
-        d'Elaine Aron.
+        This quiz is a self-exploration tool, not a clinical diagnosis. It is
+        based on Elaine Aron's High Sensitivity (HSP) model.
       </p>
       <p ref="desc2Ref" class="font-serif">
         Ce test mesure une <strong>intensité</strong>, pas une réponse binaire.
@@ -66,7 +65,7 @@ onMounted(() => {
         ref="stat2Ref"
         class="font-serif p-4 rounded-full border border-white text-white text-base/5"
       >
-        Durée estimée : 10 minutes
+        Estimated duration: 10 minutes
       </span>
     </div>
 
@@ -81,7 +80,7 @@ onMounted(() => {
         class="uppercase text-base/5 items-center justify-center font-medium text-white transition-all duration-300"
         @click="$emit('start')"
       >
-        Commencer le questionnaire
+        Start the quiz
       </button>
     </div>
   </div>

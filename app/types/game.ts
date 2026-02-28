@@ -16,7 +16,7 @@ export type GameFlags = {
 export type DialogueLine = {
   id: string
   speaker: string // "LUCIE", "AMI", "ANNONCE", "KAREN", "INES", etc.
-  speakerType: 'pensees' | 'normal' // Pour afficher "(pensees)" apres le nom
+  speakerType: 'thoughts' | 'normal' // Pour afficher \"(thoughts)\" apres le nom
   text: string
   annotation?: string // Texte en italique au-dessus (ex: "A la gare.", "Le telephone sonne...")
   audio?: string // Chemin audio (placeholder)
@@ -105,7 +105,7 @@ export type GameState = {
   introBlurAmount: number
   isAutoScrolling: boolean
   selectedChoice: Choice | null
-  showQuestionnaire: boolean
+  showQuiz: boolean
   showFinalFooter: boolean
   forceShowUI: boolean
   isDayTransitioning: boolean
@@ -121,7 +121,7 @@ export type PersistedGameState = {
   reachedMilestones: string[]
   introPlayed: boolean
   menuStatus: MenuStatus
-  showQuestionnaire: boolean
+  showQuiz: boolean
   forceShowUI: boolean
 }
 

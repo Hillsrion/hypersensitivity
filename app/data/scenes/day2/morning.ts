@@ -1,6 +1,6 @@
 import type { Scene } from '../../../types/game'
 import { SCENE_IDS } from '../../constants'
-import { d, pensees } from '../../helpers'
+import { d, thoughts } from '../../helpers'
 
 export const dayTwoWakeupCrash: Scene = {
   id: SCENE_IDS.DAY_TWO_WAKEUP_CRASH,
@@ -9,7 +9,7 @@ export const dayTwoWakeupCrash: Scene = {
   entryAnnotation: 'Lucie se réveille',
   condition: { flag: 'hadBreakdown', operator: 'equals', value: true },
   dialogues: [
-    pensees(
+    thoughts(
       'd2_1a',
       "J'ai trop mal dormi, je me sens lourde. je vais aller a la montagne aujourd'hui, ca me fera du bien.",
       {
@@ -27,7 +27,7 @@ export const dayTwoWakeupGood: Scene = {
   entryAnnotation: 'Lucie se réveille',
   condition: { flag: 'hadBreakdown', operator: 'equals', value: false },
   dialogues: [
-    pensees(
+    thoughts(
       'd2_1b',
       "J'ai bien dormi. Je me sens d'attaque. Allez, montagne aujourd'hui !",
       {

@@ -4,7 +4,7 @@ import {
   type ScrollTriggerHandle,
   useExperienceGradient,
 } from '~/app/composables/game/useExperienceGradient'
-import { QUESTIONNAIRE_ENTRY_DELAY_MS } from '~/app/constants/durations'
+import { QUIZ_ENTRY_DELAY_MS } from '~/app/constants/durations'
 import type { Choice } from '~/app/types/game'
 
 import ChoiceButtons from './game/ChoiceButtons.vue'
@@ -18,15 +18,15 @@ const gameStore = useGameStore()
 const animationsStore = useAnimationsStore()
 
 const endGameChoices: Choice[] = [
-  { id: 'yes', text: 'OUI', nextSceneId: 'questionnaire' },
+  { id: 'yes', text: 'OUI', nextSceneId: 'quiz' },
   { id: 'no', text: 'NON', nextSceneId: 'outro' },
 ]
 
 const handleEndChoiceSelect = (choice: Choice) => {
   if (choice.id === 'yes') {
-    showQuestionnaire('intro')
+    showQuiz('intro')
   } else {
-    showQuestionnaire('skipped')
+    showQuiz('skipped')
   }
 }
 
@@ -43,7 +43,7 @@ const {
 } = useExperienceAnimation()
 
 const scrollTriggerInstance = ref<ScrollTriggerHandle | null>(null)
-let questionnaireTimer: ReturnType<typeof setTimeout> | null = null
+let quizTimer: ReturnType<typeof setTimeout> | null = null
 
 const { backgroundGradient, isGameEnd, showEndContent } = useExperienceGradient(
   gradientState,
@@ -66,9 +66,9 @@ const lines = [
 const { words } = useSplitText(textContainer, { splitBy: 'words' })
 
 onUnmounted(() => {
-  if (questionnaireTimer) {
-    clearTimeout(questionnaireTimer)
-    questionnaireTimer = null
+  if (quizTimer) {
+    clearTimeout(quizTimer)
+    quizTimer = null
   }
   if (scrollTriggerInstance.value) {
     scrollTriggerInstance.value.kill()
@@ -95,16 +95,16 @@ watch(
   { immediate: true }
 )
 
-const showQuestionnaire = (view: 'intro' | 'skipped' = 'intro') => {
+const showQuiz = (view: 'intro' | 'skipped' = 'intro') => {
   showEndContent.value = false
   gameStore.setShowFinalFooter(false)
 
-  questionnaireTimer = setTimeout(() => {
-    questionnaireTimer = null
+  quizTimer = setTimeout(() => {
+    quizTimer = null
     const hspQuizStore = useHspQuizStore()
     if (view === 'skipped') hspQuizStore.skipQuiz()
-    gameStore.setShowQuestionnaire(true)
-  }, QUESTIONNAIRE_ENTRY_DELAY_MS)
+    gameStore.setShowQuiz(true)
+  }, QUIZ_ENTRY_DELAY_MS)
 }
 </script>
 
@@ -137,7 +137,7 @@ const showQuestionnaire = (view: 'intro' | 'skipped' = 'intro') => {
       <!-- End Screen Overlay -->
       <Transition name="fade">
         <div
-          v-if="showEndContent && !gameStore.showQuestionnaire"
+          v-if="showEndContent && !gameStore.showQuiz"
           class="absolute inset-0 z-30 flex flex-col items-center justify-center pointer-events-auto"
         >
           <div

@@ -83,7 +83,7 @@ describe('HSPQuiz', () => {
 
     const nextButton = wrapper
       .findAll('button')
-      .find((b) => b.text().includes('Suivant'))
+      .find((b) => b.text().includes('Next'))
     expect(nextButton?.attributes('disabled')).toBeDefined()
   })
 
@@ -99,7 +99,7 @@ describe('HSPQuiz', () => {
 
     const nextButton = wrapper
       .findAll('button')
-      .find((b) => b.text().includes('Suivant'))
+      .find((b) => b.text().includes('Next'))
     expect(nextButton?.attributes('disabled')).toBeUndefined()
   })
 })

@@ -27,7 +27,7 @@ export const createInitialGameState = (): GameState => ({
   introBlurAmount: 8,
   isAutoScrolling: false,
   selectedChoice: null,
-  showQuestionnaire: false,
+  showQuiz: false,
   showFinalFooter: false,
   forceShowUI: false,
   isDayTransitioning: false,
