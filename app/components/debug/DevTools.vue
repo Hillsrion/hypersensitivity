@@ -152,10 +152,22 @@ const skipToGame = () => {
 }
 
 const skipToFooter = () => {
+  audioStore.stopCurrentAudio()
+
+  gameStore.setIntroPlayed()
+  gameStore.setIntroAnimationPhase('complete')
+  gameStore.setIntroBlurAmount(0)
+  animationsStore.setScrollLocked(false)
+  bgGradient.animateToWhite().duration(0).play()
+
   // Jump to the end scene and skip the questionnaire
   jumpToScene(SCENE_IDS.GAME_END)
 
+  // Force scroll to bottom so the Experience sticky background is visible
+  scrollTo('bottom')
+
   setTimeout(() => {
+    animationsStore.setScrollLocked(true)
     gameStore.setShowFinalFooter(false)
     const hspQuizStore = useHspQuizStore()
     hspQuizStore.skipQuiz()
