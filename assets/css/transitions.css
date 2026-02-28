@@ -1,0 +1,77 @@
+:root {
+  --transition-duration-fast: 0.15s;
+  --transition-duration-medium: 0.3s;
+  --transition-duration-base: 0.5s;
+  --transition-duration-slow: 2s;
+  --transition-ease: ease;
+}
+
+/* Base Fade (0.5s)
+   Used in app.vue and Experience.vue
+*/
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity var(--transition-duration-base) var(--transition-ease);
+}
+
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
+}
+
+/* Fade Medium (0.3s)
+   Used in GameMilestoneMenu.vue
+*/
+.fade-medium-enter-active,
+.fade-medium-leave-active {
+  transition: opacity var(--transition-duration-medium) var(--transition-ease);
+}
+
+.fade-medium-enter-from,
+.fade-medium-leave-to {
+  opacity: 0;
+}
+
+/* Fade Fast (0.15s)
+   Used in GameContainer.vue
+*/
+.fade-fast-enter-active,
+.fade-fast-leave-active {
+  transition: opacity var(--transition-duration-fast) var(--transition-ease);
+}
+
+.fade-fast-enter-from,
+.fade-fast-leave-to {
+  opacity: 0;
+}
+
+/* Fade Slow (2s)
+   Previously defined in app.vue
+*/
+.fade-slow-enter-active,
+.fade-slow-leave-active {
+  transition: opacity var(--transition-duration-slow) var(--transition-ease);
+}
+
+.fade-slow-enter-from,
+.fade-slow-leave-to {
+  opacity: 0;
+}
+
+/* Fade Up (0.4s)
+   Previously defined in GameContainer.vue
+*/
+.fade-up-enter-active,
+.fade-up-leave-active {
+  transition: all 0.4s var(--transition-ease);
+}
+
+.fade-up-enter-from {
+  opacity: 0;
+  transform: translateY(20px);
+}
+
+.fade-up-leave-to {
+  opacity: 0;
+  transform: translateY(-10px);
+}

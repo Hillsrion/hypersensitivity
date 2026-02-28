@@ -1,4 +1,5 @@
 @import 'tailwindcss';
+@import './transitions.css';
 @plugin "fluid-tailwindcss" {
   minviewport: 360;
   maxviewport: 1280;

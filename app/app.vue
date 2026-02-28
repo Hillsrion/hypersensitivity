@@ -237,25 +237,3 @@ onUnmounted(() => {
     </div>
   </div>
 </template>
-
-<style>
-.fade-enter-active,
-.fade-leave-active {
-  transition: opacity 0.5s ease;
-}
-
-.fade-enter-from,
-.fade-leave-to {
-  opacity: 0;
-}
-
-.fade-slow-enter-active,
-.fade-slow-leave-active {
-  transition: opacity 2s ease;
-}
-
-.fade-slow-enter-from,
-.fade-slow-leave-to {
-  opacity: 0;
-}
-</style>

@@ -101,7 +101,7 @@ onUnmounted(() => {
   >
     <!-- Menu Icon (top left) -->
     <Teleport to="body">
-      <Transition name="fade" appear>
+      <Transition name="fade-fast" appear>
         <button
           v-if="showDelayedGameUI && !isMilestoneAnnotation"
           class="fixed z-70 text-primary cursor-pointer group flex items-center justify-center font-sans"
@@ -116,12 +116,12 @@ onUnmounted(() => {
     </Teleport>
 
     <!-- Header -->
-    <Transition name="fade" appear>
+    <Transition name="fade-fast" appear>
       <GameHeader v-if="shouldShowCoreUi" />
     </Transition>
 
     <!-- Energy Bar (right side) -->
-    <Transition name="fade" appear>
+    <Transition name="fade-fast" appear>
       <GameEnergyBar
         v-if="shouldShowCoreUi"
         class="absolute z-40 transition-opacity duration-300 left-1/2 -translate-x-1/2 md:bottom-auto md:top-1/2 md:translate-x-0 md:-translate-y-1/2"
@@ -177,7 +177,7 @@ onUnmounted(() => {
     <div
       class="absolute inset-0 flex flex-col items-center justify-center pointer-events-none"
     >
-      <Transition name="fade" mode="out-in">
+      <Transition name="fade-fast" mode="out-in">
         <DialogueBox
           v-if="
             showContent &&
@@ -213,7 +213,7 @@ onUnmounted(() => {
     </div>
 
     <!-- Choice Buttons (bottom) -->
-    <Transition name="fade">
+    <Transition name="fade-fast">
       <ChoiceButtons
         v-if="
           (gameStore.showChoices || gameStore.selectedChoice) &&
@@ -254,30 +254,3 @@ onUnmounted(() => {
     </div>
   </div>
 </template>
-
-<style scoped>
-.fade-enter-active,
-.fade-leave-active {
-  transition: opacity 0.15s ease;
-}
-
-.fade-enter-from,
-.fade-leave-to {
-  opacity: 0;
-}
-
-.fade-up-enter-active,
-.fade-up-leave-active {
-  transition: all 0.4s ease;
-}
-
-.fade-up-enter-from {
-  opacity: 0;
-  transform: translateY(20px);
-}
-
-.fade-up-leave-to {
-  opacity: 0;
-  transform: translateY(-10px);
-}
-</style>
