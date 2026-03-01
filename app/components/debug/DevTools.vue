@@ -226,7 +226,7 @@ const jumpToScene = (sceneId: string) => {
 </script>
 
 <template>
-  <div class="fixed bottom-4 right-4 z-99999 flex flex-col gap-2">
+  <div class="fixed bottom-4 right-4 z-99998 flex flex-col gap-2">
     <!-- Minimized Button -->
     <button
       v-if="isMinimized"
