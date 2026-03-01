@@ -9,7 +9,7 @@ const props = defineProps<{
 const titleRef = useTemplateRef<HTMLElement>('titleRef')
 const { chars } = useSplitText(titleRef, { splitBy: 'chars,words' })
 const currentYear = new Date().getFullYear()
-const rootClasses = 'relative flex-1 w-full text-white'
+const rootClasses = 'relative min-h-svh w-full text-white flex flex-col'
 
 useTextWaveAnimation(
   computed(() => chars.value as HTMLElement[]),
@@ -19,7 +19,7 @@ useTextWaveAnimation(
 
 <template>
   <section :class="rootClasses">
-    <div class="flex items-center justify-center px-4 md:px-8 h-full">
+    <div class="flex-1 flex items-center justify-center px-4 md:px-8">
       <h2
         ref="titleRef"
         class="font-epilogue font-semibold fl-text-footer-min/footer-max leading-[1.05] text-center"

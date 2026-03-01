@@ -192,6 +192,7 @@ onUnmounted(() => {
   <div
     ref="elementRef"
     class="quiz-container fixed inset-0 z-100 w-full h-svh flex flex-col items-center text-white transition-opacity duration-500"
+    data-lenis-prevent
     :class="{
       'justify-center overflow-hidden':
         currentView !== 'results' && currentView !== 'skipped',
@@ -239,7 +240,7 @@ onUnmounted(() => {
       >
         <div
           v-if="currentView === 'results'"
-          class="min-h-svh w-full flex items-start justify-center transition-opacity duration-300"
+          class="min-h-svh w-full flex items-center justify-center transition-opacity duration-300"
           :style="{ opacity: resultsOpacity }"
         >
           <HSPResults
