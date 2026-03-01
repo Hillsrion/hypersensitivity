@@ -4,6 +4,7 @@ import { EDGE_SPACING } from '~/app/constants/layout'
 const props = defineProps<{
   developmentCreditUrl: string
   designCreditUrl: string
+  animate?: boolean
 }>()
 
 const titleRef = useTemplateRef<HTMLElement>('titleRef')
@@ -11,9 +12,19 @@ const { chars } = useSplitText(titleRef, { splitBy: 'chars,words' })
 const currentYear = new Date().getFullYear()
 const rootClasses = 'relative min-h-svh w-full text-white flex flex-col'
 
-useTextWaveAnimation(
+const { playEntry } = useTextWaveAnimation(
   computed(() => chars.value as HTMLElement[]),
-  { immediate: true, skipIntroOverride: false }
+  { immediate: false, skipIntroOverride: false }
+)
+
+watch(
+  () => props.animate,
+  (shouldAnimate) => {
+    if (shouldAnimate && chars.value.length) {
+      playEntry(chars.value as HTMLElement[])
+    }
+  },
+  { immediate: true }
 )
 </script>
 

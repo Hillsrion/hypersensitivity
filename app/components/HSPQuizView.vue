@@ -50,6 +50,7 @@ const elementRef = useTemplateRef<HTMLElement>('elementRef')
 const contentReady = ref(false)
 const resultsScrollTop = ref(0)
 const footerRevealTriggered = ref(false)
+const animateFooter = ref(false)
 let contentReadyTimer: ReturnType<typeof setTimeout> | null = null
 
 const resultsOpacity = computed(() => {
@@ -65,6 +66,7 @@ const resultsOpacity = computed(() => {
 const resetResultsTransitionState = () => {
   resultsScrollTop.value = 0
   footerRevealTriggered.value = false
+  animateFooter.value = false
 
   if (elementRef.value) {
     elementRef.value.scrollTop = 0
@@ -85,6 +87,14 @@ const handleContainerScroll = () => {
   ) {
     footerRevealTriggered.value = true
     gameStore.setShowFinalFooter(true)
+  }
+
+  // Trigger footer text animation when we've scrolled enough to see the footer
+  if (
+    !animateFooter.value &&
+    scrollTop >= elementRef.value.clientHeight * 0.9
+  ) {
+    animateFooter.value = true
   }
 }
 
@@ -146,6 +156,7 @@ watch(
     if (!isEndingView) {
       resultsScrollTop.value = 0
       footerRevealTriggered.value = false
+      animateFooter.value = false
     }
   },
   { immediate: true }
@@ -257,6 +268,7 @@ onUnmounted(() => {
         </div>
 
         <GameOutroFooter
+          :animate="animateFooter"
           :development-credit-url="props.developmentCreditUrl"
           :design-credit-url="props.designCreditUrl"
         />
