@@ -37,7 +37,7 @@ test.describe('HSP Quiz E2E', () => {
 
     // 5. Wait for Questionnaire overlay (HSPIntro)
     // Internal delays: QUESTIONNAIRE_ENTRY (1s) + CONTENT_READY (2s)
-    const startQuizButton = page.getByText('Start the quiz')
+    const startQuizButton = page.getByText('Commencer le questionnaire')
     await expect(startQuizButton).toBeVisible({ timeout: 20000 })
     await startQuizButton.dispatchEvent('click')
 
@@ -52,6 +52,6 @@ test.describe('HSP Quiz E2E', () => {
       timeout: 20000,
     })
     await expect(page.getByText('Scores par section')).toBeVisible()
-    await expect(page.getByText('Restart the quiz')).toBeVisible()
+    await expect(page.getByText('Recommencer le questionnaire')).toBeVisible()
   })
 })

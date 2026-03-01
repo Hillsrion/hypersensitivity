@@ -406,8 +406,8 @@ export const useGameStore = defineStore('game', {
         const oldDay = getCurrentDay(gameData.scenes, this.currentSceneId)
         const newDay = getCurrentDay(gameData.scenes, sceneId)
 
-        if (oldDay === 1 && newDay === 2) {
-          // If we are crossing the day boundary, put the scene load on hold
+        if (oldDay === 1 && newDay === 2 && !devFlags) {
+          // If we are crossing the day boundary natively, put the scene load on hold
           // while Experience.vue hides the UI and handles the background swap
           this.pendingTransitionSceneId = sceneId
           this.setDayTransitioning(true)

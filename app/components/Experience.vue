@@ -123,7 +123,7 @@ const showQuiz = (view: 'intro' | 'skipped' = 'intro') => {
         }"
         viewBox="0 0 1366 769"
       >
-        <path ref="eyePath" :d="eyePaths.closed" fill="white" />
+        <path v-once ref="eyePath" :d="eyePaths.closed" fill="white" />
       </svg>
 
       <!-- Game Container - Affiche dans l'oeil, l'annotation apparait avec l'animation -->
