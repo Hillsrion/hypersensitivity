@@ -18,9 +18,16 @@ const { playEntry } = useTextWaveAnimation(
 )
 
 watch(
-  () => props.animate,
-  (shouldAnimate) => {
-    if (shouldAnimate && chars.value.length) {
+  () => [props.animate, chars.value.length] as [boolean, number],
+  ([shouldAnimate, charsLength], oldValues) => {
+    const wasAnimating = oldValues ? oldValues[0] : false
+    const oldLength = oldValues ? oldValues[1] : 0
+
+    if (
+      shouldAnimate &&
+      charsLength > 0 &&
+      (!wasAnimating || oldLength === 0)
+    ) {
       playEntry(chars.value as HTMLElement[])
     }
   },

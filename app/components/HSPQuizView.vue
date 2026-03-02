@@ -138,6 +138,7 @@ watch(
       if (view === 'skipped') {
         gameStore.setShowFinalFooter(true)
         footerRevealTriggered.value = true
+        animateFooter.value = true
       } else {
         gameStore.setShowFinalFooter(false)
         footerRevealTriggered.value = false
