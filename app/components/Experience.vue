@@ -50,6 +50,13 @@ const { backgroundGradient, isGameEnd, showEndContent } = useExperienceGradient(
   scrollTriggerInstance
 )
 
+const audioStore = useAudioStore()
+watch(showEndContent, (show) => {
+  if (show) {
+    audioStore.stopCurrentAudio(false)
+  }
+})
+
 const { isDayTransition } = useExperienceDayTransition(
   gradientState,
   playCloseEyeAnimation,
