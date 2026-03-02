@@ -39,13 +39,6 @@ const emit = defineEmits<{
 const {
   isAnimating,
   internalDisplaySectionName,
-  sectionNameRef,
-  headerRef,
-  progressBarRef,
-  questionInfoRef,
-  questionTextRef,
-  answersRef,
-  navRef,
   onPrevious,
   onNext,
   enter,

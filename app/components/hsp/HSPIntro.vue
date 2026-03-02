@@ -14,16 +14,7 @@ defineProps({
 
 defineEmits(['start'])
 
-const {
-  titleRef,
-  desc1Ref,
-  desc2Ref,
-  stat1Ref,
-  stat2Ref,
-  btnRef,
-  enter,
-  leave,
-} = useHSPIntroAnimation()
+const { enter, leave } = useHSPIntroAnimation()
 
 defineExpose({
   leave,

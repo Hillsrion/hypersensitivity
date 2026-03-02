@@ -20,8 +20,6 @@ const isContainerVisible = useElementVisibility(containerRef)
 const {
   gameStore,
   audioStore,
-  dialogueBoxRef,
-  choicesRef,
   isChoiceSelecting,
   activeChoices,
   audioProgressPercent,

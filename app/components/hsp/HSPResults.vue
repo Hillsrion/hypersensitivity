@@ -32,21 +32,7 @@ const emit = defineEmits<{
   (e: 'restart'): void
 }>()
 
-const {
-  scoreContainerRef,
-  totalScoreRef,
-  sensitivityLabelRef,
-  sensitivityDescRef,
-  sectionsTitleRef,
-  sectionItemsRef,
-  sectionScoreCountersRef,
-  sectionBarsRef,
-  profileCardRef,
-  alertCardRef,
-  restartBtnRef,
-  enter,
-  leave,
-} = useHSPResultsAnimation(props)
+const { enter, leave } = useHSPResultsAnimation(props)
 
 onMounted(() => {
   enter()

@@ -34,7 +34,6 @@ const container = useTemplateRef<HTMLElement>('container')
 const textContainer = useTemplateRef<HTMLElement>('textContainer')
 
 const {
-  eyePath,
   eyePaths,
   gradientState,
   playCloseEyeAnimation,
