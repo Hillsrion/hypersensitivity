@@ -27,7 +27,7 @@ export default defineNuxtConfig({
   },
 
   vite: {
-    plugins: [tailwindcss()],
+    plugins: [tailwindcss() as never],
     server: {
       watch: {
         ignored: ['**/.worktrees/**'],

@@ -239,11 +239,9 @@ export const useGameStore = defineStore('game', {
         if (experienceEl) {
           const targetY = experienceEl.offsetTop + experienceEl.offsetHeight
 
-          // @ts-expect-error: Necessary for DevTools bridge
-          // @ts-expect-error: Necessary for DevTools bridge lenis is added to window in app.vue
+          // lenis is added to window in app.vue
           if (window.lenis) {
-            // @ts-expect-error: Necessary for DevTools bridge
-            // @ts-expect-error: Necessary for DevTools bridge lenis is added to window in app.vue
+            // lenis is added to window in app.vue
             window.lenis.scrollTo(targetY, { immediate: true })
           } else {
             window.scrollTo({

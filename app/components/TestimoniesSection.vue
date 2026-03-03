@@ -16,10 +16,19 @@ const testimonies = mainData?.testimonies || []
 const firstTestimony = computed(() => testimonies[0] || { content: '' })
 
 // Function ref to capture the first card's content element reliably
-const setFirstCardRef = (el: ComponentPublicInstance | null, index: number) => {
+const setFirstCardRef = (
+  el:
+    | InstanceType<typeof TestimonyCard>
+    | Element
+    | ComponentPublicInstance
+    | null,
+  index: number
+) => {
   if (index === 0 && el) {
     // el is the component instance, we want the textRef element
-    firstCardContentRef.value = el.textRef
+    firstCardContentRef.value = (
+      el as InstanceType<typeof TestimonyCard>
+    ).textRef
   }
 }
 

@@ -54,13 +54,10 @@ const scrollTo = (position: 'top' | 'bottom') => {
       ? experienceEl.offsetTop
       : experienceEl.offsetTop + experienceEl.offsetHeight
 
-  // @ts-expect-error: Necessary for DevTools bridge
   if (window.lenis) {
     if (position === 'top') {
-      // @ts-expect-error: Necessary for DevTools bridge
       window.lenis.start() // Force start to allow scrolling up if locked
     }
-    // @ts-expect-error: Necessary for DevTools bridge
     window.lenis.scrollTo(targetY, { immediate: true })
   } else {
     window.scrollTo({
@@ -189,9 +186,7 @@ onMounted(() => {
     // We wait a bit for Lenis and ScrollTrigger to be fully initialized and for the page to render
     setTimeout(() => {
       const element = document.getElementById(String(target))
-      // @ts-expect-error: Necessary for DevTools bridge
       if (element && window.lenis) {
-        // @ts-expect-error: Necessary for DevTools bridge
         window.lenis.scrollTo(element, { immediate: true })
       }
     }, 500)
