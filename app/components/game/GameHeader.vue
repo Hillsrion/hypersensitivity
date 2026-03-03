@@ -44,7 +44,7 @@ watch(
     :class="[EDGE_SPACING.TOP, UI_SIZES.TOP_HEADER]"
   >
     <h1 class="text-primary font-serif fl-text-sm/xl">
-      <span class="font-medium font-sans uppercase"
+      <span class="font-medium font-sans uppercase tabular-nums"
         >JOUR {{ gameStore.currentDay }}</span
       >
       <span class="mx-2">-</span>

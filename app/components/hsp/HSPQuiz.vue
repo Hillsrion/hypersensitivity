@@ -109,7 +109,7 @@ const getRatingClass = (value: number) => {
           <AppText
             as="p"
             variant="body"
-            class="font-sans font-medium text-white uppercase"
+            class="font-sans font-medium text-white uppercase tabular-nums"
           >
             Question {{ currentQuestionIndex + 1 }} / {{ totalQuestions }}
           </AppText>

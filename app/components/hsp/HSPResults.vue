@@ -54,7 +54,7 @@ defineExpose({
           <div class="flex items-baseline gap-1 mb-2">
             <span
               ref="totalScoreRef"
-              class="2xl:text-6xl text-5xl/7 font-bold font-sans text-white"
+              class="2xl:text-6xl text-5xl/7 font-bold font-sans text-white tabular-nums"
               >0</span
             >
             <span class="text-gray-400 text-2xl/7 font-sans"
@@ -168,7 +168,7 @@ defineExpose({
             <AppText
               as="span"
               variant="label"
-              class="text-white font-sans font-semibold whitespace-nowrap"
+              class="text-white font-sans font-semibold whitespace-nowrap tabular-nums"
             >
               <span ref="sectionScoreCountersRef">0</span>/{{
                 questionsPerSection * 4
