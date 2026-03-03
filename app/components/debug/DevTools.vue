@@ -354,7 +354,7 @@ const jumpToScene = (sceneId: string) => {
                 max="5"
                 step="0.1"
                 class="w-full accent-white h-1 bg-white/20 rounded-lg appearance-none cursor-pointer"
-              ></input>
+              />
             </div>
 
             <div class="h-px bg-white/10 my-1" />

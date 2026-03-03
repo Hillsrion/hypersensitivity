@@ -160,7 +160,7 @@ watch(playbackRate, (rate) => {
           max="5"
           step="0.1"
           class="w-full h-1 bg-white/20 rounded-lg appearance-none cursor-pointer accent-white"
-        ></input>
+        />
         <div class="flex justify-between text-[8px] text-gray-500 font-sans">
           <span>0.1x</span>
           <span>1.0x</span>
