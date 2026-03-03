@@ -17,7 +17,7 @@ export const dayOneRefuse: Scene = {
     d(
       'd1_37',
       'Lucas',
-      "T'inquiète, pas de soucis. Bon, du coup, presque consensus.",
+      "T'inquiète, pas de souci. Bon, du coup, presque consensus.",
       {}
     ),
     d(
@@ -39,9 +39,15 @@ export const dayOneRefuseAssert: Scene = {
   condition: { flag: 'conflictOutcome', operator: 'equals', value: 'assert' },
   dialogues: [
     d(
-      'd1_42a',
+      'd1_40',
       'LUCIE',
-      "Mais bien sur que je l'ai bougee de la, mais c'est pas dans l'aprem je recois un mail du responsable pour un truc rien a voir ? Elle est allee me balancer parceque la semaine derniere je suis partie plus tot mardi pour regler des trucs perso c'te sorciere"
+      "J'avais une réu ce matin. Vu que c'est toujours le bordel dans l'open space, j'ai réservé une des petites cabanes à isolation phonique. Ce pas, je la vois dans la cabane et elle veut pas bouger."
+    ),
+    d('d1_41', 'Ines', "Waouh, dis-moi que tu l'as bougée de là."),
+    d(
+      'd1_42',
+      'LUCIE',
+      "Bien sûr que je l'ai bougée de là. Mais c'est pas dans l'aprèm, je reçois un mail du responsable pour un truc rien à voir. Elle allait me balancer parce que je suis partie un peu plus tôt mardi dernier. Elle a rien d'autre à faire, sérieux."
     ),
   ],
 }
@@ -54,31 +60,26 @@ export const dayOneRefuseSubmit: Scene = {
   audio: 'experience/J01_C03B_Discussion_Calme.mp3',
   dialogues: [
     d(
-      'd1_42b',
+      'd1_43',
       'LUCIE',
-      "J'ai pas eu la force de me battre encore, cette fois pour cette putain de cabine. Ces derniers temps, je suis usée. Le pire, c'est que ça me dégoûte. Je sais quoi faire. Mais tu sais pourquoi ces gens, ils font ça ? Parce qu'ils sont pas encore tombés sur quelqu'un qui va les choquer.",
+      "J'ai pas eu la force de me battre encore. Cette fois pour cette putain de cabine. Ces derniers temps, je suis usée. Le pire, c'est que ça me dégoûte. Je sais quoi faire. Et tu sais pourquoi ces gens, ils font ça ? Parce qu'ils sont pas encore tombés sur quelqu'un qui va les remettre à leur place.",
       {
         color: 'blue',
         energyChange: -20,
       }
     ),
     d(
-      'd1_43b',
+      'd1_44',
       'Ines',
       "On peut pas gagner toutes les batailles. Vas-y step by step. Si tu veux, ce week-end, on t'aidera à trouver les mots pour mettre tes limites.",
       {
         color: 'green',
       }
     ),
-    d(
-      'd1_44b',
-      'LUCIE',
-      "Ah genre, tu vas la RP ? Trop bien, on fera ça. Merci d'être là.",
-      {
-        color: 'green',
-      }
-    ),
-    d('d1_45b', 'Ines', "Mais c'est normal, avec plaisir !", {
+    d('d1_45', 'LUCIE', "Trop bien, on fera ça. Merci d'être là.", {
+      color: 'green',
+    }),
+    d('d1_46', 'Ines', "Mais c'est normal, avec plaisir.", {
       color: 'green',
     }),
   ],

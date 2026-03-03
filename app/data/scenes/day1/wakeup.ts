@@ -59,8 +59,8 @@ export const dayOneOutfitSexy: Scene = {
   audio: 'experience/J01_C01_TenueA.mp3',
   dialogues: [
     thoughts(
-      'd1_3a',
-      "Vas-y, one life, ça va le faire ! Je coupe les étiquettes et c'est carré.",
+      'd1_3',
+      "Vas-y, ça va le faire. Je coupe les étiquettes et c'est carré",
       {
         color: 'green',
       }

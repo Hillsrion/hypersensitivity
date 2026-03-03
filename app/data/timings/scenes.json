@@ -4064,7 +4064,7 @@
   "d1_36": [
     {
       "word": "Je",
-      "start": 0.359,
+      "start": 0.34,
       "end": 0.399
     },
     {
@@ -4094,7 +4094,7 @@
     },
     {
       "word": "discuter",
-      "start": 1.579,
+      "start": 1.599,
       "end": 1.959
     },
     {
@@ -4104,13 +4104,13 @@
     },
     {
       "word": "Inès.",
-      "start": 2.22,
+      "start": 2.2,
       "end": 2.819
     },
     {
       "word": "Ça",
-      "start": 2.839,
-      "end": 2.959
+      "start": 2.859,
+      "end": 2.919
     },
     {
       "word": "fait",
@@ -4120,13 +4120,13 @@
     {
       "word": "longtemps.",
       "start": 3.099,
-      "end": 3.579
+      "end": 3.519
     }
   ],
   "d1_37": [
     {
       "word": "T'inquiète,",
-      "start": 4.259,
+      "start": 4.26,
       "end": 4.699
     },
     {
@@ -4140,13 +4140,13 @@
       "end": 4.879
     },
     {
-      "word": "soucis.",
+      "word": "souci.",
       "start": 4.9,
       "end": 5.299
     },
     {
       "word": "Bon,",
-      "start": 5.559,
+      "start": 5.579,
       "end": 5.759
     },
     {
@@ -4189,7 +4189,7 @@
     {
       "word": "faut",
       "start": 7.98,
-      "end": 8.058
+      "end": 8.059
     },
     {
       "word": "que",
@@ -4199,7 +4199,7 @@
     {
       "word": "je",
       "start": 8.1,
-      "end": 8.138
+      "end": 8.14
     },
     {
       "word": "te",
@@ -4208,13 +4208,13 @@
     },
     {
       "word": "raconte",
-      "start": 8.279,
+      "start": 8.3,
       "end": 8.64
     },
     {
       "word": "un",
       "start": 8.659,
-      "end": 8.739
+      "end": 8.74
     },
     {
       "word": "truc",
@@ -4224,7 +4224,7 @@
     {
       "word": "là,",
       "start": 9.079,
-      "end": 9.18
+      "end": 9.22
     },
     {
       "word": "qui",
@@ -4244,17 +4244,17 @@
     {
       "word": "tout",
       "start": 9.72,
-      "end": 9.86
+      "end": 9.88
     },
     {
       "word": "à",
-      "start": 9.94,
-      "end": 9.94
+      "start": 9.92,
+      "end": 9.96
     },
     {
       "word": "l'heure",
-      "start": 9.98,
-      "end": 10.139
+      "start": 9.979,
+      "end": 10.14
     },
     {
       "word": "avec",
@@ -4269,21 +4269,16 @@
     {
       "word": "vieille",
       "start": 10.559,
-      "end": 10.82
+      "end": 10.819
     },
     {
-      "word": "meuf",
+      "word": "meuf aigrie",
       "start": 10.88,
-      "end": 11.039
-    },
-    {
-      "word": "aigrie",
-      "start": 11.039,
-      "end": 11.14
+      "end": 11.46
     },
     {
       "word": "de",
-      "start": 11.42,
+      "start": 11.479,
       "end": 11.48
     },
     {
@@ -4294,7 +4289,7 @@
     {
       "word": "taf.",
       "start": 11.699,
-      "end": 12.039
+      "end": 12.159
     }
   ],
   "d1_39": [
@@ -7229,6 +7224,1975 @@
       "word": "garde.",
       "start": 17.799,
       "end": 18.239
+    }
+  ],
+  "d1_40": [
+    {
+      "word": "J'avais",
+      "start": 13.939,
+      "end": 14.159
+    },
+    {
+      "word": "une",
+      "start": 14.159,
+      "end": 14.239
+    },
+    {
+      "word": "réu",
+      "start": 14.259,
+      "end": 14.46
+    },
+    {
+      "word": "ce",
+      "start": 14.48,
+      "end": 14.539
+    },
+    {
+      "word": "matin.",
+      "start": 14.579,
+      "end": 15.279
+    },
+    {
+      "word": "Vu",
+      "start": 15.319,
+      "end": 15.379
+    },
+    {
+      "word": "que",
+      "start": 15.4,
+      "end": 15.46
+    },
+    {
+      "word": "c'est",
+      "start": 15.479,
+      "end": 15.6
+    },
+    {
+      "word": "toujours",
+      "start": 15.619,
+      "end": 15.779
+    },
+    {
+      "word": "le",
+      "start": 15.779,
+      "end": 15.859
+    },
+    {
+      "word": "bordel",
+      "start": 15.899,
+      "end": 16.2
+    },
+    {
+      "word": "dans",
+      "start": 16.239,
+      "end": 16.319
+    },
+    {
+      "word": "l'open",
+      "start": 16.319,
+      "end": 16.54
+    },
+    {
+      "word": "space,",
+      "start": 16.579,
+      "end": 17.079
+    },
+    {
+      "word": "j'ai",
+      "start": 17.119,
+      "end": 17.219
+    },
+    {
+      "word": "réservé",
+      "start": 17.239,
+      "end": 17.579
+    },
+    {
+      "word": "une",
+      "start": 17.6,
+      "end": 17.699
+    },
+    {
+      "word": "des",
+      "start": 17.7,
+      "end": 17.799
+    },
+    {
+      "word": "petites",
+      "start": 17.859,
+      "end": 18.1
+    },
+    {
+      "word": "cabanes",
+      "start": 18.12,
+      "end": 18.44
+    },
+    {
+      "word": "à",
+      "start": 18.46,
+      "end": 18.5
+    },
+    {
+      "word": "isolation",
+      "start": 18.559,
+      "end": 18.94
+    },
+    {
+      "word": "phonique.",
+      "start": 19.02,
+      "end": 19.739
+    },
+    {
+      "word": "Ce",
+      "start": 19.76,
+      "end": 19.78
+    },
+    {
+      "word": "pas,",
+      "start": 19.86,
+      "end": 19.979
+    },
+    {
+      "word": "je",
+      "start": 20,
+      "end": 20.04
+    },
+    {
+      "word": "la",
+      "start": 20.079,
+      "end": 20.139
+    },
+    {
+      "word": "vois",
+      "start": 20.199,
+      "end": 20.299
+    },
+    {
+      "word": "dans",
+      "start": 20.319,
+      "end": 20.399
+    },
+    {
+      "word": "la",
+      "start": 20.42,
+      "end": 20.54
+    },
+    {
+      "word": "cabane",
+      "start": 20.579,
+      "end": 20.86
+    },
+    {
+      "word": "et",
+      "start": 20.899,
+      "end": 20.96
+    },
+    {
+      "word": "elle",
+      "start": 20.959,
+      "end": 21.02
+    },
+    {
+      "word": "veut",
+      "start": 21.059,
+      "end": 21.239
+    },
+    {
+      "word": "pas",
+      "start": 21.279,
+      "end": 21.36
+    },
+    {
+      "word": "bouger.",
+      "start": 21.44,
+      "end": 21.979
+    }
+  ],
+  "d1_41": [
+    {
+      "word": "Waouh,",
+      "start": 22.039,
+      "end": 22.42
+    },
+    {
+      "word": "dis-moi",
+      "start": 22.479,
+      "end": 22.68
+    },
+    {
+      "word": "que",
+      "start": 22.68,
+      "end": 22.76
+    },
+    {
+      "word": "tu",
+      "start": 22.78,
+      "end": 22.86
+    },
+    {
+      "word": "l'as",
+      "start": 22.899,
+      "end": 23.039
+    },
+    {
+      "word": "bougée",
+      "start": 23.059,
+      "end": 23.36
+    },
+    {
+      "word": "de",
+      "start": 23.399,
+      "end": 23.44
+    },
+    {
+      "word": "là.",
+      "start": 23.46,
+      "end": 23.639
+    }
+  ],
+  "d1_42": [
+    {
+      "word": "Bien",
+      "start": 24.219,
+      "end": 24.399
+    },
+    {
+      "word": "sûr",
+      "start": 24.44,
+      "end": 24.539
+    },
+    {
+      "word": "que",
+      "start": 24.559,
+      "end": 24.619
+    },
+    {
+      "word": "je",
+      "start": 24.62,
+      "end": 24.659
+    },
+    {
+      "word": "l'ai",
+      "start": 24.68,
+      "end": 24.799
+    },
+    {
+      "word": "bougée",
+      "start": 24.819,
+      "end": 25.04
+    },
+    {
+      "word": "de",
+      "start": 25.059,
+      "end": 25.12
+    },
+    {
+      "word": "là.",
+      "start": 25.159,
+      "end": 25.539
+    },
+    {
+      "word": "Mais",
+      "start": 25.559,
+      "end": 25.659
+    },
+    {
+      "word": "c'est",
+      "start": 25.68,
+      "end": 25.799
+    },
+    {
+      "word": "pas",
+      "start": 25.84,
+      "end": 25.92
+    },
+    {
+      "word": "dans",
+      "start": 25.94,
+      "end": 26.039
+    },
+    {
+      "word": "l'aprèm,",
+      "start": 26.039,
+      "end": 26.44
+    },
+    {
+      "word": "je",
+      "start": 26.44,
+      "end": 26.499
+    },
+    {
+      "word": "reçois",
+      "start": 26.52,
+      "end": 26.739
+    },
+    {
+      "word": "un",
+      "start": 26.76,
+      "end": 26.84
+    },
+    {
+      "word": "mail",
+      "start": 26.879,
+      "end": 27.04
+    },
+    {
+      "word": "du",
+      "start": 27.059,
+      "end": 27.119
+    },
+    {
+      "word": "responsable",
+      "start": 27.159,
+      "end": 27.7
+    },
+    {
+      "word": "pour",
+      "start": 27.7,
+      "end": 27.8
+    },
+    {
+      "word": "un",
+      "start": 27.819,
+      "end": 27.86
+    },
+    {
+      "word": "truc",
+      "start": 27.94,
+      "end": 28.139
+    },
+    {
+      "word": "rien",
+      "start": 28.199,
+      "end": 28.459
+    },
+    {
+      "word": "à",
+      "start": 28.519,
+      "end": 28.539
+    },
+    {
+      "word": "voir.",
+      "start": 28.619,
+      "end": 29.5
+    },
+    {
+      "word": "Elle",
+      "start": 29.539,
+      "end": 29.639
+    },
+    {
+      "word": "allait",
+      "start": 29.699,
+      "end": 29.84
+    },
+    {
+      "word": "me",
+      "start": 29.84,
+      "end": 29.94
+    },
+    {
+      "word": "balancer",
+      "start": 29.94,
+      "end": 30.379
+    },
+    {
+      "word": "parce",
+      "start": 30.459,
+      "end": 30.579
+    },
+    {
+      "word": "que",
+      "start": 30.6,
+      "end": 30.659
+    },
+    {
+      "word": "je",
+      "start": 30.699,
+      "end": 30.739
+    },
+    {
+      "word": "suis",
+      "start": 30.739,
+      "end": 30.84
+    },
+    {
+      "word": "partie",
+      "start": 30.86,
+      "end": 31.079
+    },
+    {
+      "word": "un",
+      "start": 31.079,
+      "end": 31.159
+    },
+    {
+      "word": "peu",
+      "start": 31.18,
+      "end": 31.28
+    },
+    {
+      "word": "plus",
+      "start": 31.319,
+      "end": 31.399
+    },
+    {
+      "word": "tôt",
+      "start": 31.479,
+      "end": 31.579
+    },
+    {
+      "word": "mardi",
+      "start": 31.639,
+      "end": 31.92
+    },
+    {
+      "word": "dernier.",
+      "start": 31.959,
+      "end": 32.599
+    },
+    {
+      "word": "Elle",
+      "start": 32.639,
+      "end": 32.72
+    },
+    {
+      "word": "a",
+      "start": 32.74,
+      "end": 32.799
+    },
+    {
+      "word": "rien",
+      "start": 32.84,
+      "end": 33.02
+    },
+    {
+      "word": "d'autre",
+      "start": 33.08,
+      "end": 33.279
+    },
+    {
+      "word": "à",
+      "start": 33.319,
+      "end": 33.34
+    },
+    {
+      "word": "faire,",
+      "start": 33.459,
+      "end": 33.68
+    },
+    {
+      "word": "sérieux.",
+      "start": 33.7,
+      "end": 35.979
+    }
+  ],
+  "d1_43": [
+    {
+      "word": "J'ai",
+      "start": 0.459,
+      "end": 0.619
+    },
+    {
+      "word": "pas",
+      "start": 0.639,
+      "end": 0.719
+    },
+    {
+      "word": "eu",
+      "start": 0.719,
+      "end": 0.8
+    },
+    {
+      "word": "la",
+      "start": 0.819,
+      "end": 0.959
+    },
+    {
+      "word": "force",
+      "start": 0.98,
+      "end": 1.159
+    },
+    {
+      "word": "de",
+      "start": 1.179,
+      "end": 1.239
+    },
+    {
+      "word": "me",
+      "start": 1.259,
+      "end": 1.36
+    },
+    {
+      "word": "battre",
+      "start": 1.399,
+      "end": 1.619
+    },
+    {
+      "word": "encore.",
+      "start": 1.639,
+      "end": 2.199
+    },
+    {
+      "word": "Cette",
+      "start": 2.22,
+      "end": 2.379
+    },
+    {
+      "word": "fois",
+      "start": 2.399,
+      "end": 2.539
+    },
+    {
+      "word": "pour",
+      "start": 2.559,
+      "end": 2.699
+    },
+    {
+      "word": "cette",
+      "start": 2.72,
+      "end": 2.919
+    },
+    {
+      "word": "putain",
+      "start": 2.939,
+      "end": 3.199
+    },
+    {
+      "word": "de",
+      "start": 3.199,
+      "end": 3.299
+    },
+    {
+      "word": "cabine.",
+      "start": 3.319,
+      "end": 3.759
+    },
+    {
+      "word": "Ces",
+      "start": 4.119,
+      "end": 4.239
+    },
+    {
+      "word": "derniers",
+      "start": 4.259,
+      "end": 4.519
+    },
+    {
+      "word": "temps,",
+      "start": 4.519,
+      "end": 4.639
+    },
+    {
+      "word": "je",
+      "start": 4.639,
+      "end": 4.759
+    },
+    {
+      "word": "suis",
+      "start": 4.779,
+      "end": 4.979
+    },
+    {
+      "word": "usée.",
+      "start": 5.039,
+      "end": 5.4
+    },
+    {
+      "word": "Le",
+      "start": 6.039,
+      "end": 6.179
+    },
+    {
+      "word": "pire,",
+      "start": 6.219,
+      "end": 6.539
+    },
+    {
+      "word": "c'est",
+      "start": 6.559,
+      "end": 6.639
+    },
+    {
+      "word": "que",
+      "start": 6.659,
+      "end": 6.719
+    },
+    {
+      "word": "ça",
+      "start": 6.759,
+      "end": 6.839
+    },
+    {
+      "word": "me",
+      "start": 6.859,
+      "end": 6.999
+    },
+    {
+      "word": "dégoûte.",
+      "start": 7.039,
+      "end": 7.519
+    },
+    {
+      "word": "Je",
+      "start": 7.539,
+      "end": 7.659
+    },
+    {
+      "word": "sais",
+      "start": 7.719,
+      "end": 7.879
+    },
+    {
+      "word": "quoi",
+      "start": 7.919,
+      "end": 8.079
+    },
+    {
+      "word": "faire.",
+      "start": 8.139,
+      "end": 9
+    },
+    {
+      "word": "Et",
+      "start": 9.039,
+      "end": 9.079
+    },
+    {
+      "word": "tu",
+      "start": 9.159,
+      "end": 9.239
+    },
+    {
+      "word": "sais",
+      "start": 9.3,
+      "end": 9.439
+    },
+    {
+      "word": "pourquoi",
+      "start": 9.46,
+      "end": 9.68
+    },
+    {
+      "word": "ces",
+      "start": 9.739,
+      "end": 9.82
+    },
+    {
+      "word": "gens,",
+      "start": 9.84,
+      "end": 9.96
+    },
+    {
+      "word": "ils",
+      "start": 9.979,
+      "end": 10.039
+    },
+    {
+      "word": "font",
+      "start": 10.079,
+      "end": 10.239
+    },
+    {
+      "word": "ça",
+      "start": 10.279,
+      "end": 10.399
+    },
+    {
+      "word": "?",
+      "start": 10.539,
+      "end": 10.859
+    },
+    {
+      "word": "Parce",
+      "start": 10.86,
+      "end": 11
+    },
+    {
+      "word": "qu'ils",
+      "start": 11,
+      "end": 11.119
+    },
+    {
+      "word": "sont",
+      "start": 11.159,
+      "end": 11.34
+    },
+    {
+      "word": "pas",
+      "start": 11.359,
+      "end": 11.46
+    },
+    {
+      "word": "encore",
+      "start": 11.479,
+      "end": 11.699
+    },
+    {
+      "word": "tombés",
+      "start": 11.779,
+      "end": 12.039
+    },
+    {
+      "word": "sur",
+      "start": 12.059,
+      "end": 12.199
+    },
+    {
+      "word": "quelqu'un",
+      "start": 12.219,
+      "end": 12.52
+    },
+    {
+      "word": "qui",
+      "start": 12.619,
+      "end": 12.68
+    },
+    {
+      "word": "va",
+      "start": 12.72,
+      "end": 12.8
+    },
+    {
+      "word": "les",
+      "start": 12.84,
+      "end": 12.96
+    },
+    {
+      "word": "remettre",
+      "start": 12.979,
+      "end": 13.279
+    },
+    {
+      "word": "à",
+      "start": 13.319,
+      "end": 13.34
+    },
+    {
+      "word": "leur",
+      "start": 13.359,
+      "end": 13.52
+    },
+    {
+      "word": "place.",
+      "start": 13.539,
+      "end": 14.159
+    }
+  ],
+  "d1_44": [
+    {
+      "word": "On",
+      "start": 14.199,
+      "end": 14.239
+    },
+    {
+      "word": "peut",
+      "start": 14.279,
+      "end": 14.38
+    },
+    {
+      "word": "pas",
+      "start": 14.399,
+      "end": 14.48
+    },
+    {
+      "word": "gagner",
+      "start": 14.52,
+      "end": 14.819
+    },
+    {
+      "word": "toutes",
+      "start": 14.859,
+      "end": 15.039
+    },
+    {
+      "word": "les",
+      "start": 15.059,
+      "end": 15.159
+    },
+    {
+      "word": "batailles.",
+      "start": 15.179,
+      "end": 15.679
+    },
+    {
+      "word": "Vas-y",
+      "start": 15.699,
+      "end": 15.899
+    },
+    {
+      "word": "step",
+      "start": 16,
+      "end": 16.159
+    },
+    {
+      "word": "by",
+      "start": 16.2,
+      "end": 16.359
+    },
+    {
+      "word": "step.",
+      "start": 16.36,
+      "end": 17
+    },
+    {
+      "word": "Si",
+      "start": 17.02,
+      "end": 17.079
+    },
+    {
+      "word": "tu",
+      "start": 17.159,
+      "end": 17.239
+    },
+    {
+      "word": "veux,",
+      "start": 17.26,
+      "end": 17.36
+    },
+    {
+      "word": "ce",
+      "start": 17.38,
+      "end": 17.44
+    },
+    {
+      "word": "week-end,",
+      "start": 17.48,
+      "end": 17.739
+    },
+    {
+      "word": "on",
+      "start": 17.739,
+      "end": 17.8
+    },
+    {
+      "word": "t'aidera",
+      "start": 17.84,
+      "end": 18.04
+    },
+    {
+      "word": "à",
+      "start": 18.119,
+      "end": 18.139
+    },
+    {
+      "word": "trouver",
+      "start": 18.159,
+      "end": 18.44
+    },
+    {
+      "word": "les",
+      "start": 18.46,
+      "end": 18.52
+    },
+    {
+      "word": "mots",
+      "start": 18.559,
+      "end": 18.68
+    },
+    {
+      "word": "pour",
+      "start": 18.7,
+      "end": 18.819
+    },
+    {
+      "word": "mettre",
+      "start": 18.819,
+      "end": 18.979
+    },
+    {
+      "word": "tes",
+      "start": 18.979,
+      "end": 19.079
+    },
+    {
+      "word": "limites.",
+      "start": 19.1,
+      "end": 19.5
+    }
+  ],
+  "d1_45": [
+    {
+      "word": "Trop",
+      "start": 20.199,
+      "end": 20.379
+    },
+    {
+      "word": "bien,",
+      "start": 20.42,
+      "end": 20.54
+    },
+    {
+      "word": "on",
+      "start": 20.54,
+      "end": 20.639
+    },
+    {
+      "word": "fera",
+      "start": 20.68,
+      "end": 20.86
+    },
+    {
+      "word": "ça.",
+      "start": 20.92,
+      "end": 21.54
+    },
+    {
+      "word": "Merci",
+      "start": 21.56,
+      "end": 21.84
+    },
+    {
+      "word": "d'être",
+      "start": 21.92,
+      "end": 22.139
+    },
+    {
+      "word": "là.",
+      "start": 22.159,
+      "end": 23.039
+    }
+  ],
+  "d2_breakdown_1": [
+    {
+      "word": "J'ai",
+      "start": 7.399,
+      "end": 7.579
+    },
+    {
+      "word": "trop",
+      "start": 7.599,
+      "end": 7.759
+    },
+    {
+      "word": "mal",
+      "start": 7.799,
+      "end": 7.919
+    },
+    {
+      "word": "dormi.",
+      "start": 7.979,
+      "end": 8.56
+    },
+    {
+      "word": "Je",
+      "start": 8.8,
+      "end": 8.859
+    },
+    {
+      "word": "me",
+      "start": 8.9,
+      "end": 8.96
+    },
+    {
+      "word": "sens",
+      "start": 9.039,
+      "end": 9.34
+    },
+    {
+      "word": "lourde.",
+      "start": 9.38,
+      "end": 10.059
+    },
+    {
+      "word": "Je",
+      "start": 10.42,
+      "end": 10.46
+    },
+    {
+      "word": "vais",
+      "start": 10.479,
+      "end": 10.599
+    },
+    {
+      "word": "aller",
+      "start": 10.6,
+      "end": 10.72
+    },
+    {
+      "word": "à",
+      "start": 10.779,
+      "end": 10.78
+    },
+    {
+      "word": "la",
+      "start": 10.8,
+      "end": 10.9
+    },
+    {
+      "word": "montagne",
+      "start": 10.94,
+      "end": 11.299
+    },
+    {
+      "word": "aujourd'hui,",
+      "start": 11.319,
+      "end": 11.76
+    },
+    {
+      "word": "ça",
+      "start": 11.8,
+      "end": 11.859
+    },
+    {
+      "word": "me",
+      "start": 11.88,
+      "end": 11.96
+    },
+    {
+      "word": "fera",
+      "start": 11.979,
+      "end": 12.159
+    },
+    {
+      "word": "du",
+      "start": 12.199,
+      "end": 12.339
+    },
+    {
+      "word": "bien.",
+      "start": 12.359,
+      "end": 15.119
+    },
+    {
+      "word": "[sonnerie de téléphone]",
+      "start": 15.359,
+      "end": 16.68
+    },
+    {
+      "word": "Allô",
+      "start": 17.079,
+      "end": 17.34
+    },
+    {
+      "word": "?",
+      "start": 17.379,
+      "end": 17.439
+    }
+  ],
+  "d2_breakdown_2": [
+    {
+      "word": "Coucou,",
+      "start": 18.059,
+      "end": 18.479
+    },
+    {
+      "word": "je",
+      "start": 18.52,
+      "end": 18.559
+    },
+    {
+      "word": "suis",
+      "start": 18.559,
+      "end": 18.639
+    },
+    {
+      "word": "désolé",
+      "start": 18.659,
+      "end": 18.999
+    },
+    {
+      "word": "de",
+      "start": 19,
+      "end": 19.059
+    },
+    {
+      "word": "te",
+      "start": 19.059,
+      "end": 19.139
+    },
+    {
+      "word": "déranger",
+      "start": 19.159,
+      "end": 19.46
+    },
+    {
+      "word": "si",
+      "start": 19.5,
+      "end": 19.62
+    },
+    {
+      "word": "tôt.",
+      "start": 19.659,
+      "end": 19.819
+    },
+    {
+      "word": "Je",
+      "start": 19.84,
+      "end": 19.86
+    },
+    {
+      "word": "t'appelle",
+      "start": 19.899,
+      "end": 20.119
+    },
+    {
+      "word": "parce",
+      "start": 20.14,
+      "end": 20.26
+    },
+    {
+      "word": "qu'on",
+      "start": 20.26,
+      "end": 20.36
+    },
+    {
+      "word": "a",
+      "start": 20.38,
+      "end": 20.42
+    },
+    {
+      "word": "un",
+      "start": 20.44,
+      "end": 20.5
+    },
+    {
+      "word": "souci.",
+      "start": 20.559,
+      "end": 20.979
+    },
+    {
+      "word": "Tu",
+      "start": 21.159,
+      "end": 21.28
+    },
+    {
+      "word": "te",
+      "start": 21.28,
+      "end": 21.319
+    },
+    {
+      "word": "souviens",
+      "start": 21.319,
+      "end": 21.52
+    },
+    {
+      "word": "que",
+      "start": 21.54,
+      "end": 21.579
+    },
+    {
+      "word": "je",
+      "start": 21.579,
+      "end": 21.62
+    },
+    {
+      "word": "t'avais",
+      "start": 21.64,
+      "end": 21.799
+    },
+    {
+      "word": "dit",
+      "start": 21.799,
+      "end": 21.88
+    },
+    {
+      "word": "que",
+      "start": 21.879,
+      "end": 21.92
+    },
+    {
+      "word": "je",
+      "start": 21.94,
+      "end": 21.959
+    },
+    {
+      "word": "déménageais",
+      "start": 22,
+      "end": 22.42
+    },
+    {
+      "word": "aujourd'hui",
+      "start": 22.44,
+      "end": 22.859
+    },
+    {
+      "word": "?",
+      "start": 23.219,
+      "end": 23.219
+    },
+    {
+      "word": "En",
+      "start": 23.239,
+      "end": 23.3
+    },
+    {
+      "word": "fait,",
+      "start": 23.319,
+      "end": 23.42
+    },
+    {
+      "word": "j'ai",
+      "start": 23.42,
+      "end": 23.54
+    },
+    {
+      "word": "plus",
+      "start": 23.559,
+      "end": 23.679
+    },
+    {
+      "word": "personne",
+      "start": 23.7,
+      "end": 23.979
+    },
+    {
+      "word": "pour",
+      "start": 24,
+      "end": 24.099
+    },
+    {
+      "word": "conduire",
+      "start": 24.1,
+      "end": 24.34
+    },
+    {
+      "word": "le",
+      "start": 24.34,
+      "end": 24.38
+    },
+    {
+      "word": "camion",
+      "start": 24.399,
+      "end": 24.62
+    },
+    {
+      "word": "de",
+      "start": 24.62,
+      "end": 24.679
+    },
+    {
+      "word": "loc",
+      "start": 24.7,
+      "end": 24.88
+    },
+    {
+      "word": "et",
+      "start": 24.899,
+      "end": 24.959
+    },
+    {
+      "word": "y",
+      "start": 24.959,
+      "end": 25
+    },
+    {
+      "word": "a",
+      "start": 25.02,
+      "end": 25.039
+    },
+    {
+      "word": "So",
+      "start": 25.18,
+      "end": 25.319
+    },
+    {
+      "word": "qui",
+      "start": 25.34,
+      "end": 25.399
+    },
+    {
+      "word": "a",
+      "start": 25.42,
+      "end": 25.44
+    },
+    {
+      "word": "une",
+      "start": 25.459,
+      "end": 25.52
+    },
+    {
+      "word": "grippe",
+      "start": 25.54,
+      "end": 25.76
+    },
+    {
+      "word": "carabinée",
+      "start": 25.799,
+      "end": 26.26
+    },
+    {
+      "word": "là,",
+      "start": 26.319,
+      "end": 26.42
+    },
+    {
+      "word": "il",
+      "start": 26.42,
+      "end": 26.479
+    },
+    {
+      "word": "est",
+      "start": 26.6,
+      "end": 26.7
+    },
+    {
+      "word": "couché.",
+      "start": 26.739,
+      "end": 27.139
+    },
+    {
+      "word": "Est-ce",
+      "start": 27.42,
+      "end": 27.539
+    },
+    {
+      "word": "que",
+      "start": 27.559,
+      "end": 27.62
+    },
+    {
+      "word": "je",
+      "start": 27.639,
+      "end": 27.719
+    },
+    {
+      "word": "pourrais",
+      "start": 27.739,
+      "end": 27.879
+    },
+    {
+      "word": "venir",
+      "start": 27.899,
+      "end": 28.039
+    },
+    {
+      "word": "tout",
+      "start": 28.079,
+      "end": 28.2
+    },
+    {
+      "word": "à",
+      "start": 28.239,
+      "end": 28.28
+    },
+    {
+      "word": "l'heure",
+      "start": 28.28,
+      "end": 28.399
+    },
+    {
+      "word": "?",
+      "start": 28.439,
+      "end": 28.459
+    },
+    {
+      "word": "Y",
+      "start": 28.459,
+      "end": 28.5
+    },
+    {
+      "word": "a",
+      "start": 28.579,
+      "end": 28.68
+    },
+    {
+      "word": "genre",
+      "start": 29.059,
+      "end": 29.219
+    },
+    {
+      "word": "trois",
+      "start": 29.239,
+      "end": 29.399
+    },
+    {
+      "word": "allers-retours",
+      "start": 29.44,
+      "end": 29.739
+    },
+    {
+      "word": "à",
+      "start": 29.779,
+      "end": 29.819
+    },
+    {
+      "word": "faire,",
+      "start": 29.84,
+      "end": 29.979
+    },
+    {
+      "word": "je",
+      "start": 29.979,
+      "end": 30.02
+    },
+    {
+      "word": "pense.",
+      "start": 30.059,
+      "end": 30.519
+    }
+  ],
+  "d2_good_1": [
+    {
+      "word": "C'est",
+      "start": 9.079,
+      "end": 9.199
+    },
+    {
+      "word": "aujourd'hui",
+      "start": 9.219,
+      "end": 9.579
+    },
+    {
+      "word": "que",
+      "start": 9.599,
+      "end": 9.659
+    },
+    {
+      "word": "j'avais",
+      "start": 9.659,
+      "end": 9.86
+    },
+    {
+      "word": "prévu",
+      "start": 9.9,
+      "end": 10.119
+    },
+    {
+      "word": "d'aller",
+      "start": 10.139,
+      "end": 10.32
+    },
+    {
+      "word": "à",
+      "start": 10.38,
+      "end": 10.38
+    },
+    {
+      "word": "la",
+      "start": 10.399,
+      "end": 10.46
+    },
+    {
+      "word": "montagne.",
+      "start": 10.519,
+      "end": 11.1
+    },
+    {
+      "word": "J'ai",
+      "start": 11.119,
+      "end": 11.34
+    },
+    {
+      "word": "pas",
+      "start": 11.38,
+      "end": 11.5
+    },
+    {
+      "word": "vu",
+      "start": 11.539,
+      "end": 11.659
+    },
+    {
+      "word": "la",
+      "start": 11.679,
+      "end": 11.759
+    },
+    {
+      "word": "semaine",
+      "start": 11.779,
+      "end": 12.019
+    },
+    {
+      "word": "passée.",
+      "start": 12.039,
+      "end": 12.46
+    },
+    {
+      "word": "J'ai",
+      "start": 12.859,
+      "end": 12.979
+    },
+    {
+      "word": "encore",
+      "start": 13,
+      "end": 13.239
+    },
+    {
+      "word": "jamais",
+      "start": 13.259,
+      "end": 13.46
+    },
+    {
+      "word": "fait",
+      "start": 13.519,
+      "end": 13.619
+    },
+    {
+      "word": "la",
+      "start": 13.639,
+      "end": 13.759
+    },
+    {
+      "word": "croix",
+      "start": 13.76,
+      "end": 13.92
+    },
+    {
+      "word": "de",
+      "start": 13.92,
+      "end": 13.98
+    },
+    {
+      "word": "Chamrousse.",
+      "start": 14,
+      "end": 16.859
+    },
+    {
+      "word": "[sonnerie de téléphone]",
+      "start": 17.1,
+      "end": 18.799
+    },
+    {
+      "word": "Allô",
+      "start": 18.819,
+      "end": 19.1
+    },
+    {
+      "word": "?",
+      "start": 19.159,
+      "end": 19.18
+    }
+  ],
+  "d2_good_2": [
+    {
+      "word": "Coucou,",
+      "start": 19.799,
+      "end": 20.239
+    },
+    {
+      "word": "je",
+      "start": 20.26,
+      "end": 20.299
+    },
+    {
+      "word": "suis",
+      "start": 20.319,
+      "end": 20.399
+    },
+    {
+      "word": "désolé",
+      "start": 20.42,
+      "end": 20.739
+    },
+    {
+      "word": "de",
+      "start": 20.78,
+      "end": 20.819
+    },
+    {
+      "word": "te",
+      "start": 20.819,
+      "end": 20.899
+    },
+    {
+      "word": "déranger",
+      "start": 20.92,
+      "end": 21.22
+    },
+    {
+      "word": "si",
+      "start": 21.26,
+      "end": 21.379
+    },
+    {
+      "word": "tôt.",
+      "start": 21.399,
+      "end": 21.579
+    },
+    {
+      "word": "Je",
+      "start": 21.579,
+      "end": 21.62
+    },
+    {
+      "word": "t'appelle",
+      "start": 21.659,
+      "end": 21.86
+    },
+    {
+      "word": "parce",
+      "start": 21.88,
+      "end": 22.019
+    },
+    {
+      "word": "qu'on",
+      "start": 22.02,
+      "end": 22.119
+    },
+    {
+      "word": "a",
+      "start": 22.12,
+      "end": 22.179
+    },
+    {
+      "word": "un",
+      "start": 22.18,
+      "end": 22.26
+    },
+    {
+      "word": "souci.",
+      "start": 22.319,
+      "end": 22.739
+    },
+    {
+      "word": "Tu",
+      "start": 22.92,
+      "end": 22.959
+    },
+    {
+      "word": "te",
+      "start": 22.979,
+      "end": 23.059
+    },
+    {
+      "word": "souviens",
+      "start": 23.079,
+      "end": 23.28
+    },
+    {
+      "word": "que",
+      "start": 23.28,
+      "end": 23.319
+    },
+    {
+      "word": "je",
+      "start": 23.319,
+      "end": 23.36
+    },
+    {
+      "word": "t'avais",
+      "start": 23.399,
+      "end": 23.539
+    },
+    {
+      "word": "dit",
+      "start": 23.559,
+      "end": 23.62
+    },
+    {
+      "word": "que",
+      "start": 23.64,
+      "end": 23.68
+    },
+    {
+      "word": "je",
+      "start": 23.68,
+      "end": 23.7
+    },
+    {
+      "word": "déménageais",
+      "start": 23.76,
+      "end": 24.159
+    },
+    {
+      "word": "aujourd'hui",
+      "start": 24.18,
+      "end": 24.559
+    },
+    {
+      "word": "?",
+      "start": 24.959,
+      "end": 24.979
+    },
+    {
+      "word": "En",
+      "start": 24.979,
+      "end": 25.04
+    },
+    {
+      "word": "fait,",
+      "start": 25.059,
+      "end": 25.159
+    },
+    {
+      "word": "j'ai",
+      "start": 25.18,
+      "end": 25.3
+    },
+    {
+      "word": "plus",
+      "start": 25.299,
+      "end": 25.42
+    },
+    {
+      "word": "personne",
+      "start": 25.44,
+      "end": 25.7
+    },
+    {
+      "word": "pour",
+      "start": 25.739,
+      "end": 25.84
+    },
+    {
+      "word": "conduire",
+      "start": 25.86,
+      "end": 26.079
+    },
+    {
+      "word": "le",
+      "start": 26.079,
+      "end": 26.12
+    },
+    {
+      "word": "camion",
+      "start": 26.159,
+      "end": 26.38
+    },
+    {
+      "word": "de",
+      "start": 26.379,
+      "end": 26.44
+    },
+    {
+      "word": "loc",
+      "start": 26.46,
+      "end": 26.639
+    },
+    {
+      "word": "et",
+      "start": 26.659,
+      "end": 26.7
+    },
+    {
+      "word": "y",
+      "start": 26.72,
+      "end": 26.76
+    },
+    {
+      "word": "a",
+      "start": 26.819,
+      "end": 26.879
+    },
+    {
+      "word": "So",
+      "start": 26.939,
+      "end": 27.059
+    },
+    {
+      "word": "qui",
+      "start": 27.079,
+      "end": 27.139
+    },
+    {
+      "word": "a",
+      "start": 27.159,
+      "end": 27.18
+    },
+    {
+      "word": "une",
+      "start": 27.22,
+      "end": 27.28
+    },
+    {
+      "word": "grippe",
+      "start": 27.3,
+      "end": 27.5
+    },
+    {
+      "word": "carabinée",
+      "start": 27.54,
+      "end": 28
+    },
+    {
+      "word": "là,",
+      "start": 28.059,
+      "end": 28.159
+    },
+    {
+      "word": "il",
+      "start": 28.18,
+      "end": 28.219
+    },
+    {
+      "word": "est",
+      "start": 28.34,
+      "end": 28.459
+    },
+    {
+      "word": "couché.",
+      "start": 28.479,
+      "end": 28.879
+    },
+    {
+      "word": "Est-ce",
+      "start": 29.179,
+      "end": 29.299
+    },
+    {
+      "word": "que",
+      "start": 29.299,
+      "end": 29.36
+    },
+    {
+      "word": "je",
+      "start": 29.38,
+      "end": 29.44
+    },
+    {
+      "word": "pourrais",
+      "start": 29.479,
+      "end": 29.639
+    },
+    {
+      "word": "venir",
+      "start": 29.639,
+      "end": 29.8
+    },
+    {
+      "word": "tout",
+      "start": 29.84,
+      "end": 29.94
+    },
+    {
+      "word": "à",
+      "start": 30,
+      "end": 30.02
+    },
+    {
+      "word": "l'heure",
+      "start": 30.02,
+      "end": 30.159
+    },
+    {
+      "word": "?",
+      "start": 30.18,
+      "end": 30.199
+    },
+    {
+      "word": "Y",
+      "start": 30.219,
+      "end": 30.26
+    },
+    {
+      "word": "a",
+      "start": 30.319,
+      "end": 30.379
+    },
+    {
+      "word": "genre",
+      "start": 30.819,
+      "end": 30.979
+    },
+    {
+      "word": "trois",
+      "start": 31,
+      "end": 31.139
+    },
+    {
+      "word": "allers-retours",
+      "start": 31.179,
+      "end": 31.5
+    },
+    {
+      "word": "à",
+      "start": 31.52,
+      "end": 31.559
+    },
+    {
+      "word": "faire,",
+      "start": 31.599,
+      "end": 31.719
+    },
+    {
+      "word": "je",
+      "start": 31.739,
+      "end": 31.78
+    },
+    {
+      "word": "pense.",
+      "start": 31.8,
+      "end": 32.279
+    }
+  ],
+  "d1_3": [
+    {
+      "word": "Vas-y,",
+      "start": 0.819,
+      "end": 1.279
+    },
+    {
+      "word": "ça",
+      "start": 1.299,
+      "end": 1.419
+    },
+    {
+      "word": "va",
+      "start": 1.459,
+      "end": 1.539
+    },
+    {
+      "word": "le",
+      "start": 1.539,
+      "end": 1.659
+    },
+    {
+      "word": "faire.",
+      "start": 1.679,
+      "end": 2.039
+    },
+    {
+      "word": "Je",
+      "start": 2.039,
+      "end": 2.059
+    },
+    {
+      "word": "coupe",
+      "start": 2.119,
+      "end": 2.319
+    },
+    {
+      "word": "les",
+      "start": 2.319,
+      "end": 2.439
+    },
+    {
+      "word": "étiquettes",
+      "start": 2.48,
+      "end": 2.959
+    },
+    {
+      "word": "et",
+      "start": 2.96,
+      "end": 3.039
+    },
+    {
+      "word": "c'est",
+      "start": 3.059,
+      "end": 3.199
+    },
+    {
+      "word": "carré",
+      "start": 3.239,
+      "end": 4.479
+    }
+  ],
+  "d1_46": [
+    {
+      "word": "Mais",
+      "start": 23.079,
+      "end": 23.18
+    },
+    {
+      "word": "c'est",
+      "start": 23.239,
+      "end": 23.36
+    },
+    {
+      "word": "normal,",
+      "start": 23.38,
+      "end": 23.819
+    },
+    {
+      "word": "avec",
+      "start": 23.859,
+      "end": 23.979
+    },
+    {
+      "word": "plaisir.",
+      "start": 24.059,
+      "end": 27.7
     }
   ]
 }

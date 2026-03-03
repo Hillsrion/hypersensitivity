@@ -26,7 +26,6 @@ export const SCENE_IDS = {
 
   DAY_TWO_WAKEUP_CRASH: 'dayTwoWakeupCrash',
   DAY_TWO_WAKEUP_GOOD: 'dayTwoWakeupGood',
-  DAY_TWO_CALL: 'dayTwoCall',
   DAY_TWO_ACCEPT: 'dayTwoAccept',
   DAY_TWO_REFUSE: 'dayTwoRefuse',
   DAY_TWO_MOVING: 'dayTwoMoving',

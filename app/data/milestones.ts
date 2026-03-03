@@ -78,7 +78,6 @@ export const MILESTONES: Record<string, MilestoneDef> = {
     scenes: [
       SCENE_IDS.DAY_TWO_WAKEUP_CRASH,
       SCENE_IDS.DAY_TWO_WAKEUP_GOOD,
-      SCENE_IDS.DAY_TWO_CALL,
       SCENE_IDS.DAY_TWO_ACCEPT,
       SCENE_IDS.DAY_TWO_REFUSE,
     ],

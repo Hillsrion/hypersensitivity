@@ -8,15 +8,44 @@ export const dayTwoWakeupCrash: Scene = {
   title: 'Réveil',
   entryAnnotation: 'Lucie se réveille',
   condition: { flag: 'hadBreakdown', operator: 'equals', value: true },
+  audio: 'experience/J02_C01_ReveilAppel_Breakdown.mp3',
   dialogues: [
     thoughts(
-      'd2_1a',
-      "J'ai trop mal dormi, je me sens lourde. je vais aller a la montagne aujourd'hui, ca me fera du bien.",
+      'd2_breakdown_1',
+      "J'ai trop mal dormi. Je me sens lourde. Je vais aller à la montagne aujourd'hui, ça me fera du bien. [sonnerie de téléphone] Allô ?",
       {
         annotation: 'Le reveil sonne, les oiseaux chantent, bruits de couette',
         color: 'blue',
       }
     ),
+    d(
+      'd2_breakdown_2',
+      'Jérémy',
+      "Coucou, je suis désolé de te déranger si tôt. Je t'appelle parce qu'on a un souci. Tu te souviens que je t'avais dit que je déménageais aujourd'hui ? En fait, j'ai plus personne pour conduire le camion de loc et y a So qui a une grippe carabinée là, il est couché. Est-ce que je pourrais venir tout à l'heure ? Y a genre trois allers-retours à faire, je pense.",
+      {
+        color: 'red',
+      }
+    ),
+  ],
+  choices: [
+    {
+      id: 'day_two_accept',
+      text: 'ACCEPTER',
+      nextSceneId: SCENE_IDS.DAY_TWO_ACCEPT,
+      effects: {
+        energy: -20,
+        flags: { callChoice: 'accept' },
+      },
+    },
+    {
+      id: 'day_two_refuse',
+      text: 'REFUSER',
+      nextSceneId: SCENE_IDS.DAY_TWO_REFUSE,
+      effects: {
+        energy: 10,
+        flags: { callChoice: 'refuse' },
+      },
+    },
   ],
 }
 
@@ -26,32 +55,20 @@ export const dayTwoWakeupGood: Scene = {
   title: 'Réveil',
   entryAnnotation: 'Lucie se réveille',
   condition: { flag: 'hadBreakdown', operator: 'equals', value: false },
+  audio: 'experience/J02_C01_ReveilAppel_Good.mp3',
   dialogues: [
     thoughts(
-      'd2_1b',
-      "J'ai bien dormi. Je me sens d'attaque. Allez, montagne aujourd'hui !",
+      'd2_good_1',
+      "C'est aujourd'hui que j'avais prévu d'aller à la montagne. J'ai pas vu la semaine passée. J'ai encore jamais fait la croix de Chamrousse. [sonnerie de téléphone] Allô ?",
       {
         annotation: 'Le reveil sonne, les oiseaux chantent, bruits de couette',
         color: 'green',
       }
     ),
-  ],
-}
-
-export const dayTwoCall: Scene = {
-  id: SCENE_IDS.DAY_TWO_CALL,
-  day: 2,
-  title: 'Appel',
-  audio: 'experience/J02_S01_Appel.mp3',
-  dialogues: [
-    d('d2_2', 'Mere', 'Allo ma cherie? Ca va?', {
-      annotation: 'Sonnerie de telephone',
-    }),
-    d('d2_3', 'LUCIE', 'Oui, ca va bien et toi?', {}),
     d(
-      'd2_4',
-      'Mere',
-      "Ecoute, ton frere demenage aujourd'hui, il a besoin de bras, tu peux venir l'aider?",
+      'd2_good_2',
+      'Jérémy',
+      "Coucou, je suis désolé de te déranger si tôt. Je t'appelle parce qu'on a un souci. Tu te souviens que je t'avais dit que je déménageais aujourd'hui ? En fait, j'ai plus personne pour conduire le camion de loc et y a So qui a une grippe carabinée là, il est couché. Est-ce que je pourrais venir tout à l'heure ? Y a genre trois allers-retours à faire, je pense.",
       {
         color: 'red',
       }

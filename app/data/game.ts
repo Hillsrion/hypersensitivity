@@ -24,7 +24,6 @@ import {
 } from './scenes/day1'
 import {
   dayTwoAccept,
-  dayTwoCall,
   dayTwoMountain,
   dayTwoMoving,
   dayTwoRefuse,
@@ -74,7 +73,6 @@ export const gameData: GameData = {
     // Day 2
     [SCENE_IDS.DAY_TWO_WAKEUP_CRASH]: dayTwoWakeupCrash,
     [SCENE_IDS.DAY_TWO_WAKEUP_GOOD]: dayTwoWakeupGood,
-    [SCENE_IDS.DAY_TWO_CALL]: dayTwoCall,
     [SCENE_IDS.DAY_TWO_ACCEPT]: dayTwoAccept,
     [SCENE_IDS.DAY_TWO_REFUSE]: dayTwoRefuse,
     [SCENE_IDS.DAY_TWO_MOUNTAIN]: dayTwoMountain,
