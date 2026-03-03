@@ -95,6 +95,12 @@
       "author": "Anaïs D.",
       "color": "pink",
       "audio": "/audios/anais.mp3"
+    },
+    {
+      "content": "Ma peau est très réactive. Une situation stressante et c'est des plaques d'eczéma assurées sur diverses parties du corps. Ça gratte, ça brûle et ceci depuis mes dix ans.",
+      "author": "Lisa",
+      "color": "blue",
+      "audio": "/audios/lisa.mp3"
     }
   ]
 }

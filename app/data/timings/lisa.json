@@ -1,0 +1,147 @@
+[
+  {
+    "word": "Ma",
+    "start": 0.239,
+    "end": 0.36
+  },
+  {
+    "word": "peau",
+    "start": 0.42,
+    "end": 0.519
+  },
+  {
+    "word": "est",
+    "start": 0.54,
+    "end": 0.619
+  },
+  {
+    "word": "très",
+    "start": 0.619,
+    "end": 0.799
+  },
+  {
+    "word": "réactive.",
+    "start": 0.819,
+    "end": 1.5
+  },
+  {
+    "word": "Une",
+    "start": 1.56,
+    "end": 1.659
+  },
+  {
+    "word": "situation",
+    "start": 1.679,
+    "end": 2.139
+  },
+  {
+    "word": "stressante",
+    "start": 2.139,
+    "end": 2.579
+  },
+  {
+    "word": "et",
+    "start": 2.579,
+    "end": 2.659
+  },
+  {
+    "word": "c'est",
+    "start": 2.679,
+    "end": 2.759
+  },
+  {
+    "word": "des",
+    "start": 2.779,
+    "end": 2.879
+  },
+  {
+    "word": "plaques",
+    "start": 2.879,
+    "end": 3.079
+  },
+  {
+    "word": "d'eczéma",
+    "start": 3.079,
+    "end": 3.479
+  },
+  {
+    "word": "assurées",
+    "start": 3.48,
+    "end": 3.899
+  },
+  {
+    "word": "sur",
+    "start": 3.899,
+    "end": 4.079
+  },
+  {
+    "word": "diverses",
+    "start": 4.079,
+    "end": 4.339
+  },
+  {
+    "word": "parties",
+    "start": 4.339,
+    "end": 4.639
+  },
+  {
+    "word": "du",
+    "start": 4.659,
+    "end": 4.779
+  },
+  {
+    "word": "corps.",
+    "start": 4.799,
+    "end": 5.5
+  },
+  {
+    "word": "Ça",
+    "start": 5.579,
+    "end": 5.739
+  },
+  {
+    "word": "gratte,",
+    "start": 5.739,
+    "end": 6.099
+  },
+  {
+    "word": "ça",
+    "start": 6.099,
+    "end": 6.239
+  },
+  {
+    "word": "brûle",
+    "start": 6.239,
+    "end": 6.539
+  },
+  {
+    "word": "et",
+    "start": 6.539,
+    "end": 6.639
+  },
+  {
+    "word": "ceci",
+    "start": 6.639,
+    "end": 6.879
+  },
+  {
+    "word": "depuis",
+    "start": 6.879,
+    "end": 7.119
+  },
+  {
+    "word": "mes",
+    "start": 7.139,
+    "end": 7.259
+  },
+  {
+    "word": "dix",
+    "start": 7.279,
+    "end": 7.419
+  },
+  {
+    "word": "ans.",
+    "start": 7.44,
+    "end": 7.98
+  }
+]
