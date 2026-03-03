@@ -174,8 +174,7 @@ export const useIntroSequenceAnimation = (
         if (gameStore.introPlayed) return
 
         const currentScene = gameStore.currentScene
-        const audioToPlay =
-          currentScene?.audio || gameStore.currentDialogue?.audio
+        const audioToPlay = currentScene?.audio
 
         console.log(
           'LOG_DEBUG: eyeTl mid call. Scene:',

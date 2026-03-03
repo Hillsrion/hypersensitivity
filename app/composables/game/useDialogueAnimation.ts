@@ -372,7 +372,7 @@ export function useDialogueAnimation(
     if (waitForAudioStoreReady()) return
 
     isAnimating.value = true
-    const audioToPlay = sceneAudio.value || currentDialogue.audio
+    const audioToPlay = sceneAudio.value
     console.log('LOG_DEBUG: animateWords starting. Scene Audio:', audioToPlay)
 
     const timings = currentDialogue.timings

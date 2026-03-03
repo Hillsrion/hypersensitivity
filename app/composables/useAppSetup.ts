@@ -90,21 +90,6 @@ export const useAppSetup = (lenisRef: Ref<LenisRef | null>) => {
 
         addIfNew({ path: fullPath, transcript, timings: allTimings })
       }
-
-      // Dialogue-level audio (backward-compat or per-dialogue overrides)
-      scene.dialogues.forEach((dialogue) => {
-        if (dialogue.audio) {
-          const fullPath = dialogue.audio.startsWith('/')
-            ? dialogue.audio
-            : `/audios/${dialogue.audio}`
-
-          addIfNew({
-            path: fullPath,
-            transcript: dialogue.text ?? '',
-            timings: dialogue.timings,
-          })
-        }
-      })
     })
 
     return collected

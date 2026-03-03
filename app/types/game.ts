@@ -19,7 +19,6 @@ export type DialogueLine = {
   speakerType: 'thoughts' | 'normal' // Pour afficher \"(thoughts)\" apres le nom
   text: string
   annotation?: string // Texte en italique au-dessus (ex: "A la gare.", "Le telephone sonne...")
-  audio?: string // Chemin audio (placeholder)
   timings?: Array<{
     word?: string
     annotation?: string
