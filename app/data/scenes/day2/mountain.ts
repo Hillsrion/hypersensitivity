@@ -35,8 +35,5 @@ export const dayTwoMountain: Scene = {
         color: 'blue',
       }
     ),
-    d('d2_11', 'LUCIE', "[bruit d'oiseaux]", {
-      color: 'green',
-    }),
   ],
 }
