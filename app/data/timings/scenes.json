@@ -943,13 +943,19 @@
   ],
   "d1_10": [
     {
-      "start": 0.5,
-      "end": 4
+      "annotation": "Lucie s'installe dans l'open space très bruyant",
+      "start": 0,
+      "end": "end",
+      "showOnly": true
+    },
+    {
+      "start": 3.0,
+      "end": 5.5
     }
   ],
   "d1_11": [
     {
-      "start": 4.5,
+      "start": 6.0,
       "end": 8.5
     }
   ],
@@ -1302,6 +1308,12 @@
     }
   ],
   "d1_16a": [
+    {
+      "annotation": "Lucie retourne à son bureau dans l'open space plein de bruit",
+      "start": 9.0,
+      "end": "end",
+      "showOnly": true
+    },
     {
       "word": "Oui,",
       "start": 11.34,
@@ -4059,6 +4071,12 @@
       "word": "douce..",
       "start": 78.9,
       "end": 79.459
+    },
+    {
+      "annotation": "Lucie rentre chez elle après la soirée",
+      "start": 80.5,
+      "end": "end",
+      "showOnly": true
     }
   ],
   "d1_36": [
@@ -7685,6 +7703,12 @@
       "word": "sérieux.",
       "start": 33.7,
       "end": 35.979
+    },
+    {
+      "annotation": "Lucie rentre chez elle après la soirée",
+      "start": 37.0,
+      "end": "end",
+      "showOnly": true
     }
   ],
   "d1_43": [
@@ -9193,6 +9217,12 @@
       "word": "plaisir.",
       "start": 24.059,
       "end": 27.7
+    },
+    {
+      "annotation": "Lucie rentre chez elle après la soirée",
+      "start": 29.0,
+      "end": "end",
+      "showOnly": true
     }
   ]
 }
