@@ -7,25 +7,98 @@ export const dayTwoMoving: Scene = {
   day: 2,
   title: 'Demenagement',
   entryAnnotation: 'Au déménagement',
-  audio: 'experience/J02_S02_Demenagement.mp3',
+  audio: 'experience/J02_S03_Demenagement.mp3',
   dialogues: [
-    d('d2_11', 'Mere', 'Allez, on se motive ! Il reste plus que le canapé !', {
-      annotation: 'Bruits de demenagement, cartons, pas',
-      color: 'red',
-    }),
-    d('d2_12', 'Frere', "Lucie, tu peux m'aider a porter le frigo apres ?", {
-      color: 'red',
-    }),
-    d('d2_13', 'LUCIE', "Attends, je fais une pause la, j'en peux plus.", {
-      color: 'blue',
-    }),
     thoughts(
-      'd2_14',
-      "J'ai mal partout, il y a trop de bruit, trop de monde. Je vais exploser.",
+      'd2_12',
+      'Trois allers-retours, quel menteur celui-là ! Il est déjà dix-huit heures.',
       {
         color: 'red',
       }
     ),
+    d(
+      'd2_13',
+      'Femme sdf',
+      "Bonjour, excusez-moi. Est-ce que vous auriez un peu de monnaie pour qu'on puisse manger, ma fille et moi ?",
+      {
+        color: 'yellow',
+      }
+    ),
+    d(
+      'd2_14',
+      'Amine',
+      "Bien sûr, madame. On a tout ce qu'il vous faut, ne vous inquiétez pas. Avec le froid, en ce moment, on vient distribuer des couvertures et des petits colis alimentaires...",
+      {
+        color: 'green',
+      }
+    ),
+    thoughts(
+      'd2_15',
+      "Il a une telle douceur dans sa façon de s'exprimer, dans ses gestes. Son regard est rempli de bienveillance. Ça fait tellement plaisir de voir des gens qui se donnent pour les autres. J'en reprends foi en l'humanité.",
+      {
+        color: 'blue',
+      }
+    ),
+    d('d2_16', 'Amine', 'Voilà, je vous pose tout ça là ?', {
+      color: 'green',
+    }),
+    d('d2_17', 'LUCIE', 'Et voici de ma part.', {
+      color: 'blue',
+    }),
+    d(
+      'd2_18',
+      'Femme sdf',
+      'Merci, merci, merci énormément. Passez une bonne journée.',
+      {
+        color: 'yellow',
+      }
+    ),
+    d('d2_19', 'Amine', 'Excellente journée à vous, madame.', {
+      color: 'green',
+    }),
+    d(
+      'd2_20',
+      'LUCIE',
+      "C'est super ce que vous faites. Je m'appelle Lucie. Vous êtes une asso ?",
+      {
+        color: 'blue',
+      }
+    ),
+    d(
+      'd2_21',
+      'Amine',
+      "Moi, c'est Amine. Ravi de te rencontrer. Eh oui, je travaille pour Envie de sourire. On fait des maraudes trois fois par semaine pendant la période hivernale.",
+      {
+        color: 'green',
+      }
+    ),
+    d(
+      'd2_22',
+      'LUCIE',
+      'Ah, je connaissais pas. Vous avez besoin de main en ce moment ?',
+      {
+        color: 'blue',
+      }
+    ),
+    d(
+      'd2_23',
+      'Amine',
+      "[rire] Un peu, oui. On a toujours besoin de main. On t'accueillerait avec plaisir, d'ailleurs. Tiens, la carte de l'asso. Appelle ce numéro et on s'organise ça la semaine prochaine avec l'équipe.",
+      {
+        color: 'green',
+      }
+    ),
+    d(
+      'd2_24',
+      'LUCIE',
+      "Allez, ça marche, on s'appelle. Finissez bien la journée.",
+      {
+        color: 'blue',
+      }
+    ),
+    d('d2_25', 'Amine', 'Merci beaucoup. À bientôt, alors.', {
+      color: 'green',
+    }),
   ],
   nextSceneId: SCENE_IDS.DAY_TWO_SUNSET,
 }
@@ -34,16 +107,13 @@ export const dayTwoSunset: Scene = {
   id: SCENE_IDS.DAY_TWO_SUNSET,
   day: 2,
   title: 'Coucher de soleil',
-  audio: 'experience/J02_S03_Coucher_Soleil.mp3',
+  audio: 'experience/J02_S03_Demenagement.mp3',
   dialogues: [
-    d('d2_15', 'LUCIE', "C'est beau...", {
-      annotation: 'Musique douce et vent, Lucie regarde le coucher de soleil',
-      color: 'violet',
-    }),
     thoughts(
-      'd2_16',
-      "Finalement, c'est pas si mal d'être sensible. Je ressens tout plus fort, le moche comme le beau. C'est à moi de choisir ce que je garde.",
+      'd2_26',
+      'Le coucher de soleil est beau. Les nuages qui reflètent la lumière et les oiseaux qui chantent, je pourrais regarder ça pendant des heures.',
       {
+        annotation: 'Musique douce et vent, Lucie regarde le coucher de soleil',
         color: 'violet',
       }
     ),
