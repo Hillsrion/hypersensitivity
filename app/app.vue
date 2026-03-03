@@ -34,6 +34,20 @@ const { introductionData, creditsLinks } = useAppSetup(lenisRef)
 <template>
   <div>
     <DevToolsView v-if="route?.path === '/game-tools-view'" />
+    <div
+      v-else-if="route?.path === '/test'"
+      class="bg-primary text-white min-h-svh w-full relative"
+    >
+      <div
+        class="fixed inset-0 pointer-events-none opacity-15 bg-repeat bg-[url('/images/noise.svg')]"
+      />
+      <HSPQuizView
+        id="hsp-quiz-standalone"
+        class="z-100"
+        :development-credit-url="creditsLinks.development"
+        :design-credit-url="creditsLinks.design"
+      />
+    </div>
     <div v-else>
       <!-- Custom Cursor -->
       <div

@@ -3,7 +3,9 @@ import CircleAudiowave from './CircleAudiowave.vue'
 import MainTitle from './MainTitle.vue'
 
 const route = useRoute()
-const isTest = computed(() => route.query.test === 'true')
+const isTest = computed(
+  () => route.query.test === 'true' || route.path === '/test'
+)
 
 const animationsStore = useAnimationsStore()
 const { landing } = storeToRefs(animationsStore)

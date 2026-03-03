@@ -39,9 +39,10 @@ export const useAppSetup = (lenisRef: Ref<LenisRef | null>) => {
     timings: getTimings(mainData.introduction.audio),
   }
 
+  const { public: config } = useRuntimeConfig()
   const creditsLinks = {
-    development: 'https://ismaelsebbane.fr',
-    design: 'https://anabanana.fr',
+    development: config.creditsDevelopment,
+    design: config.creditsDesign,
   }
 
   // Watch loading state and control Lenis scrolling
