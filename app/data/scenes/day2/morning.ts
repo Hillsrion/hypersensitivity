@@ -14,7 +14,7 @@ export const dayTwoWakeupCrash: Scene = {
       'd2_breakdown_1',
       "J'ai trop mal dormi. Je me sens lourde. Je vais aller à la montagne aujourd'hui, ça me fera du bien. [sonnerie de téléphone] Allô ?",
       {
-        annotation: 'Le reveil sonne, les oiseaux chantent, bruits de couette',
+        annotation: 'Le réveil sonne, les oiseaux chantent, bruits de couette',
         color: 'blue',
       }
     ),
@@ -61,7 +61,7 @@ export const dayTwoWakeupGood: Scene = {
       'd2_good_1',
       "C'est aujourd'hui que j'avais prévu d'aller à la montagne. J'ai pas vu la semaine passée. J'ai encore jamais fait la croix de Chamrousse. [sonnerie de téléphone] Allô ?",
       {
-        annotation: 'Le reveil sonne, les oiseaux chantent, bruits de couette',
+        annotation: 'Le réveil sonne, les oiseaux chantent, bruits de couette',
         color: 'green',
       }
     ),
@@ -104,7 +104,7 @@ export const dayTwoAccept: Scene = {
   audio: 'experience/J02_S01_Appel_Oui.mp3',
   dialogues: [
     d('d2_5a', 'LUCIE', 'Ok, je passe.', {}),
-    d('d2_6a', 'Mere', 'Super, a toute !', {}),
+    d('d2_6a', 'Mère', 'Super, à toute !', {}),
   ],
 }
 
@@ -118,7 +118,7 @@ export const dayTwoRefuse: Scene = {
     d('d2_5b', 'LUCIE', "Deso, j'ai prevu un truc.", {
       color: 'green',
     }),
-    d('d2_6b', 'Mere', 'Tant pis.', {
+    d('d2_6b', 'Mère', 'Tant pis.', {
       color: 'blue',
     }),
   ],

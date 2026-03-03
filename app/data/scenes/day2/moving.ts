@@ -5,7 +5,7 @@ import { d, thoughts } from '../../helpers'
 export const dayTwoMoving: Scene = {
   id: SCENE_IDS.DAY_TWO_MOVING,
   day: 2,
-  title: 'Demenagement',
+  title: 'Déménagement',
   entryAnnotation: 'Au déménagement',
   audio: 'experience/J02_S03_Demenagement.mp3',
   dialogues: [
@@ -18,7 +18,7 @@ export const dayTwoMoving: Scene = {
     ),
     d(
       'd2_13',
-      'Femme sdf',
+      'Femme SDF',
       "Bonjour, excusez-moi. Est-ce que vous auriez un peu de monnaie pour qu'on puisse manger, ma fille et moi ?",
       {
         color: 'yellow',
@@ -47,7 +47,7 @@ export const dayTwoMoving: Scene = {
     }),
     d(
       'd2_18',
-      'Femme sdf',
+      'Femme SDF',
       'Merci, merci, merci énormément. Passez une bonne journée.',
       {
         color: 'yellow',

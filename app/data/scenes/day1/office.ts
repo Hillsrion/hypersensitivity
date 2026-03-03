@@ -9,7 +9,7 @@ export const dayOneOffice: Scene = {
   entryAnnotation: 'Au bureau',
   audio: 'experience/J01_C02_Bureau_Base.mp3',
   dialogues: [
-    d('d1_10', 'Collegue', 'Tu nous rejoins sur Meet ?', {
+    d('d1_10', 'Collègue', 'Tu nous rejoins sur Meet ?', {
       annotation: 'Lucie échange avec son collègue sur Slack',
       isChat: true,
     }),
@@ -79,11 +79,11 @@ export const dayOneConflictSubmit: Scene = {
     ),
     d(
       'd1_16a',
-      'Team',
+      'Équipe',
       "Oui, on comprend le point. Après, l'objectif reste quand même de tenir le sprint tel qu'il est prévu aujourd'hui. On est conscient que ça va demander un effort, mais on a besoin d'avancer et de montrer qu'on est capable d'absorber la charge. On fera un point d'avancement en milieu de sprint, on va voir si...",
       {
         annotation:
-          "Lucie retourne a son bureau dans l'open space plein de bruit. La réunion commence...",
+          "Lucie retourne à son bureau dans l'open space plein de bruit. La réunion commence...",
         color: 'blue',
       }
     ),
