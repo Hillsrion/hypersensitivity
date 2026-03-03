@@ -81,6 +81,6 @@ describe('DialogueBox', () => {
       },
     })
 
-    expect(wrapper.text()).toContain('(thinking)')
+    expect(wrapper.text()).toContain('(pensées)')
   })
 })

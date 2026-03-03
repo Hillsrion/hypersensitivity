@@ -78,7 +78,7 @@ const {
     >
       {{ dialogue.speaker }}
       <span v-if="isThoughts" class="font-serif text-primary/60 lowercase"
-        >(thinking)</span
+        >(pensées)</span
       >
     </AppText>
 
