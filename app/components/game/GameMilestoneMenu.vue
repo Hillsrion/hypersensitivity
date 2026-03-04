@@ -22,7 +22,7 @@ const visibleMilestones = computed<Milestone[]>(() => {
   return gameStore.milestones.filter((m) => isMilestoneReached(m.id))
 })
 
-interface MilestoneItemExposed {
+type MilestoneItemExposed = {
   $el?: Element
   labelRef?: HTMLElement | null
 }

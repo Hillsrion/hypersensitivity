@@ -147,7 +147,7 @@ app/data/scenes/
 └── routing.ts          # Cross-day or special transitional scenes
 ```
 
-Each `Scene` object implements the `Scene` interface and typically includes:
+Each `Scene` object follows the `Scene` type and typically includes:
 
 - **`id`**: Unique identifier (from `SCENE_IDS`).
 - **`audio`**: Path to the audio file for this scene.

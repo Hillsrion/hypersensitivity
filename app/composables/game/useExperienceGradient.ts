@@ -4,7 +4,7 @@ import {
   outroFooterGradient,
 } from '~/app/constants/gradients'
 
-export interface ExperienceGradientState {
+export type ExperienceGradientState = {
   color1: string
   color2: string
   color3: string
@@ -15,7 +15,7 @@ export interface ExperienceGradientState {
   stop4: number
 }
 
-export interface ScrollTriggerHandle {
+export type ScrollTriggerHandle = {
   kill: () => void
 }
 

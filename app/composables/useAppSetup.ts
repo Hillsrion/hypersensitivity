@@ -4,13 +4,13 @@ import { gameData } from '~/app/data/game'
 import mainData from '~/app/data/main.json'
 import type { RawAudioTiming } from '~/app/types/game'
 
-interface AudioItem {
+type AudioItem = {
   path: string
   transcript: string
   timings?: RawAudioTiming[]
 }
 
-interface LenisRef {
+type LenisRef = {
   lenis?: {
     start: () => void
     stop: () => void

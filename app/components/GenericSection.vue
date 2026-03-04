@@ -3,7 +3,7 @@ import type { ComponentPublicInstance } from 'vue'
 
 import { useWindowSize } from '@vueuse/core'
 
-interface Props {
+type Props = {
   title: string
   shortTitle?: string
   content: string[]

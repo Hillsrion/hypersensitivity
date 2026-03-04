@@ -2,7 +2,7 @@ import type { MilestoneDef } from '../../data/milestones'
 import type { GameFlags, Scene } from '../../types/game'
 import { isSceneEligible } from './conditions.ts'
 
-interface ProgressionContext {
+type ProgressionContext = {
   currentSceneId: string
   flags: GameFlags
   scenes: Record<string, Scene>

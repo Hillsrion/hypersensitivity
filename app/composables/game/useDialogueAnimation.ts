@@ -3,7 +3,7 @@ import type { ComponentPublicInstance, Ref } from 'vue'
 import type { DialogueLine } from '../../types/game'
 import { areAudioPathsEquivalent, resolveTimingEnd } from './orchestration'
 
-interface SplitResult {
+type SplitResult = {
   words: Ref<HTMLElement[]>
   lines: Ref<HTMLElement[]>
   chars: Ref<HTMLElement[]>

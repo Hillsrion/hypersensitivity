@@ -1,6 +1,6 @@
 import { SCENE_IDS } from './constants'
 
-export interface MilestoneDef {
+export type MilestoneDef = {
   id: string
   label: string
   day: 1 | 2

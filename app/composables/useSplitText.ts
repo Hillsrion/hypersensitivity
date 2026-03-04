@@ -1,6 +1,6 @@
 import SplitType from 'split-type'
 
-export interface SplitTextOptions {
+export type SplitTextOptions = {
   splitBy?: string
   onComplete?: (instance: SplitType) => void
   shouldRevert?: boolean
