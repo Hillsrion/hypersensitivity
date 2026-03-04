@@ -89,7 +89,7 @@ watch(isMenuOpen, (isOpen) => {
 })
 
 const navItemClasses =
-  'flex items-center gap-2 font-sans text-base/7 uppercase hover:text-primary transition-colors cursor-pointer'
+  'flex items-center gap-2 font-sans fl-text-sm/base fl-leading-5/7 uppercase hover:text-primary transition-colors cursor-pointer'
 </script>
 
 <template>
