@@ -30,6 +30,45 @@ const lenisRef = useTemplateRef('lenisRef')
 
 const { introductionData, creditsLinks } = useAppSetup(lenisRef)
 useCustomCursor()
+
+useHead({
+  htmlAttrs: {
+    lang: 'fr',
+  },
+  link: [
+    { rel: 'icon', href: '/favicon.ico', sizes: 'any' },
+    { rel: 'icon', type: 'image/svg+xml', href: '/favicon.svg' },
+    { rel: 'apple-touch-icon', href: '/apple-touch-icon-180x180.png' },
+  ],
+  meta: [
+    { name: 'theme-color', content: '#0b1018' },
+    {
+      name: 'keywords',
+      content:
+        'hypersensibilité, sensibilité, émotionnel, sensoriel, psychologie, bien-être',
+    },
+  ],
+})
+
+useSeoMeta({
+  title: mainData.title,
+  ogTitle: mainData.title,
+  ogDescription: mainData.introduction.content,
+  ogImage: {
+    src: '/og-image.jpg',
+    width: 1200,
+    height: 630,
+    type: 'image/jpeg',
+  },
+  twitterCard: 'summary_large_image',
+  twitterTitle: mainData.title,
+  twitterImage: {
+    src: '/og-image.jpg',
+    width: 1200,
+    height: 630,
+    type: 'image/jpeg',
+  },
+})
 </script>
 
 <template>
