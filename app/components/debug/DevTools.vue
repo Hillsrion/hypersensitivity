@@ -67,6 +67,23 @@ const scrollTo = (position: 'top' | 'bottom') => {
   }
 }
 
+const scrollToId = (id: string) => {
+  const element = document.getElementById(id)
+  if (!element) return
+
+  animationsStore.setScrollLocked(false)
+
+  if (window.lenis) {
+    window.lenis.start()
+    window.lenis.scrollTo(element, { immediate: true })
+  } else {
+    window.scrollTo({
+      top: element.offsetTop,
+      behavior: 'instant',
+    })
+  }
+}
+
 const resetIntro = () => {
   // 1. Unlock scroll first to allow lenis to work
   animationsStore.setScrollLocked(false)
@@ -292,6 +309,13 @@ const jumpToScene = (sceneId: string) => {
             @click="scrollTo('bottom')"
           >
             Scroll Bottom (XP)
+          </button>
+
+          <button
+            class="px-2 py-1 bg-blue-500/20 hover:bg-blue-500/40 text-blue-300 rounded text-left transition-colors"
+            @click="scrollToId('testimonies')"
+          >
+            Témoignages
           </button>
 
           <div class="h-px bg-white/10 my-1" />
