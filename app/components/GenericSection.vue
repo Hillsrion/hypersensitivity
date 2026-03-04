@@ -39,7 +39,7 @@ const numTitles = computed(() => {
 <template>
   <section
     ref="containerRef"
-    class="h-[400svh] w-full relative overflow-hidden flex flex-col items-center justify-start z-10 will-change-[opacity,visibility]"
+    class="h-[600svh] w-full relative overflow-hidden flex flex-col items-center justify-start z-10 will-change-[opacity,visibility]"
   >
     <!-- Title Wrapper: Holds the stack of titles -->
 

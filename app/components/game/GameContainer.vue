@@ -102,7 +102,7 @@ onUnmounted(() => {
       <Transition name="fade-fast" appear>
         <button
           v-if="showDelayedGameUI && !isMilestoneAnnotation"
-          class="fixed z-70 text-primary cursor-pointer group flex items-center justify-center font-sans"
+          class="fixed z-70 text-primary cursor-pointer group flex items-center justify-center font-sans md:-translate-x-[calc(50%-5px)]"
           :class="[EDGE_SPACING.TOP, EDGE_SPACING.LEFT, UI_SIZES.TOP_ELEMENT]"
           @click.stop="gameStore.toggleMenu()"
         >
