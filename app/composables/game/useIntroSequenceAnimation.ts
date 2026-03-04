@@ -50,7 +50,8 @@ export const useIntroSequenceAnimation = (
   const waitForAudioThenReveal = () => {
     console.log('LOG_DEBUG: Intro timeline buffer complete')
     if (gameStore.introPlayed) {
-      console.log('LOG_DEBUG: Intro already played, skipping phase update')
+      console.log('LOG_DEBUG: Intro already played, revealing immediately')
+      gameStore.setIntroAnimationPhase('complete')
       return
     }
 
@@ -161,7 +162,6 @@ export const useIntroSequenceAnimation = (
 
     eyeTl
       .call(() => {
-        if (gameStore.introPlayed) return
         console.log('LOG_DEBUG: eyeTl started, setting phase to annotation')
         gameStore.setIntroAnimationPhase('annotation')
       })
@@ -209,8 +209,7 @@ export const useIntroSequenceAnimation = (
           duration: eyeStepDuration,
           ease: 'power1.inOut',
           onUpdate: () => {
-            if (!gameStore.introPlayed)
-              gameStore.setIntroBlurAmount(blurState.amount)
+            gameStore.setIntroBlurAmount(blurState.amount)
           },
         },
         'step1'
@@ -232,8 +231,7 @@ export const useIntroSequenceAnimation = (
           duration: eyeStepDuration,
           ease: 'power1.inOut',
           onUpdate: () => {
-            if (!gameStore.introPlayed)
-              gameStore.setIntroBlurAmount(blurState.amount)
+            gameStore.setIntroBlurAmount(blurState.amount)
           },
         },
         'step2'
@@ -255,8 +253,7 @@ export const useIntroSequenceAnimation = (
           duration: eyeStepDuration,
           ease: 'power1.inOut',
           onUpdate: () => {
-            if (!gameStore.introPlayed)
-              gameStore.setIntroBlurAmount(blurState.amount)
+            gameStore.setIntroBlurAmount(blurState.amount)
           },
         },
         'step3'
@@ -276,8 +273,7 @@ export const useIntroSequenceAnimation = (
           duration: eyeStepDuration * 3,
           ease: 'power1.inOut',
           onUpdate: () => {
-            if (!gameStore.introPlayed)
-              gameStore.setIntroBlurAmount(blurState.amount)
+            gameStore.setIntroBlurAmount(blurState.amount)
           },
         },
         '<'

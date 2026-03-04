@@ -5,20 +5,34 @@ export function useDialogueAurora(isContainerVisible: Ref<boolean>) {
   const gameStore = useGameStore()
 
   const handleAuroraEffect = () => {
-    // Hide aurora completely if the game container is not visible on screen
+    // 1. Handle visibility outside the game experience context
     if (!isContainerVisible.value && import.meta.client) {
-      if (animationsStore.aurora.visible) {
+      // If the game has already started, we hide the aurora when scrolling away
+      // so it doesn't pollute the landing sections background.
+      if (gameStore.introPlayed && animationsStore.aurora.visible) {
         animationsStore.setAuroraVisibility(false)
         animationsStore.setAuroraAutoAnimate(false)
         animationsStore.setAuroraZIndex(0)
       }
+      // If the game hasn't started (landing phase), we return early
+      // to let useGenericSectionAnimation control the aurora.
       return
     }
 
-    // Don't touch the aurora during the intro/landing phase.
-    // The intro sections control the aurora via useGenericSectionAnimation.
-    // useDialogueAurora only takes over once the game experience starts.
-    if (!gameStore.introPlayed) {
+    // 2. Handle the "Experience Intro" (Eye opening sequence)
+    // When we transition into the XP section but the eye hasn't finished opening,
+    // we must ensure any leftover aurora from the landing sections is cleared
+    // so that the colorful intro gradient and eye SVG are visible.
+    const isEyeSequenceRunning =
+      gameStore.introAnimationPhase === 'hidden' ||
+      gameStore.introAnimationPhase === 'annotation'
+
+    if (!gameStore.introPlayed || isEyeSequenceRunning) {
+      if (import.meta.client && animationsStore.aurora.visible) {
+        animationsStore.setAuroraVisibility(false)
+        animationsStore.setAuroraAutoAnimate(false)
+        animationsStore.setAuroraZIndex(0)
+      }
       return
     }
 

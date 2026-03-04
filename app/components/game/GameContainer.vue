@@ -101,7 +101,9 @@ onUnmounted(() => {
     <Teleport to="body">
       <Transition name="fade-fast" appear>
         <button
-          v-if="showDelayedGameUI && !isMilestoneAnnotation"
+          v-if="
+            isContainerVisible && showDelayedGameUI && !isMilestoneAnnotation
+          "
           class="fixed z-70 text-primary cursor-pointer group flex items-center justify-center font-sans md:-translate-x-[calc(50%-5px)]"
           :class="[EDGE_SPACING.TOP, EDGE_SPACING.LEFT, UI_SIZES.TOP_ELEMENT]"
           @click.stop="gameStore.toggleMenu()"
@@ -180,9 +182,7 @@ onUnmounted(() => {
           v-if="
             showContent &&
             !showAnnotation &&
-            (showDelayedGameUI ||
-              !gameStore.isFirstDialogueOfInitialScene ||
-              isMilestoneAnnotation) &&
+            (showDelayedGameUI || isMilestoneAnnotation) &&
             !isMenuBusy
           "
           :key="

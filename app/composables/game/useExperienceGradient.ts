@@ -3,6 +3,7 @@ import {
   gradientSteps,
   outroFooterGradient,
 } from '~/app/constants/gradients'
+import { isContentRevealedPhase } from '~/app/stores/game/intro'
 
 export type ExperienceGradientState = {
   color1: string
@@ -48,7 +49,10 @@ export const useExperienceGradient = (
       return 'transparent'
     }
     // We want the gradient to run during the end sequence or day transition
-    if (gameStore.introPlayed && !isDayTransition.value) {
+    if (
+      isContentRevealedPhase(gameStore.introAnimationPhase) &&
+      !isDayTransition.value
+    ) {
       if (gameStore.currentDay === 2) {
         return 'var(--color-primary)'
       }

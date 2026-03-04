@@ -221,7 +221,7 @@ export const useGameStore = defineStore('game', {
       animationsStore.setAuroraVisibility(false)
       animationsStore.setAuroraZIndex(0)
 
-      this.introPlayed = true
+      this.introPlayed = false
       this.introAnimationPhase = 'annotation'
       this.introBlurAmount = 0
       this.saveGame()
