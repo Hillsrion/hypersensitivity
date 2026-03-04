@@ -122,7 +122,13 @@ useSeoMeta({
       <div
         class="fixed inset-0 z-9999 pointer-events-none opacity-15 bg-repeat bg-[url('/images/noise.svg')]"
       />
-      <div class="relative z-1 mx-auto">
+      <div
+        class="relative z-1 mx-auto transition-opacity duration-1000"
+        :class="{
+          'opacity-0 pointer-events-none':
+            !animations.landing.intro.entry.completed,
+        }"
+      >
         <GenericSection
           v-for="(section, index) in mainData.sections"
           :id="`section-${index}`"
@@ -132,9 +138,9 @@ useSeoMeta({
           :color="section.color"
           class="mb-16"
         />
+        <TestimoniesSection id="testimonies" class="relative z-10" />
+        <Experience id="experience" class="-mt-[35svh]" />
       </div>
-      <TestimoniesSection id="testimonies" class="relative z-10" />
-      <Experience id="experience" class="-mt-[35svh]" />
       <Teleport to="body">
         <Transition name="fade">
           <HSPQuizView
