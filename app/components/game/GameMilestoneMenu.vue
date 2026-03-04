@@ -175,7 +175,7 @@ onUnmounted(() => {
 
           <!-- Bottom Navigation -->
           <div
-            class="w-full h-24 lg:h-32 flex items-center justify-between pointer-events-auto"
+            class="w-full h-auto lg:h-32 flex flex-col lg:flex-row items-center justify-center lg:justify-between gap-x-8 gap-y-4 pb-12 lg:pb-0 pointer-events-auto"
             :class="EDGE_SPACING.PX"
           >
             <button :class="navItemClasses" @click.stop="gameStore.resetGame()">
