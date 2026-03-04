@@ -74,11 +74,6 @@
       "audio": "/audios/anais2.mp3"
     },
     {
-      "content": "La beauté d'un coucher de soleil peut me faire pleurer. Les gens ne comprennent toujours pas pourquoi je suis si émotif face à ces moments.",
-      "author": "Lucas R.",
-      "color": "yellow"
-    },
-    {
       "content": "Pour moi au restaurant, tout est mouvement. Les couverts s’entrechoquent, les voix se mêlent, les odeurs de nourriture s’entrelacent avec celles du cuir des sièges et des cigarettes. Chaque détail s’impose : les lumières, les textures des plats, le goût subtil laissé par le savon sur les verres. Tout entre en moi, sans filtre et avec tumulte",
       "author": "Alix R.",
       "color": "violet",
@@ -87,7 +82,7 @@
     {
       "content": "Quand je vois un sans-abri dans la rue je ne peux pas ne pas m’arrêter sans lui acheter à manger en ayant les larmes aux yeux.",
       "author": "Valentine P.",
-      "color": "orange",
+      "color": "yellow",
       "audio": "/audios/valentine.mp3"
     },
     {
