@@ -12,6 +12,8 @@ export const useTextWaveAnimation = (
   const animationsStore = useAnimationsStore()
 
   const phaseTime = 0.1
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  let activeTween: any = null
 
   const playEntry = (targets: HTMLElement[], onComplete?: () => void) => {
     const shouldSkip =
@@ -21,13 +23,18 @@ export const useTextWaveAnimation = (
 
     if (shouldSkip) return
 
-    $gsap.to(targets, {
+    if (activeTween) {
+      activeTween.kill()
+    }
+
+    activeTween = $gsap.to(targets, {
       keyframes: [
         { autoAlpha: 0.2, duration: phaseTime, ease: 'power1.out' },
         { autoAlpha: 0.8, duration: phaseTime, ease: 'power1.inOut' },
         { autoAlpha: 1, duration: phaseTime, ease: 'power1.in' },
       ],
       stagger: phaseTime,
+      overwrite: 'auto',
       onComplete,
     })
   }
@@ -44,13 +51,18 @@ export const useTextWaveAnimation = (
       return
     }
 
-    $gsap.to(targets, {
+    if (activeTween) {
+      activeTween.kill()
+    }
+
+    activeTween = $gsap.to(targets, {
       keyframes: [
         { autoAlpha: 0.8, duration: phaseTime, ease: 'power1.out' },
         { autoAlpha: 0.2, duration: phaseTime, ease: 'power1.inOut' },
         { autoAlpha: 0, duration: phaseTime, ease: 'power1.in' },
       ],
       stagger: phaseTime,
+      overwrite: 'auto',
       onComplete,
     })
   }

@@ -35,7 +35,7 @@ const onBottomElementClick = () => {
       ref="bottomElement"
       class="flex flex-col place-items-center gap-y-4 absolute left-1/2 bottom-10 -translate-x-1/2 transition-opacity duration-500 cursor-pointer"
       :class="{
-        'opacity-0':
+        'opacity-0 pointer-events-none':
           !landing.mainTitle.entry.completed || landing.mainTitle.exit.started,
       }"
       @click="onBottomElementClick"
