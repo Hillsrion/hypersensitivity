@@ -66,6 +66,8 @@ This is a Nuxt 4 data-driven website with animation capabilities.
 
 **Auto-imports**: Nuxt automatically imports Vue APIs (like `ref`, `computed`, `onMounted`, `nextTick`, etc.) and all composables in `app/composables`. **DO NOT** import them manually. This applies to both Vue core and local composables.
 
+**TypeScript Types**: Prefer using `type` aliases for object definitions instead of `interface`. The only exception is in `app/types/global.d.ts` where `interface` is required for global type augmentation.
+
 **Typography**: Custom fonts are configured via `@theme` in CSS:
 
 ```html
