@@ -122,7 +122,7 @@ useSeoMeta({
       <div
         class="fixed inset-0 z-9999 pointer-events-none opacity-15 bg-repeat bg-[url('/images/noise.svg')]"
       />
-      <div class="relative z-1 mx-auto flex flex-col gap-y-16 mt-[40svh]">
+      <div class="relative z-1 mx-auto">
         <GenericSection
           v-for="(section, index) in mainData.sections"
           :id="`section-${index}`"
@@ -130,6 +130,7 @@ useSeoMeta({
           :title="section.title"
           :content="section.content"
           :color="section.color"
+          class="mb-16"
         />
       </div>
       <TestimoniesSection id="testimonies" class="relative z-10" />

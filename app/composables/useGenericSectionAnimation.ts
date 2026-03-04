@@ -155,7 +155,11 @@ export function useGenericSectionAnimation(
           start: () => `top ${calculateStartTop()}px`,
           pin: true,
           anticipatePin: 1,
-          end: '+=400%',
+          // We scroll the timeline directly via standard viewport lengths instead of component heights:
+          end: () =>
+            window.innerWidth >= 1536
+              ? `+=${window.innerHeight * 4}px`
+              : `+=${window.innerHeight * 2.5}px`,
           scrub: true,
           invalidateOnRefresh: true,
           onToggle: (self) => {
@@ -290,19 +294,13 @@ export function useGenericSectionAnimation(
         containerRef.value,
         {
           autoAlpha: 0,
-          duration: 1,
+          duration: 3,
           ease: 'power1.inOut',
         },
-        'moveUp+=6'
+        'moveUp+=8' // start fading 2 units wait after "moveUp" is fully complete (moveUp + 6)
       )
 
-      tl.to(
-        {},
-        { duration: 4.25 + (calculateStartTop() / window.innerHeight) * 13 },
-        '>'
-      )
-
-      // Turn off aurora when section is fully faded out (which happens at moveUp + 6 + 1 = 7)
+      // Turn off aurora when section is fully faded out
       tl.to(
         {},
         {
@@ -314,7 +312,7 @@ export function useGenericSectionAnimation(
             setAuroraVisibilitySafe(true)
           },
         },
-        'moveUp+=7'
+        'moveUp+=11' // 8 (start fade) + 3 (fade dur)
       )
     })
   })
