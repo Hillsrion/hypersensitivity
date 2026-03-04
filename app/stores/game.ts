@@ -176,8 +176,14 @@ export const useGameStore = defineStore('game', {
       }
 
       try {
+        const canResume =
+          import.meta.env.DEV && devConfig.enabled
+            ? devConfig.resumeFromSnapshot
+            : true
+
         const savedState = loadSnapshot(STORAGE_KEY)
-        if (savedState) {
+
+        if (savedState && canResume) {
           this.reachedMilestones = ensureInitialMilestone(
             savedState.reachedMilestones
           )
