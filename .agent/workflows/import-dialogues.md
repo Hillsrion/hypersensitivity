@@ -9,7 +9,7 @@ This workflow helps you transform a Whisper/Voxtral JSON transcription into the 
 3. Run the import script using Node.js:
 
 ```bash
-node scripts/import-dialogues.js <path_to_json> <id_prefix> <start_number> <pensees_indices>
+node .agent/skills/import-dialogues/scripts/import-dialogues.js <path_to_json> <id_prefix> <start_number> <pensees_indices>
 ```
 
 **Arguments:**
@@ -23,10 +23,10 @@ node scripts/import-dialogues.js <path_to_json> <id_prefix> <start_number> <pens
 To import a file starting at ID `d2_10` where the 3rd and 5th segments are inner thoughts:
 
 ```bash
-node scripts/import-dialogues.js public/audios/experience/Day2_Scene1.json d2 10 "2,4"
+node .agent/skills/import-dialogues/scripts/import-dialogues.js public/audios/experience/Day2_Scene1.json d2 10 "2,4"
 ```
 
 4. Copy the output from the terminal.
 5. Paste it into the `dialogues` array of your `Scene` object in `app/data/game.ts`.
 6. Update the `audio` property of the `Scene` to point to the corresponding `.mp3` file.
-7. Verify speaker mappings in `scripts/import-dialogues.js` if you encounter unknown speakers.
+7. Verify speaker mappings in `.agent/skills/import-dialogues/scripts/import-dialogues.js` if you encounter unknown speakers.

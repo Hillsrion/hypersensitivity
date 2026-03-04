@@ -3,8 +3,8 @@ import path from 'path'
 
 /**
  * Script to transform Whisper/Voxtral JSON transcriptions into game.ts dialogue format.
- * Usage: node scripts/import-dialogues.js <path_to_json> <base_id> <start_index> <pensees_indices>
- * Example: node scripts/import-dialogues.js public/audios/experience/J01_C03A_Jeu_fra.json d1 24 "5,8"
+ * Usage: node .agent/skills/import-dialogues/scripts/import-dialogues.js <path_to_json> <base_id> <start_index> <pensees_indices>
+ * Example: node .agent/skills/import-dialogues/scripts/import-dialogues.js public/audios/experience/J01_C03A_Jeu_fra.json d1 24 "5,8"
  */
 
 const jsonPath = process.argv[2]
