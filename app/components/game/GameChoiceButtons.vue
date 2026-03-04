@@ -1,6 +1,4 @@
 <script setup lang="ts">
-import type { ComponentPublicInstance } from 'vue'
-
 import { EDGE_SPACING } from '../../constants/layout'
 import type { Choice } from '../../types/game'
 

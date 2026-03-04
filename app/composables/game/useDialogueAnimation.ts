@@ -1,5 +1,3 @@
-import type { ComponentPublicInstance, Ref } from 'vue'
-
 import type { DialogueLine } from '../../types/game'
 import { areAudioPathsEquivalent, resolveTimingEnd } from './orchestration'
 

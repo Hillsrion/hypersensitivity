@@ -1,5 +1,3 @@
-import type { Ref } from 'vue'
-
 import { useChoicePresentation } from './useChoicePresentation'
 import { useDialogueAudioSync } from './useDialogueAudioSync'
 import { useDialogueAurora } from './useDialogueAurora'

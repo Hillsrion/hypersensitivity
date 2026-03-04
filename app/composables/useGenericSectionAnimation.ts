@@ -1,6 +1,3 @@
-import { nextTick, onMounted, onUnmounted, watch } from 'vue'
-import type { ComponentPublicInstance, Ref } from 'vue'
-
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { storeToRefs } from 'pinia'
 

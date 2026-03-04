@@ -1,5 +1,3 @@
-import type { Ref } from 'vue'
-
 import { gameData } from '~/app/data/game'
 import mainData from '~/app/data/main.json'
 import type { RawAudioTiming } from '~/app/types/game'

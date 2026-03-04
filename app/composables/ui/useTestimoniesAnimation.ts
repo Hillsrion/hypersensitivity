@@ -1,5 +1,3 @@
-import type { ComponentPublicInstance, Ref } from 'vue'
-
 export function useTestimoniesAnimation(
   sectionRef: Readonly<Ref<HTMLElement | null>>,
   stickyRef: Readonly<Ref<HTMLElement | null>>,

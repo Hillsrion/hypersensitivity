@@ -1,5 +1,3 @@
-import type { Ref } from 'vue'
-
 import type { Choice } from '../../types/game'
 
 export function useChoiceButtons(

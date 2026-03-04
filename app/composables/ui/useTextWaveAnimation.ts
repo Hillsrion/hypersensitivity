@@ -1,5 +1,3 @@
-import type { Ref } from 'vue'
-
 export const useTextWaveAnimation = (
   elements: Ref<HTMLElement[] | null>,
   options: {

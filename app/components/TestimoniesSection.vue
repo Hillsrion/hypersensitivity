@@ -1,6 +1,4 @@
 <script setup lang="ts">
-import { type ComponentPublicInstance, computed, ref } from 'vue'
-
 import { useTestimoniesAnimation } from '~/app/composables/ui/useTestimoniesAnimation'
 import mainData from '~/app/data/main.json'
 

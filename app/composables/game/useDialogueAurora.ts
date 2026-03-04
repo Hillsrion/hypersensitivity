@@ -1,5 +1,3 @@
-import type { Ref } from 'vue'
-
 import { isEntryAnnotationPhase } from '~/app/stores/game/intro'
 
 export function useDialogueAurora(isContainerVisible: Ref<boolean>) {

@@ -1,5 +1,3 @@
-import type { ComponentPublicInstance, Ref } from 'vue'
-
 import type SplitType from 'split-type'
 
 import type { DialogueLine } from '../../types/game'
