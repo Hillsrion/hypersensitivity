@@ -1,10 +1,5 @@
 import { SCENE_IDS } from '../../data/constants.ts'
-import type {
-  GameFlags,
-  GameState,
-  MenuStatus,
-  PersistedGameState,
-} from '../../types/game'
+import type { GameFlags, GameState, PersistedGameState } from '../../types/game'
 import { ensureInitialMilestone } from './milestones.ts'
 
 const PERSISTED_STATE_VERSION = 1 as const
@@ -20,12 +15,6 @@ const DEFAULT_FLAGS: GameFlags = {
 
 const isObjectRecord = (value: unknown): value is Record<string, unknown> =>
   !!value && typeof value === 'object' && !Array.isArray(value)
-
-const isMenuStatus = (value: unknown): value is MenuStatus =>
-  value === 'closed' ||
-  value === 'opening' ||
-  value === 'open' ||
-  value === 'closing'
 
 const normalizeFlags = (value: unknown): GameFlags => {
   if (!isObjectRecord(value)) {
@@ -68,7 +57,6 @@ export const toPersistedGameState = (
     | 'flags'
     | 'reachedMilestones'
     | 'introPlayed'
-    | 'menuStatus'
     | 'showQuiz'
     | 'forceShowUI'
     | 'hasGameEnded'
@@ -80,7 +68,7 @@ export const toPersistedGameState = (
   flags: { ...state.flags },
   reachedMilestones: ensureInitialMilestone(state.reachedMilestones),
   introPlayed: state.introPlayed,
-  menuStatus: state.menuStatus,
+  menuStatus: 'closed',
   showQuiz: state.showQuiz,
   forceShowUI: state.forceShowUI,
   hasGameEnded: state.hasGameEnded,
@@ -122,7 +110,7 @@ export const normalizePersistedSnapshot = (
     reachedMilestones,
     introPlayed:
       typeof input.introPlayed === 'boolean' ? input.introPlayed : false,
-    menuStatus: isMenuStatus(input.menuStatus) ? input.menuStatus : 'closed',
+    menuStatus: 'closed',
     showQuiz: typeof input.showQuiz === 'boolean' ? input.showQuiz : false,
     forceShowUI:
       typeof input.forceShowUI === 'boolean' ? input.forceShowUI : false,
@@ -159,7 +147,6 @@ export const saveSnapshot = (
     | 'flags'
     | 'reachedMilestones'
     | 'introPlayed'
-    | 'menuStatus'
     | 'showQuiz'
     | 'forceShowUI'
     | 'hasGameEnded'

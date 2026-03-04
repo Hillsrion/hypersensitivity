@@ -1,10 +1,22 @@
+import type { Ref } from 'vue'
+
 import { isEntryAnnotationPhase } from '~/app/stores/game/intro'
 
-export function useDialogueAurora() {
+export function useDialogueAurora(isContainerVisible: Ref<boolean>) {
   const animationsStore = useAnimationsStore()
   const gameStore = useGameStore()
 
   const handleAuroraEffect = () => {
+    // Hide aurora completely if the game container is not visible on screen
+    if (!isContainerVisible.value && import.meta.client) {
+      if (animationsStore.aurora.visible) {
+        animationsStore.setAuroraVisibility(false)
+        animationsStore.setAuroraAutoAnimate(false)
+        animationsStore.setAuroraZIndex(0)
+      }
+      return
+    }
+
     // Don't touch the aurora during the intro/landing phase.
     // The intro sections control the aurora via useGenericSectionAnimation.
     // useDialogueAurora only takes over once the game experience starts.
@@ -130,6 +142,7 @@ export function useDialogueAurora() {
         () => gameStore.introAnimationPhase,
         () => gameStore.isMenuOpen,
         () => gameStore.isDayTransitioning,
+        isContainerVisible,
       ],
       () => {
         handleAuroraEffect()

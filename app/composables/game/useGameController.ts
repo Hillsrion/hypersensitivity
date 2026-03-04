@@ -1,15 +1,17 @@
+import type { Ref } from 'vue'
+
 import { useChoicePresentation } from './useChoicePresentation'
 import { useDialogueAudioSync } from './useDialogueAudioSync'
 import { useDialogueAurora } from './useDialogueAurora'
 import { useGameInteractions } from './useGameInteractions'
 import { useGameUiVisibility } from './useGameUiVisibility'
 
-export const useGameController = () => {
+export const useGameController = (isContainerVisible: Ref<boolean>) => {
   const gameStore = useGameStore()
   const animationsStore = useAnimationsStore()
   const audioStore = useAudioStore()
 
-  useDialogueAurora()
+  useDialogueAurora(isContainerVisible)
   useDialogueAudioSync()
 
   const dialogueBoxRef = useTemplateRef<HTMLElement>('dialogueBoxRef')

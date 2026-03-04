@@ -186,7 +186,7 @@ export const useGameStore = defineStore('game', {
           this.flags = savedState.flags
           this.introPlayed = savedState.introPlayed
           this.introAnimationPhase = 'hidden'
-          this.menuStatus = savedState.menuStatus
+          this.menuStatus = 'closed'
           this.hasGameEnded = savedState.hasGameEnded
         }
       } catch {

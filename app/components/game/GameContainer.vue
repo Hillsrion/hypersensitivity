@@ -32,7 +32,7 @@ const {
   handleInteraction,
   handleChoiceSelect,
   onDialogueAnimationComplete,
-} = useGameController()
+} = useGameController(isContainerVisible)
 
 const visualProgress = ref(0)
 const barTransformOrigin = ref('left')

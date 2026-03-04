@@ -120,7 +120,6 @@ export type PersistedGameState = {
   flags: GameFlags
   reachedMilestones: string[]
   introPlayed: boolean
-  menuStatus: MenuStatus
   showQuiz: boolean
   forceShowUI: boolean
   hasGameEnded: boolean
