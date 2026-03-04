@@ -13,6 +13,13 @@ This project is more than just a website; it's a narrative game where you naviga
 - **Reactive Visuals:** Experience a "breathing" interface with GSAP animations and smooth scrolling that mirrors the protagonist's internal state.
 - **Real Testimonies:** Listen to authentic stories from individuals who live with hypersensitivity.
 
+## 📸 Screenshots
+
+![Initial View](./public/UI-1366-Hypersensibles-6.png)
+![Scene Transition](./public/UI-1366-Hypersensibles-90.png)
+![HSP Quiz](./public/UI-1366-Hypersensibles-96.png)
+![Experience End](./public/UI-1366-Hypersensibles-99.png)
+
 ## 🚀 Getting Started
 
 Follow these instructions to set up the project locally for development or exploration.
