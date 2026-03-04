@@ -20,6 +20,9 @@
   --color-gradient-green: #c6ffe9;
   --color-gradient-yellow: #fdedb3;
   --color-gradient-violet: #decafe;
+  --color-gradient-orange: #ffd8b8;
+  --color-gradient-cyan: #bbf0f3;
+  --color-gradient-lime: #e6facd;
 }
 
 @theme {

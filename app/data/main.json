@@ -87,19 +87,19 @@
     {
       "content": "Quand je vois un sans-abri dans la rue je ne peux pas ne pas m’arrêter sans lui acheter à manger en ayant les larmes aux yeux.",
       "author": "Valentine P.",
-      "color": "red",
+      "color": "orange",
       "audio": "/audios/valentine.mp3"
     },
     {
       "content": "Travailler dans un open space est un vrai défi au quotidien, le moindre bruit, le moindre mouvement qui attire mon regard et mon attention déclenche une avalanche de questions. Cette hyperstimulation m’épuise énormément et mon esprit ne se repose jamais réellement ",
       "author": "Anaïs D.",
-      "color": "pink",
+      "color": "cyan",
       "audio": "/audios/anais.mp3"
     },
     {
       "content": "Ma peau est très réactive. Une situation stressante et c'est des plaques d'eczéma assurées sur diverses parties du corps. Ça gratte, ça brûle et ceci depuis mes dix ans.",
       "author": "Lisa",
-      "color": "blue",
+      "color": "lime",
       "audio": "/audios/lisa.mp3"
     }
   ]
