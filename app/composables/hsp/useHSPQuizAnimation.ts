@@ -53,7 +53,7 @@ export const useHSPQuizAnimation = (
 
       tl.to(sectionNameRef.value, {
         opacity: 0,
-        filter: 'blur(12px)',
+        filter: 'blur(8px)',
         duration: 0.4,
         ease: 'power2.inOut',
         onComplete: () => {
@@ -90,7 +90,7 @@ export const useHSPQuizAnimation = (
       {
         x: 50,
         opacity: 0,
-        filter: 'blur(10px)',
+        filter: 'blur(6px)',
         duration: 0.3,
         stagger: 0.05,
         ease: 'power2.in',
@@ -118,7 +118,7 @@ export const useHSPQuizAnimation = (
     $gsap.set(slideElements, {
       x: -50,
       opacity: 0,
-      filter: 'blur(10px)',
+      filter: 'blur(6px)',
     })
 
     if (questionInfoRef.value) {
@@ -180,7 +180,7 @@ export const useHSPQuizAnimation = (
       {
         x: -50,
         opacity: 0,
-        filter: 'blur(10px)',
+        filter: 'blur(6px)',
         duration: 0.3,
         stagger: 0.05,
         ease: 'power2.in',
@@ -208,7 +208,7 @@ export const useHSPQuizAnimation = (
     $gsap.set(slideElements, {
       x: 50,
       opacity: 0,
-      filter: 'blur(10px)',
+      filter: 'blur(6px)',
     })
 
     if (questionInfoRef.value) {
@@ -261,7 +261,7 @@ export const useHSPQuizAnimation = (
       $gsap.set(elements, {
         opacity: 0,
         y: 20,
-        filter: 'blur(5px)',
+        filter: 'blur(3px)',
       })
 
       if (!progressBarRef.value && elements.length === 0) {
@@ -339,7 +339,7 @@ export const useHSPQuizAnimation = (
           {
             opacity: 0,
             y: -20,
-            filter: 'blur(5px)',
+            filter: 'blur(3px)',
             duration: 0.4,
             stagger: 0.05,
             ease: 'power2.in',

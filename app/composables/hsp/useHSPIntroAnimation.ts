@@ -25,7 +25,7 @@ export const useHSPIntroAnimation = () => {
       tl.to(elements, {
         y: -20,
         opacity: 0,
-        filter: 'blur(10px)',
+        filter: 'blur(6px)',
         duration: 0.5,
         stagger: 0.1,
         ease: 'power2.in',
@@ -53,7 +53,7 @@ export const useHSPIntroAnimation = () => {
         {
           y: 20,
           opacity: 0,
-          filter: 'blur(10px)',
+          filter: 'blur(6px)',
         },
         {
           y: 0,

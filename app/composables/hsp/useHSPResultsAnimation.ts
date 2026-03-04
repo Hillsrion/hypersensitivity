@@ -38,7 +38,7 @@ export const useHSPResultsAnimation = (props: HSPResultsAnimationProps) => {
       $gsap.set(mainElements, {
         opacity: 0,
         y: 20,
-        filter: 'blur(10px)',
+        filter: 'blur(6px)',
       })
 
       $gsap.set(sectionItemsRef.value, {
@@ -162,7 +162,7 @@ export const useHSPResultsAnimation = (props: HSPResultsAnimationProps) => {
 
       tl.to(allRefs, {
         opacity: 0,
-        filter: 'blur(10px)',
+        filter: 'blur(6px)',
         duration: 0.5,
         ease: 'power2.in',
       })
