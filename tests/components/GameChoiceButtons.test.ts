@@ -5,7 +5,7 @@ import { mountSuspended } from '@nuxt/test-utils/runtime'
 import { createPinia, setActivePinia } from 'pinia'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 
-import ChoiceButtons from '~/app/components/game/ChoiceButtons.vue'
+import GameChoiceButtons from '~/app/components/game/GameChoiceButtons.vue'
 
 // Global mock state
 let capturedOnComplete: (() => void) | undefined
@@ -33,7 +33,7 @@ const mockGsap = {
 // But mountSuspended is usually enough if global.provide is used.
 // The issue might be that the component already has a $gsap from Nuxt.
 
-describe('ChoiceButtons', () => {
+describe('GameChoiceButtons', () => {
   beforeEach(() => {
     setActivePinia(createPinia())
     global.innerWidth = 1024
@@ -47,7 +47,7 @@ describe('ChoiceButtons', () => {
   ]
 
   it('renders choices correctly', async () => {
-    const wrapper = await mountSuspended(ChoiceButtons, {
+    const wrapper = await mountSuspended(GameChoiceButtons, {
       props: {
         choices: mockChoices,
       },
@@ -65,7 +65,7 @@ describe('ChoiceButtons', () => {
   })
 
   it('emits selecting and select events when a choice is clicked', async () => {
-    const wrapper = await mountSuspended(ChoiceButtons, {
+    const wrapper = await mountSuspended(GameChoiceButtons, {
       props: {
         choices: mockChoices,
       },
@@ -114,7 +114,7 @@ describe('ChoiceButtons', () => {
       { id: 'choice2', text: 'CHOICE 2' },
     ]
 
-    const wrapper = await mountSuspended(ChoiceButtons, {
+    const wrapper = await mountSuspended(GameChoiceButtons, {
       props: {
         choices: disabledChoices,
       },
@@ -131,7 +131,7 @@ describe('ChoiceButtons', () => {
   })
 
   it('renders correctly with light variant', async () => {
-    const wrapper = await mountSuspended(ChoiceButtons, {
+    const wrapper = await mountSuspended(GameChoiceButtons, {
       props: {
         choices: mockChoices,
         variant: 'light',
@@ -161,7 +161,7 @@ describe('ChoiceButtons', () => {
       },
     ]
 
-    const wrapper = await mountSuspended(ChoiceButtons, {
+    const wrapper = await mountSuspended(GameChoiceButtons, {
       props: {
         choices: choicesWithReason,
       },

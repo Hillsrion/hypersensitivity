@@ -5,8 +5,8 @@ import { EDGE_SPACING } from '~/app/constants/layout'
 import { UI_SIZES } from '~/app/constants/ui'
 
 import MenuIcon from '../ui/MenuIcon.vue'
-import ChoiceButtons from './ChoiceButtons.vue'
-import DialogueBox from './DialogueBox.vue'
+import GameChoiceButtons from './GameChoiceButtons.vue'
+import GameDialogueBox from './GameDialogueBox.vue'
 import GameEnergyBar from './GameEnergyBar.vue'
 import GameHeader from './GameHeader.vue'
 
@@ -156,7 +156,7 @@ onUnmounted(() => {
         v-if="showAnnotation"
         class="absolute inset-0 flex flex-col items-center justify-center pointer-events-none z-50"
       >
-        <DialogueBox
+        <GameDialogueBox
           :dialogue="{
             id: 'intro-anno',
             speaker: '',
@@ -176,7 +176,7 @@ onUnmounted(() => {
       class="absolute inset-0 flex flex-col items-center justify-center pointer-events-none"
     >
       <Transition name="fade-fast" mode="out-in">
-        <DialogueBox
+        <GameDialogueBox
           v-if="
             showContent &&
             !showAnnotation &&
@@ -212,7 +212,7 @@ onUnmounted(() => {
 
     <!-- Choice Buttons (bottom) -->
     <Transition name="fade-fast">
-      <ChoiceButtons
+      <GameChoiceButtons
         v-if="
           (gameStore.showChoices || gameStore.selectedChoice) &&
           showGameUI &&

@@ -1,9 +1,9 @@
 // @vitest-environment nuxt
 import { mountSuspended } from '@nuxt/test-utils/runtime'
 import { createPinia, setActivePinia } from 'pinia'
-import { describe, expect, it, vi } from 'vitest'
+import { beforeEach, describe, expect, it, vi } from 'vitest'
 
-import DialogueBox from '~/app/components/game/DialogueBox.vue'
+import GameDialogueBox from '~/app/components/game/GameDialogueBox.vue'
 
 // Mock gsap
 const mockGsap = {
@@ -21,7 +21,7 @@ const mockGsap = {
   registerPlugin: vi.fn(),
 }
 
-describe('DialogueBox', () => {
+describe('GameDialogueBox', () => {
   beforeEach(() => {
     setActivePinia(createPinia())
   })
@@ -39,7 +39,7 @@ describe('DialogueBox', () => {
   }
 
   it('renders speaker name and text', async () => {
-    const wrapper = await mountSuspended(DialogueBox, {
+    const wrapper = await mountSuspended(GameDialogueBox, {
       props: {
         dialogue: defaultDialogue,
       },
@@ -55,7 +55,7 @@ describe('DialogueBox', () => {
   })
 
   it('shows annotation if provided', async () => {
-    const wrapper = await mountSuspended(DialogueBox, {
+    const wrapper = await mountSuspended(GameDialogueBox, {
       props: {
         dialogue: defaultDialogue,
       },
@@ -70,7 +70,7 @@ describe('DialogueBox', () => {
   })
 
   it('shows thoughts tag if speakerType is thoughts', async () => {
-    const wrapper = await mountSuspended(DialogueBox, {
+    const wrapper = await mountSuspended(GameDialogueBox, {
       props: {
         dialogue: { ...defaultDialogue, speakerType: 'thoughts' },
       },

@@ -7,7 +7,7 @@ import {
 import { QUIZ_ENTRY_DELAY_MS } from '~/app/constants/durations'
 import type { Choice } from '~/app/types/game'
 
-import ChoiceButtons from './game/ChoiceButtons.vue'
+import GameChoiceButtons from './game/GameChoiceButtons.vue'
 import GameContainer from './game/GameContainer.vue'
 
 defineOptions({
@@ -154,7 +154,7 @@ const showQuiz = (view: 'intro' | 'skipped' = 'intro') => {
             </h2>
           </div>
 
-          <ChoiceButtons
+          <GameChoiceButtons
             :choices="endGameChoices"
             variant="light"
             @select="handleEndChoiceSelect"
