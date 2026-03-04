@@ -118,5 +118,4 @@ export const dayTwoSunset: Scene = {
       }
     ),
   ],
-  nextSceneId: SCENE_IDS.GAME_END,
 }

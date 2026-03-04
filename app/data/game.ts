@@ -30,7 +30,6 @@ import {
   dayTwoSunset,
   dayTwoWakeupCrash,
   dayTwoWakeupGood,
-  gameEnd,
 } from './scenes/day2'
 
 // ============================================
@@ -78,6 +77,5 @@ export const gameData: GameData = {
     [SCENE_IDS.DAY_TWO_MOUNTAIN]: dayTwoMountain,
     [SCENE_IDS.DAY_TWO_MOVING]: dayTwoMoving,
     [SCENE_IDS.DAY_TWO_SUNSET]: dayTwoSunset,
-    [SCENE_IDS.GAME_END]: gameEnd,
   },
 }

@@ -110,6 +110,7 @@ export type GameState = {
   isDayTransitioning: boolean
   pendingTransitionSceneId: string | null
   _annotationTimerId: ReturnType<typeof setTimeout> | null
+  hasGameEnded: boolean
 }
 
 export type PersistedGameState = {
@@ -122,6 +123,7 @@ export type PersistedGameState = {
   menuStatus: MenuStatus
   showQuiz: boolean
   forceShowUI: boolean
+  hasGameEnded: boolean
 }
 
 export type RawAudioTiming = {

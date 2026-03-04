@@ -1,0 +1,7 @@
+# https://www.robotstxt.org/robotstxt.html
+User-agent: *
+Allow: /
+
+# Disallow debug/test routes
+Disallow: /game-tools-view
+Disallow: /test

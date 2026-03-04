@@ -92,11 +92,6 @@ export const getReachedMilestonesList = (
   )
 }
 
-export const isGameEnded = (
-  currentSceneId: string,
-  gameEndSceneId: string
-): boolean => currentSceneId === gameEndSceneId
-
 export const getFirstDialogueAnnotation = (
   scenes: Record<string, Scene>,
   currentSceneId: string

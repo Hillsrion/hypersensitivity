@@ -2,7 +2,6 @@ import { defineStore } from 'pinia'
 
 import { devConfig } from '../config/dev'
 import { ENTRY_ANNOTATION_AUTO_COMPLETE_DELAY_MS } from '../constants/durations'
-import { SCENE_IDS } from '../data/constants'
 import { gameData } from '../data/game'
 import {
   MILESTONES,
@@ -55,7 +54,6 @@ import {
   getReachedMilestonesList,
   isChoiceDisabled,
   isFirstDialogueOfInitialScene,
-  isGameEnded,
 } from './game/selectors'
 import {
   STORAGE_KEY,
@@ -125,7 +123,7 @@ export const useGameStore = defineStore('game', {
     },
 
     isGameEnded(state): boolean {
-      return isGameEnded(state.currentSceneId, SCENE_IDS.GAME_END)
+      return state.hasGameEnded
     },
 
     firstDialogueAnnotation(state): string | undefined {
@@ -183,12 +181,13 @@ export const useGameStore = defineStore('game', {
           this.reachedMilestones = ensureInitialMilestone(
             savedState.reachedMilestones
           )
-          this.currentSceneId = gameData.initialSceneId
-          this.currentDialogueIndex = 0
-          this.flags = createInitialFlags()
-          this.introPlayed = false
+          this.currentSceneId = savedState.currentSceneId
+          this.currentDialogueIndex = savedState.currentDialogueIndex
+          this.flags = savedState.flags
+          this.introPlayed = savedState.introPlayed
           this.introAnimationPhase = 'hidden'
-          this.menuStatus = 'closed'
+          this.menuStatus = savedState.menuStatus
+          this.hasGameEnded = savedState.hasGameEnded
         }
       } catch {
         this.resetGame()
@@ -217,6 +216,7 @@ export const useGameStore = defineStore('game', {
       this.selectedChoice = null
       this.showQuiz = false
       this.showFinalFooter = false
+      this.hasGameEnded = false
 
       animationsStore.setAuroraVisibility(false)
       animationsStore.setAuroraZIndex(0)
@@ -451,9 +451,8 @@ export const useGameStore = defineStore('game', {
         return
       }
 
-      if (this.currentSceneId !== SCENE_IDS.GAME_END) {
-        console.warn('No next scene found.')
-      }
+      this.hasGameEnded = true
+      this.saveGame()
     },
 
     goToMilestone(milestoneId: string) {

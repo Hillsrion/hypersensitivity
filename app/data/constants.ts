@@ -31,9 +31,6 @@ export const SCENE_IDS = {
   DAY_TWO_MOVING: 'dayTwoMoving',
   DAY_TWO_MOUNTAIN: 'dayTwoMountain',
   DAY_TWO_SUNSET: 'dayTwoSunset',
-
-  // Game End
-  GAME_END: 'gameEnd',
 } as const
 
 export type SceneId = (typeof SCENE_IDS)[keyof typeof SCENE_IDS]

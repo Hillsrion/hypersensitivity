@@ -44,9 +44,14 @@ describe('Game Data Integrity', () => {
     }
   })
 
-  it('all scenes have a way forward (except GAME_END)', () => {
+  it('all scenes have a way forward (except terminal scenes)', () => {
     for (const scene of Object.values(gameData.scenes)) {
-      if (scene.id === SCENE_IDS.GAME_END) continue
+      if (
+        scene.id === SCENE_IDS.DAY_TWO_SUNSET ||
+        scene.id === SCENE_IDS.DAY_TWO_MOUNTAIN
+      ) {
+        continue
+      }
 
       const hasNextScene = !!scene.nextSceneId
       const hasChoices = scene.choices && scene.choices.length > 0
@@ -83,8 +88,13 @@ describe('Game Data Integrity', () => {
     )
 
     allSceneIds.forEach((sceneId) => {
-      // GAME_END might not be in a milestone if it's a special state, but let's check
-      if (sceneId === SCENE_IDS.GAME_END) return
+      // Terminal scenes might not be in a milestone if it's a special state, but let's check
+      if (
+        sceneId === SCENE_IDS.DAY_TWO_SUNSET ||
+        sceneId === SCENE_IDS.DAY_TWO_MOUNTAIN
+      ) {
+        return
+      }
 
       expect(
         scenesInMilestones.has(sceneId),

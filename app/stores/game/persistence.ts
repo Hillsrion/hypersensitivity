@@ -71,6 +71,7 @@ export const toPersistedGameState = (
     | 'menuStatus'
     | 'showQuiz'
     | 'forceShowUI'
+    | 'hasGameEnded'
   >
 ): PersistedGameState => ({
   version: PERSISTED_STATE_VERSION,
@@ -82,6 +83,7 @@ export const toPersistedGameState = (
   menuStatus: state.menuStatus,
   showQuiz: state.showQuiz,
   forceShowUI: state.forceShowUI,
+  hasGameEnded: state.hasGameEnded,
 })
 
 export const normalizePersistedSnapshot = (
@@ -124,6 +126,8 @@ export const normalizePersistedSnapshot = (
     showQuiz: typeof input.showQuiz === 'boolean' ? input.showQuiz : false,
     forceShowUI:
       typeof input.forceShowUI === 'boolean' ? input.forceShowUI : false,
+    hasGameEnded:
+      typeof input.hasGameEnded === 'boolean' ? input.hasGameEnded : false,
   }
 }
 
@@ -158,6 +162,7 @@ export const saveSnapshot = (
     | 'menuStatus'
     | 'showQuiz'
     | 'forceShowUI'
+    | 'hasGameEnded'
   >,
   storage: Pick<Storage, 'setItem'> | null = import.meta.client
     ? window.localStorage

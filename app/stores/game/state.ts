@@ -33,4 +33,5 @@ export const createInitialGameState = (): GameState => ({
   isDayTransitioning: false,
   pendingTransitionSceneId: null,
   _annotationTimerId: null,
+  hasGameEnded: false,
 })
