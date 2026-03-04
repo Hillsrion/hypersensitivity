@@ -1,27 +1,25 @@
 <script setup lang="ts">
-import { QUIZ_ENTRY_DELAY_MS } from '~/app/constants/durations'
 import { EDGE_SPACING } from '~/app/constants/layout'
 
 import type { Milestone } from '../../types/game'
+import ArrowRightIcon from '../ui/ArrowRightIcon.vue'
+import ResetIcon from '../ui/ResetIcon.vue'
 import GameMilestoneItem from './GameMilestoneItem.vue'
 
 const gameStore = useGameStore()
 const animationsStore = useAnimationsStore()
 const { $gsap } = useNuxtApp()
+const { isMilestoneReached, handleMilestoneClick, navigateToTest } =
+  useMilestoneNavigation()
 
 const menuRef = useTemplateRef<HTMLElement>('menuRef')
 const itemsRef = ref<HTMLElement[]>([])
 const itemComponents = ref<Array<{ labelRef: HTMLElement | null }>>([])
 const isMenuOpen = computed(() => gameStore.isMenuOpen)
-let quizTimer: ReturnType<typeof setTimeout> | null = null
 
 // Filtered milestones (only reached)
 const visibleMilestones = computed<Milestone[]>(() => {
-  if (import.meta.dev) return gameStore.milestones
-
-  return gameStore.milestones.filter((m) =>
-    gameStore.reachedMilestones.includes(m.id)
-  )
+  return gameStore.milestones.filter((m) => isMilestoneReached(m.id))
 })
 
 interface MilestoneItemExposed {
@@ -90,38 +88,8 @@ watch(isMenuOpen, (isOpen) => {
   }
 })
 
-// ─── Navigation ──────────────────────────────────────────────────
-const isMilestoneReached = (milestoneId: string) => {
-  if (import.meta.dev) return true
-  return gameStore.reachedMilestones.includes(milestoneId)
-}
-
-const handleMilestoneClick = (milestoneId: string) => {
-  if (isMilestoneReached(milestoneId)) {
-    gameStore.goToMilestone(milestoneId)
-  }
-}
-
-const navigateToTest = () => {
-  gameStore.closeMenu(false)
-  if (quizTimer) {
-    clearTimeout(quizTimer)
-  }
-  quizTimer = setTimeout(() => {
-    quizTimer = null
-    gameStore.setShowQuiz(true)
-  }, QUIZ_ENTRY_DELAY_MS)
-}
-
 const navItemClasses =
   'flex items-center gap-2 font-sans text-base/7 uppercase hover:text-primary transition-colors cursor-pointer'
-
-onUnmounted(() => {
-  if (quizTimer) {
-    clearTimeout(quizTimer)
-    quizTimer = null
-  }
-})
 </script>
 
 <template>
@@ -175,36 +143,17 @@ onUnmounted(() => {
 
           <!-- Bottom Navigation -->
           <div
-            class="w-full h-auto lg:h-32 flex flex-col lg:flex-row items-center justify-center lg:justify-between gap-x-8 gap-y-4 pb-12 lg:pb-0 pointer-events-auto"
+            class="w-full h-auto lg:h-32 flex flex-col lg:flex-row items-center justify-center lg:justify-between gap-x-8 gap-y-4 pb-6 lg:pb-0 pointer-events-auto"
             :class="EDGE_SPACING.PX"
           >
             <button :class="navItemClasses" @click.stop="gameStore.resetGame()">
-              <svg
-                width="14"
-                height="14"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2"
-              >
-                <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8" />
-                <path d="M3 3v5h5" />
-              </svg>
+              <ResetIcon />
               RECOMMENCER LE JEU
             </button>
 
             <div :class="navItemClasses" @click="navigateToTest">
               TEST DU SPECTRE DE L'HYPERSENSIBILITÉ
-              <svg
-                width="14"
-                height="14"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2"
-              >
-                <path d="M5 12h14M12 5l7 7-7 7" />
-              </svg>
+              <ArrowRightIcon />
             </div>
           </div>
         </div>
