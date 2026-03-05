@@ -67,7 +67,7 @@ export const dayOneConflictSubmit: Scene = {
   condition: { flag: 'conflictOutcome', operator: 'equals', value: 'submit' },
   audio: 'experience/J01_C02_Bureau_A.mp3',
   dialogues: [
-    d('d1_14a', 'LUCIE', 'Oui, oui, pas de souci.', {
+    d('d1_14a', 'LUCIE', 'Oui, oui, pas de soucis.', {
       color: 'blue',
     }),
     thoughts(

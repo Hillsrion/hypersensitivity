@@ -17,7 +17,7 @@ export const dayOneRefuse: Scene = {
     d(
       'd1_37',
       'Lucas',
-      "T'inquiète, pas de souci. Bon, du coup, presque consensus.",
+      "T'inquiète, pas de soucis. Bon, du coup, presque consensus.",
       {}
     ),
     d(
