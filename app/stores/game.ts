@@ -423,7 +423,21 @@ export const useGameStore = defineStore('game', {
           this.selectedChoice = null
           this.introAnimationPhase = getEntryAnnotationPhase(this.introPlayed)
 
-          this.startAnnotationTimer(ENTRY_ANNOTATION_AUTO_COMPLETE_DELAY_MS)
+          const firstWordStart = scene.dialogues?.[0]?.timings?.[0]?.start
+          const delay =
+            firstWordStart !== undefined
+              ? computeAnnotationDelayMs(firstWordStart)
+              : ENTRY_ANNOTATION_AUTO_COMPLETE_DELAY_MS
+
+          this.startAnnotationTimer(delay)
+
+          if (scene.audio) {
+            const audioStore = useAudioStore()
+            const audioPath = scene.audio.startsWith('/')
+              ? scene.audio
+              : `/audios/${scene.audio}`
+            audioStore.playAudio(audioPath)
+          }
         }
 
         this.currentSceneId = sceneId

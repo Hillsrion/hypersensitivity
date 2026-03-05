@@ -4,7 +4,10 @@ import {
   DAY_TRANSITION_UI_FADE_OUT_DELAY_MS,
 } from '~/app/constants/durations'
 import { gradientSteps } from '~/app/constants/gradients'
-import { isEntryAnnotationPhase } from '~/app/stores/game/intro'
+import {
+  computeAnnotationDelayMs,
+  isEntryAnnotationPhase,
+} from '~/app/stores/game/intro'
 
 import type { ExperienceGradientState } from './useExperienceGradient'
 
@@ -71,9 +74,22 @@ export const useExperienceDayTransition = (
 
       // 5. Start entry annotation timer now that the UI is visible
       if (isEntryAnnotationPhase(gameStore.introAnimationPhase)) {
-        gameStore.startAnnotationTimer(
-          DAY_TRANSITION_ANNOTATION_AUTO_COMPLETE_DELAY_MS
-        )
+        const scene = gameStore.currentScene
+        const firstWordStart = scene?.dialogues?.[0]?.timings?.[0]?.start
+        const delay =
+          firstWordStart !== undefined
+            ? computeAnnotationDelayMs(firstWordStart)
+            : DAY_TRANSITION_ANNOTATION_AUTO_COMPLETE_DELAY_MS
+
+        gameStore.startAnnotationTimer(delay)
+
+        if (scene?.audio) {
+          const audioStore = useAudioStore()
+          const audioPath = scene.audio.startsWith('/')
+            ? scene.audio
+            : `/audios/${scene.audio}`
+          audioStore.playAudio(audioPath)
+        }
       }
     }
   )
