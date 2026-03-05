@@ -7,6 +7,7 @@ export default defineNuxtConfig({
     public: {
       creditsDevelopment: '',
       creditsDesign: '',
+      testUrl: '',
     },
   },
   modules: [

@@ -28,14 +28,14 @@ import {
   findFirstValidSceneIdInMilestone,
   resolveNextProgressionStep,
 } from '../app/stores/game/progression'
+import type { GameFlags } from '../app/types/game'
 
-const baseFlags = {
+const baseFlags: GameFlags = {
   outfitChoice: null,
   conflictOutcome: null,
   gameEventChoice: null,
   hadBreakdown: false,
   callChoice: null,
-  refuseOutcome: null,
   energy: 50,
 }
 
@@ -72,13 +72,13 @@ describe('game-store-modules', () => {
   it('isSceneEligible supports condition and conditions', () => {
     const sceneA = {
       condition: { flag: 'outfitChoice', operator: 'equals', value: 'sexy' },
-    }
+    } as any
     const sceneB = {
       conditions: [
         { flag: 'energy', operator: 'greaterThan', value: 10 },
         { flag: 'energy', operator: 'lessThan', value: 90 },
       ],
-    }
+    } as any
 
     expect(isSceneEligible(sceneA, baseFlags)).toBe(false)
     expect(isSceneEligible(sceneB, baseFlags)).toBe(true)
@@ -90,7 +90,7 @@ describe('game-store-modules', () => {
 
     const afterDialogue = applyDialogueEnergyChange(baseFlags, {
       energyChange: -20,
-    })
+    } as any)
     expect(afterDialogue.energy).toBe(30)
 
     const afterChoice = applyChoiceEffects(baseFlags, {
@@ -128,14 +128,14 @@ describe('game-store-modules', () => {
       m2: { id: 'm2', label: 'M2', day: 1, scenes: ['s4'] },
     }
 
-    const getMilestoneForScene = (sceneId) =>
-      Object.values(milestones).find((m) => m.scenes.includes(sceneId))
+    const getMilestoneForScene = (sceneId: string) =>
+      Object.values(milestones).find((m) => m.scenes.includes(sceneId)) as any
 
     const next = resolveNextProgressionStep({
       currentSceneId: 's1',
       flags: baseFlags,
       scenes,
-      milestones,
+      milestones: milestones as any,
       milestoneOrder: ['m1', 'm2'],
       getMilestoneForScene,
     })
@@ -161,14 +161,14 @@ describe('game-store-modules', () => {
       m2: { id: 'm2', label: 'M2', day: 1, scenes: ['s3'] },
     }
 
-    const getMilestoneForScene = (sceneId) =>
-      Object.values(milestones).find((m) => m.scenes.includes(sceneId))
+    const getMilestoneForScene = (sceneId: string) =>
+      Object.values(milestones).find((m) => m.scenes.includes(sceneId)) as any
 
     const next = resolveNextProgressionStep({
       currentSceneId: 's1',
       flags: baseFlags,
       scenes,
-      milestones,
+      milestones: milestones as any,
       milestoneOrder: ['m1', 'm2'],
       getMilestoneForScene,
     })
@@ -193,7 +193,12 @@ describe('game-store-modules', () => {
     }
 
     expect(
-      findFirstValidSceneIdInMilestone('m', milestones, scenes, baseFlags)
+      findFirstValidSceneIdInMilestone(
+        'm',
+        milestones as any,
+        scenes as any,
+        baseFlags
+      )
     ).toBe('b')
   })
 
@@ -218,9 +223,9 @@ describe('game-store-modules', () => {
       flags: baseFlags,
       reachedMilestones: ['reveil', 'bureau'],
       introPlayed: true,
-      menuStatus: 'closed',
-      showQuestionnaire: false,
+      showQuiz: false,
       forceShowUI: false,
+      hasGameEnded: false,
     })
 
     expect(persisted.version).toBe(1)
@@ -236,21 +241,19 @@ describe('game-store-modules', () => {
       currentDialogueIndex: -1,
       flags: { energy: 250, callChoice: 'accept' } as any,
       reachedMilestones: ['trajet'],
-      menuStatus: 'invalid' as any,
     })
 
-    expect(normalized.currentDialogueIndex).toBe(0)
-    expect(normalized.flags.energy).toBe(100)
-    expect(normalized.flags.callChoice).toBe('accept')
-    expect(normalized.reachedMilestones).toEqual(['reveil', 'trajet'])
-    expect(normalized.menuStatus).toBe('closed')
+    expect(normalized!.currentDialogueIndex).toBe(0)
+    expect(normalized!.flags.energy).toBe(100)
+    expect(normalized!.flags.callChoice).toBe('accept')
+    expect(normalized!.reachedMilestones).toEqual(['reveil', 'trajet'])
   })
 
   it('saveSnapshot/loadSnapshot roundtrip with injected storage', () => {
     const backing = new Map()
     const storage = {
-      setItem: (key, value) => backing.set(key, value),
-      getItem: (key) => backing.get(key) ?? null,
+      setItem: (key: string, value: string) => backing.set(key, value),
+      getItem: (key: string) => backing.get(key) ?? null,
     } as any
 
     saveSnapshot(
@@ -261,17 +264,17 @@ describe('game-store-modules', () => {
         flags: baseFlags,
         reachedMilestones: ['reveil'],
         introPlayed: false,
-        menuStatus: 'closed',
-        showQuestionnaire: false,
+        showQuiz: false,
         forceShowUI: false,
+        hasGameEnded: false,
       },
       storage
     )
 
     const loaded = loadSnapshot('game-key', storage)
-    expect(loaded.currentSceneId).toBe('sceneA')
-    expect(loaded.currentDialogueIndex).toBe(1)
-    expect(loaded.reachedMilestones).toEqual(['reveil'])
+    expect(loaded!.currentSceneId).toBe('sceneA')
+    expect(loaded!.currentDialogueIndex).toBe(1)
+    expect(loaded!.reachedMilestones).toEqual(['reveil'])
   })
 
   it('loadSnapshot throws on invalid JSON', () => {

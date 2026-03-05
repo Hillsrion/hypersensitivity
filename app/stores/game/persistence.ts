@@ -68,7 +68,6 @@ export const toPersistedGameState = (
   flags: { ...state.flags },
   reachedMilestones: ensureInitialMilestone(state.reachedMilestones),
   introPlayed: state.introPlayed,
-  menuStatus: 'closed',
   showQuiz: state.showQuiz,
   forceShowUI: state.forceShowUI,
   hasGameEnded: state.hasGameEnded,
@@ -110,7 +109,6 @@ export const normalizePersistedSnapshot = (
     reachedMilestones,
     introPlayed:
       typeof input.introPlayed === 'boolean' ? input.introPlayed : false,
-    menuStatus: 'closed',
     showQuiz: typeof input.showQuiz === 'boolean' ? input.showQuiz : false,
     forceShowUI:
       typeof input.forceShowUI === 'boolean' ? input.forceShowUI : false,

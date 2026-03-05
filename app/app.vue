@@ -19,7 +19,15 @@ const DevToolsView = defineAsyncComponent(
   () => import('~/app/components/debug/DevToolsView.vue')
 )
 
-const isDev = import.meta.dev
+const config = useRuntimeConfig()
+const requestUrl = useRequestURL()
+
+const isTestUrl = computed(() => {
+  if (!config.public.testUrl) return false
+  return requestUrl.href.includes(String(config.public.testUrl))
+})
+
+const showDevTools = computed(() => import.meta.dev || isTestUrl.value)
 
 const audioStore = useAudioStore()
 const animations = useAnimationsStore()
@@ -153,7 +161,7 @@ useSeoMeta({
         </Transition>
       </Teleport>
 
-      <DevTools v-if="isDev" />
+      <DevTools v-if="showDevTools" />
     </div>
   </div>
 </template>

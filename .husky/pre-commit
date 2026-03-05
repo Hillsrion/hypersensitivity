@@ -1,2 +1,3 @@
+npx nuxi typecheck
 npx lint-staged
 pnpm exec vitest run

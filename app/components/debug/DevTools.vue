@@ -165,6 +165,11 @@ const skipToGame = () => {
   }, 100)
 }
 
+const skipToEnd = () => {
+  gameStore.hasGameEnded = true
+  gameStore.saveGame()
+}
+
 const skipToFooter = () => {
   audioStore.stopCurrentAudio()
 
@@ -174,7 +179,7 @@ const skipToFooter = () => {
   animationsStore.setScrollLocked(false)
   bgGradient.animateToWhite().duration(0).play()
 
-  jumpToScene(SCENE_IDS.GAME_END)
+  skipToEnd()
 
   // Force scroll to bottom so the Experience sticky background is visible
   scrollTo('bottom')
@@ -344,7 +349,7 @@ const jumpToScene = (sceneId: string) => {
 
             <button
               class="px-2 py-1 bg-purple-500/20 hover:bg-purple-500/40 text-purple-300 rounded text-left transition-colors"
-              @click="jumpToScene(SCENE_IDS.GAME_END)"
+              @click="skipToEnd"
             >
               Skip to End
             </button>
