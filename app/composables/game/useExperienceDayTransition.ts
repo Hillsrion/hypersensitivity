@@ -83,7 +83,7 @@ export const useExperienceDayTransition = (
 
         gameStore.startAnnotationTimer(delay)
 
-        if (scene?.audio) {
+        if (scene?.audio && scene.entryAudioEarlyStart) {
           const audioStore = useAudioStore()
           const audioPath = scene.audio.startsWith('/')
             ? scene.audio

@@ -62,6 +62,7 @@ export type Scene = {
   conditions?: ChoiceCondition[] // Multiple conditions (AND logic)
 
   entryAnnotation?: string // Annotation s'affichant avant les dialogues (transition de scène)
+  entryAudioEarlyStart?: boolean // Si vrai, joue l'audio de la scène pendant l'entryAnnotation
   audio?: string // Audio global de la scene
   onEnter?: {
     energyChange?: number
