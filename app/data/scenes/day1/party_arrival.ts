@@ -14,10 +14,13 @@ export const dayOnePartySexy: Scene = {
   condition: { flag: 'outfitChoice', operator: 'equals', value: 'sexy' },
   audio: 'experience/J01_S05_Soiree_Tenue_Sexy.mp3',
   dialogues: [
+    d('d1_19a', 'LUCIE', 'Hey!', {
+      color: 'green',
+    }),
     d(
       'd1_20a',
       'Ines',
-      'Hey! Ça fait plaisir de te voir. En plus, tu viens en re-sta. Epouse-moi.',
+      'Ça fait plaisir de te voir. En plus, tu viens en re-sta. Epouse-moi.',
       {
         color: 'green',
       }
