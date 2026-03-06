@@ -55,10 +55,10 @@ export const dayOnePlay: Scene = {
     d(
       'd1_25',
       'Lucas',
-      "En gros, on discute tous ensemble. Et faut arriver à ce que la majority du groupe soit d'accord sur une réponse donnée à une question parmi une liste. On gagne en trouvant les influenceurs qui doivent défendre une des options sur la carte.",
+      "En gros, on discute tous ensemble. Et faut arriver à ce que la majorité du groupe soit d'accord sur une réponse donnée à une question parmi une liste. On gagne en trouvant les influenceurs qui doivent défendre une des options sur la carte.",
       {}
     ),
-    d('d1_26', 'LUCIE', 'Ok.', {}),
+    d('d1_26', 'LUCIE', 'Ok !', {}),
     d(
       'd1_27',
       'Lucas',
