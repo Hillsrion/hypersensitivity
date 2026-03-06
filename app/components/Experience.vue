@@ -112,6 +112,15 @@ const showQuiz = (view: 'intro' | 'skipped' = 'intro') => {
     gameStore.setShowQuiz(true)
   }, QUIZ_ENTRY_DELAY_MS)
 }
+
+const isEyeHidden = computed(() => {
+  return (
+    (animationsStore.aurora.visible &&
+      !isDayTransition.value &&
+      gameStore.introPlayed) ||
+    isGameEnd.value
+  )
+})
 </script>
 
 <template>
@@ -123,13 +132,7 @@ const showQuiz = (view: 'intro' | 'skipped' = 'intro') => {
       <!-- Eye Animation -->
       <svg
         class="absolute top-1/2 left-1/2 w-[100vmax] h-[100vmax] max-w-none -translate-x-1/2 -translate-y-1/2 pointer-events-none z-0 overflow-visible blur-sm transition-all duration-1000 portrait:-rotate-90 origin-center"
-        :class="{
-          'opacity-0':
-            (animationsStore.aurora.visible &&
-              !isDayTransition &&
-              gameStore.introPlayed) ||
-            isGameEnd,
-        }"
+        :class="{ 'opacity-0': isEyeHidden }"
         viewBox="0 0 1366 769"
       >
         <path v-once ref="eyePath" :d="eyePaths.closed" fill="white" />

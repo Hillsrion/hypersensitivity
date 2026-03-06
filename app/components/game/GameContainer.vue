@@ -83,12 +83,17 @@ watch(audioProgressPercent, (newVal) => {
   }
 })
 
-onUnmounted(() => {
-  if (progressResetTimer) {
-    clearTimeout(progressResetTimer)
-    progressResetTimer = null
+const getEnergyBarClasses = () => {
+  const isChoiceActive =
+    (gameStore.showChoices || gameStore.selectedChoice) &&
+    !isMilestoneAnnotation.value
+
+  return {
+    'opacity-0 pointer-events-none min-[590px]:opacity-100 min-[590px]:pointer-events-auto':
+      isChoiceActive,
+    'opacity-100': !isChoiceActive,
   }
-})
+}
 </script>
 
 <template>
@@ -125,18 +130,7 @@ onUnmounted(() => {
       <GameEnergyBar
         v-if="shouldShowCoreUi"
         class="absolute z-40 transition-opacity duration-300 left-1/2 -translate-x-1/2 md:bottom-auto md:top-1/2 md:translate-x-0 md:-translate-y-1/2"
-        :class="[
-          {
-            'opacity-0 pointer-events-none min-[590px]:opacity-100 min-[590px]:pointer-events-auto':
-              (gameStore.showChoices || gameStore.selectedChoice) &&
-              !isMilestoneAnnotation,
-            'opacity-100': !(
-              (gameStore.showChoices || gameStore.selectedChoice) &&
-              !isMilestoneAnnotation
-            ),
-          },
-          EDGE_SPACING.ENERGY_BAR,
-        ]"
+        :class="[getEnergyBarClasses(), EDGE_SPACING.ENERGY_BAR]"
       />
     </Transition>
 

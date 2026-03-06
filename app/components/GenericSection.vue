@@ -32,6 +32,19 @@ const numTitles = computed(() => {
   if (import.meta.server) return 9 // Default for SSR
   return width.value < 768 ? 5 : 9
 })
+
+const getHeadingClasses = (i: number) => {
+  const isMobile = numTitles.value === 5
+
+  return {
+    'z-10': i === 1,
+    'z-20': i > 1,
+    // Leading adjustments for the stack effect
+    'leading-[1.13]': isMobile ? i < 2 : i < 3,
+    'leading-[1.2]': isMobile ? i >= 2 && i < 3 : i >= 3 && i < 5,
+    'leading-[1.28]': isMobile ? i >= 3 : i >= 5,
+  }
+}
 </script>
 
 <template>
@@ -52,13 +65,7 @@ const numTitles = computed(() => {
         as="p"
         variant="display"
         class="col-start-1 row-start-1 w-full font-serif font-light text-center origin-top select-none text-primary will-change-transform"
-        :class="{
-          'z-10': i === 1,
-          'z-20': i > 1,
-          'leading-[1.13]': numTitles === 9 ? i < 3 : i < 2,
-          'leading-[1.2]': numTitles === 9 ? i >= 3 && i < 5 : i >= 2 && i < 3,
-          'leading-[1.28]': numTitles === 9 ? i >= 5 : i >= 3,
-        }"
+        :class="getHeadingClasses(i)"
         aria-hidden="true"
       >
         <span
