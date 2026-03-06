@@ -278,7 +278,9 @@ export const useGameStore = defineStore('game', {
 
       if (initialScene?.entryAnnotations?.items?.length) {
         const switchDelayMs =
-          delay * (initialScene.entryAnnotations.transitionAtPercent / 100)
+          initialScene.entryAnnotations.transitionAtTime ??
+          delay *
+            ((initialScene.entryAnnotations.transitionAtPercent ?? 50) / 100)
         this._annotationSwitchTimerId = scheduleTimer(() => {
           this.currentEntryAnnotationIndex = 1
           this._annotationSwitchTimerId = null
@@ -450,7 +452,8 @@ export const useGameStore = defineStore('game', {
 
           if (scene.entryAnnotations?.items?.length) {
             const switchDelayMs =
-              delay * (scene.entryAnnotations.transitionAtPercent / 100)
+              scene.entryAnnotations.transitionAtTime ??
+              delay * ((scene.entryAnnotations.transitionAtPercent ?? 50) / 100)
 
             this._annotationSwitchTimerId = clearScheduledTimer(
               this._annotationSwitchTimerId

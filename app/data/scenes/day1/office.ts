@@ -81,7 +81,6 @@ export const dayOneConflictSubmit: Scene = {
       'LUCIE',
       "Mais allez jouer ailleurs ! J'arrive même pas à me concentrer.",
       {
-        annotation: 'Bruits de nerf, projectiles qui stoppent le dialogue',
         color: 'red',
       }
     ),

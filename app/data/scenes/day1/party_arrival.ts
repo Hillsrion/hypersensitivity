@@ -6,7 +6,10 @@ export const dayOnePartySexy: Scene = {
   id: SCENE_IDS.DAY_ONE_PARTY_SEXY,
   day: 1,
   title: 'Soiree',
-  entryAnnotation: 'Lucie arrive à la soirée et toque à la porte',
+  entryAnnotations: {
+    items: ['À la soirée', 'Lucie toque à la porte'],
+    transitionAtTime: 2000,
+  },
   entryAudioEarlyStart: true,
   condition: { flag: 'outfitChoice', operator: 'equals', value: 'sexy' },
   audio: 'experience/J01_S05_Soiree_Tenue_Sexy.mp3',

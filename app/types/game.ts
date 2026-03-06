@@ -64,7 +64,8 @@ export type Scene = {
   entryAnnotation?: string // Annotation s'affichant avant les dialogues (transition de scène)
   entryAnnotations?: {
     items: string[]
-    transitionAtPercent: number // e.g. 50
+    transitionAtPercent?: number // e.g. 50
+    transitionAtTime?: number // in ms, e.g. 2800
   }
   entryAudioEarlyStart?: boolean // Si vrai, joue l'audio de la scène pendant l'entryAnnotation
   audio?: string // Audio global de la scene

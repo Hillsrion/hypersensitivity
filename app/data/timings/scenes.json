@@ -1309,9 +1309,9 @@
   ],
   "d1_16a": [
     {
-      "annotation": "Lucie retourne à son bureau dans l'open space plein de bruit",
+      "annotation": "Lucie retourne dans l'open space",
       "start": 9,
-      "end": "end",
+      "end": 11,
       "showOnly": true
     },
     {
