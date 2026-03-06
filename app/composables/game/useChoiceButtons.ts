@@ -7,7 +7,8 @@ export function useChoiceButtons(
   emit: {
     (e: 'select', choice: Choice): void
     (e: 'selecting'): void
-  }
+  },
+  variant: Ref<'dark' | 'light'>
 ) {
   const { $gsap } = useNuxtApp()
   const gameStore = useGameStore()
@@ -81,10 +82,46 @@ export function useChoiceButtons(
     }
   }
 
+  const getChoiceClasses = (choice: Choice, index: number) => {
+    const isDisabled = gameStore.isChoiceDisabled(choice)
+    const isSelected = selectedIndex.value === index
+
+    return {
+      'transition-[color,opacity] duration-300': !isSelecting.value,
+      'transition-[color] duration-300': isSelecting.value,
+      'cursor-not-allowed': isDisabled,
+      'text-primary': variant.value === 'dark' && !isDisabled,
+      'text-white': variant.value === 'light' && !isDisabled,
+      'text-primary/30': variant.value === 'dark' && isDisabled,
+      'text-white/30': variant.value === 'light' && isDisabled,
+      'opacity-20':
+        !isSelecting.value &&
+        hoveredIndex.value !== null &&
+        hoveredIndex.value !== index,
+      'opacity-0': isSelecting.value && !isSelected,
+      'opacity-100':
+        (!isSelecting.value &&
+          (hoveredIndex.value === null || hoveredIndex.value === index)) ||
+        isSelected,
+    }
+  }
+
+  const getIconClasses = () => {
+    return {
+      'opacity-20': !isSelecting.value && hoveredIndex.value !== null,
+      'opacity-0': isSelecting.value,
+      'opacity-100': !isSelecting.value && hoveredIndex.value === null,
+      'border-primary text-primary': variant.value === 'dark',
+      'border-white text-white': variant.value === 'light',
+    }
+  }
+
   return {
     hoveredIndex,
     isSelecting,
     selectedIndex,
     handleSelect,
+    getChoiceClasses,
+    getIconClasses,
   }
 }

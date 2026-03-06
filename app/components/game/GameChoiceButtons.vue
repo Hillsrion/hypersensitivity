@@ -37,8 +37,19 @@ const setButtonRef = (
   }
 }
 
-const { hoveredIndex, isSelecting, selectedIndex, handleSelect } =
-  useChoiceButtons(toRef(props, 'choices'), buttonRefs, iconRef, emit)
+const {
+  hoveredIndex,
+  isSelecting,
+  handleSelect,
+  getChoiceClasses,
+  getIconClasses,
+} = useChoiceButtons(
+  toRef(props, 'choices'),
+  buttonRefs,
+  iconRef,
+  emit,
+  toRef(props, 'variant')
+)
 </script>
 
 <template>
@@ -49,29 +60,14 @@ const { hoveredIndex, isSelecting, selectedIndex, handleSelect } =
     <template v-for="(choice, index) in choices" :key="choice.id">
       <!-- CHOICE BUTTON -->
       <AppText
-        :ref="(el: any) => setButtonRef(el, index)"
+        :ref="
+          (el: Element | ComponentPublicInstance | null) =>
+            setButtonRef(el, index)
+        "
         as="button"
         variant="choice"
         class="group relative py-4 font-sans font-semibold uppercase flex flex-col items-center"
-        :class="{
-          'transition-[color,opacity] duration-300': !isSelecting,
-          'transition-[color] duration-300': isSelecting,
-          'text-primary/30 cursor-not-allowed':
-            gameStore.isChoiceDisabled(choice) && variant === 'dark',
-          'text-white/30 cursor-not-allowed':
-            gameStore.isChoiceDisabled(choice) && variant === 'light',
-          'text-primary':
-            !gameStore.isChoiceDisabled(choice) && variant === 'dark',
-          'text-white':
-            !gameStore.isChoiceDisabled(choice) && variant === 'light',
-          'opacity-20':
-            !isSelecting && hoveredIndex !== null && hoveredIndex !== index,
-          'opacity-0': isSelecting && selectedIndex !== index,
-          'opacity-100':
-            (!isSelecting &&
-              (hoveredIndex === null || hoveredIndex === index)) ||
-            (isSelecting && selectedIndex === index),
-        }"
+        :class="getChoiceClasses(choice, index)"
         :disabled="gameStore.isChoiceDisabled(choice) || isSelecting"
         @mouseenter="hoveredIndex = index"
         @mouseleave="hoveredIndex = null"
@@ -96,13 +92,7 @@ const { hoveredIndex, isSelecting, selectedIndex, handleSelect } =
         v-if="index === 0 && choices.length > 1"
         ref="iconRef"
         class="relative fl-size-11/14 shrink-0 rounded-full border flex items-center justify-center transition-opacity duration-300"
-        :class="[
-          !isSelecting && hoveredIndex !== null ? 'opacity-20' : 'opacity-100',
-          isSelecting ? 'opacity-0' : '',
-          variant === 'dark'
-            ? 'border-primary text-primary'
-            : 'border-white text-white',
-        ]"
+        :class="getIconClasses()"
       >
         <div
           class="flex size-full items-center justify-center max-w-[60%] transform -rotate-20"
