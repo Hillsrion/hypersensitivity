@@ -91,7 +91,7 @@ useSeoMeta({
     <DevToolsView v-if="route?.path === '/game-tools-view'" />
     <div
       v-else-if="route?.path === '/test'"
-      class="bg-primary text-white min-h-svh w-full relative"
+      class="bg-primary text-white min-h-dvh w-full relative"
     >
       <div
         class="fixed inset-0 pointer-events-none opacity-15 bg-repeat bg-[url('/images/noise.svg')]"

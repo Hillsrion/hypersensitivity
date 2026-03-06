@@ -1,7 +1,7 @@
 <template>
   <div
     ref="containerRef"
-    class="flex items-center justify-center h-svh mx-auto z-10 relative"
+    class="flex items-center justify-center h-dvh mx-auto z-10 relative"
   >
     <div ref="wrapperRef" class="max-w-5xl px-6 opacity-0">
       <p

@@ -203,7 +203,7 @@ onUnmounted(() => {
 <template>
   <div
     ref="elementRef"
-    class="quiz-container fixed inset-0 z-100 w-full h-svh flex flex-col items-center text-white transition-opacity duration-500"
+    class="quiz-container fixed inset-0 z-100 w-full h-dvh flex flex-col items-center text-white transition-opacity duration-500"
     data-lenis-prevent
     :class="{
       'justify-center overflow-hidden':
@@ -252,7 +252,7 @@ onUnmounted(() => {
       >
         <div
           v-if="currentView === 'results'"
-          class="min-h-svh w-full flex items-center justify-center transition-opacity duration-300"
+          class="min-h-dvh w-full flex items-center justify-center transition-opacity duration-300"
           :style="{ opacity: resultsOpacity }"
         >
           <HSPResults

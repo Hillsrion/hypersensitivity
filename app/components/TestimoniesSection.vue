@@ -43,7 +43,7 @@ useTestimoniesAnimation(
   <section ref="sectionRef" class="relative h-[400svh]">
     <div
       ref="stickyRef"
-      class="sticky top-0 h-svh w-full overflow-hidden flex flex-col justify-center"
+      class="sticky top-0 h-lvh w-full overflow-hidden flex flex-col justify-center"
     >
       <!-- HERO TEXT (The big one) -->
       <div

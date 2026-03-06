@@ -24,7 +24,7 @@ const onBottomElementClick = () => {
   <div
     v-if="!isTest"
     ref="containerElement"
-    class="h-svh w-screen flex flex-col items-center justify-center fixed inset-0"
+    class="h-dvh w-screen flex flex-col items-center justify-center fixed inset-0"
     :class="{
       'z-99': !landing.mainTitle.exit.completed,
       'pointer-events-none': landing.mainTitle.exit.started,

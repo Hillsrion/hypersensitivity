@@ -50,7 +50,7 @@ const getHeadingClasses = (i: number) => {
 <template>
   <section
     ref="containerRef"
-    class="min-h-svh w-full relative flex flex-col items-center justify-start z-10 will-change-[opacity,visibility]"
+    class="min-h-dvh w-full relative flex flex-col items-center justify-start z-10 will-change-[opacity,visibility]"
   >
     <!-- Title Wrapper: Holds the stack of titles -->
 
