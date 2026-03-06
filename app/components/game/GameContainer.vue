@@ -152,18 +152,21 @@ const getEnergyBarClasses = () => {
         v-if="showAnnotation"
         class="absolute inset-0 flex flex-col items-center justify-center pointer-events-none z-50"
       >
-        <GameDialogueBox
-          :dialogue="{
-            id: 'intro-anno',
-            speaker: '',
-            speakerType: 'normal',
-            text: '',
-            annotation: annotationText,
-            isChat: false,
-          }"
-          :blur-amount="gameStore.introBlurAmount"
-          class="pointer-events-auto"
-        />
+        <Transition name="fade-fast" mode="out-in" appear>
+          <GameDialogueBox
+            :key="annotationText"
+            :dialogue="{
+              id: 'intro-anno',
+              speaker: '',
+              speakerType: 'normal',
+              text: '',
+              annotation: annotationText,
+              isChat: false,
+            }"
+            :blur-amount="gameStore.introBlurAmount"
+            class="pointer-events-auto"
+          />
+        </Transition>
       </div>
     </Transition>
 
@@ -181,7 +184,7 @@ const getEnergyBarClasses = () => {
           "
           :key="
             isMilestoneAnnotation
-              ? 'milestone-anno'
+              ? 'milestone-anno-' + annotationText
               : gameStore.currentDialogue?.id
           "
           ref="dialogueBoxRef"
@@ -192,7 +195,7 @@ const getEnergyBarClasses = () => {
                   speaker: '',
                   speakerType: 'normal',
                   text: '',
-                  annotation: gameStore.currentScene?.entryAnnotation || '',
+                  annotation: annotationText,
                   isChat: false,
                 }
               : gameStore.currentDialogue

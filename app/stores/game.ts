@@ -127,7 +127,11 @@ export const useGameStore = defineStore('game', {
     },
 
     firstDialogueAnnotation(state): string | undefined {
-      return getFirstDialogueAnnotation(gameData.scenes, state.currentSceneId)
+      return getFirstDialogueAnnotation(
+        gameData.scenes,
+        state.currentSceneId,
+        state.currentEntryAnnotationIndex
+      )
     },
 
     isFirstDialogueOfInitialScene(state): boolean {
@@ -209,9 +213,12 @@ export const useGameStore = defineStore('game', {
       const animationsStore = useAnimationsStore()
 
       this._annotationTimerId = clearScheduledTimer(this._annotationTimerId)
+      this._annotationSwitchTimerId = clearScheduledTimer(
+        this._annotationSwitchTimerId
+      )
 
       this.currentSceneId = gameData.initialSceneId
-      this.currentDialogueIndex = 0
+      this.currentEntryAnnotationIndex = 0
       this.flags = createInitialFlags()
       this.reachedMilestones = ['reveil']
       this.isTransitioning = false
@@ -268,6 +275,15 @@ export const useGameStore = defineStore('game', {
         }
         this._annotationTimerId = null
       }, delay)
+
+      if (initialScene?.entryAnnotations?.items?.length) {
+        const switchDelayMs =
+          delay * (initialScene.entryAnnotations.transitionAtPercent / 100)
+        this._annotationSwitchTimerId = scheduleTimer(() => {
+          this.currentEntryAnnotationIndex = 1
+          this._annotationSwitchTimerId = null
+        }, switchDelayMs)
+      }
     },
 
     setIntroPlayed() {
@@ -311,12 +327,13 @@ export const useGameStore = defineStore('game', {
       // Make sure the transition flag is still on here; Experience.vue will turn it off after the eye opens
       // (This prevents the annotation rendering twice before eye completes)
 
-      if (scene.entryAnnotation) {
+      if (scene.entryAnnotation || scene.entryAnnotations?.items?.length) {
         this.selectedChoice = null
         this.introAnimationPhase = getEntryAnnotationPhase(this.introPlayed)
       }
 
       this.currentSceneId = sceneId
+      this.currentEntryAnnotationIndex = 0
       this.currentDialogueIndex = 0
       this.flags = applyDialogueEnergyChange(this.flags, this.currentDialogue)
 
@@ -419,7 +436,7 @@ export const useGameStore = defineStore('game', {
           return
         }
 
-        if (scene.entryAnnotation) {
+        if (scene.entryAnnotation || scene.entryAnnotations?.items?.length) {
           this.selectedChoice = null
           this.introAnimationPhase = getEntryAnnotationPhase(this.introPlayed)
 
@@ -431,6 +448,19 @@ export const useGameStore = defineStore('game', {
 
           this.startAnnotationTimer(delay)
 
+          if (scene.entryAnnotations?.items?.length) {
+            const switchDelayMs =
+              delay * (scene.entryAnnotations.transitionAtPercent / 100)
+
+            this._annotationSwitchTimerId = clearScheduledTimer(
+              this._annotationSwitchTimerId
+            )
+            this._annotationSwitchTimerId = scheduleTimer(() => {
+              this.currentEntryAnnotationIndex = 1
+              this._annotationSwitchTimerId = null
+            }, switchDelayMs)
+          }
+
           if (scene.audio && scene.entryAudioEarlyStart) {
             const audioStore = useAudioStore()
             const audioPath = scene.audio.startsWith('/')
@@ -441,6 +471,7 @@ export const useGameStore = defineStore('game', {
         }
 
         this.currentSceneId = sceneId
+        this.currentEntryAnnotationIndex = 0
         this.currentDialogueIndex = 0
 
         this.flags = applyDialogueEnergyChange(this.flags, this.currentDialogue)

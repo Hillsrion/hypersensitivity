@@ -32,6 +32,8 @@ export const createInitialGameState = (): GameState => ({
   forceShowUI: false,
   isDayTransitioning: false,
   pendingTransitionSceneId: null,
+  currentEntryAnnotationIndex: 0,
   _annotationTimerId: null,
+  _annotationSwitchTimerId: null,
   hasGameEnded: false,
 })

@@ -94,10 +94,14 @@ export const getReachedMilestonesList = (
 
 export const getFirstDialogueAnnotation = (
   scenes: Record<string, Scene>,
-  currentSceneId: string
+  currentSceneId: string,
+  currentIndex: number = 0
 ): string | undefined => {
   const scene = scenes[currentSceneId]
   if (!scene) return undefined
+  if (scene.entryAnnotations?.items?.length) {
+    return scene.entryAnnotations.items[currentIndex]
+  }
   if (scene.entryAnnotation) return scene.entryAnnotation
   return scene.dialogues[0]?.annotation
 }

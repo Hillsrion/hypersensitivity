@@ -6,27 +6,18 @@ export const dayOneOffice: Scene = {
   id: SCENE_IDS.DAY_ONE_OFFICE,
   day: 1,
   title: 'Bureau',
-  entryAnnotation: 'Au bureau',
+  entryAnnotations: {
+    items: ['Au bureau', 'Lucie arrive et voit Karen dans sa salle de réunion'],
+    transitionAtPercent: 50,
+  },
+  entryAudioEarlyStart: true,
   audio: 'experience/J01_C02_Bureau_Base.mp3',
   dialogues: [
-    d('d1_10', 'Collègue', 'Tu nous rejoins sur Meet ?', {
-      annotation: 'Lucie échange avec son collègue sur Slack',
-      isChat: true,
-    }),
-    d(
-      'd1_11',
-      'LUCIE',
-      "Mince je n'ai pas vu l'heure, j'arrive tout de suite, je vais juste m'installer dans la box de reu",
-      {
-        isChat: true,
-      }
-    ),
     d(
       'd1_12',
       'LUCIE',
       "Ah, salut Karen ! Je suis désolée, j'avais réservé la salle et j'ai une réunion importante avec le produit. Tu pourrais me laisser la bulle ?",
       {
-        annotation: "Lucie arrive et voit Karen s'installer dans la box",
         color: 'red',
       }
     ),
@@ -82,8 +73,6 @@ export const dayOneConflictSubmit: Scene = {
       'Équipe',
       "Oui, on comprend le point. Après, l'objectif reste quand même de tenir le sprint tel qu'il est prévu aujourd'hui. On est conscient que ça va demander un effort, mais on a besoin d'avancer et de montrer qu'on est capable d'absorber la charge. On fera un point d'avancement en milieu de sprint, on va voir si...",
       {
-        annotation:
-          "Lucie retourne à son bureau dans l'open space plein de bruit. La réunion commence...",
         color: 'blue',
       }
     ),

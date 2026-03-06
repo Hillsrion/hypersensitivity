@@ -62,6 +62,10 @@ export type Scene = {
   conditions?: ChoiceCondition[] // Multiple conditions (AND logic)
 
   entryAnnotation?: string // Annotation s'affichant avant les dialogues (transition de scène)
+  entryAnnotations?: {
+    items: string[]
+    transitionAtPercent: number // e.g. 50
+  }
   entryAudioEarlyStart?: boolean // Si vrai, joue l'audio de la scène pendant l'entryAnnotation
   audio?: string // Audio global de la scene
   onEnter?: {
@@ -110,7 +114,9 @@ export type GameState = {
   forceShowUI: boolean
   isDayTransitioning: boolean
   pendingTransitionSceneId: string | null
+  currentEntryAnnotationIndex: number
   _annotationTimerId: ReturnType<typeof setTimeout> | null
+  _annotationSwitchTimerId: ReturnType<typeof setTimeout> | null
   hasGameEnded: boolean
 }
 
