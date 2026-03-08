@@ -120,7 +120,7 @@ export const dayOneConflictAssert: Scene = {
       "Je pense que c'est juste pas réalisable qu'on boucle ce sprint dans les temps. Je comprends qu'on doive avancer sur la roadmap..",
       {
         color: 'blue',
-        pause: 2,
+        pause: 1.3,
       }
     ),
   ],
