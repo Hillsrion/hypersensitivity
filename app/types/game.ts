@@ -29,6 +29,7 @@ export type DialogueLine = {
   color?: string // Trigger effet aurore boreale
   isChat?: boolean // Si c'est un échange textuel (Slack, SMS) - désactive l'animation mot par mot
   energyChange?: number // Changement d'énergie à appliquer au début du dialogue
+  pause?: number // Pause à la fin du dialogue (en secondes)
 }
 
 export type ChoiceCondition = {
@@ -118,6 +119,7 @@ export type GameState = {
   currentEntryAnnotationIndex: number
   _annotationTimerId: ReturnType<typeof setTimeout> | null
   _annotationSwitchTimerId: ReturnType<typeof setTimeout> | null
+  _pauseTimerId: ReturnType<typeof setTimeout> | null
   hasGameEnded: boolean
 }
 

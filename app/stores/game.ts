@@ -216,6 +216,7 @@ export const useGameStore = defineStore('game', {
       this._annotationSwitchTimerId = clearScheduledTimer(
         this._annotationSwitchTimerId
       )
+      this._pauseTimerId = clearScheduledTimer(this._pauseTimerId)
 
       this.currentSceneId = gameData.initialSceneId
       this.currentEntryAnnotationIndex = 0
@@ -347,11 +348,24 @@ export const useGameStore = defineStore('game', {
       this.showChoices = showChoices
     },
 
-    advanceDialogue() {
+    advanceDialogue(force = false) {
       if (this.isTransitioning) return
+
+      // Clear any pending pause timer if we advance manually
+      this._pauseTimerId = clearScheduledTimer(this._pauseTimerId)
 
       const scene = this.currentScene
       if (!scene) return
+
+      const dialogue = this.currentDialogue
+      if (dialogue?.pause && !force) {
+        console.log(`LOG_DEBUG: Pause of ${dialogue.pause}s detected`)
+        this._pauseTimerId = scheduleTimer(() => {
+          this.advanceDialogue(true)
+          this._pauseTimerId = null
+        }, dialogue.pause * 1000)
+        return
+      }
 
       if (!this.hasDialogues || this.isLastDialogue) {
         this.handleEndOfDialogues()

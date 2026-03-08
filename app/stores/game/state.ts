@@ -35,5 +35,6 @@ export const createInitialGameState = (): GameState => ({
   currentEntryAnnotationIndex: 0,
   _annotationTimerId: null,
   _annotationSwitchTimerId: null,
+  _pauseTimerId: null,
   hasGameEnded: false,
 })
