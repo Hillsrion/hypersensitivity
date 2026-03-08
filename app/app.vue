@@ -131,7 +131,7 @@ useSeoMeta({
         class="fixed inset-0 z-9999 pointer-events-none opacity-15 bg-repeat bg-[url('/images/noise.svg')]"
       />
       <div
-        class="relative z-20 mx-auto transition-opacity duration-1000"
+        class="relative z-20 mx-auto transition-opacity duration-1000 mt-[50vh]"
         :class="{
           'opacity-0 pointer-events-none':
             !animations.landing.intro.entry.completed,
