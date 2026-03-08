@@ -73,7 +73,7 @@ export const dayOnePlay: Scene = {
         energyChange: -5,
       }
     ),
-    thoughts('d1_28', 'Je comprends rien.', {
+    thoughts('d1_28', 'Je comprends rien !', {
       color: 'violet',
       energyChange: -10,
     }),

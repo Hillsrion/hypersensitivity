@@ -154,6 +154,47 @@ export const useGameStore = defineStore('game', {
         return
       }
 
+      const runtimeConfig = useRuntimeConfig()
+      const startDialogueId = runtimeConfig.public.startDialogueId
+
+      if (startDialogueId) {
+        let foundSceneId: string | null = null
+        let foundDialogueIndex = -1
+
+        for (const [sceneId, scene] of Object.entries(gameData.scenes)) {
+          const index = scene.dialogues.findIndex(
+            (d) => d.id === startDialogueId
+          )
+          if (index !== -1) {
+            foundSceneId = sceneId
+            foundDialogueIndex = index
+            break
+          }
+        }
+
+        if (foundSceneId !== null) {
+          console.log(
+            `LOG_DEBUG: Starting from dialogue ID "${startDialogueId}" (Scene: ${foundSceneId}, Index: ${foundDialogueIndex})`
+          )
+          this.currentSceneId = foundSceneId
+          this.currentDialogueIndex = foundDialogueIndex
+          this.flags = createInitialFlags()
+          this.introPlayed = true
+          this.introAnimationPhase = 'complete'
+          this.introBlurAmount = 0
+
+          const animationsStore = useAnimationsStore()
+          animationsStore.setCursorVariant('dark')
+          animationsStore.setAudiowaveVariant('dark')
+
+          return
+        } else {
+          console.warn(
+            `LOG_DEBUG: Dialogue ID "${startDialogueId}" not found in any scene.`
+          )
+        }
+      }
+
       if (
         import.meta.env.DEV &&
         devConfig.enabled &&
@@ -218,7 +259,27 @@ export const useGameStore = defineStore('game', {
       )
       this._pauseTimerId = clearScheduledTimer(this._pauseTimerId)
 
-      this.currentSceneId = gameData.initialSceneId
+      const runtimeConfig = useRuntimeConfig()
+      const startDialogueId = runtimeConfig.public.startDialogueId
+
+      let targetSceneId = gameData.initialSceneId
+      let targetDialogueIndex = 0
+
+      if (startDialogueId) {
+        for (const [sceneId, scene] of Object.entries(gameData.scenes)) {
+          const index = scene.dialogues.findIndex(
+            (d) => d.id === startDialogueId
+          )
+          if (index !== -1) {
+            targetSceneId = sceneId
+            targetDialogueIndex = index
+            break
+          }
+        }
+      }
+
+      this.currentSceneId = targetSceneId
+      this.currentDialogueIndex = targetDialogueIndex
       this.currentEntryAnnotationIndex = 0
       this.flags = createInitialFlags()
       this.reachedMilestones = ['reveil']
@@ -235,16 +296,16 @@ export const useGameStore = defineStore('game', {
       animationsStore.setAuroraVisibility(false)
       animationsStore.setAuroraZIndex(0)
 
-      this.introPlayed = false
-      this.introAnimationPhase = 'annotation'
+      this.introPlayed = !!startDialogueId
+      this.introAnimationPhase = startDialogueId ? 'complete' : 'annotation'
       this.introBlurAmount = 0
       this.saveGame()
 
-      const initialScene = gameData.scenes[gameData.initialSceneId]
-      if (initialScene?.audio) {
-        const audioPath = initialScene.audio.startsWith('/')
-          ? initialScene.audio
-          : `/audios/${initialScene.audio}`
+      const currentScene = gameData.scenes[targetSceneId]
+      if (currentScene?.audio) {
+        const audioPath = currentScene.audio.startsWith('/')
+          ? currentScene.audio
+          : `/audios/${currentScene.audio}`
         audioStore.playAudio(audioPath)
       }
 
@@ -266,26 +327,28 @@ export const useGameStore = defineStore('game', {
         }
       }
 
-      const firstDialogue = initialScene?.dialogues[0]
+      const firstDialogue = currentScene?.dialogues[targetDialogueIndex]
       const firstWordStart = firstDialogue?.timings?.[0]?.start
       const delay = computeAnnotationDelayMs(firstWordStart)
 
-      this._annotationTimerId = scheduleTimer(() => {
-        if (isEntryAnnotationPhase(this.introAnimationPhase)) {
-          this.introAnimationPhase = 'complete'
-        }
-        this._annotationTimerId = null
-      }, delay)
+      if (!startDialogueId) {
+        this._annotationTimerId = scheduleTimer(() => {
+          if (isEntryAnnotationPhase(this.introAnimationPhase)) {
+            this.introAnimationPhase = 'complete'
+          }
+          this._annotationTimerId = null
+        }, delay)
 
-      if (initialScene?.entryAnnotations?.items?.length) {
-        const switchDelayMs =
-          initialScene.entryAnnotations.transitionAtTime ??
-          delay *
-            ((initialScene.entryAnnotations.transitionAtPercent ?? 50) / 100)
-        this._annotationSwitchTimerId = scheduleTimer(() => {
-          this.currentEntryAnnotationIndex = 1
-          this._annotationSwitchTimerId = null
-        }, switchDelayMs)
+        if (currentScene?.entryAnnotations?.items?.length) {
+          const switchDelayMs =
+            currentScene.entryAnnotations.transitionAtTime ??
+            delay *
+              ((currentScene.entryAnnotations.transitionAtPercent ?? 50) / 100)
+          this._annotationSwitchTimerId = scheduleTimer(() => {
+            this.currentEntryAnnotationIndex = 1
+            this._annotationSwitchTimerId = null
+          }, switchDelayMs)
+        }
       }
     },
 

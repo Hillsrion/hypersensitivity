@@ -8,6 +8,7 @@ export default defineNuxtConfig({
       creditsDevelopment: '',
       creditsDesign: '',
       testUrl: '',
+      startDialogueId: '',
     },
   },
   modules: [
