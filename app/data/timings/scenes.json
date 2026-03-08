@@ -271,14 +271,9 @@
       "end": 1.759
     },
     {
-      "word": "faire",
+      "word": "faire !",
       "start": 1.799,
       "end": 2.119
-    },
-    {
-      "word": "!",
-      "start": 2.219,
-      "end": 2.22
     },
     {
       "word": "Je",
@@ -497,14 +492,9 @@
       "end": 5.079
     },
     {
-      "word": "là",
+      "word": "là ?",
       "start": 5.119,
       "end": 5.439
-    },
-    {
-      "word": "?",
-      "start": 5.539,
-      "end": 5.599
     },
     {
       "word": "C'est",
@@ -512,14 +502,9 @@
       "end": 5.939
     },
     {
-      "word": "trop",
+      "word": "trop !",
       "start": 5.96,
       "end": 6.419
-    },
-    {
-      "word": "!",
-      "start": 6.48,
-      "end": 6.5
     }
   ],
   "d1a_6": [
@@ -696,14 +681,9 @@
       "end": 16.359
     },
     {
-      "word": "robe",
+      "word": "robe ?",
       "start": 16.42,
       "end": 16.64
-    },
-    {
-      "word": "?",
-      "start": 16.739,
-      "end": 16.78
     }
   ],
   "d1a_8": [
@@ -770,14 +750,9 @@
   ],
   "d1a_9": [
     {
-      "word": "Merciii",
+      "word": "Merciii !",
       "start": 21.899,
       "end": 22.619
-    },
-    {
-      "word": "!",
-      "start": 22.659,
-      "end": 22.979
     }
   ],
   "d1b_4": [
@@ -859,14 +834,9 @@
       "end": 5.099
     },
     {
-      "word": "là",
+      "word": "là ?",
       "start": 5.139,
       "end": 5.439
-    },
-    {
-      "word": "?",
-      "start": 5.539,
-      "end": 5.539
     },
     {
       "word": "C'est",
@@ -874,14 +844,9 @@
       "end": 5.96
     },
     {
-      "word": "trop",
+      "word": "trop !",
       "start": 5.96,
       "end": 6.419
-    },
-    {
-      "word": "!",
-      "start": 6.419,
-      "end": 7.659
     }
   ],
   "d1b_6": [
@@ -971,14 +936,9 @@
       "end": 9.399
     },
     {
-      "word": "Karen",
+      "word": "Karen !",
       "start": 9.44,
       "end": 9.819
-    },
-    {
-      "word": "!",
-      "start": 10.1,
-      "end": 10.119
     },
     {
       "word": "Je",
@@ -1081,14 +1041,9 @@
       "end": 14.639
     },
     {
-      "word": "bulle",
+      "word": "bulle ?",
       "start": 14.659,
       "end": 14.84
-    },
-    {
-      "word": "?",
-      "start": 14.859,
-      "end": 14.88
     }
   ],
   "d1_13": [
@@ -1602,14 +1557,9 @@
       "end": 26.78
     },
     {
-      "word": "ailleurs",
+      "word": "ailleurs !",
       "start": 26.84,
       "end": 27.26
-    },
-    {
-      "word": "!",
-      "start": 27.28,
-      "end": 27.299
     },
     {
       "word": "J'arrive",
@@ -1973,14 +1923,9 @@
       "end": 12.72
     },
     {
-      "word": "encore",
+      "word": "encore ?",
       "start": 12.72,
       "end": 13.1
-    },
-    {
-      "word": "?",
-      "start": 13.199,
-      "end": 13.22
     }
   ],
   "d1_17b": [
@@ -2290,14 +2235,9 @@
       "end": 8.439
     },
     {
-      "word": "voir",
+      "word": "voir !",
       "start": 8.46,
       "end": 8.719
-    },
-    {
-      "word": "!",
-      "start": 9.099,
-      "end": 9.14
     }
   ],
   "d1_20b": [
@@ -2595,14 +2535,9 @@
       "end": 1.799
     },
     {
-      "word": "Consensus",
+      "word": "Consensus ?",
       "start": 1.899,
       "end": 2.48
-    },
-    {
-      "word": "?",
-      "start": 2.5,
-      "end": 3.259
     }
   ],
   "d1_23": [
@@ -2757,14 +2692,9 @@
       "end": 11.199
     },
     {
-      "word": "conne",
+      "word": "conne !",
       "start": 11.239,
       "end": 11.56
-    },
-    {
-      "word": "!",
-      "start": 12.46,
-      "end": 12.48
     }
   ],
   "d1_24": [
@@ -3823,14 +3753,9 @@
   ],
   "d1_32": [
     {
-      "word": "Lucie",
+      "word": "Lucie ?",
       "start": 62.259,
       "end": 63.639
-    },
-    {
-      "word": "?",
-      "start": 63.659,
-      "end": 63.68
     },
     {
       "word": "Lucie ?",
@@ -3895,14 +3820,9 @@
       "end": 68.939
     },
     {
-      "word": "va",
+      "word": "va ?",
       "start": 69.04,
       "end": 69.22
-    },
-    {
-      "word": "?",
-      "start": 69.239,
-      "end": 69.259
     }
   ],
   "d1_33": [
@@ -4532,14 +4452,9 @@
       "end": 10
     },
     {
-      "word": "ça",
+      "word": "ça ?",
       "start": 10.019,
       "end": 10.14
-    },
-    {
-      "word": "?",
-      "start": 10.559,
-      "end": 10.579
     },
     {
       "word": "Parce",
@@ -4756,14 +4671,9 @@
       "end": 20.78
     },
     {
-      "word": "la RP",
+      "word": "la RP ?",
       "start": 20.8,
       "end": 21.34
-    },
-    {
-      "word": "?",
-      "start": 21.36,
-      "end": 21.819
     },
     {
       "word": "Trop",
@@ -4828,14 +4738,9 @@
       "end": 25.799
     },
     {
-      "word": "plaisir",
+      "word": "plaisir !",
       "start": 25.84,
       "end": 26.26
-    },
-    {
-      "word": "!",
-      "start": 26.28,
-      "end": 27.699
     }
   ],
   "d1_47": [
@@ -4890,14 +4795,9 @@
       "end": 3.439
     },
     {
-      "word": "Pourquoi",
+      "word": "Pourquoi ?",
       "start": 3.439,
       "end": 3.939
-    },
-    {
-      "word": "?",
-      "start": 4.46,
-      "end": 4.46
     },
     {
       "word": "Pourquoi",
@@ -4915,14 +4815,9 @@
       "end": 5.039
     },
     {
-      "word": "là-dessus",
+      "word": "là-dessus ?",
       "start": 5.059,
       "end": 5.46
-    },
-    {
-      "word": "?",
-      "start": 5.679,
-      "end": 5.699
     },
     {
       "word": "Pourquoi",
@@ -4945,14 +4840,9 @@
       "end": 6.279
     },
     {
-      "word": "normale",
+      "word": "normale ?",
       "start": 6.299,
       "end": 6.739
-    },
-    {
-      "word": "?",
-      "start": 6.819,
-      "end": 6.839
     }
   ],
   "d1_47_end": [
@@ -4977,14 +4867,9 @@
       "end": 8.86
     },
     {
-      "word": "normale",
+      "word": "normale ?",
       "start": 8.88,
       "end": 9.279
-    },
-    {
-      "word": "?",
-      "start": 9.34,
-      "end": 9.719
     }
   ],
   "d1_49s": [
@@ -5079,14 +4964,9 @@
       "end": 4.679
     },
     {
-      "word": "canon",
+      "word": "canon !",
       "start": 4.739,
       "end": 5.179
-    },
-    {
-      "word": "!",
-      "start": 5.279,
-      "end": 5.279
     },
     {
       "word": "La",
@@ -5981,14 +5861,9 @@
       "end": 24.7
     },
     {
-      "word": "reconnaissante",
+      "word": "reconnaissante !",
       "start": 24.76,
       "end": 25.46
-    },
-    {
-      "word": "!",
-      "start": 25.519,
-      "end": 25.979
     }
   ],
   "d1_49r": [
@@ -6463,14 +6338,9 @@
       "end": 24.7
     },
     {
-      "word": "reconnaissante",
+      "word": "reconnaissante !",
       "start": 24.76,
       "end": 25.46
-    },
-    {
-      "word": "!",
-      "start": 25.519,
-      "end": 25.979
     }
   ],
   "d2_2": [
@@ -6633,14 +6503,9 @@
       "end": 2.899
     },
     {
-      "word": "toute",
+      "word": "toute !",
       "start": 2.919,
       "end": 3.239
-    },
-    {
-      "word": "!",
-      "start": 3.279,
-      "end": 3.279
     }
   ],
   "d2_5b": [
@@ -6731,14 +6596,9 @@
       "end": 7.519
     },
     {
-      "word": "magnifiques",
+      "word": "magnifiques !",
       "start": 7.579,
       "end": 8.4
-    },
-    {
-      "word": "!",
-      "start": 8.539,
-      "end": 9.119
     }
   ],
   "d2_9": [
@@ -7779,14 +7639,9 @@
       "end": 2.039
     },
     {
-      "word": "celui-là",
+      "word": "celui-là !",
       "start": 2.079,
       "end": 2.379
-    },
-    {
-      "word": "!",
-      "start": 2.579,
-      "end": 2.599
     },
     {
       "word": "Il",
@@ -7901,14 +7756,9 @@
       "end": 8.98
     },
     {
-      "word": "moi",
+      "word": "moi ?",
       "start": 9.079,
       "end": 9.239
-    },
-    {
-      "word": "?",
-      "start": 9.36,
-      "end": 9.38
     }
   ],
   "d2_14": [
@@ -8287,14 +8137,9 @@
       "end": 31.1
     },
     {
-      "word": "là",
+      "word": "là ?",
       "start": 31.12,
       "end": 31.239
-    },
-    {
-      "word": "?",
-      "start": 31.939,
-      "end": 31.959
     }
   ],
   "d1_40": [
@@ -8971,14 +8816,9 @@
       "end": 10.239
     },
     {
-      "word": "ça",
+      "word": "ça ?",
       "start": 10.279,
       "end": 10.399
-    },
-    {
-      "word": "?",
-      "start": 10.539,
-      "end": 10.859
     },
     {
       "word": "Parce",
@@ -9337,14 +9177,9 @@
       "end": 16.68
     },
     {
-      "word": "Allô",
+      "word": "Allô ?",
       "start": 17.079,
       "end": 17.34
-    },
-    {
-      "word": "?",
-      "start": 17.379,
-      "end": 17.439
     }
   ],
   "d2_breakdown_2": [
@@ -9479,14 +9314,9 @@
       "end": 22.42
     },
     {
-      "word": "aujourd'hui",
+      "word": "aujourd'hui ?",
       "start": 22.44,
       "end": 22.859
-    },
-    {
-      "word": "?",
-      "start": 23.219,
-      "end": 23.219
     },
     {
       "word": "En",
@@ -9644,14 +9474,9 @@
       "end": 28.28
     },
     {
-      "word": "l'heure",
+      "word": "l'heure ?",
       "start": 28.28,
       "end": 28.399
-    },
-    {
-      "word": "?",
-      "start": 28.439,
-      "end": 28.459
     },
     {
       "word": "Y",
@@ -9821,14 +9646,9 @@
       "end": 18.799
     },
     {
-      "word": "Allô",
+      "word": "Allô ?",
       "start": 18.819,
       "end": 19.1
-    },
-    {
-      "word": "?",
-      "start": 19.159,
-      "end": 19.18
     }
   ],
   "d2_good_2": [
@@ -9963,14 +9783,9 @@
       "end": 24.159
     },
     {
-      "word": "aujourd'hui",
+      "word": "aujourd'hui ?",
       "start": 24.18,
       "end": 24.559
-    },
-    {
-      "word": "?",
-      "start": 24.959,
-      "end": 24.979
     },
     {
       "word": "En",
@@ -10128,14 +9943,9 @@
       "end": 30.02
     },
     {
-      "word": "l'heure",
+      "word": "l'heure ?",
       "start": 30.02,
       "end": 30.159
-    },
-    {
-      "word": "?",
-      "start": 30.18,
-      "end": 30.199
     },
     {
       "word": "Y",
@@ -10436,14 +10246,9 @@
       "end": 44.279
     },
     {
-      "word": "asso",
+      "word": "asso ?",
       "start": 44.319,
       "end": 44.559
-    },
-    {
-      "word": "?",
-      "start": 44.619,
-      "end": 45.579
     }
   ],
   "d2_21": [
@@ -10640,14 +10445,9 @@
       "end": 55.159
     },
     {
-      "word": "moment",
+      "word": "moment ?",
       "start": 55.2,
       "end": 55.479
-    },
-    {
-      "word": "?",
-      "start": 55.5,
-      "end": 55.52
     }
   ],
   "d2_23": [
