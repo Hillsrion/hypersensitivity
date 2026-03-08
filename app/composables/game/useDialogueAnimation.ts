@@ -147,26 +147,22 @@ export function useDialogueAnimation(
 
   const animateShowOnlyAnnotation = (
     timeline: gsap.core.Timeline,
-    timing: NonNullable<DialogueLine['timings']>[number]
+    timing: NonNullable<DialogueLine['timings']>[number],
+    audioToPlay: string | null | undefined,
+    isLastInDialogue: boolean
   ) => {
-    const fadeOutDuration = 0.2
-    const elementsToFadeOut: HTMLElement[] = []
-
+    const fadeDuration = 0.3
     const textEl = getEl(textRef.value)
     const speakerEl = getEl(speakerRef.value)
     const annotationEl = getEl(annotationRef.value)
 
-    if (textEl) elementsToFadeOut.push(textEl)
-    if (speakerEl) elementsToFadeOut.push(speakerEl)
-    if (annotationEl) elementsToFadeOut.push(annotationEl)
+    const elementsToHide: HTMLElement[] = []
+    if (textEl) elementsToHide.push(textEl)
+    if (speakerEl) elementsToHide.push(speakerEl)
 
-    if (elementsToFadeOut.length > 0) {
-      timeline.set(elementsToFadeOut, { transition: 'none' }, timing.start)
-      timeline.to(
-        elementsToFadeOut,
-        { opacity: 0, duration: fadeOutDuration },
-        timing.start
-      )
+    if (elementsToHide.length > 0) {
+      timeline.set(elementsToHide, { transition: 'none' }, timing.start)
+      timeline.to(elementsToHide, { opacity: 0, duration: 0.2 }, timing.start)
     }
 
     timeline.call(
@@ -175,38 +171,71 @@ export function useDialogueAnimation(
         isShowingOnlyAnnotation.value = true
       },
       [],
-      timing.start + fadeOutDuration
+      timing.start + 0.2
     )
 
     if (annotationEl) {
-      timeline.set(
-        annotationEl,
-        { transition: 'none' },
-        timing.start + fadeOutDuration
-      )
+      timeline.set(annotationEl, { transition: 'none' }, timing.start + 0.2)
 
       timeline.fromTo(
         annotationEl,
         { opacity: 0 },
-        { opacity: 1, duration: 0.3 },
-        timing.start + fadeOutDuration
+        { opacity: 1, duration: fadeDuration },
+        timing.start + 0.2
       )
 
       timeline.set(
-        [annotationEl, ...elementsToFadeOut],
+        [annotationEl, ...elementsToHide],
         { clearProps: 'transition' },
         '>'
       )
+    }
+
+    // Transition de sortie
+    if (timing.end !== 'end') {
+      const effectiveEnd = getEffectiveEnd(
+        timing.end,
+        timing.start,
+        audioToPlay
+      )
+      const leaveStart = Math.max(
+        timing.start + 0.5,
+        effectiveEnd - fadeDuration
+      )
+
+      if (annotationEl) {
+        timeline.to(
+          annotationEl,
+          { opacity: 0, duration: fadeDuration },
+          leaveStart
+        )
+      }
+
+      // On ne restaure les éléments QUE si ce n'est pas la fin du dialogue
+      // sinon ça fait réapparaître la ligne d'avant pendant le gap entre dialogues
+      if (elementsToHide.length > 0 && !isLastInDialogue) {
+        timeline.to(
+          elementsToHide,
+          { opacity: 1, duration: fadeDuration },
+          leaveStart
+        )
+        timeline.set(
+          elementsToHide,
+          { clearProps: 'opacity,transition' },
+          '+=0'
+        )
+      }
     }
   }
 
   const addAnnotationTiming = (
     timeline: gsap.core.Timeline,
     timing: NonNullable<DialogueLine['timings']>[number],
-    audioToPlay: string | null | undefined
+    audioToPlay: string | null | undefined,
+    isLastInDialogue: boolean
   ) => {
     if (timing.showOnly) {
-      animateShowOnlyAnnotation(timeline, timing)
+      animateShowOnlyAnnotation(timeline, timing, audioToPlay, isLastInDialogue)
     } else {
       timeline.call(
         () => {
@@ -227,6 +256,13 @@ export function useDialogueAnimation(
             currentTimedAnnotation.value = null
             isShowingOnlyAnnotation.value = false
           }
+          if (isLastInDialogue) {
+            console.log(
+              'LOG_DEBUG: Last timing (annotation) ended, emitting animationComplete'
+            )
+            isAnimating.value = false
+            emit('animationComplete')
+          }
         },
         [],
         effectiveEnd
@@ -236,6 +272,9 @@ export function useDialogueAnimation(
 
     timeline.call(
       () => {
+        console.log(
+          'LOG_DEBUG: Last timing (annotation with end:"end") ended, emitting animationComplete'
+        )
         isAnimating.value = false
         emit('animationComplete')
       },
@@ -282,9 +321,10 @@ export function useDialogueAnimation(
   ) => {
     let wordIndex = 0
 
-    timings.forEach((timing) => {
+    timings.forEach((timing, index) => {
+      const isLastInDialogue = index === timings.length - 1
       if (timing.annotation) {
-        addAnnotationTiming(timeline, timing, audioToPlay)
+        addAnnotationTiming(timeline, timing, audioToPlay, isLastInDialogue)
         return
       }
 

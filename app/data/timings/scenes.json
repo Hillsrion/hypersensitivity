@@ -1304,16 +1304,16 @@
     {
       "word": "coup.",
       "start": 6.119,
-      "end": 8.8
+      "end": 6.2
+    },
+    {
+      "annotation": "Lucie retourne dans l'open space",
+      "start": 7,
+      "end": 11.34,
+      "showOnly": true
     }
   ],
   "d1_16a": [
-    {
-      "annotation": "Lucie retourne dans l'open space",
-      "start": 9,
-      "end": 11,
-      "showOnly": true
-    },
     {
       "word": "Oui,",
       "start": 11.34,
@@ -1642,7 +1642,7 @@
       "end": 28.019
     },
     {
-      "word": "concentrer.",
+      "word": "concentrer !",
       "start": 28.04,
       "end": 29.479
     }
