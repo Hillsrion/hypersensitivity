@@ -176,6 +176,33 @@ describe('game-store-modules', () => {
     expect(next).toEqual({ type: 'milestone', milestoneId: 'm2' })
   })
 
+  it('progression respects terminal property', () => {
+    const scenes = {
+      s1: { id: 's1', day: 1, title: 'A', terminal: true, dialogues: [] },
+      s2: { id: 's2', day: 1, title: 'B', dialogues: [] },
+    }
+
+    const milestones = {
+      m1: { id: 'm1', label: 'M1', day: 1, scenes: ['s1', 's2'] },
+      m2: { id: 'm2', label: 'M2', day: 1, scenes: [] },
+    }
+
+    const getMilestoneForScene = (sceneId: string) =>
+      Object.values(milestones).find((m) => m.scenes.includes(sceneId)) as any
+
+    const next = resolveNextProgressionStep({
+      currentSceneId: 's1',
+      flags: baseFlags,
+      scenes: scenes as any,
+      milestones: milestones as any,
+      milestoneOrder: ['m1', 'm2'],
+      getMilestoneForScene,
+    })
+
+    // Even if s2 is in the same milestone, terminal s1 should force milestone jump
+    expect(next).toEqual({ type: 'milestone', milestoneId: 'm2' })
+  })
+
   it('findFirstValidSceneIdInMilestone returns first eligible scene', () => {
     const scenes = {
       a: {

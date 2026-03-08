@@ -7,6 +7,7 @@ export const dayOneEndCrash: Scene = {
   day: 1,
   title: 'Retour',
   entryAnnotation: 'De retour à la maison',
+  terminal: true,
   condition: { flag: 'hadBreakdown', operator: 'equals', value: true },
   audio: 'experience/J01_S06_Retour.mp3',
   dialogues: [
@@ -29,6 +30,7 @@ export const dayOneEndGoodAssertSexy: Scene = {
   day: 1,
   title: 'Retour',
   entryAnnotation: 'De retour à la maison',
+  terminal: true,
   conditions: [
     { flag: 'hadBreakdown', operator: 'equals', value: false },
     { flag: 'outfitChoice', operator: 'equals', value: 'sexy' },
@@ -51,6 +53,7 @@ export const dayOneEndGoodAssertComfort: Scene = {
   day: 1,
   title: 'Retour',
   entryAnnotation: 'De retour à la maison',
+  terminal: true,
   conditions: [
     { flag: 'hadBreakdown', operator: 'equals', value: false },
     { flag: 'outfitChoice', operator: 'equals', value: 'comfort' },
@@ -71,6 +74,7 @@ export const dayOneEndGoodReflect: Scene = {
   id: SCENE_IDS.DAY_ONE_END_GOOD_REFLECT,
   day: 1,
   title: 'Retour',
+  terminal: true,
   conditions: [
     { flag: 'hadBreakdown', operator: 'equals', value: false },
     { flag: 'conflictOutcome', operator: 'notEquals', value: 'assert' },

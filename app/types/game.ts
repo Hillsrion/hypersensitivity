@@ -61,6 +61,7 @@ export type Scene = {
   nextSceneId?: string // Scene suivante si pas de choix
   condition?: ChoiceCondition // Condition pour jouer cette scene (si fausse, on passe a la suivante)
   conditions?: ChoiceCondition[] // Multiple conditions (AND logic)
+  terminal?: boolean // If true, this scene handles its own exit (or we stop searching in current milestone)
 
   entryAnnotation?: string // Annotation s'affichant avant les dialogues (transition de scène)
   entryAnnotations?: {

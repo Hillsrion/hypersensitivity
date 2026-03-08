@@ -29,18 +29,22 @@ export const resolveNextProgressionStep = ({
   }
 
   const currentIndex = currentMilestone.scenes.indexOf(currentSceneId)
+  const currentScene = scenes[currentSceneId]
 
-  for (
-    let index = currentIndex + 1;
-    index < currentMilestone.scenes.length;
-    index++
-  ) {
-    const nextSceneId = currentMilestone.scenes[index]
-    if (!nextSceneId) continue
+  // If the current scene is terminal, we don't look for more scenes in the same milestone
+  if (!currentScene?.terminal) {
+    for (
+      let index = currentIndex + 1;
+      index < currentMilestone.scenes.length;
+      index++
+    ) {
+      const nextSceneId = currentMilestone.scenes[index]
+      if (!nextSceneId) continue
 
-    const nextScene = scenes[nextSceneId]
-    if (nextScene && isSceneEligible(nextScene, flags)) {
-      return { type: 'scene', sceneId: nextSceneId }
+      const nextScene = scenes[nextSceneId]
+      if (nextScene && isSceneEligible(nextScene, flags)) {
+        return { type: 'scene', sceneId: nextSceneId }
+      }
     }
   }
 
