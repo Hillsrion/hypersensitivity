@@ -63,7 +63,6 @@ export const dayTwoWakeupGood: Scene = {
       'd2_good_1',
       "C'est aujourd'hui que j'avais prévu d'aller à la montagne. J'ai pas vu la semaine passée. J'ai encore jamais fait la croix de Chamrousse. [sonnerie de téléphone] Allô ?",
       {
-        annotation: 'Le réveil sonne, les oiseaux chantent, bruits de couette',
         color: 'green',
       }
     ),
