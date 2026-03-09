@@ -7,6 +7,7 @@ export const dayTwoWakeupCrash: Scene = {
   day: 2,
   title: 'Réveil',
   entryAnnotation: 'Lucie se réveille',
+  entryAudioEarlyStart: true,
   condition: { flag: 'hadBreakdown', operator: 'equals', value: true },
   audio: 'experience/J02_C01_ReveilAppel_Breakdown.mp3',
   dialogues: [
@@ -54,6 +55,7 @@ export const dayTwoWakeupGood: Scene = {
   day: 2,
   title: 'Réveil',
   entryAnnotation: 'Lucie se réveille',
+  entryAudioEarlyStart: true,
   condition: { flag: 'hadBreakdown', operator: 'equals', value: false },
   audio: 'experience/J02_C01_ReveilAppel_Good.mp3',
   dialogues: [
