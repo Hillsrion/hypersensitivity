@@ -6,7 +6,13 @@ export const dayTwoWakeupCrash: Scene = {
   id: SCENE_IDS.DAY_TWO_WAKEUP_CRASH,
   day: 2,
   title: 'Réveil',
-  entryAnnotation: 'Lucie se réveille',
+  entryAnnotations: {
+    items: [
+      'Lucie se réveille',
+      'Le réveil sonne, les oiseaux chantent, bruits de couette',
+    ],
+    transitionAtTime: 4000,
+  },
   entryAudioEarlyStart: true,
   condition: { flag: 'hadBreakdown', operator: 'equals', value: true },
   audio: 'experience/J02_C01_ReveilAppel_Breakdown.mp3',
@@ -54,7 +60,13 @@ export const dayTwoWakeupGood: Scene = {
   id: SCENE_IDS.DAY_TWO_WAKEUP_GOOD,
   day: 2,
   title: 'Réveil',
-  entryAnnotation: 'Lucie se réveille',
+  entryAnnotations: {
+    items: [
+      'Lucie se réveille',
+      'Le réveil sonne, les oiseaux chantent, bruits de couette',
+    ],
+    transitionAtTime: 4000,
+  },
   entryAudioEarlyStart: true,
   condition: { flag: 'hadBreakdown', operator: 'equals', value: false },
   audio: 'experience/J02_C01_ReveilAppel_Good.mp3',
@@ -102,10 +114,32 @@ export const dayTwoAccept: Scene = {
   day: 2,
   title: 'Appel',
   condition: { flag: 'callChoice', operator: 'equals', value: 'accept' },
-  audio: 'experience/J02_S01_Appel_Oui.mp3',
+  audio: 'experience/J02_C01_Appel_Accepter.mp3',
   dialogues: [
-    d('d2_5a', 'LUCIE', 'Ok, je passe.', {}),
-    d('d2_6a', 'Mère', 'Super, à toute !', {}),
+    d(
+      'd2a_1',
+      'LUCIE',
+      "Nonnnn, tu sais quoi ? Je devais aller à la montagne aujourd'hui. Ça fait deux semaines que je repousse.",
+      {}
+    ),
+    d(
+      'd2a_2',
+      'Jérémy',
+      "Ah, pitié, pitié ! J'ai personne d'autre qui a le permis et qui est dispo aujourd'hui. J'ai fait le tour, t'es mon dernier espoir. Sinon, j'ai loué le camion et j'ai fait venir les gens pour rien. Je te jure, je te revaudrai ça.",
+      {}
+    ),
+    d(
+      'd2a_3',
+      'LUCIE',
+      "OK, OK, c'est bon. Je te rejoins chez toi tout à l'heure.",
+      {}
+    ),
+    d(
+      'd2a_4',
+      'Jérémy',
+      'Merci, vraiment. Tu sais quoi ? Je te paie resto la prochaine fois.',
+      {}
+    ),
   ],
 }
 
@@ -114,13 +148,25 @@ export const dayTwoRefuse: Scene = {
   day: 2,
   title: 'Appel',
   condition: { flag: 'callChoice', operator: 'equals', value: 'refuse' },
-  audio: 'experience/J02_S01_Appel_Non.mp3',
+  audio: 'experience/J02_C01_Appel_Refuser.mp3',
   dialogues: [
-    d('d2_5b', 'LUCIE', "Deso, j'ai prevu un truc.", {
-      color: 'green',
-    }),
-    d('d2_6b', 'Mère', 'Tant pis.', {
-      color: 'blue',
-    }),
+    d(
+      'd2b_1',
+      'LUCIE',
+      "Je suis désolée, je suis franchement pas en état de voir des gens et... j'ai vraiment besoin de prendre du temps pour moi. Mais demande à Lucas, il est dispo aujourd'hui.",
+      {}
+    ),
+    d(
+      'd2b_2',
+      'Jérémy',
+      'Ça marche. Prends soin de toi et on se voit bientôt pour la crémaillère alors. Gros bisous.',
+      {}
+    ),
+    d(
+      'd2b_3',
+      'LUCIE',
+      'Ça sera avec plaisir. Désolée encore. Gros bisous et bon courage.',
+      {}
+    ),
   ],
 }

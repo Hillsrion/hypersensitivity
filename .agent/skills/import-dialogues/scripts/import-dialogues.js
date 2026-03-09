@@ -29,7 +29,7 @@ const speakerMap = {
   Ines: 'Ines',
   Inès: 'Ines',
   InÈs: 'Ines',
-  Jérémy: 'Ami',
+  Jérémy: 'Jérémy',
   Amine: 'Amine',
   'Femme sans-abri': 'Femme sdf',
 }
