@@ -7,9 +7,19 @@ export const useGameInteractions = (
   isChoiceSelecting: Ref<boolean>
 ) => {
   const gameStore = useGameStore()
+  const route = useRoute()
+
+  const isDev = import.meta.env.DEV
+  const isTest = computed(
+    () => route.query.test === 'true' || route.path === '/test'
+  )
 
   const handleInteraction = () => {
+    const canSkip = isDev || isTest.value
+
     if (isEntryAnnotationPhase(gameStore.introAnimationPhase)) {
+      if (!canSkip) return
+
       console.log('LOG_DEBUG: Skipping entry annotation via click')
       gameStore.setIntroAnimationPhase('complete')
       return
@@ -23,6 +33,10 @@ export const useGameInteractions = (
       gameStore.isMenuOpening ||
       gameStore.isMenuClosing
     ) {
+      return
+    }
+
+    if (!canSkip) {
       return
     }
 
