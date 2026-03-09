@@ -27,7 +27,6 @@ import {
   dayTwoMountain,
   dayTwoMoving,
   dayTwoRefuse,
-  dayTwoSunset,
   dayTwoWakeupCrash,
   dayTwoWakeupGood,
 } from './scenes/day2'
@@ -76,6 +75,5 @@ export const gameData: GameData = {
     [SCENE_IDS.DAY_TWO_REFUSE]: dayTwoRefuse,
     [SCENE_IDS.DAY_TWO_MOUNTAIN]: dayTwoMountain,
     [SCENE_IDS.DAY_TWO_MOVING]: dayTwoMoving,
-    [SCENE_IDS.DAY_TWO_SUNSET]: dayTwoSunset,
   },
 }

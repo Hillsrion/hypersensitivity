@@ -7,6 +7,7 @@ export const dayTwoMountain: Scene = {
   day: 2,
   title: 'Montagne',
   entryAnnotation: 'Arrivée à la montagne',
+  terminal: true,
   condition: { flag: 'callChoice', operator: 'equals', value: 'refuse' },
   audio: 'experience/J02_S02_Montagne.mp3',
   dialogues: [

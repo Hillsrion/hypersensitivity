@@ -180,11 +180,12 @@ describe('game-store-modules', () => {
     const scenes = {
       s1: { id: 's1', day: 1, title: 'A', terminal: true, dialogues: [] },
       s2: { id: 's2', day: 1, title: 'B', dialogues: [] },
+      s3: { id: 's3', day: 2, title: 'C', dialogues: [] },
     }
 
     const milestones = {
       m1: { id: 'm1', label: 'M1', day: 1, scenes: ['s1', 's2'] },
-      m2: { id: 'm2', label: 'M2', day: 1, scenes: [] },
+      m2: { id: 'm2', label: 'M2', day: 1, scenes: ['s3'] },
     }
 
     const getMilestoneForScene = (sceneId: string) =>

@@ -31,6 +31,7 @@ export const useExperienceGradient = (
 
   const isGameEnd = computed(
     () =>
+      gameStore.isGameEnded ||
       gameStore.currentScene?.id === 'gameEnd' ||
       gameStore.showQuiz ||
       gameStore.showFinalFooter

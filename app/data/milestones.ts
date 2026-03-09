@@ -92,7 +92,7 @@ export const MILESTONES: Record<string, MilestoneDef> = {
     id: 'montagne',
     label: 'Montagne',
     day: 2,
-    scenes: [SCENE_IDS.DAY_TWO_MOUNTAIN, SCENE_IDS.DAY_TWO_SUNSET],
+    scenes: [SCENE_IDS.DAY_TWO_MOUNTAIN],
   },
 }
 

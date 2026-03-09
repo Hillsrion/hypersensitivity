@@ -20,6 +20,7 @@ export const resolveNextProgressionStep = ({
   currentSceneId,
   flags,
   scenes,
+  milestones,
   milestoneOrder,
   getMilestoneForScene,
 }: ProgressionContext): NextProgressionStep => {
@@ -48,14 +49,23 @@ export const resolveNextProgressionStep = ({
     }
   }
 
+  // 2. Try next milestones sequentially until we find one with an eligible scene
   const currentMilestoneIndex = milestoneOrder.indexOf(currentMilestone.id)
-  if (
-    currentMilestoneIndex !== -1 &&
-    currentMilestoneIndex < milestoneOrder.length - 1
-  ) {
-    const milestoneId = milestoneOrder[currentMilestoneIndex + 1]
-    if (milestoneId) {
-      return { type: 'milestone', milestoneId }
+  if (currentMilestoneIndex !== -1) {
+    for (let i = currentMilestoneIndex + 1; i < milestoneOrder.length; i++) {
+      const milestoneId = milestoneOrder[i]
+      if (!milestoneId) continue
+
+      const firstValidSceneId = findFirstValidSceneIdInMilestone(
+        milestoneId,
+        milestones,
+        scenes,
+        flags
+      )
+
+      if (firstValidSceneId) {
+        return { type: 'milestone', milestoneId }
+      }
     }
   }
 

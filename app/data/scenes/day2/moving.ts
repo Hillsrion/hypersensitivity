@@ -7,6 +7,7 @@ export const dayTwoMoving: Scene = {
   day: 2,
   title: 'Déménagement',
   entryAnnotation: 'Au déménagement',
+  terminal: true,
   audio: 'experience/J02_S03_Demenagement.mp3',
   dialogues: [
     thoughts(
@@ -83,7 +84,7 @@ export const dayTwoMoving: Scene = {
     d(
       'd2_23',
       'Amine',
-      "[rire] Un peu, oui. On a toujours besoin de main. On t'accueillerait avec plaisir, d'ailleurs. Tiens, la carte de l'asso. Appelle ce numéro et on s'organise ça la semaine prochaine avec l'équipe.",
+      "[rire] Un peu, oui. On a toujours besoin de mains. On t'accueillerait avec plaisir, d'ailleurs. Tiens, la carte de l'asso. Appelle ce numéro et on s'organise ça la semaine prochaine avec l'équipe.",
       {
         color: 'green',
       }
@@ -99,21 +100,10 @@ export const dayTwoMoving: Scene = {
     d('d2_25', 'Amine', 'Merci beaucoup. À bientôt, alors.', {
       color: 'green',
     }),
-  ],
-  nextSceneId: SCENE_IDS.DAY_TWO_SUNSET,
-}
-
-export const dayTwoSunset: Scene = {
-  id: SCENE_IDS.DAY_TWO_SUNSET,
-  day: 2,
-  title: 'Coucher de soleil',
-  audio: 'experience/J02_S03_Demenagement.mp3',
-  dialogues: [
     thoughts(
       'd2_26',
       'Le coucher de soleil est beau. Les nuages qui reflètent la lumière et les oiseaux qui chantent, je pourrais regarder ça pendant des heures.',
       {
-        annotation: 'Musique douce et vent, Lucie regarde le coucher de soleil',
         color: 'violet',
       }
     ),
