@@ -54,7 +54,7 @@ const {
 
 <template>
   <div
-    class="absolute left-1/2 -translate-x-1/2 flex items-center justify-center gap-6 z-40 w-4/5"
+    class="absolute left-1/2 -translate-x-1/2 grid grid-cols-[1fr_auto_1fr] items-center gap-6 z-40 w-4/5"
     :class="[EDGE_SPACING.BOTTOM, { 'pointer-events-none': isSelecting }]"
   >
     <template v-for="(choice, index) in choices" :key="choice.id">
@@ -66,8 +66,11 @@ const {
         "
         as="button"
         variant="choice"
-        class="group relative py-4 font-sans font-semibold uppercase flex items-center justify-center text-center"
-        :class="getChoiceClasses(choice, index)"
+        class="group relative py-4 font-sans font-semibold uppercase flex items-center text-center"
+        :class="[
+          getChoiceClasses(choice, index),
+          index === 0 ? 'justify-self-end' : 'justify-self-start',
+        ]"
         :disabled="gameStore.isChoiceDisabled(choice) || isSelecting"
         @mouseenter="hoveredIndex = index"
         @mouseleave="hoveredIndex = null"
