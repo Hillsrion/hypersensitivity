@@ -31,7 +31,7 @@ const speakerMap = {
   InÈs: 'Ines',
   Jérémy: 'Jérémy',
   Amine: 'Amine',
-  'Femme sans-abri': 'Femme sdf',
+  'Femme sans-abri': 'Personne sans-abri',
 }
 
 function formatText(text) {
