@@ -1,20 +1,17 @@
 import type { Scene } from '../../../types/game'
 import { SCENE_IDS } from '../../constants'
-import { d, thoughts } from '../../helpers'
+import { thoughts } from '../../helpers'
 
 export const dayTwoMountain: Scene = {
   id: SCENE_IDS.DAY_TWO_MOUNTAIN,
   day: 2,
   title: 'Montagne',
   entryAnnotation: 'Arrivée à la montagne',
+  entryAudioEarlyStart: true,
   terminal: true,
   condition: { flag: 'callChoice', operator: 'equals', value: 'refuse' },
   audio: 'experience/J02_S02_Montagne.mp3',
   dialogues: [
-    d('d2_7', 'LUCIE', "[bruit d'oiseaux]", {
-      annotation: "Bruit de vent, d'oiseaux, de pas dans l'herbe",
-      color: 'green',
-    }),
     thoughts(
       'd2_8',
       "C'est une mésange boréale, ça, elles sont magnifiques !",

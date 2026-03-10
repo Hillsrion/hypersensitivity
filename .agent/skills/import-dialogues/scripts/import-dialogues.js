@@ -69,7 +69,7 @@ try {
     newTimings[dialogueId] = timings
 
     if (isPensees) {
-      return `    pensees(
+      return `    thoughts(
       "${dialogueId}",
       "${text}",
       {
