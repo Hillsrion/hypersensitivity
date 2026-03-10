@@ -66,7 +66,7 @@ const {
         "
         as="button"
         variant="choice"
-        class="group relative py-4 font-sans font-semibold uppercase flex flex-col items-center"
+        class="group relative py-4 font-sans font-semibold uppercase flex items-center justify-center text-center"
         :class="getChoiceClasses(choice, index)"
         :disabled="gameStore.isChoiceDisabled(choice) || isSelecting"
         @mouseenter="hoveredIndex = index"
@@ -75,15 +75,13 @@ const {
       >
         <span class="flex items-center gap-3">
           <span>{{ choice.text }}</span>
-        </span>
-
-        <!-- Raison de desactivation -->
-        <span
-          v-if="gameStore.isChoiceDisabled(choice) && choice.disabledReason"
-          class="text-xs mt-1 absolute top-full"
-          :class="variant === 'dark' ? 'text-primary/40' : 'text-white/40'"
-        >
-          {{ choice.disabledReason }}
+          <span
+            v-if="gameStore.isChoiceDisabled(choice) && choice.disabledReason"
+            class="leading-tight normal-case"
+            :class="variant === 'dark' ? 'text-primary/40' : 'text-white/40'"
+          >
+            {{ choice.disabledReason }}
+          </span>
         </span>
       </AppText>
 

@@ -203,7 +203,15 @@ export const useGameStore = defineStore('game', {
         console.log('LOG_DEBUG: Applying Dev Config', devConfig)
         this.currentSceneId = devConfig.initialSceneId
         this.currentDialogueIndex = 0
-        this.flags = { ...createInitialFlags(), ...devConfig.initialFlags }
+        this.flags = createInitialFlags()
+
+        for (const [key, value] of Object.entries(devConfig.initialFlags)) {
+          if (value !== undefined) {
+            // @ts-expect-error - dynamic assignment
+            this.flags[key as keyof GameFlags] = value
+          }
+        }
+
         this.introPlayed = true
         this.introAnimationPhase = 'complete'
         this.introBlurAmount = 0

@@ -3,9 +3,11 @@ export const devConfig = {
   resumeFromSnapshot: import.meta.env.VITE_RESUME_FROM_SNAPSHOT === 'true', // Default to false
   initialSceneId: import.meta.env.VITE_INITIAL_SCENE_ID || '', // Set to a string like 'dayOnePartySexy' to override
   initialFlags: {
-    energy: import.meta.env.VITE_INITIAL_ENERGY
-      ? Number(import.meta.env.VITE_INITIAL_ENERGY)
-      : 100,
+    energy:
+      import.meta.env.VITE_INITIAL_ENERGY !== undefined &&
+      import.meta.env.VITE_INITIAL_ENERGY !== ''
+        ? Number(import.meta.env.VITE_INITIAL_ENERGY)
+        : 100,
     outfitChoice: import.meta.env.VITE_INITIAL_OUTFIT || 'sexy',
   },
   playbackRate: import.meta.env.VITE_PLAYBACK_RATE

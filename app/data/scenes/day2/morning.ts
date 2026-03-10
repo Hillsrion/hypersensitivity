@@ -39,6 +39,12 @@ export const dayTwoWakeupCrash: Scene = {
       id: 'day_two_accept',
       text: 'ACCEPTER',
       nextSceneId: SCENE_IDS.DAY_TWO_ACCEPT,
+      condition: {
+        flag: 'energy',
+        operator: 'greaterThan',
+        value: 0,
+      },
+      disabledReason: '(Énergie insuffisante)',
       effects: {
         energy: -20,
         flags: { callChoice: 'accept' },
@@ -92,6 +98,12 @@ export const dayTwoWakeupGood: Scene = {
       id: 'day_two_accept',
       text: 'ACCEPTER',
       nextSceneId: SCENE_IDS.DAY_TWO_ACCEPT,
+      condition: {
+        flag: 'energy',
+        operator: 'greaterThan',
+        value: 0,
+      },
+      disabledReason: '(Énergie insuffisante)',
       effects: {
         energy: -20,
         flags: { callChoice: 'accept' },
