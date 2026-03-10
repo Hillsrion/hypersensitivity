@@ -28,7 +28,7 @@ export const dayTwoWakeupCrash: Scene = {
     d(
       'd2_breakdown_2',
       'Jérémy',
-      "Coucou, je suis désolé de te déranger si tôt. Je t'appelle parce qu'on a un souci. Tu te souviens que je t'avais dit que je déménageais aujourd'hui ? En fait, j'ai plus personne pour conduire le camion de loc et y a So qui a une grippe carabinée là, il est couché. Est-ce que je pourrais venir tout à l'heure ? Y a genre trois allers-retours à faire, je pense.",
+      "Coucou, je suis désolé de te déranger si tôt. Je t'appelle parce qu'on a un souci. Tu te souviens que je t'avais dit que je déménageais aujourd'hui ? En fait, j'ai plus personne pour conduire le camion de loc et y'a So qui a une grippe carabinée là, il est couché. Est-ce que je pourrais venir tout à l'heure ? Y'a genre trois allers-retours à faire, je pense.",
       {
         color: 'red',
       }
@@ -81,7 +81,7 @@ export const dayTwoWakeupGood: Scene = {
     d(
       'd2_good_2',
       'Jérémy',
-      "Coucou, je suis désolé de te déranger si tôt. Je t'appelle parce qu'on a un souci. Tu te souviens que je t'avais dit que je déménageais aujourd'hui ? En fait, j'ai plus personne pour conduire le camion de loc et y a So qui a une grippe carabinée là, il est couché. Est-ce que je pourrais venir tout à l'heure ? Y a genre trois allers-retours à faire, je pense.",
+      "Coucou, je suis désolé de te déranger si tôt. Je t'appelle parce qu'on a un souci. Tu te souviens que je t'avais dit que je déménageais aujourd'hui ? En fait, j'ai plus personne pour conduire le camion de loc et y'a So qui a une grippe carabinée là, il est couché. Est-ce que je pourrais venir tout à l'heure ? Y'a genre trois allers-retours à faire, je pense.",
       {
         color: 'red',
       }
