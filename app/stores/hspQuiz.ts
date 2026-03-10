@@ -32,7 +32,8 @@ export type HspQuizState = {
 
 const { ratings, sections, questions, profiles } = quizData
 const totalQuestions = questions.length
-const questionsPerSection = totalQuestions / sections.length
+const questionsPerSection = Math.floor(totalQuestions / sections.length)
+const MAX_RATING = 4
 
 export const useHspQuizStore = defineStore('hspQuiz', {
   state: (): HspQuizState => ({
@@ -80,28 +81,49 @@ export const useHspQuizStore = defineStore('hspQuiz', {
       )
     },
 
+    getAnswerScore(_state) {
+      return (value: number | null, questionIndex: number): number => {
+        if (value === null) return 0
+        const question = this.questions[questionIndex]
+        if (question?.inversed) {
+          return MAX_RATING - value
+        }
+        return value
+      }
+    },
+
     totalScore(state): number {
       return state.answers.reduce(
-        (sum: number, val: number | null) => sum + (val ?? 0),
+        (sum: number, val: number | null, index: number) =>
+          sum + this.getAnswerScore(val, index),
         0
       )
     },
 
+    maxScore(): number {
+      return this.totalQuestions * MAX_RATING
+    },
+
+    scoreRatio(): number {
+      if (this.maxScore === 0) return 0
+      return this.totalScore / this.maxScore
+    },
+
     sensitivityLevel(): SensitivityLevel {
-      const score = this.totalScore
-      if (score <= this.totalQuestions) {
+      const ratio = this.scoreRatio
+      if (ratio < 0.35) {
         return {
           label: 'Sensibilité standard',
           description:
             'Vous gérez bien les stimuli et les émotions. Vous pouvez être sensible sur certains points précis, mais votre système nerveux filtre efficacement.',
         }
-      } else if (score <= this.totalQuestions * 2) {
+      } else if (ratio < 0.55) {
         return {
           label: 'Sensibilité modérée',
           description:
             "Sensibilité supérieure à la moyenne. Vous avez probablement développé de bonnes stratégies d'adaptation, ou votre sensibilité ne concerne que certains domaines.",
         }
-      } else if (score <= this.totalQuestions * 3) {
+      } else if (ratio < 0.75) {
         return {
           label: 'Hypersensibilité avérée (HSP)',
           description:
@@ -116,21 +138,27 @@ export const useHspQuizStore = defineStore('hspQuiz', {
       }
     },
 
-    getSectionScore:
-      (state) =>
-      (sectionIndex: number): number => {
-        const start = sectionIndex * questionsPerSection
-        const end = start + questionsPerSection
+    getSectionScore(state) {
+      return (sectionIndex: number): number => {
+        const start = sectionIndex * this.questionsPerSection
+        const end = start + this.questionsPerSection
         return state.answers
           .slice(start, end)
           .reduce(
-            (sum: number, val: number | null) => sum + (val ?? 0),
+            (sum: number, val: number | null, idx: number) =>
+              sum + this.getAnswerScore(val, start + idx),
             0
-          ) as number
-      },
+          )
+      }
+    },
 
     sectionScores(): number[] {
       return this.sections.map((_, index) => this.getSectionScore(index))
+    },
+
+    normalizedSectionScores(): number[] {
+      const maxSectionScore = this.questionsPerSection * MAX_RATING
+      return this.sectionScores.map((score) => score / maxSectionScore)
     },
 
     dominantProfile(): Profile | null {
@@ -139,7 +167,7 @@ export const useHspQuizStore = defineStore('hspQuiz', {
 
       this.profiles.forEach((profile) => {
         const profileScore = profile.sections.reduce((sum, sectionIdx) => {
-          return sum + this.getSectionScore(sectionIdx)
+          return sum + (this.normalizedSectionScores[sectionIdx] ?? 0)
         }, 0)
         const avgScore = profileScore / profile.sections.length
 
@@ -187,7 +215,9 @@ export const useHspQuizStore = defineStore('hspQuiz', {
     },
 
     completeWithFakeResults() {
-      this.answers = this.answers.map(() => Math.floor(Math.random() * 4))
+      this.answers = this.answers.map(() =>
+        Math.floor(Math.random() * (MAX_RATING + 1))
+      )
       this.currentView = 'results'
     },
   },

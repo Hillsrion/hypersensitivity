@@ -81,33 +81,46 @@ describe('hspQuizStore', () => {
     store.completeWithFakeResults()
 
     expect(store.currentView).toBe('results')
-    expect(store.answers.every((a) => a !== null && a >= 0 && a <= 3)).toBe(
+    expect(store.answers.every((a) => a !== null && a >= 0 && a <= 4)).toBe(
       true
-    ) // Assuming 0-3 rating mapping logic
+    ) // Assuming 0-4 rating mapping logic
   })
 
   it('computed scores and profiles', () => {
     const store = useHspQuizStore()
 
     // Simulate all answers as 1
-    store.answers = Array(store.totalQuestions).fill(1)
+    const val = 1
+    store.answers = Array(store.totalQuestions).fill(val)
 
-    expect(store.totalScore).toBe(store.totalQuestions)
+    const expectedScore1 = store.questions.reduce(
+      (sum, q) => sum + (q.inversed ? 4 - val : val),
+      0
+    )
+    expect(store.totalScore).toBe(expectedScore1)
     expect(store.sensitivityLevel.label).toBe('Sensibilité standard')
 
     // Simulate all sections score logic
     const sectionIndexToTest = 0
+    const start = sectionIndexToTest * store.questionsPerSection
+    const end = start + store.questionsPerSection
+    const expectedSectionScore1 = store.questions
+      .slice(start, end)
+      .reduce((sum, q) => sum + (q.inversed ? 4 - val : val), 0)
     const testScore = store.getSectionScore(sectionIndexToTest)
-    expect(testScore).toBe(store.questionsPerSection) // 1 * questionsPerSection
+    expect(testScore).toBe(expectedSectionScore1)
 
     // Check section sum maps correctly to array computation
-    expect(store.sectionScores[sectionIndexToTest]).toBe(
-      store.questionsPerSection
-    )
+    expect(store.sectionScores[sectionIndexToTest]).toBe(expectedSectionScore1)
 
-    // Simulate all answers as max (e.g., 3)
-    store.answers = Array(store.totalQuestions).fill(3)
-    expect(store.totalScore).toBe(store.totalQuestions * 3)
+    // Simulate all answers as max (e.g., 4)
+    const valMax = 4
+    store.answers = Array(store.totalQuestions).fill(valMax)
+    const expectedScoreMax = store.questions.reduce(
+      (sum, q) => sum + (q.inversed ? 4 - valMax : valMax),
+      0
+    )
+    expect(store.totalScore).toBe(expectedScoreMax)
     expect(store.dominantProfile).not.toBeNull()
   })
 })
