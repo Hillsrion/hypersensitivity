@@ -76,11 +76,11 @@ const {
         @mouseleave="hoveredIndex = null"
         @click="handleSelect(choice, index)"
       >
-        <span class="flex items-center gap-3">
+        <span class="flex flex-col md:flex-row items-center gap-1 md:gap-3">
           <span>{{ choice.text }}</span>
           <span
             v-if="gameStore.isChoiceDisabled(choice) && choice.disabledReason"
-            class="leading-tight normal-case"
+            class="fl-text-[10px]/xs leading-tight normal-case"
             :class="variant === 'dark' ? 'text-primary/40' : 'text-white/40'"
           >
             {{ choice.disabledReason }}
