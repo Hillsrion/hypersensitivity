@@ -167,11 +167,16 @@ const getRatingClass = (value: number) => {
       :class="EDGE_SPACING.PB"
     >
       <button
-        class="text-white transition-colors duration-300 flex items-center gap-2 px-4 py-2 disabled:opacity-30 disabled:cursor-not-allowed"
+        class="text-white transition-[colors,opacity] duration-300 flex items-center gap-2 px-4 py-2"
+        :class="{
+          'disabled:opacity-30 disabled:cursor-not-allowed':
+            currentQuestionIndex === 0,
+        }"
         :disabled="currentQuestionIndex === 0 || isAnimating"
         @click="onPrevious"
       >
-        ← Précédent
+        <span>←</span>
+        Précédent
       </button>
       <button
         class="bg-white text-black px-8 py-3 rounded-full font-medium hover:bg-gray-200 transition-colors duration-300 disabled:opacity-30 disabled:cursor-not-allowed flex items-center gap-2"
