@@ -4,6 +4,10 @@ import { useAuroraAnimation } from '~/app/composables/useAuroraAnimation'
 const animationsStore = useAnimationsStore()
 const { landing } = storeToRefs(animationsStore)
 
+const auroraBlendColor = computed(() => {
+  return '#FFFFFF'
+})
+
 const auroraRef = useTemplateRef('auroraRef')
 const auroraInnerRef = useTemplateRef('auroraInnerRef')
 
@@ -46,7 +50,7 @@ useAuroraAnimation(auroraInnerRef)
           ref="auroraInnerRef"
           class="w-full h-full blur-[80px] scale-125 will-change-transform backface-hidden"
           :style="{
-            background: `linear-gradient(180deg, #FFFFFF 0%, var(--aurora-color-1) 33%, var(--aurora-color-2) 66%, #FFFFFF 100%)`,
+            background: `linear-gradient(180deg, ${auroraBlendColor} 0%, var(--aurora-color-1) 33%, var(--aurora-color-2) 66%, ${auroraBlendColor} 100%)`,
             transform: 'rotate(-3deg)',
           }"
         />

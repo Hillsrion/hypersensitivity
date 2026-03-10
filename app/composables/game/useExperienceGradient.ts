@@ -47,17 +47,16 @@ export const useExperienceGradient = (
     }
 
     if (visible && zIndex > 0) {
-      return 'transparent'
+      return 'rgba(255, 255, 255, 0)'
     }
+
     // We want the gradient to run during the end sequence or day transition
     if (
       isContentRevealedPhase(gameStore.introAnimationPhase) &&
       !isDayTransition.value
     ) {
-      if (gameStore.currentDay === 2) {
-        return 'var(--color-primary)'
-      }
-      return 'white'
+      // User requested NO dark blue background ever during choices/dialogues, even on Day 2.
+      return 'rgba(255, 255, 255, 0)'
     }
 
     return `linear-gradient(180deg, ${gradientState.color1} ${gradientState.stop1}%, ${gradientState.color2} ${gradientState.stop2}%, ${gradientState.color3} ${gradientState.stop3}%, ${gradientState.color4} ${gradientState.stop4}%)`
