@@ -30,6 +30,7 @@ export type DialogueLine = {
   isChat?: boolean // Si c'est un échange textuel (Slack, SMS) - désactive l'animation mot par mot
   energyChange?: number // Changement d'énergie à appliquer au début du dialogue
   pause?: number // Pause à la fin du dialogue (en secondes)
+  isCompact?: boolean // Taille de texte réduite sur mobile pour les dialogues longs
 }
 
 export type ChoiceCondition = {
