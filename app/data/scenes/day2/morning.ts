@@ -19,12 +19,14 @@ export const dayTwoWakeupCrash: Scene = {
   dialogues: [
     thoughts(
       'd2_breakdown_1',
-      "J'ai trop mal dormi. Je me sens lourde. Je vais aller à la montagne aujourd'hui, ça me fera du bien. [sonnerie de téléphone] Allô ?",
+      "J'ai trop mal dormi. Je me sens lourde. Je vais aller à la montagne aujourd'hui, ça me fera du bien.",
       {
-        annotation: 'Le réveil sonne, les oiseaux chantent, bruits de couette',
         color: 'blue',
       }
     ),
+    thoughts('d2_breakdown_1_allo', 'Allô ?', {
+      color: 'blue',
+    }),
     d(
       'd2_breakdown_2',
       'Jérémy',
@@ -67,10 +69,7 @@ export const dayTwoWakeupGood: Scene = {
   day: 2,
   title: 'Réveil',
   entryAnnotations: {
-    items: [
-      'Lucie se réveille',
-      'Le réveil sonne, les oiseaux chantent, bruits de couette',
-    ],
+    items: ['Lucie se réveille', 'Le réveil sonne, les oiseaux chantent'],
     transitionAtTime: 4000,
   },
   entryAudioEarlyStart: true,
@@ -79,11 +78,14 @@ export const dayTwoWakeupGood: Scene = {
   dialogues: [
     thoughts(
       'd2_good_1',
-      "C'est aujourd'hui que j'avais prévu d'aller à la montagne. J'ai pas vu la semaine passée. J'ai encore jamais fait la croix de Chamrousse. [sonnerie de téléphone] Allô ?",
+      "C'est aujourd'hui que j'avais prévu d'aller à la montagne. J'ai pas vu la semaine passée. J'ai encore jamais fait la croix de Chamrousse.",
       {
         color: 'green',
       }
     ),
+    thoughts('d2_good_1_allo', 'Allô ?', {
+      color: 'green',
+    }),
     d(
       'd2_good_2',
       'Jérémy',

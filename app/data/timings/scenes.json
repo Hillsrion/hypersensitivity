@@ -9159,12 +9159,15 @@
     {
       "word": "bien.",
       "start": 12.359,
-      "end": 15.119
-    },
+      "end": 12.5
+    }
+  ],
+  "d2_breakdown_1_allo": [
     {
-      "word": "[sonnerie de téléphone]",
-      "start": 15.359,
-      "end": 16.68
+      "annotation": "Le téléphone sonne",
+      "start": 13.5,
+      "end": 16.68,
+      "showOnly": true
     },
     {
       "word": "Allô ?",
@@ -9619,11 +9622,14 @@
       "word": "Chamrousse.",
       "start": 14,
       "end": 16.859
-    },
+    }
+  ],
+  "d2_good_1_allo": [
     {
-      "word": "[sonnerie de téléphone]",
+      "annotation": "Le téléphone sonne",
       "start": 17.1,
-      "end": 18.799
+      "end": 18.799,
+      "showOnly": true
     },
     {
       "word": "Allô ?",
