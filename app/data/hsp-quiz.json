@@ -1,10 +1,10 @@
 {
   "ratings": [
-    { "value": 0, "label": "Pas du tout", "inversedLabel": "Oui, facilement" },
-    { "value": 1, "label": "Rarement", "inversedLabel": "Souvent oui" },
+    { "value": 0, "label": "Jamais", "inversedLabel": "Très souvent" },
+    { "value": 1, "label": "Rarement", "inversedLabel": "Souvent" },
     { "value": 2, "label": "Parfois", "inversedLabel": "Parfois" },
     { "value": 3, "label": "Souvent", "inversedLabel": "Rarement" },
-    { "value": 4, "label": "Tout à fait", "inversedLabel": "Non, jamais" }
+    { "value": 4, "label": "Très souvent", "inversedLabel": "Jamais" }
   ],
   "sections": [
     {
@@ -50,68 +50,68 @@
   ],
   "questions": [
     {
-      "text": "Êtes-vous gêné(e) par les étiquettes de vêtements, certaines textures de tissus ou coutures au point de devoir les modifier ou les éviter ?",
+      "text": "Les étiquettes de vêtements, certaines textures ou coutures vous gênent-elles au point de devoir modifier ou éviter certains habits ?",
       "inversed": false
     },
     {
-      "text": "Les sons répétitifs (tic-tac, mastication, clics de stylo) captent-ils votre attention de façon persistante ou vous irritent-ils ?",
+      "text": "Les sons répétitifs (tic-tac, mastication, clics de stylo) captent-ils fortement votre attention ou vous irritent-ils ?",
       "inversed": false
     },
     {
-      "text": "Les lumières artificielles vives (néons, écrans lumineux, centres commerciaux) vous fatiguent-elles les yeux ou vous donnent-elles mal à la tête ?",
+      "text": "Les lumières artificielles vives (néons, écrans lumineux, centres commerciaux) fatiguent-elles rapidement vos yeux ?",
       "inversed": false
     },
     {
-      "text": "Ressentez-vous fortement les effets de la caféine, de l'alcool ou des médicaments, même à faible dose ?",
+      "text": "Ressentez-vous fortement les effets de la caféine, de l'alcool ou de certains médicaments même à faible dose ?",
       "inversed": false
     },
     {
-      "text": "Certaines textures alimentaires (gluant, trop mou, granuleux) vous dérangent-elles au point d'éviter certains aliments ?",
+      "text": "Certaines textures alimentaires (gluant, granuleux, trop mou) vous dérangent-elles au point d'éviter certains aliments ?",
       "inversed": false
     },
     {
-      "text": "Votre corps réagit-il aux variations météorologiques (pression atmosphérique, humidité, vent) ?",
+      "text": "Votre corps réagit-il aux changements météorologiques (pression, humidité, vent) ?",
       "inversed": false
     },
     {
-      "text": "Les odeurs fortes (parfums, produits ménagers, essence) vous incommodent-elles plus que la plupart des gens ?",
+      "text": "Les odeurs fortes (parfums, essence, produits ménagers) vous incommodent-elles plus que la plupart des gens ?",
       "inversed": false
     },
     {
-      "text": "Pouvez-vous facilement ignorer un bruit de fond gênant pour vous concentrer ?",
+      "text": "Pouvez-vous facilement ignorer un bruit de fond gênant pour rester concentré ?",
       "inversed": true
     },
 
     {
-      "text": "Avez-vous l'impression d'absorber l'humeur des personnes autour de vous, même sans interaction verbale ?",
+      "text": "Avez-vous l'impression de capter ou d'absorber l'humeur des personnes autour de vous ?",
       "inversed": false
     },
     {
-      "text": "Avez-vous du mal à regarder des scènes embarrassantes ou humiliantes dans un film sans détourner le regard ?",
+      "text": "Les scènes embarrassantes ou humiliantes dans un film vous mettent-elles mal à l'aise au point de détourner le regard ?",
       "inversed": false
     },
     {
-      "text": "Les critiques, même constructives, vous affectent-elles longtemps après les avoir reçues ?",
+      "text": "Les critiques, même constructives, vous affectent-elles longtemps après ?",
       "inversed": false
     },
     {
-      "text": "Ressentez-vous de la culpabilité lorsque vous devez refuser une demande, même légitime ?",
+      "text": "Ressentez-vous de la culpabilité lorsque vous refusez une demande ?",
       "inversed": false
     },
     {
-      "text": "Les conflits (même ceux qui ne vous concernent pas) provoquent-ils chez vous des réactions physiques (tension, boule au ventre) ?",
+      "text": "Les conflits provoquent-ils chez vous des réactions physiques (tension, boule au ventre) ?",
       "inversed": false
     },
     {
-      "text": "Percevez-vous intuitivement l'état émotionnel des autres avant qu'ils ne les expriment ?",
+      "text": "Percevez-vous souvent l'état émotionnel des autres avant qu'ils ne l'expriment ?",
       "inversed": false
     },
     {
-      "text": "Vous attachez-vous rapidement et intensément dans vos relations (amitié, amour) ?",
+      "text": "Vous attachez-vous rapidement et intensément dans vos relations ?",
       "inversed": false
     },
     {
-      "text": "Arrivez-vous à rester détaché(e) émotionnellement face aux problèmes des autres ?",
+      "text": "Arrivez-vous à rester émotionnellement détaché face aux problèmes des autres ?",
       "inversed": true
     },
 
@@ -120,20 +120,20 @@
       "inversed": false
     },
     {
-      "text": "Avez-vous un besoin de comprendre le « pourquoi » profond des choses plutôt que d'accepter les explications de surface ?",
+      "text": "Avez-vous besoin de comprendre le « pourquoi » profond des choses plutôt que d'accepter des explications superficielles ?",
       "inversed": false
     },
     {
-      "text": "Avez-vous du mal à prendre des décisions simples (choisir un plat, un film) par crainte de faire le mauvais choix ?",
+      "text": "Avez-vous du mal à prendre des décisions simples par peur de faire le mauvais choix ?",
       "inversed": false
     },
     {
-      "text": "Votre esprit reste-t-il actif le soir, rendant l'endormissement difficile ?",
+      "text": "Votre esprit reste-t-il très actif le soir, rendant l'endormissement difficile ?",
       "inversed": false
     },
     {
-      "text": "Remarquez-vous les détails que d'autres ne voient pas (erreurs dans les textes, incohérences, changements subtils) ?",
-      "inversed": false
+      "text": "Passez-vous souvent à côté de détails que d'autres remarquent facilement ?",
+      "inversed": true
     },
     {
       "text": "Avez-vous une mémoire particulièrement vive des événements émotionnellement marquants ?",
@@ -149,15 +149,15 @@
     },
 
     {
-      "text": "Ressentez-vous le besoin de vous isoler après quelques heures dans un environnement stimulant (foule, bruit) ?",
+      "text": "Ressentez-vous le besoin de vous isoler après plusieurs heures dans un environnement stimulant ?",
       "inversed": false
     },
     {
-      "text": "Organisez-vous votre vie pour limiter les imprévus et les changements de dernière minute ?",
+      "text": "Organisez-vous votre vie pour limiter les imprévus ?",
       "inversed": false
     },
     {
-      "text": "Devenez-vous irritable, maladroit(e) ou confus(e) lorsqu'on vous presse de faire plusieurs choses à la fois ?",
+      "text": "Devenez-vous irritable ou confus lorsqu'on vous demande de faire plusieurs choses à la fois ?",
       "inversed": false
     },
     {
@@ -165,11 +165,11 @@
       "inversed": false
     },
     {
-      "text": "Avez-vous besoin d'un temps de décompression en rentrant chez vous avant d'interagir avec vos proches ?",
+      "text": "Avez-vous besoin d'un temps de décompression en rentrant chez vous avant d'interagir ?",
       "inversed": false
     },
     {
-      "text": "Perdez-vous une partie de vos moyens lorsque vous êtes observé(e) ou évalué(e) ?",
+      "text": "Lorsque vous êtes observé ou évalué, ressentez-vous une surcharge mentale qui perturbe votre concentration ?",
       "inversed": false
     },
     {
@@ -177,57 +177,57 @@
       "inversed": false
     },
     {
-      "text": "Vous arrive-t-il d'annuler des engagements sociaux parce que vous vous sentez « saturé(e) » ?",
+      "text": "Vous arrive-t-il d'annuler des engagements sociaux parce que vous vous sentez saturé ?",
       "inversed": false
     },
 
     {
-      "text": "Une musique, un paysage ou une œuvre d'art peuvent-ils vous donner des frissons ou vous émouvoir aux larmes ?",
+      "text": "Une musique, un paysage ou une œuvre d'art provoquent-ils chez vous une émotion très forte (frissons, larmes) ?",
       "inversed": false
     },
     {
-      "text": "Avez-vous une vie onirique (rêves) riche, détaillée et mémorable ?",
+      "text": "Avez-vous des rêves riches, détaillés et faciles à mémoriser ?",
       "inversed": false
     },
     {
-      "text": "Le contact avec la nature ou le silence vous ressource-t-il de façon marquée ?",
+      "text": "Le contact avec la nature ou le silence vous ressource-t-il fortement ?",
       "inversed": false
     },
     {
-      "text": "Avez-vous des intuitions (« gut feelings ») qui s'avèrent souvent justes, sans pouvoir les expliquer rationnellement ?",
+      "text": "Avez-vous des intuitions qui se révèlent souvent justes sans pouvoir les expliquer ?",
       "inversed": false
     },
     {
-      "text": "Remarquez-vous les micro-changements chez les autres (nouvelle coiffure, fatigue, changement de ton) ?",
+      "text": "Remarquez-vous facilement les micro-changements chez les autres (fatigue, ton, attitude) ?",
       "inversed": false
     },
     {
-      "text": "Êtes-vous touché(e) de façon durable par la souffrance animale ?",
+      "text": "Êtes-vous durablement touché par la souffrance animale ?",
       "inversed": false
     },
     {
-      "text": "Avez-vous une imagination vive qui vous permet de visualiser des scénarios en détail ?",
-      "inversed": false
+      "text": "Avez-vous du mal à imaginer mentalement des situations ou scénarios détaillés ?",
+      "inversed": true
     },
     {
-      "text": "Les petites attentions, la gentillesse gratuite ou la beauté simple vous émeuvent-elles facilement ?",
+      "text": "Les gestes de gentillesse ou la beauté simple vous émeuvent-ils plus que la plupart des gens ?",
       "inversed": false
     },
 
     {
-      "text": "Vous ennuyez-vous dans la routine tout en étant épuisé(e) si votre vie est trop remplie ?",
+      "text": "Vous ennuyez-vous dans la routine tout en vous sentant vite épuisé lorsque votre vie devient trop stimulante ?",
       "inversed": false
     },
     {
-      "text": "Aimez-vous voyager ou découvrir, mais en contrôlant les conditions (hébergement calme, planning flexible) ?",
+      "text": "Aimez-vous voyager ou découvrir de nouvelles choses tout en gardant un certain contrôle sur les conditions ?",
       "inversed": false
     },
     {
-      "text": "Avez-vous une curiosité intellectuelle intense qui vous pousse vers de nombreux sujets ou projets ?",
+      "text": "Avez-vous une curiosité intellectuelle qui vous pousse vers de nombreux sujets ou projets ?",
       "inversed": false
     },
     {
-      "text": "Appréciez-vous certaines sensations fortes (vitesse, musique forte) uniquement quand vous les choisissez ?",
+      "text": "Appréciez-vous certaines sensations fortes (vitesse, musique forte) lorsqu'elles sont choisies ?",
       "inversed": false
     },
     {
@@ -235,20 +235,20 @@
       "inversed": false
     },
     {
-      "text": "Êtes-vous enthousiaste au démarrage de projets, puis freiné(e) par l'épuisement ou le doute en cours de route ?",
+      "text": "Êtes-vous enthousiaste au début de projets puis freiné par l'épuisement ou le doute ?",
       "inversed": false
     },
     {
-      "text": "Avez-vous besoin de variété intellectuelle mais de stabilité émotionnelle ?",
+      "text": "Vous arrive-t-il de vous lancer spontanément dans de nouveaux projets ou expériences par curiosité ?",
       "inversed": false
     },
     {
-      "text": "Êtes-vous satisfait(e) d'une vie prévisible et routinière ?",
+      "text": "Êtes-vous à l'aise dans une vie très routinière avec peu de nouveautés ou de stimulation intellectuelle ?",
       "inversed": true
     },
 
     {
-      "text": "Avez-vous des troubles digestifs (maux de ventre, nausées) qui apparaissent ou s'aggravent en période de stress ?",
+      "text": "Avez-vous des troubles digestifs qui apparaissent ou s'aggravent en période de stress ?",
       "inversed": false
     },
     {
@@ -256,52 +256,52 @@
       "inversed": false
     },
     {
-      "text": "Ressentez-vous des « coups de fatigue » soudains, sans cause apparente ?",
+      "text": "Ressentez-vous des coups de fatigue soudains sans cause apparente ?",
       "inversed": false
     },
     {
-      "text": "La faim modifie-t-elle votre humeur ou vos capacités de concentration de façon notable ?",
+      "text": "La faim modifie-t-elle votre humeur ou votre concentration ?",
       "inversed": false
     },
     {
-      "text": "Êtes-vous sensible à la qualité de l'air, aux odeurs chimiques ou aux environnements mal ventilés ?",
+      "text": "Êtes-vous sensible à la qualité de l'air ou aux environnements mal ventilés ?",
       "inversed": false
     },
     {
-      "text": "Avez-vous des réactions cutanées (rougeurs, démangeaisons) en situation de stress ?",
+      "text": "Avez-vous des réactions cutanées en situation de stress ?",
       "inversed": false
     },
     {
-      "text": "Votre sommeil est-il facilement perturbé par le stress, les changements d'environnement ou les émotions ?",
+      "text": "Votre sommeil est-il facilement perturbé par le stress ou les émotions ?",
       "inversed": false
     },
     {
-      "text": "Votre corps reste-t-il généralement calme et stable, même en période de stress ?",
+      "text": "Votre corps reste-t-il généralement calme même en période de stress ?",
       "inversed": true
     },
 
     {
-      "text": "Avez-vous l'impression de « jouer un rôle » en société pour vous conformer aux attentes, ce qui vous épuise ?",
+      "text": "Avez-vous l'impression de jouer un rôle en société pour vous adapter aux attentes ?",
       "inversed": false
     },
     {
-      "text": "Anticipez-vous les besoins des autres avant qu'ils ne les expriment, pour éviter tensions ou conflits ?",
+      "text": "Anticipez-vous les besoins des autres pour éviter tensions ou conflits ?",
       "inversed": false
     },
     {
-      "text": "Ressentez-vous un décalage persistant avec votre entourage, comme si vous « fonctionniez différemment » ?",
+      "text": "Ressentez-vous un décalage persistant avec votre entourage ?",
       "inversed": false
     },
     {
-      "text": "Vous a-t-on souvent dit que vous étiez « trop sensible » ou que vous « preniez tout à cœur » ?",
+      "text": "Vous a-t-on souvent dit que vous étiez « trop sensible » ?",
       "inversed": false
     },
     {
-      "text": "Avez-vous du mal à poser vos limites (dire non, exprimer un désaccord) par crainte du rejet ?",
+      "text": "Avez-vous du mal à poser vos limites par crainte du rejet ?",
       "inversed": false
     },
     {
-      "text": "Attribuez-vous vos réussites à la chance plutôt qu'à vos compétences (syndrome de l'imposteur) ?",
+      "text": "Attribuez-vous vos réussites à la chance plutôt qu'à vos compétences ?",
       "inversed": false
     },
     {
@@ -309,7 +309,7 @@
       "inversed": false
     },
     {
-      "text": "Ressentez-vous une réaction forte face à l'injustice, même quand elle ne vous touche pas personnellement ?",
+      "text": "Ressentez-vous fortement l'injustice même lorsqu'elle ne vous touche pas directement ?",
       "inversed": false
     }
   ],
@@ -319,28 +319,28 @@
       "name": "Corps à vif",
       "sections": [0, 6],
       "description": "Votre défi est physiologique. Le bruit, la lumière et le stress se manifestent dans votre corps.",
-      "advice": "Priorisez l'environnement (calme, nature, sommeil, alimentation anti-inflammatoire)."
+      "advice": "Priorisez un environnement apaisant : sommeil, nature, alimentation équilibrée et réduction des stimuli."
     },
     {
       "id": "coeur",
       "name": "Cœur éponge",
       "sections": [1, 7],
-      "description": "Votre défi est relationnel. Vous vous perdez dans les émotions des autres.",
-      "advice": "Travaillez sur les frontières émotionnelles (« Cette émotion ne m'appartient pas »). Apprenez à dire non."
+      "description": "Votre défi est relationnel. Vous absorbez facilement les émotions des autres.",
+      "advice": "Travaillez les frontières émotionnelles et apprenez à exprimer vos limites."
     },
     {
       "id": "cerveau",
       "name": "Cerveau en ébullition",
       "sections": [2, 5],
-      "description": "Votre défi est mental. Vous analysez intensément et pouvez saturer d'informations.",
-      "advice": "Pratiques d'ancrage corporel (sport, méditation, travail manuel) pour sortir de la tête."
+      "description": "Votre défi est mental. Vous analysez profondément et pouvez saturer d'informations.",
+      "advice": "Pratiques d'ancrage : sport, respiration, activités manuelles pour sortir du mental."
     },
     {
       "id": "intuitif",
       "name": "Intuitif / Créatif",
-      "sections": [4],
-      "description": "C'est votre ressource principale. Un score élevé ici indique une capacité de résilience par l'émerveillement.",
-      "advice": "Nourrissez ce besoin d'art, de beauté et de nature — c'est votre « médicament » naturel."
+      "sections": [4, 2],
+      "description": "Votre ressource principale est votre sensibilité à la beauté, aux symboles et aux intuitions.",
+      "advice": "Nourrissez cette ressource avec l'art, la créativité, la nature et les activités contemplatives."
     }
   ]
 }
