@@ -558,6 +558,11 @@ export const useGameStore = defineStore('game', {
           }
         }
 
+        const newMilestone = getMilestoneForScene(sceneId)
+        if (newMilestone && !this.reachedMilestones.includes(newMilestone.id)) {
+          this.reachedMilestones.push(newMilestone.id)
+        }
+
         this.currentSceneId = sceneId
         this.currentEntryAnnotationIndex = 0
         this.currentDialogueIndex = 0
@@ -586,7 +591,15 @@ export const useGameStore = defineStore('game', {
       }
 
       if (nextStep.type === 'milestone') {
-        this.goToMilestone(nextStep.milestoneId)
+        const sceneId = findFirstValidSceneIdInMilestone(
+          nextStep.milestoneId,
+          MILESTONES,
+          gameData.scenes,
+          this.flags
+        )
+        if (sceneId) {
+          this.goToScene(sceneId)
+        }
         return
       }
 
