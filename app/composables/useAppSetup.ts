@@ -12,6 +12,10 @@ type LenisRef = {
   lenis?: {
     start: () => void
     stop: () => void
+    scrollTo: (
+      target: number | string | HTMLElement,
+      options?: { immediate?: boolean; offset?: number; duration?: number }
+    ) => void
   }
 }
 
@@ -96,7 +100,41 @@ export const useAppSetup = (lenisRef: Ref<LenisRef | null>) => {
 
   onMounted(() => {
     if (route.path === '/game-tools-view') return
-    scrollTo(0, 0)
+
+    // Allow browser to handle scroll restoration if we have a specific entry point
+    const hasEntryPoint =
+      !!useRuntimeConfig().public.startDialogueId ||
+      (import.meta.dev &&
+        gameData.initialSceneId !== useGameStore().currentSceneId)
+
+    if (!hasEntryPoint) {
+      // Force scroll to top on start
+      if (import.meta.client) {
+        window.scrollTo(0, 0)
+
+        // If Lenis is already initialized, use it too
+        if (lenisRef.value?.lenis) {
+          lenisRef.value.lenis.scrollTo(0, { immediate: true })
+        } else {
+          // Wait for Lenis to be ready if it's not yet
+          const unwatchLenis = watch(
+            () => lenisRef.value?.lenis,
+            (lenis) => {
+              if (lenis) {
+                lenis.scrollTo(0, { immediate: true })
+                unwatchLenis()
+              }
+            }
+          )
+        }
+
+        // Disable browser's automatic scroll restoration to avoid jumping
+        if ('scrollRestoration' in history) {
+          history.scrollRestoration = 'manual'
+        }
+      }
+    }
+
     if (!animations.landing.intro.entry.completed) {
       lenisRef.value?.lenis?.stop()
     }
@@ -129,7 +167,6 @@ export const useAppSetup = (lenisRef: Ref<LenisRef | null>) => {
         () => lenisRef.value?.lenis,
         (lenis) => {
           if (lenis) {
-            // @ts-expect-error: Necessary for DevTools bridge
             window.lenis = lenis
           }
         },
