@@ -5,6 +5,7 @@ import {
   useExperienceGradient,
 } from '~/app/composables/game/useExperienceGradient'
 import { QUIZ_ENTRY_DELAY_MS } from '~/app/constants/durations'
+import { isContentRevealedPhase } from '~/app/stores/game/intro'
 import type { Choice } from '~/app/types/game'
 
 import GameChoiceButtons from './game/GameChoiceButtons.vue'
@@ -117,7 +118,7 @@ const isEyeHidden = computed(() => {
   return (
     (animationsStore.aurora.visible &&
       !isDayTransition.value &&
-      gameStore.introPlayed) ||
+      isContentRevealedPhase(gameStore.introAnimationPhase)) ||
     isGameEnd.value
   )
 })

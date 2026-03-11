@@ -366,6 +366,10 @@ export const useIntroSequenceAnimation = (
 
     mainTl.eventCallback('onComplete', () => {
       animationsStore.setScrollLocked(true)
+      if (!gameStore.introPlayed) {
+        gameStore.setIntroAnimationPhase('complete')
+        gameStore.setIntroPlayed()
+      }
     })
 
     mainTl.eventCallback('onUpdate', () => {

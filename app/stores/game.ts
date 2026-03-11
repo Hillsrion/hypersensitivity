@@ -422,6 +422,10 @@ export const useGameStore = defineStore('game', {
     advanceDialogue(force = false) {
       if (this.isTransitioning) return
 
+      if (!this.introPlayed) {
+        this.setIntroPlayed()
+      }
+
       // Clear any pending pause timer if we advance manually
       this._pauseTimerId = clearScheduledTimer(this._pauseTimerId)
 

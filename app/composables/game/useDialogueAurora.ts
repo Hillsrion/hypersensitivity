@@ -1,4 +1,7 @@
-import { isEntryAnnotationPhase } from '~/app/stores/game/intro'
+import {
+  isContentRevealedPhase,
+  isEntryAnnotationPhase,
+} from '~/app/stores/game/intro'
 
 export function useDialogueAurora(isContainerVisible: Ref<boolean>) {
   const animationsStore = useAnimationsStore()
@@ -23,11 +26,11 @@ export function useDialogueAurora(isContainerVisible: Ref<boolean>) {
     // When we transition into the XP section but the eye hasn't finished opening,
     // we must ensure any leftover aurora from the landing sections is cleared
     // so that the colorful intro gradient and eye SVG are visible.
-    const isEyeSequenceRunning =
-      gameStore.introAnimationPhase === 'hidden' ||
-      gameStore.introAnimationPhase === 'annotation'
+    const isRevealedPhase = isContentRevealedPhase(
+      gameStore.introAnimationPhase
+    )
 
-    if (!gameStore.introPlayed || isEyeSequenceRunning) {
+    if (!gameStore.introPlayed && !isRevealedPhase) {
       if (import.meta.client && animationsStore.aurora.visible) {
         animationsStore.setAuroraVisibility(false)
         animationsStore.setAuroraAutoAnimate(false)
