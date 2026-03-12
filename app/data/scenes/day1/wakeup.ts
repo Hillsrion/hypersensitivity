@@ -57,7 +57,7 @@ export const dayOneOutfitSexy: Scene = {
   day: 1,
   title: 'Réveil',
   condition: { flag: 'outfitChoice', operator: 'equals', value: 'sexy' },
-  audio: 'experience/J01_C01_TenueA.mp3',
+  audio: 'experience/J01_C01_Tenue_A.mp3',
   dialogues: [
     thoughts(
       'd1_3',
@@ -75,7 +75,7 @@ export const dayOneOutfitComfort: Scene = {
   day: 1,
   title: 'Réveil',
   condition: { flag: 'outfitChoice', operator: 'equals', value: 'comfort' },
-  audio: 'experience/J01_C01_TenueB.mp3',
+  audio: 'experience/J01_C01_Tenue_B.mp3',
   dialogues: [
     thoughts(
       'd1_3b',
