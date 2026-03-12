@@ -90,7 +90,7 @@ useSeoMeta({
 
     <DevToolsView v-if="route?.path === '/game-tools-view'" />
     <div
-      v-else-if="route?.path === '/test'"
+      v-else-if="route?.path === '/test-hypersensibilite'"
       class="bg-primary text-white min-h-dvh w-full relative"
     >
       <div
