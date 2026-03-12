@@ -229,10 +229,7 @@ export const useGameStore = defineStore('game', {
       }
 
       try {
-        const canResume =
-          import.meta.env.DEV && devConfig.enabled
-            ? devConfig.resumeFromSnapshot
-            : true
+        const canResume = false
 
         const savedState = loadSnapshot(STORAGE_KEY)
 

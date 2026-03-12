@@ -30,7 +30,10 @@ export function useDialogueAurora(isContainerVisible: Ref<boolean>) {
       gameStore.introAnimationPhase
     )
 
-    if (!gameStore.introPlayed && !isRevealedPhase) {
+    if (
+      (!gameStore.introPlayed && !isRevealedPhase) ||
+      gameStore.introAnimationPhase === 'hidden'
+    ) {
       if (import.meta.client && animationsStore.aurora.visible) {
         animationsStore.setAuroraVisibility(false)
         animationsStore.setAuroraAutoAnimate(false)

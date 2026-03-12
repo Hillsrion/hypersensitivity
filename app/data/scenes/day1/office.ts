@@ -79,7 +79,7 @@ export const dayOneConflictSubmit: Scene = {
     d(
       'd1_17a',
       'LUCIE',
-      "Mais allez jouer ailleurs ! J'arrive même pas à me concentrer.",
+      "Mais allez jouer ailleurs ! J'arrive même pas à me concentrer !",
       {
         color: 'red',
         pause: 1.3,
