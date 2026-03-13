@@ -63,7 +63,7 @@ export const dayOneEndGoodAssertComfort: Scene = {
   dialogues: [
     thoughts(
       'd1_49c',
-      "Je suis fière de moi, j'ai fait une bonne journée. J'ai su dire non quand j'avais pas envie. Et je suis trop heureuse d'avoir des amies comme ça, toujours là pour écouter mes galères. Ça peut être cent fois la même chose, ça peut être long comme un lundi avec mes vocaux d'une minute trente. Ça peut sembler insignifiant pour la plupart des gens. Et pourtant, elles sont toujours là pour m'écouter avec la même attention, pour me consoler, pour me donner les meilleurs conseils. Je suis tellement reconnaissante",
+      "Je suis fière de moi, j'ai fait une bonne journée. J'ai su dire non quand j'avais pas envie. Et je suis trop heureuse d'avoir des amies comme ça, toujours là pour écouter mes galères. Ça peut être cent fois la même chose, ça peut être long comme un lundi avec mes vocaux d'une minute trente. Ça peut sembler insignifiant pour la plupart des gens. Et pourtant, elles sont toujours là pour m'écouter avec la même attention, pour me consoler, pour me donner les meilleurs conseils. Je suis tellement reconnaissante.",
       {
         color: 'green',
       }
@@ -85,7 +85,7 @@ export const dayOneEndGoodReflect: Scene = {
   dialogues: [
     thoughts(
       'd1_49r',
-      "Trop heureuse d'avoir des amis comme ça, toujours là pour écouter mes galères. Ça peut être cent fois la même chose, ça peut être long comme un lundi avec mes vocaux d'une minute trente. Ça peut sembler insignifiant pour la plupart des gens et pourtant, elles sont toujours là pour m'écouter avec la même attention, pour me consoler, pour me donner les meilleurs conseils. Je suis tellement reconnaissante",
+      "Trop heureuse d'avoir des amis comme ça, toujours là pour écouter mes galères. Ça peut être cent fois la même chose, ça peut être long comme un lundi avec mes vocaux d'une minute trente. Ça peut sembler insignifiant pour la plupart des gens et pourtant, elles sont toujours là pour m'écouter avec la même attention, pour me consoler, pour me donner les meilleurs conseils. Je suis tellement reconnaissante.",
       {
         color: 'green',
       }

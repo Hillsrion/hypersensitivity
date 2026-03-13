@@ -25,7 +25,7 @@ export const dayOneBathroom: Scene = {
   dialogues: [
     thoughts(
       'd1_2',
-      'OK, alors soit la robe qui me serre avec cette foutue étiquette dedans, mais je suis maxi fraîche, soit je mets pantalon oversize avec une chemise, mais je suis maxi confort pour la journée de taf',
+      'OK, alors soit la robe qui me serre avec cette foutue étiquette dedans, mais je suis maxi fraîche, soit je mets pantalon oversize avec une chemise, mais je suis maxi confort pour la journée de taf.',
       {
         color: 'red',
       }
@@ -61,7 +61,7 @@ export const dayOneOutfitSexy: Scene = {
   dialogues: [
     thoughts(
       'd1_3',
-      "Vas-y, ça va le faire. Je coupe les étiquettes et c'est carré",
+      "Vas-y, ça va le faire. Je coupe les étiquettes et c'est carré.",
       {
         color: 'green',
       }

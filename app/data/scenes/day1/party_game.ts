@@ -48,7 +48,7 @@ export const dayOnePlay: Scene = {
   title: 'Soiree',
   audio: 'experience/J01_C03A_Jeu.mp3',
   dialogues: [
-    d('d1_24', 'LUCIE', 'Vas-yyyyy', {
+    d('d1_24', 'LUCIE', 'Vas-yyyyy.', {
       color: 'yellow',
       energyChange: -5,
     }),
