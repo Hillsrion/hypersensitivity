@@ -239,78 +239,6 @@
       "end": 9.48
     }
   ],
-  "d1_3a": [
-    {
-      "word": "Vas-y,",
-      "start": 0.079,
-      "end": 0.56
-    },
-    {
-      "word": "one",
-      "start": 0.659,
-      "end": 0.879
-    },
-    {
-      "word": "life,",
-      "start": 0.879,
-      "end": 1.339
-    },
-    {
-      "word": "ça",
-      "start": 1.399,
-      "end": 1.519
-    },
-    {
-      "word": "va",
-      "start": 1.559,
-      "end": 1.639
-    },
-    {
-      "word": "le",
-      "start": 1.659,
-      "end": 1.759
-    },
-    {
-      "word": "faire !",
-      "start": 1.799,
-      "end": 2.119
-    },
-    {
-      "word": "Je",
-      "start": 2.46,
-      "end": 2.539
-    },
-    {
-      "word": "coupe",
-      "start": 2.559,
-      "end": 2.719
-    },
-    {
-      "word": "les",
-      "start": 2.72,
-      "end": 2.819
-    },
-    {
-      "word": "étiquettes",
-      "start": 2.859,
-      "end": 3.279
-    },
-    {
-      "word": "et",
-      "start": 3.279,
-      "end": 3.359
-    },
-    {
-      "word": "c'est",
-      "start": 3.359,
-      "end": 3.519
-    },
-    {
-      "word": "carré.",
-      "start": 3.539,
-      "end": 3.979
-    }
-  ],
   "d1_3b": [
     {
       "word": "déjà",
@@ -10028,7 +9956,7 @@
     {
       "word": "carré",
       "start": 3.239,
-      "end": 4.479
+      "end": 3.35
     }
   ],
   "d1_46": [
