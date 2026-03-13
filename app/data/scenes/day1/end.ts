@@ -59,21 +59,23 @@ export const dayOneEndGoodAssertComfort: Scene = {
     { flag: 'outfitChoice', operator: 'equals', value: 'comfort' },
     { flag: 'conflictOutcome', operator: 'equals', value: 'assert' },
   ],
-  audio: 'experience/J01_S06_Retour_NoBreakdown.mp3',
+  audio: 'experience/J01_S06_Retour_NoBreakdown_Karen.mp3',
   dialogues: [
     thoughts(
       'd1_49c',
-      "J'suis fière de moi, j'ai fait une bonne journée. Je me suis pas laissée marcher dessus. J'ai su dire non quand j'avais pas envie. Et je suis trop heureuse d'avoir des amies comme ça, toujours là pour écouter mes galères. Ça peut être cent fois la même chose, ça peut être long comme un lundi avec mes vocaux d'une minute trente. Ça peut sembler insignifiant pour la plupart des gens et pourtant, elles sont toujours là pour m'écouter avec la même attention, pour me consoler, pour me donner les meilleurs conseils. Je suis tellement reconnaissante !",
+      "Je suis fière de moi, j'ai fait une bonne journée. J'ai su dire non quand j'avais pas envie. Et je suis trop heureuse d'avoir des amies comme ça, toujours là pour écouter mes galères. Ça peut être cent fois la même chose, ça peut être long comme un lundi avec mes vocaux d'une minute trente. Ça peut sembler insignifiant pour la plupart des gens. Et pourtant, elles sont toujours là pour m'écouter avec la même attention, pour me consoler, pour me donner les meilleurs conseils. Je suis tellement reconnaissante",
       {
         color: 'green',
       }
     ),
   ],
 }
+
 export const dayOneEndGoodReflect: Scene = {
   id: SCENE_IDS.DAY_ONE_END_GOOD_REFLECT,
   day: 1,
   title: 'Retour',
+  entryAnnotation: 'De retour à la maison',
   terminal: true,
   conditions: [
     { flag: 'hadBreakdown', operator: 'equals', value: false },
