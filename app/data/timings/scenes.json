@@ -5756,479 +5756,344 @@
   ],
   "d1_49r": [
     {
-      "word": "J'suis",
-      "start": 0.519,
-      "end": 0.579
+      "word": "Trop",
+      "start": 0.059,
+      "end": 0.079
     },
     {
-      "word": "fière",
-      "start": 0.72,
-      "end": 0.959
+      "word": "heureuse",
+      "start": 0.219,
+      "end": 0.499
     },
     {
-      "word": "de",
-      "start": 0.959,
-      "end": 1.099
+      "word": "d'avoir",
+      "start": 0.5,
+      "end": 0.759
     },
     {
-      "word": "moi,",
-      "start": 1.12,
-      "end": 1.319
+      "word": "des",
+      "start": 0.78,
+      "end": 0.899
     },
     {
-      "word": "j'ai",
-      "start": 1.379,
-      "end": 1.5
+      "word": "amis",
+      "start": 0.939,
+      "end": 1.159
     },
     {
-      "word": "fait",
-      "start": 1.5,
-      "end": 1.599
+      "word": "comme",
+      "start": 1.22,
+      "end": 1.419
     },
     {
-      "word": "une",
-      "start": 1.62,
-      "end": 1.72
+      "word": "ça,",
+      "start": 1.439,
+      "end": 1.799
     },
     {
-      "word": "bonne",
-      "start": 1.74,
-      "end": 1.899
+      "word": "toujours",
+      "start": 1.819,
+      "end": 2.079
     },
     {
-      "word": "journée.",
-      "start": 1.96,
-      "end": 2.619
+      "word": "là",
+      "start": 2.099,
+      "end": 2.239
     },
     {
-      "word": "Je",
-      "start": 2.619,
-      "end": 2.679
+      "word": "pour",
+      "start": 2.259,
+      "end": 2.379
     },
     {
-      "word": "me",
-      "start": 2.7,
-      "end": 2.759
+      "word": "écouter",
+      "start": 2.46,
+      "end": 2.699
     },
     {
-      "word": "suis",
-      "start": 2.819,
-      "end": 2.98
+      "word": "mes",
+      "start": 2.72,
+      "end": 2.819
     },
     {
-      "word": "pas",
-      "start": 3.019,
-      "end": 3.099
+      "word": "galères.",
+      "start": 2.839,
+      "end": 3.759
     },
     {
-      "word": "laissée",
-      "start": 3.139,
-      "end": 3.379
+      "word": "Ça",
+      "start": 3.799,
+      "end": 3.859
     },
     {
-      "word": "marcher",
-      "start": 3.399,
-      "end": 3.639
+      "word": "peut",
+      "start": 3.939,
+      "end": 4
     },
     {
-      "word": "dessus.",
-      "start": 3.699,
-      "end": 4.339
+      "word": "être",
+      "start": 4.019,
+      "end": 4.159
     },
     {
-      "word": "J'ai",
-      "start": 4.36,
-      "end": 4.5
+      "word": "cent",
+      "start": 4.179,
+      "end": 4.379
     },
     {
-      "word": "su",
-      "start": 4.5,
-      "end": 4.639
+      "word": "fois",
+      "start": 4.42,
+      "end": 4.539
     },
     {
-      "word": "dire",
-      "start": 4.679,
-      "end": 4.819
+      "word": "la",
+      "start": 4.559,
+      "end": 4.659
     },
     {
-      "word": "non",
+      "word": "même",
+      "start": 4.699,
+      "end": 4.879
+    },
+    {
+      "word": "chose,",
       "start": 4.9,
-      "end": 5.019
-    },
-    {
-      "word": "quand",
-      "start": 5.079,
       "end": 5.179
     },
     {
-      "word": "j'avais",
+      "word": "ça",
       "start": 5.199,
-      "end": 5.44
+      "end": 5.259
     },
     {
-      "word": "pas",
-      "start": 5.46,
-      "end": 5.539
+      "word": "peut",
+      "start": 5.319,
+      "end": 5.4
     },
     {
-      "word": "envie.",
-      "start": 5.559,
-      "end": 6.219
+      "word": "être",
+      "start": 5.42,
+      "end": 5.579
     },
     {
-      "word": "Et",
-      "start": 6.239,
-      "end": 6.299
+      "word": "long",
+      "start": 5.599,
+      "end": 5.779
     },
     {
-      "word": "je",
-      "start": 6.339,
-      "end": 6.379
+      "word": "comme",
+      "start": 5.839,
+      "end": 5.94
     },
     {
-      "word": "suis",
-      "start": 6.379,
-      "end": 6.519
+      "word": "un",
+      "start": 5.96,
+      "end": 6.039
     },
     {
-      "word": "trop",
+      "word": "lundi",
+      "start": 6.059,
+      "end": 6.479
+    },
+    {
+      "word": "avec",
       "start": 6.539,
       "end": 6.699
     },
     {
-      "word": "heureuse",
+      "word": "mes",
       "start": 6.719,
-      "end": 6.999
-    },
-    {
-      "word": "d'avoir",
-      "start": 7.019,
-      "end": 7.259
-    },
-    {
-      "word": "des",
-      "start": 7.279,
-      "end": 7.379
-    },
-    {
-      "word": "amies",
-      "start": 7.44,
-      "end": 7.659
-    },
-    {
-      "word": "comme",
-      "start": 7.679,
-      "end": 7.919
-    },
-    {
-      "word": "ça,",
-      "start": 7.94,
-      "end": 8.3
-    },
-    {
-      "word": "toujours",
-      "start": 8.319,
-      "end": 8.579
-    },
-    {
-      "word": "là",
-      "start": 8.599,
-      "end": 8.739
-    },
-    {
-      "word": "pour",
-      "start": 8.76,
-      "end": 8.88
-    },
-    {
-      "word": "écouter",
-      "start": 8.96,
-      "end": 9.199
-    },
-    {
-      "word": "mes",
-      "start": 9.22,
-      "end": 9.32
-    },
-    {
-      "word": "galères.",
-      "start": 9.34,
-      "end": 10.26
-    },
-    {
-      "word": "Ça",
-      "start": 10.3,
-      "end": 10.36
-    },
-    {
-      "word": "peut",
-      "start": 10.44,
-      "end": 10.5
-    },
-    {
-      "word": "être",
-      "start": 10.519,
-      "end": 10.659
-    },
-    {
-      "word": "cent",
-      "start": 10.679,
-      "end": 10.88
-    },
-    {
-      "word": "fois",
-      "start": 10.92,
-      "end": 11.039
-    },
-    {
-      "word": "la",
-      "start": 11.059,
-      "end": 11.159
-    },
-    {
-      "word": "même",
-      "start": 11.199,
-      "end": 11.379
-    },
-    {
-      "word": "chose,",
-      "start": 11.399,
-      "end": 11.68
-    },
-    {
-      "word": "ça",
-      "start": 11.699,
-      "end": 11.76
-    },
-    {
-      "word": "peut",
-      "start": 11.819,
-      "end": 11.9
-    },
-    {
-      "word": "être",
-      "start": 11.92,
-      "end": 12.079
-    },
-    {
-      "word": "long",
-      "start": 12.099,
-      "end": 12.26
-    },
-    {
-      "word": "comme",
-      "start": 12.34,
-      "end": 12.439
-    },
-    {
-      "word": "un",
-      "start": 12.46,
-      "end": 12.539
-    },
-    {
-      "word": "lundi",
-      "start": 12.559,
-      "end": 12.96
-    },
-    {
-      "word": "avec",
-      "start": 13.039,
-      "end": 13.199
-    },
-    {
-      "word": "mes",
-      "start": 13.219,
-      "end": 13.36
+      "end": 6.859
     },
     {
       "word": "vocaux",
-      "start": 13.38,
-      "end": 13.68
+      "start": 6.879,
+      "end": 7.179
     },
     {
       "word": "d'une",
-      "start": 13.68,
-      "end": 13.819
+      "start": 7.179,
+      "end": 7.319
     },
     {
       "word": "minute",
-      "start": 13.84,
-      "end": 14.079
+      "start": 7.339,
+      "end": 7.579
     },
     {
       "word": "trente.",
-      "start": 14.099,
-      "end": 14.859
+      "start": 7.599,
+      "end": 8.36
     },
     {
       "word": "Ça",
-      "start": 14.899,
-      "end": 14.98
+      "start": 8.48,
+      "end": 8.5
     },
     {
       "word": "peut",
-      "start": 15,
-      "end": 15.119
+      "start": 8.5,
+      "end": 8.619
     },
     {
       "word": "sembler",
-      "start": 15.139,
-      "end": 15.42
+      "start": 8.639,
+      "end": 8.92
     },
     {
       "word": "insignifiant",
-      "start": 15.46,
-      "end": 16.12
+      "start": 8.96,
+      "end": 9.619
     },
     {
       "word": "pour",
-      "start": 16.14,
-      "end": 16.219
+      "start": 9.639,
+      "end": 9.72
     },
     {
       "word": "la",
-      "start": 16.239,
-      "end": 16.299
+      "start": 9.739,
+      "end": 9.84
     },
     {
       "word": "plupart",
-      "start": 16.359,
-      "end": 16.62
+      "start": 9.859,
+      "end": 10.179
     },
     {
       "word": "des",
-      "start": 16.7,
-      "end": 16.819
+      "start": 10.199,
+      "end": 10.32
     },
     {
       "word": "gens",
-      "start": 16.84,
-      "end": 17
+      "start": 10.34,
+      "end": 10.5
     },
     {
       "word": "et",
-      "start": 17.52,
-      "end": 17.639
+      "start": 11.019,
+      "end": 11.14
     },
     {
       "word": "pourtant,",
-      "start": 17.68,
-      "end": 18.559
+      "start": 11.18,
+      "end": 12.06
     },
     {
       "word": "elles",
-      "start": 18.6,
-      "end": 18.7
+      "start": 12.079,
+      "end": 12.199
     },
     {
       "word": "sont",
-      "start": 18.739,
-      "end": 18.879
+      "start": 12.199,
+      "end": 12.38
     },
     {
       "word": "toujours",
-      "start": 18.899,
-      "end": 19.159
+      "start": 12.399,
+      "end": 12.659
     },
     {
       "word": "là",
-      "start": 19.18,
-      "end": 19.319
+      "start": 12.679,
+      "end": 12.819
     },
     {
       "word": "pour",
-      "start": 19.34,
-      "end": 19.44
+      "start": 12.84,
+      "end": 12.94
     },
     {
       "word": "m'écouter",
-      "start": 19.46,
-      "end": 19.879
+      "start": 12.96,
+      "end": 13.4
     },
     {
       "word": "avec",
-      "start": 19.939,
-      "end": 20.12
+      "start": 13.44,
+      "end": 13.619
     },
     {
       "word": "la",
-      "start": 20.14,
-      "end": 20.239
+      "start": 13.639,
+      "end": 13.739
     },
     {
       "word": "même",
-      "start": 20.26,
-      "end": 20.399
+      "start": 13.779,
+      "end": 13.899
     },
     {
       "word": "attention,",
-      "start": 20.5,
-      "end": 21.239
+      "start": 14,
+      "end": 14.739
     },
     {
       "word": "pour",
-      "start": 21.26,
-      "end": 21.36
+      "start": 14.759,
+      "end": 14.88
     },
     {
       "word": "me",
-      "start": 21.38,
-      "end": 21.479
+      "start": 14.88,
+      "end": 15
     },
     {
       "word": "consoler,",
-      "start": 21.52,
-      "end": 22.339
+      "start": 15.019,
+      "end": 15.84
     },
     {
       "word": "pour",
-      "start": 22.36,
-      "end": 22.44
+      "start": 15.859,
+      "end": 15.96
     },
     {
       "word": "me",
-      "start": 22.46,
-      "end": 22.559
+      "start": 15.96,
+      "end": 16.059
     },
     {
       "word": "donner",
-      "start": 22.559,
-      "end": 22.76
+      "start": 16.059,
+      "end": 16.26
     },
     {
       "word": "les",
-      "start": 22.78,
-      "end": 22.899
+      "start": 16.28,
+      "end": 16.399
     },
     {
       "word": "meilleurs",
-      "start": 22.92,
-      "end": 23.2
+      "start": 16.42,
+      "end": 16.7
     },
     {
       "word": "conseils.",
-      "start": 23.22,
-      "end": 24.079
+      "start": 16.72,
+      "end": 17.579
     },
     {
       "word": "Je",
-      "start": 24.119,
-      "end": 24.159
+      "start": 17.619,
+      "end": 17.659
     },
     {
       "word": "suis",
-      "start": 24.18,
-      "end": 24.299
+      "start": 17.68,
+      "end": 17.799
     },
     {
       "word": "tellement",
-      "start": 24.34,
-      "end": 24.7
+      "start": 17.84,
+      "end": 18.2
     },
     {
-      "word": "reconnaissante !",
-      "start": 24.76,
-      "end": 25.46
+      "word": "reconnaissante",
+      "start": 18.26,
+      "end": 19.479
     }
   ],
   "d2_2": [

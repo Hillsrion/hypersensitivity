@@ -81,11 +81,11 @@ export const dayOneEndGoodReflect: Scene = {
     { flag: 'hadBreakdown', operator: 'equals', value: false },
     { flag: 'conflictOutcome', operator: 'notEquals', value: 'assert' },
   ],
-  audio: 'experience/J01_S06_Retour_NoBreakdown.mp3',
+  audio: 'experience/J01_S06_Retour_Unrestricted.mp3',
   dialogues: [
     thoughts(
       'd1_49r',
-      "J'suis fière de moi, j'ai fait une bonne journée. Je me suis pas laissée marcher dessus. J'ai su dire non quand j'avais pas envie. Et je suis trop heureuse d'avoir des amies comme ça, toujours là pour écouter mes galères. Ça peut être cent fois la même chose, ça peut être long comme un lundi avec mes vocaux d'une minute trente. Ça peut sembler insignifiant pour la plupart des gens et pourtant, elles sont toujours là pour m'écouter avec la même attention, pour me consoler, pour me donner les meilleurs conseils. Je suis tellement reconnaissante !",
+      "Trop heureuse d'avoir des amis comme ça, toujours là pour écouter mes galères. Ça peut être cent fois la même chose, ça peut être long comme un lundi avec mes vocaux d'une minute trente. Ça peut sembler insignifiant pour la plupart des gens et pourtant, elles sont toujours là pour m'écouter avec la même attention, pour me consoler, pour me donner les meilleurs conseils. Je suis tellement reconnaissante",
       {
         color: 'green',
       }
