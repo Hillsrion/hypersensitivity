@@ -19,18 +19,8 @@ watch(
 
 <template>
   <div
-    class="flex items-center gap-4 flex-row min-[590px]:flex-col transition-all duration-300"
+    class="flex flex-row items-center gap-2 transition-all duration-300 min-[590px]:flex-col-reverse min-[590px]:gap-4"
   >
-    <div class="border border-current p-0.5 rounded-full">
-      <div
-        class="relative overflow-hidden rounded-full h-1 w-32 min-[590px]:w-1 min-[590px]:h-62.5"
-      >
-        <div
-          class="absolute bg-current rounded-full top-0 left-0 h-full w-(--energy) min-[590px]:top-auto min-[590px]:bottom-0 min-[590px]:w-full min-[590px]:h-(--energy)"
-          :style="{ '--energy': `${animatedEnergy}%` }"
-        />
-      </div>
-    </div>
     <svg
       width="10"
       height="15"
@@ -45,5 +35,15 @@ watch(
         stroke="currentColor"
       />
     </svg>
+    <div class="border border-current p-0.5 rounded-full">
+      <div
+        class="relative overflow-hidden rounded-full h-1 w-32 min-[590px]:w-1 min-[590px]:h-62.5"
+      >
+        <div
+          class="absolute bg-current rounded-full top-0 left-0 h-full w-(--energy) min-[590px]:top-auto min-[590px]:bottom-0 min-[590px]:w-full min-[590px]:h-(--energy)"
+          :style="{ '--energy': `${animatedEnergy}%` }"
+        />
+      </div>
+    </div>
   </div>
 </template>
