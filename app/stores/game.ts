@@ -142,18 +142,6 @@ export const useGameStore = defineStore('game', {
       )
     },
 
-    nextSceneId(state): string | null {
-      const nextStep = resolveNextProgressionStep({
-        currentSceneId: state.currentSceneId,
-        flags: state.flags,
-        scenes: gameData.scenes,
-        milestones: MILESTONES,
-        milestoneOrder: MILESTONE_ORDER,
-        getMilestoneForScene,
-      })
-      return nextStep.type === 'scene' ? nextStep.sceneId : null
-    },
-
     isMenuOpen: (state) => state.menuStatus === 'open',
     isMenuOpening: (state) => state.menuStatus === 'opening',
     isMenuClosing: (state) => state.menuStatus === 'closing',
