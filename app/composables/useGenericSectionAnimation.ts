@@ -33,10 +33,11 @@ export function useGenericSectionAnimation(
     // Helpers moved up for accessibility
     const getMinScale = () => {
       const width = window.innerWidth
-      if (width <= 360) return 0.65
+      // Increased mobile scale to 0.8 (was 0.65) to make it more readable/prominent
+      if (width <= 375) return 0.8
       if (width >= 1280) return 0.46
-      // Linear interpolation between 0.65 (mobile) and 0.46 (desktop)
-      return 0.65 - ((width - 360) * (0.65 - 0.46)) / (1280 - 360)
+      // Linear interpolation between 0.8 (mobile) and 0.46 (desktop)
+      return 0.8 - ((width - 375) * (0.8 - 0.46)) / (1280 - 375)
     }
 
     const getOffset = () => (window.innerWidth < 768 ? 32 : 62)
