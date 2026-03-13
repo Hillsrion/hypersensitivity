@@ -36,6 +36,7 @@ export const dayOneRefuseAssert: Scene = {
   id: SCENE_IDS.DAY_ONE_REFUSE_ASSERT,
   day: 1,
   title: 'Soiree',
+  audio: 'experience/J01_C03B_Discussion.mp3',
   condition: { flag: 'conflictOutcome', operator: 'equals', value: 'assert' },
   dialogues: [
     d(
