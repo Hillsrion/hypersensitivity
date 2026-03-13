@@ -179,6 +179,7 @@ defineExpose({
       </div>
     </div>
 
+    <!-- Bottom block: Restart button -->
     <div class="flex justify-center" :class="EDGE_SPACING.PB">
       <HSPButton ref="restartBtnRef" class="opacity-0" @click="emit('restart')">
         Recommencer le questionnaire

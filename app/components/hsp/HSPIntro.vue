@@ -72,9 +72,13 @@ onMounted(() => {
       :class="EDGE_SPACING.BOTTOM"
     >
       <!-- Button handles interaction and animation -->
-      <HSPButton ref="btnRef" class="opacity-0" @click="$emit('start')">
+      <button
+        ref="btnRef"
+        class="uppercase text-base/5 items-center justify-center font-medium text-white opacity-0 transition-colors duration-300 hover:text-gray-300"
+        @click="$emit('start')"
+      >
         Commencer le questionnaire
-      </HSPButton>
+      </button>
     </div>
   </div>
 </template>

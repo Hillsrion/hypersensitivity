@@ -17,8 +17,7 @@ export const useHSPIntroAnimation = () => {
         desc1Ref.value,
         desc2Ref.value,
         ...(statRefs.value || []),
-        // @ts-expect-error - Handle component $el
-        btnRef.value?.$el || btnRef.value,
+        btnRef.value,
       ]
 
       tl.to(elements, {
@@ -43,8 +42,7 @@ export const useHSPIntroAnimation = () => {
         desc1Ref.value,
         desc2Ref.value,
         ...(statRefs.value || []),
-        // @ts-expect-error - Handle component $el
-        btnRef.value?.$el || btnRef.value,
+        btnRef.value,
       ]
 
       tl.fromTo(

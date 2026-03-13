@@ -113,14 +113,12 @@ const getRatingClass = (value: number) => {
           >
             Question {{ currentQuestionIndex + 1 }} / {{ totalQuestions }}
           </AppText>
-          <AppText
+          <div
             v-if="currentQuestion.inversed"
-            as="p"
-            variant="body"
             class="bg-white text-primary px-4 py-2 rounded-full text-xl font-medium"
           >
             Inversée
-          </AppText>
+          </div>
         </div>
         <AppText as="div" variant="quiz">
           <p
@@ -168,21 +166,26 @@ const getRatingClass = (value: number) => {
       class="flex justify-between items-center opacity-0 mt-auto"
       :class="EDGE_SPACING.PB"
     >
-      <HSPButton
-        variant="ghost"
+      <button
+        class="text-white transition-[colors,opacity] duration-300 flex items-center gap-2 px-4 py-2"
+        :class="{
+          'disabled:opacity-30 disabled:cursor-not-allowed':
+            currentQuestionIndex === 0,
+        }"
         :disabled="currentQuestionIndex === 0 || isAnimating"
         @click="onPrevious"
       >
         <span>←</span>
         Précédent
-      </HSPButton>
-      <HSPButton
+      </button>
+      <button
+        class="bg-white text-black px-8 py-3 rounded-full font-medium hover:bg-gray-200 transition-colors duration-300 disabled:opacity-30 disabled:cursor-not-allowed flex items-center gap-2"
         :disabled="currentAnswer === null || isAnimating"
         @click="onNext"
       >
         {{ isLastQuestion ? 'Voir les résultats' : 'Suivant' }}
         <span v-if="!isLastQuestion">→</span>
-      </HSPButton>
+      </button>
     </div>
   </div>
 </template>
