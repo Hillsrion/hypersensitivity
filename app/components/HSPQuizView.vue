@@ -45,6 +45,7 @@ const route = useRoute()
 const introRef = useTemplateRef('introRef')
 const quizRef = useTemplateRef('quizRef')
 const resultsRef = useTemplateRef('resultsRef')
+const resultsWrapperRef = useTemplateRef<HTMLElement>('resultsWrapperRef')
 const elementRef = useTemplateRef<HTMLElement>('elementRef')
 
 const contentReady = ref(false)
@@ -54,10 +55,22 @@ const animateFooter = ref(false)
 let contentReadyTimer: ReturnType<typeof setTimeout> | null = null
 
 const resultsOpacity = computed(() => {
-  if (currentView.value !== 'results') return 1
+  if (
+    currentView.value !== 'results' ||
+    !elementRef.value ||
+    !resultsWrapperRef.value
+  )
+    return 1
+
+  const wrapperHeight = resultsWrapperRef.value.offsetHeight
+  const viewportHeight = elementRef.value.clientHeight
+
+  // Only start fading when we reach the bottom of the results content
+  const startFadingAt = Math.max(0, wrapperHeight - viewportHeight)
 
   const progress = Math.min(
-    resultsScrollTop.value / RESULTS_FADE_DISTANCE_PX,
+    Math.max(0, resultsScrollTop.value - startFadingAt) /
+      RESULTS_FADE_DISTANCE_PX,
     1
   )
   return 1 - progress
@@ -81,9 +94,13 @@ const handleContainerScroll = () => {
   const scrollTop = Math.max(elementRef.value.scrollTop, 0)
   resultsScrollTop.value = scrollTop
 
+  const wrapperHeight = resultsWrapperRef.value?.offsetHeight ?? 0
+  const viewportHeight = elementRef.value.clientHeight
+  const startFadingAt = Math.max(0, wrapperHeight - viewportHeight)
+
   if (
     !footerRevealTriggered.value &&
-    scrollTop >= FOOTER_REVEAL_SCROLL_THRESHOLD_PX
+    scrollTop >= startFadingAt + FOOTER_REVEAL_SCROLL_THRESHOLD_PX
   ) {
     footerRevealTriggered.value = true
     gameStore.setShowFinalFooter(true)
@@ -92,7 +109,7 @@ const handleContainerScroll = () => {
   // Trigger footer text animation when we've scrolled enough to see the footer
   if (
     !animateFooter.value &&
-    scrollTop >= elementRef.value.clientHeight * 0.9
+    scrollTop >= elementRef.value.scrollHeight * 0.8
   ) {
     animateFooter.value = true
   }
@@ -252,6 +269,7 @@ onUnmounted(() => {
       >
         <div
           v-if="currentView === 'results'"
+          ref="resultsWrapperRef"
           class="min-h-dvh w-full flex items-center justify-center transition-opacity duration-300"
           :style="{ opacity: resultsOpacity }"
         >

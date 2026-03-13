@@ -52,14 +52,20 @@ watch(
     >
       <div>
         <div
-          class="flex flex-wrap items-end justify-between gap-x-8 gap-y-3 text-base/7 font-medium text-white"
+          class="flex flex-wrap items-end justify-center md:justify-between gap-x-8 gap-y-3 text-base/7 font-medium text-white"
         >
-          <p class="uppercase shrink-0">© {{ currentYear }} Hypersensibles</p>
+          <p
+            class="uppercase shrink-0 text-center md:text-left w-full md:w-auto"
+          >
+            © {{ currentYear }} Hypersensibles
+          </p>
 
           <div
-            class="basis-full md:basis-auto flex flex-wrap md:justify-end fl-gap-x-8/12 gap-y-2"
+            class="basis-full md:basis-auto flex flex-wrap justify-center md:justify-end fl-gap-x-8/12 gap-y-2"
           >
-            <p class="whitespace-normal md:whitespace-nowrap">
+            <p
+              class="whitespace-normal md:whitespace-nowrap text-center md:text-left"
+            >
               Développement / Court-métrage par
               <a
                 :href="props.developmentCreditUrl"
@@ -70,7 +76,9 @@ watch(
                 Ismaël Sebbane
               </a>
             </p>
-            <p class="whitespace-normal md:whitespace-nowrap">
+            <p
+              class="whitespace-normal md:whitespace-nowrap text-center md:text-left"
+            >
               Design par
               <a
                 :href="props.designCreditUrl"
