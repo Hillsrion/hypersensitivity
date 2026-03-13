@@ -7,6 +7,9 @@ const props = defineProps<{
   blurAmount?: number
 }>()
 
+const { width } = useWindowSize()
+const isMobile = computed(() => width.value < 768)
+
 const emit = defineEmits<{
   animationComplete: []
 }>()
@@ -92,7 +95,7 @@ const {
       :class="[
         { 'opacity-0': !showDialogueContent || !isReady },
         isRightAligned ? 'text-right' : 'text-left',
-        dialogue.isCompact ? 'fl-text-lg/xl' : 'fl-text-xl/title',
+        dialogue.isCompact && isMobile ? 'fl-text-lg/xl' : 'fl-text-xl/title',
       ]"
     >
       {{ dialogue.text }}

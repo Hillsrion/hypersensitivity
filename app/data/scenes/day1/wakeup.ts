@@ -11,7 +11,7 @@ export const dayOneWakeup: Scene = {
     'Le réveil sonne, les oiseaux chantent, bruits de couette qui bouge, bruits de pas',
   entryAudioEarlyStart: true,
   dialogues: [
-    thoughts('d1_1', 'Oh purée, un autre jour dans la France de Macron..', {
+    thoughts('d1_1', 'Oh purée, un autre jour dans la France de Macron...', {
       color: 'violet',
     }),
   ],

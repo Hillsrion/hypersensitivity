@@ -117,7 +117,7 @@ export const dayOneConflictAssert: Scene = {
     d(
       'd1_17b',
       'LUCIE',
-      "Je pense que c'est juste pas réalisable qu'on boucle ce sprint dans les temps. Je comprends qu'on doive avancer sur la roadmap..",
+      "Je pense que c'est juste pas réalisable qu'on boucle ce sprint dans les temps. Je comprends qu'on doive avancer sur la roadmap...",
       {
         color: 'blue',
         pause: 1.3,

@@ -14,7 +14,7 @@ export const dayOnePartySexy: Scene = {
   condition: { flag: 'outfitChoice', operator: 'equals', value: 'sexy' },
   audio: 'experience/J01_S05_Soiree_Tenue_Sexy.mp3',
   dialogues: [
-    d('d1_19a', 'LUCIE', 'Hey!', {
+    d('d1_19a', 'LUCIE', 'Hey !', {
       color: 'green',
     }),
     d(
@@ -62,7 +62,7 @@ export const dayOnePartyComfort: Scene = {
     d(
       'd1_21b',
       'Ines',
-      "Comment il va, le petit monstre? Ça fait longtemps que je ne l'ai pas vu, lui non plus.",
+      "Comment il va, le petit monstre ? Ça fait longtemps que je ne l'ai pas vu, lui non plus.",
       {
         color: 'green',
       }

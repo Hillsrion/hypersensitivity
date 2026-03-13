@@ -16,7 +16,7 @@ export const dayOneGameEvent: Scene = {
     ),
     thoughts(
       'd1_23',
-      "Mon Dieu, la dernière fois, j'ai rien compris. Je me suis trompée quatre fois devant tout le monde et je sentais bien qu'ils étaient saoulés. Je me suis sentie trop conne..",
+      "Mon Dieu, la dernière fois, j'ai rien compris. Je me suis trompée quatre fois devant tout le monde et je sentais bien qu'ils étaient saoulés. Je me suis sentie trop conne...",
       {
         color: 'violet',
       }
@@ -98,7 +98,7 @@ export const dayOnePlay: Scene = {
     d(
       'd1_32_bis',
       'Ines',
-      "Luci.. Hey, t'es partie d'un coup et t'es toute pâle. Ça va ?",
+      "Luci... Hey, t'es partie d'un coup et t'es toute pâle. Ça va ?",
       {
         color: 'blue',
       }
@@ -119,7 +119,7 @@ export const dayOnePlay: Scene = {
         color: 'green',
       }
     ),
-    d('d1_35', 'LUCIE', 'Merci ma douce..', {
+    d('d1_35', 'LUCIE', 'Merci ma douce...', {
       color: 'green',
     }),
   ],
