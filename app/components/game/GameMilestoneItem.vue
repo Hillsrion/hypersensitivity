@@ -33,11 +33,11 @@ defineExpose({
 
 <template>
   <div
-    class="relative flex-none w-[25vw] min-w-[300px] flex flex-col items-center shrink-0"
+    class="relative flex-none w-[280px] lg:w-[25vw] -mr-[140px] lg:mr-0 flex flex-col shrink-0"
   >
     <!-- Milestone Point Container -->
     <button
-      class="origin-bottom-left -rotate-45"
+      class="absolute left-1/2 top-1/2 -translate-x-2 -translate-y-2 origin-left -rotate-45"
       :class="{
         'opacity-50 cursor-not-allowed': !isReached,
         'cursor-pointer': isReached,
@@ -45,11 +45,7 @@ defineExpose({
       @click="$emit('click', milestone.id)"
     >
       <!-- Title -->
-      <AppText
-        as="div"
-        variant="body"
-        class="whitespace-nowrap flex items-center"
-      >
+      <AppText as="div" variant="body" class="flex items-center">
         <!-- Dot -->
         <div
           ref="dotRef"
@@ -58,7 +54,7 @@ defineExpose({
         />
         <div
           ref="labelRef"
-          class="font-sans pl-4 transition-colors duration-300 text-primary group-hover:text-primary/70"
+          class="font-sans pl-4 transition-colors duration-300 text-primary group-hover:text-primary/70 leading-tight whitespace-nowrap"
         >
           <span class="uppercase mr-1 font-medium tabular-nums"
             >JOUR {{ milestone.day }}</span
