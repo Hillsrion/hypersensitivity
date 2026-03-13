@@ -3,8 +3,7 @@ export const useHSPIntroAnimation = () => {
   const titleRef = useTemplateRef<HTMLElement>('titleRef')
   const desc1Ref = useTemplateRef<HTMLElement>('desc1Ref')
   const desc2Ref = useTemplateRef<HTMLElement>('desc2Ref')
-  const stat1Ref = useTemplateRef<HTMLElement>('stat1Ref')
-  const stat2Ref = useTemplateRef<HTMLElement>('stat2Ref')
+  const statRefs = useTemplateRef<HTMLElement[]>('statRefs')
   const btnRef = useTemplateRef<HTMLElement>('btnRef')
 
   const leave = () => {
@@ -17,9 +16,9 @@ export const useHSPIntroAnimation = () => {
         titleRef.value,
         desc1Ref.value,
         desc2Ref.value,
-        stat1Ref.value,
-        stat2Ref.value,
-        btnRef.value,
+        ...(statRefs.value || []),
+        // @ts-expect-error - Handle component $el
+        btnRef.value?.$el || btnRef.value,
       ]
 
       tl.to(elements, {
@@ -43,9 +42,9 @@ export const useHSPIntroAnimation = () => {
         titleRef.value,
         desc1Ref.value,
         desc2Ref.value,
-        stat1Ref.value,
-        stat2Ref.value,
-        btnRef.value,
+        ...(statRefs.value || []),
+        // @ts-expect-error - Handle component $el
+        btnRef.value?.$el || btnRef.value,
       ]
 
       tl.fromTo(
@@ -71,8 +70,7 @@ export const useHSPIntroAnimation = () => {
     titleRef,
     desc1Ref,
     desc2Ref,
-    stat1Ref,
-    stat2Ref,
+    statRefs,
     btnRef,
     enter,
     leave,

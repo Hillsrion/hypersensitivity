@@ -1,7 +1,7 @@
 <script setup>
 import { EDGE_SPACING } from '~/app/constants/layout'
 
-defineProps({
+const props = defineProps({
   totalQuestions: {
     type: Number,
     required: true,
@@ -13,6 +13,11 @@ defineProps({
 })
 
 defineEmits(['start'])
+
+const stats = computed(() => [
+  `${props.totalQuestions} questions réparties en ${props.sectionsCount} sections`,
+  'Durée estimée : 10 minutes',
+])
 
 const { enter, leave } = useHSPIntroAnimation()
 
@@ -48,18 +53,16 @@ onMounted(() => {
       </p>
     </AppText>
 
-    <div class="flex items-center justify-center gap-8 text-gray-500 text-sm">
+    <div
+      class="flex items-center justify-center fl-gap-5/8 text-gray-500 text-sm"
+    >
       <span
-        ref="stat1Ref"
-        class="font-serif p-4 rounded-full border border-white text-white text-base/5 opacity-0"
+        v-for="(stat, index) in stats"
+        :key="index"
+        ref="statRefs"
+        class="font-serif fl-p-2.5/4 rounded-full border border-white text-white fl-text-sm/base leading-5 opacity-0"
       >
-        {{ totalQuestions }} questions réparties en {{ sectionsCount }} sections
-      </span>
-      <span
-        ref="stat2Ref"
-        class="font-serif p-4 rounded-full border border-white text-white text-base/5 opacity-0"
-      >
-        Durée estimée : 10 minutes
+        {{ stat }}
       </span>
     </div>
 
@@ -69,13 +72,9 @@ onMounted(() => {
       :class="EDGE_SPACING.BOTTOM"
     >
       <!-- Button handles interaction and animation -->
-      <button
-        ref="btnRef"
-        class="uppercase text-base/5 items-center justify-center font-medium text-white opacity-0 transition-colors duration-300 hover:text-gray-300"
-        @click="$emit('start')"
-      >
+      <HSPButton ref="btnRef" class="opacity-0" @click="$emit('start')">
         Commencer le questionnaire
-      </button>
+      </HSPButton>
     </div>
   </div>
 </template>

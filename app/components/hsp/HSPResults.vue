@@ -45,7 +45,7 @@ defineExpose({
 </script>
 
 <template>
-  <div class="w-full max-w-5xl text-left mx-auto md:mt-8 mt-4">
+  <div class="w-full max-w-5xl text-left mx-auto md:mt-8 mt-10">
     <!-- Top block -->
     <div class="grid grid-cols-1 md:grid-cols-2 gap-16 md:gap-24 mb-10">
       <!-- Left side: Score and Sensitivity -->
@@ -179,15 +179,10 @@ defineExpose({
       </div>
     </div>
 
-    <!-- Bottom block: Restart button -->
     <div class="flex justify-center" :class="EDGE_SPACING.PB">
-      <button
-        ref="restartBtnRef"
-        class="bg-transparent border border-gray-600 text-gray-300 px-8 py-4 rounded-md font-sans text-xs md:text-sm st uppercase hover:bg-white hover:text-black transition-all duration-300 opacity-0"
-        @click="emit('restart')"
-      >
+      <HSPButton ref="restartBtnRef" class="opacity-0" @click="emit('restart')">
         Recommencer le questionnaire
-      </button>
+      </HSPButton>
     </div>
   </div>
 </template>

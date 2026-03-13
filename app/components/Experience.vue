@@ -156,7 +156,9 @@ const isEyeHidden = computed(() => {
           <div
             class="max-w-2xl px-6 text-center h-full flex flex-col items-center justify-center"
           >
-            <h2 class="font-serif italic text-title leading-[1.4] text-white">
+            <h2
+              class="font-serif italic fl-text-xl/title leading-[1.4] text-white"
+            >
               Souhaitez-vous évaluer votre spectre de l'Hypersensibilité ?
             </h2>
           </div>

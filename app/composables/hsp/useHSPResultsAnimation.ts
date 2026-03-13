@@ -32,7 +32,8 @@ export const useHSPResultsAnimation = (props: HSPResultsAnimationProps) => {
         sectionsTitleRef.value,
         profileCardRef.value,
         alertCardRef.value,
-        restartBtnRef.value,
+        // @ts-expect-error - Handle component $el
+        restartBtnRef.value?.$el || restartBtnRef.value,
       ].filter(isHTMLElement)
 
       $gsap.set(mainElements, {
@@ -147,7 +148,8 @@ export const useHSPResultsAnimation = (props: HSPResultsAnimationProps) => {
         scoreContainerRef.value,
         profileCardRef.value,
         alertCardRef.value,
-        restartBtnRef.value,
+        // @ts-expect-error - Handle component $el
+        restartBtnRef.value?.$el || restartBtnRef.value,
         ...(sectionItemsRef.value ?? []),
       ].filter(isHTMLElement)
 
