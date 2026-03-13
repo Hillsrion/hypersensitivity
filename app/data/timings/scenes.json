@@ -8287,244 +8287,243 @@
   "d1_42": [
     {
       "word": "Bien",
-      "start": 24.219,
-      "end": 24.399
+      "start": 0.439,
+      "end": 0.6
     },
     {
       "word": "sûr",
-      "start": 24.44,
-      "end": 24.539
+      "start": 0.68,
+      "end": 0.8
     },
     {
       "word": "que",
-      "start": 24.559,
-      "end": 24.619
+      "start": 0.799,
+      "end": 0.86
     },
     {
       "word": "je",
-      "start": 24.62,
-      "end": 24.659
+      "start": 0.899,
+      "end": 0.899
     },
     {
       "word": "l'ai",
-      "start": 24.68,
-      "end": 24.799
+      "start": 0.92,
+      "end": 1.039
     },
     {
       "word": "bougée",
-      "start": 24.819,
-      "end": 25.04
+      "start": 1.059,
+      "end": 1.279
     },
     {
       "word": "de",
-      "start": 25.059,
-      "end": 25.12
+      "start": 1.319,
+      "end": 1.379
     },
     {
-      "word": "là.",
-      "start": 25.159,
-      "end": 25.539
+      "word": "là,",
+      "start": 1.399,
+      "end": 1.799
     },
     {
-      "word": "Mais",
-      "start": 25.559,
-      "end": 25.659
+      "word": "mais",
+      "start": 1.799,
+      "end": 1.919
     },
     {
       "word": "c'est",
-      "start": 25.68,
-      "end": 25.799
+      "start": 1.919,
+      "end": 2.059
     },
     {
       "word": "pas",
-      "start": 25.84,
-      "end": 25.92
+      "start": 2.079,
+      "end": 2.159
     },
     {
       "word": "dans",
-      "start": 25.94,
-      "end": 26.039
+      "start": 2.18,
+      "end": 2.279
     },
     {
       "word": "l'aprèm,",
-      "start": 26.039,
-      "end": 26.44
+      "start": 2.299,
+      "end": 2.679
     },
     {
       "word": "je",
-      "start": 26.44,
-      "end": 26.499
+      "start": 2.7,
+      "end": 2.74
     },
     {
       "word": "reçois",
-      "start": 26.52,
-      "end": 26.739
+      "start": 2.759,
+      "end": 3
     },
     {
       "word": "un",
-      "start": 26.76,
-      "end": 26.84
+      "start": 3,
+      "end": 3.099
     },
     {
       "word": "mail",
-      "start": 26.879,
-      "end": 27.04
+      "start": 3.119,
+      "end": 3.279
     },
     {
       "word": "du",
-      "start": 27.059,
-      "end": 27.119
+      "start": 3.299,
+      "end": 3.379
     },
     {
       "word": "responsable",
-      "start": 27.159,
-      "end": 27.7
+      "start": 3.399,
+      "end": 3.939
     },
     {
       "word": "pour",
-      "start": 27.7,
-      "end": 27.8
+      "start": 3.959,
+      "end": 4.059
     },
     {
       "word": "un",
-      "start": 27.819,
-      "end": 27.86
+      "start": 4.079,
+      "end": 4.119
     },
     {
       "word": "truc",
-      "start": 27.94,
-      "end": 28.139
+      "start": 4.179,
+      "end": 4.359
     },
     {
       "word": "rien",
-      "start": 28.199,
-      "end": 28.459
+      "start": 4.44,
+      "end": 4.699
     },
     {
       "word": "à",
-      "start": 28.519,
-      "end": 28.539
+      "start": 4.719,
+      "end": 4.799
     },
     {
       "word": "voir.",
-      "start": 28.619,
-      "end": 29.5
+      "start": 4.88,
+      "end": 5.759
     },
     {
       "word": "Elle",
-      "start": 29.539,
-      "end": 29.639
+      "start": 5.779,
+      "end": 5.879
     },
     {
-      "word": "allait",
-      "start": 29.699,
-      "end": 29.84
+      "word": "est",
+      "start": 5.879,
+      "end": 5.94
+    },
+    {
+      "word": "allée",
+      "start": 5.94,
+      "end": 6.059
     },
     {
       "word": "me",
-      "start": 29.84,
-      "end": 29.94
+      "start": 6.099,
+      "end": 6.179
     },
     {
       "word": "balancer",
-      "start": 29.94,
-      "end": 30.379
+      "start": 6.199,
+      "end": 6.639
     },
     {
       "word": "parce",
-      "start": 30.459,
-      "end": 30.579
+      "start": 6.699,
+      "end": 6.839
     },
     {
       "word": "que",
-      "start": 30.6,
-      "end": 30.659
+      "start": 6.859,
+      "end": 6.919
     },
     {
       "word": "je",
-      "start": 30.699,
-      "end": 30.739
+      "start": 6.96,
+      "end": 7
     },
     {
       "word": "suis",
-      "start": 30.739,
-      "end": 30.84
+      "start": 7,
+      "end": 7.079
     },
     {
       "word": "partie",
-      "start": 30.86,
-      "end": 31.079
+      "start": 7.099,
+      "end": 7.319
     },
     {
       "word": "un",
-      "start": 31.079,
-      "end": 31.159
+      "start": 7.319,
+      "end": 7.419
     },
     {
       "word": "peu",
-      "start": 31.18,
-      "end": 31.28
+      "start": 7.419,
+      "end": 7.559
     },
     {
       "word": "plus",
-      "start": 31.319,
-      "end": 31.399
+      "start": 7.559,
+      "end": 7.719
     },
     {
       "word": "tôt",
-      "start": 31.479,
-      "end": 31.579
+      "start": 7.719,
+      "end": 7.839
     },
     {
       "word": "mardi",
-      "start": 31.639,
-      "end": 31.92
+      "start": 7.899,
+      "end": 8.179
     },
     {
       "word": "dernier.",
-      "start": 31.959,
-      "end": 32.599
+      "start": 8.199,
+      "end": 8.859
     },
     {
       "word": "Elle",
-      "start": 32.639,
-      "end": 32.72
+      "start": 8.86,
+      "end": 8.98
     },
     {
       "word": "a",
-      "start": 32.74,
-      "end": 32.799
+      "start": 9,
+      "end": 9.06
     },
     {
       "word": "rien",
-      "start": 32.84,
-      "end": 33.02
+      "start": 9.1,
+      "end": 9.32
     },
     {
       "word": "d'autre",
-      "start": 33.08,
-      "end": 33.279
+      "start": 9.32,
+      "end": 9.539
     },
     {
       "word": "à",
-      "start": 33.319,
-      "end": 33.34
+      "start": 9.639,
+      "end": 9.659
     },
     {
       "word": "faire,",
-      "start": 33.459,
-      "end": 33.68
+      "start": 9.659,
+      "end": 9.92
     },
     {
-      "word": "sérieux.",
-      "start": 33.7,
-      "end": 35.979
-    },
-    {
-      "annotation": "Lucie rentre chez elle après la soirée",
-      "start": 37,
-      "end": "end",
-      "showOnly": true
+      "word": "sérieux",
+      "start": 9.939,
+      "end": 10.719
     }
   ],
   "d1_43": [

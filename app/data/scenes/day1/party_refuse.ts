@@ -29,6 +29,12 @@ export const dayOneRefuse: Scene = {
       }
     ),
     d('d1_39', 'Ines', 'Vas-y, raconte.', {}),
+    d(
+      'd1_40',
+      'LUCIE',
+      "J'avais une réu ce matin. Vu que c'est toujours le bordel dans l'open space, j'ai réservé une des petites cabanes à isolation phonique. Ce pas, je la vois dans la cabane et elle veut pas bouger."
+    ),
+    d('d1_41', 'Ines', "Waouh, dis-moi que tu l'as bougée de là."),
   ],
 }
 
@@ -40,15 +46,10 @@ export const dayOneRefuseAssert: Scene = {
   condition: { flag: 'conflictOutcome', operator: 'equals', value: 'assert' },
   dialogues: [
     d(
-      'd1_40',
-      'LUCIE',
-      "J'avais une réu ce matin. Vu que c'est toujours le bordel dans l'open space, j'ai réservé une des petites cabanes à isolation phonique. Ce pas, je la vois dans la cabane et elle veut pas bouger."
-    ),
-    d('d1_41', 'Ines', "Waouh, dis-moi que tu l'as bougée de là."),
-    d(
       'd1_42',
       'LUCIE',
-      "Bien sûr que je l'ai bougée de là. Mais c'est pas dans l'aprèm, je reçois un mail du responsable pour un truc rien à voir. Elle allait me balancer parce que je suis partie un peu plus tôt mardi dernier. Elle a rien d'autre à faire, sérieux."
+      "Bien sûr que je l'ai bougée de là, mais c'est pas dans l'aprèm, je reçois un mail du responsable pour un truc rien à voir. Elle est allée me balancer parce que je suis partie un peu plus tôt mardi dernier. Elle a rien d'autre à faire, sérieux.",
+      {}
     ),
   ],
 }

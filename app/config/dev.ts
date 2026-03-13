@@ -9,6 +9,7 @@ export const devConfig = {
         ? Number(import.meta.env.VITE_INITIAL_ENERGY)
         : 100,
     outfitChoice: import.meta.env.VITE_INITIAL_OUTFIT || 'sexy',
+    conflictOutcome: import.meta.env.VITE_CONFLICT_OUTCOME || 'refuse',
   },
   playbackRate: import.meta.env.VITE_PLAYBACK_RATE
     ? Number(import.meta.env.VITE_PLAYBACK_RATE)
