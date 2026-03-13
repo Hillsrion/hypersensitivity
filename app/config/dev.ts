@@ -10,6 +10,7 @@ export const devConfig = {
         : 100,
     outfitChoice: import.meta.env.VITE_INITIAL_OUTFIT || 'sexy',
     conflictOutcome: import.meta.env.VITE_CONFLICT_OUTCOME || 'refuse',
+    hadBreakdown: import.meta.env.VITE_INITIAL_HAD_BREAKDOWN ?? false,
   },
   playbackRate: import.meta.env.VITE_PLAYBACK_RATE
     ? Number(import.meta.env.VITE_PLAYBACK_RATE)
