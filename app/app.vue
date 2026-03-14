@@ -107,7 +107,11 @@ useSeoMeta({
       <!-- Global Audiowave -->
       <div
         class="fixed z-100 pointer-events-none transition-opacity duration-500"
-        :class="[EDGE_SPACING.TOP, EDGE_SPACING.RIGHT]"
+        :class="[
+          EDGE_SPACING.TOP,
+          EDGE_SPACING.RIGHT,
+          { 'opacity-0': !animations.landing.intro.entry.started },
+        ]"
       >
         <CircleAudiowave
           :class="UI_SIZES.TOP_ELEMENT"
