@@ -33,11 +33,19 @@ defineExpose({
 
 <template>
   <div
-    class="relative flex-none w-[280px] lg:w-[25vw] -mr-[140px] lg:mr-0 flex flex-col shrink-0"
+    class="relative h-full flex-none w-[140px] lg:w-[25vw] flex flex-col shrink-0 overflow-visible"
   >
+    <!-- Line Segments -->
+    <div
+      class="absolute top-1/2 h-px bg-primary/10 pointer-events-none left-0 w-[calc(50%-8px)]"
+    />
+    <div
+      class="absolute top-1/2 h-px bg-primary/10 pointer-events-none right-0 w-[calc(50%-8px)]"
+    />
     <!-- Milestone Point Container -->
     <button
-      class="absolute left-1/2 top-1/2 -translate-x-2 -translate-y-2 origin-left -rotate-45"
+      class="absolute left-1/2 top-1/2 -translate-x-2 -translate-y-1/2 origin-left -rotate-45"
+      style="transform-origin: 8px 50%"
       :class="{
         'opacity-50 cursor-not-allowed': !isReached,
         'cursor-pointer': isReached,
@@ -50,7 +58,7 @@ defineExpose({
         <div
           ref="dotRef"
           class="size-4 rounded-full border border-primary transition-all duration-500"
-          :class="isReached ? 'bg-white' : 'bg-primary/20 scale-75'"
+          :class="isReached ? 'bg-transparent' : 'bg-transparent scale-75'"
         />
         <div
           ref="labelRef"

@@ -5,6 +5,7 @@ type HorizontalLoopConfig = {
   snap?: number | false
   paddingRight?: number | string
   reversed?: boolean
+  wrapBuffer?: number
 }
 
 export function horizontalLoop(
@@ -75,8 +76,11 @@ export function horizontalLoop(
 
     const curX = (xPerc / 100) * w
     const distanceToStart = item.offsetLeft + curX - startX
+    const buffer = config.wrapBuffer ?? 0
     const distanceToLoop =
-      distanceToStart + w * parseFloat(String(gsap.getProperty(item, 'scaleX')))
+      distanceToStart +
+      w * parseFloat(String(gsap.getProperty(item, 'scaleX'))) +
+      buffer
 
     tl.to(
       item,

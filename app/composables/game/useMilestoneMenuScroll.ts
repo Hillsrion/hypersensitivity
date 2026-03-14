@@ -102,7 +102,7 @@ export function useMilestoneMenuScroll(
       loopTimeline = horizontalLoop($gsap, items, {
         speed: 0.5,
         repeat: -1,
-        paddingRight: 32, // gap between last and first item
+        wrapBuffer: 200,
       })
     }
   }

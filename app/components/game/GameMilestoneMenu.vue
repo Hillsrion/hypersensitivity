@@ -125,11 +125,7 @@ const navItemClasses =
             @pointercancel="onPointerUp"
           >
             <!-- Milestones Container -->
-            <div class="flex items-center relative h-full w-full pl-8">
-              <!-- Median Line -->
-              <div
-                class="absolute top-1/2 left-0 w-full h-px bg-primary/10 pointer-events-none"
-              />
+            <div class="flex items-center relative h-full w-full">
               <GameMilestoneItem
                 v-for="(milestone, index) in visibleMilestones"
                 :key="milestone.id"
