@@ -1,5 +1,5 @@
-@import 'tailwindcss';
-@import './transitions.css';
+@import "tailwindcss";
+@import "./transitions.css";
 @plugin "fluid-tailwindcss" {
   minviewport: 360;
   maxviewport: 1280;
@@ -26,9 +26,9 @@
 }
 
 @theme {
-  --font-sans: 'Satoshi', ui-sans-serif, system-ui, sans-serif;
-  --font-serif: 'PP Eiko', serif;
-  --font-epilogue: 'Epilogue', sans-serif;
+  --font-sans: "Satoshi", ui-sans-serif, system-ui, sans-serif;
+  --font-serif: "PP Eiko", serif;
+  --font-epilogue: "Epilogue", sans-serif;
   --color-primary: #0b1018;
   --text-title: 1.75rem;
   --breakpoint-xs: 430px;
@@ -48,8 +48,8 @@
 
 /* Satoshi Font */
 @font-face {
-  font-family: 'Satoshi';
-  src: url('~/assets/fonts/Satoshi-Regular.woff2') format('woff2');
+  font-family: "Satoshi";
+  src: url("~/assets/fonts/Satoshi-Regular.woff2") format("woff2");
   font-weight: 400;
   font-style: normal;
   font-display: swap;
@@ -57,8 +57,8 @@
 
 /* PP Eiko Font */
 @font-face {
-  font-family: 'PP Eiko';
-  src: url('~/assets/fonts/PPEiko-ItalicLight.woff2') format('woff2');
+  font-family: "PP Eiko";
+  src: url("~/assets/fonts/PPEiko-ItalicLight.woff2") format("woff2");
   font-weight: 100 900;
   font-style: normal italic;
   font-display: swap;
