@@ -1,4 +1,8 @@
 {
-  "*.{js,ts,vue,mjs}": ["eslint --fix", "prettier --write"],
+  "*.{js,ts,vue,mjs}": [
+    "oxlint --deny-warnings",
+    "eslint --fix",
+    "prettier --write"
+  ],
   "*.{json,css,md}": ["prettier --write"]
 }
