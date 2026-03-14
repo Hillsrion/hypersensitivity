@@ -17,8 +17,13 @@ export default defineNuxtConfig({
     '@hypernym/nuxt-gsap',
     '@nuxt/eslint',
     '@vueuse/nuxt',
+    'nuxt-cloudflare-analytics',
     '~/modules/devtools-extension.ts',
   ],
+
+  cloudflareAnalytics: {
+    token: process.env.NUXT_PUBLIC_CLOUDFLARE_ANALYTICS_TOKEN,
+  },
 
   gsap: {
     extraPlugins: {
