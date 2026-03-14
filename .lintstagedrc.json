@@ -2,7 +2,7 @@
   "*.{js,ts,vue,mjs}": [
     "oxlint --deny-warnings",
     "eslint --fix",
-    "biome format --write"
+    "biome check --write"
   ],
-  "*.{json,css,md}": ["biome format --write"]
+  "*.{json,css,md}": ["biome check --write"]
 }

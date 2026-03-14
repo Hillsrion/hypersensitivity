@@ -1,6 +1,6 @@
 import {
-  OUTRO_PRIMARY_COLOR,
   gradientSteps,
+  OUTRO_PRIMARY_COLOR,
   outroFooterGradient,
 } from '~/app/constants/gradients'
 import { isContentRevealedPhase } from '~/app/stores/game/intro'

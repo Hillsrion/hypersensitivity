@@ -7,9 +7,9 @@ import {
 } from '../constants/durations'
 import { gameData } from '../data/game'
 import {
-  MILESTONES,
-  MILESTONE_ORDER,
   getMilestoneForScene,
+  MILESTONE_ORDER,
+  MILESTONES,
 } from '../data/milestones'
 import type {
   Choice,
@@ -31,11 +31,11 @@ import {
   shouldAutoCompleteAnnotation,
 } from './game/intro'
 import {
-  MENU_CLOSE_DELAY_MS,
   finalizeClosingStatus,
   getMenuClosingStatus,
   getMenuOpenStatus,
   getToggleTargetMenuStatus,
+  MENU_CLOSE_DELAY_MS,
 } from './game/menu'
 import { loadSnapshot, saveSnapshot } from './game/persistence'
 import {
@@ -59,10 +59,10 @@ import {
   isFirstDialogueOfInitialScene,
 } from './game/selectors'
 import {
-  STORAGE_KEY,
   createInitialFlags,
   createInitialGameState,
   ensureInitialMilestone,
+  STORAGE_KEY,
 } from './game/state'
 
 export const useGameStore = defineStore('game', {

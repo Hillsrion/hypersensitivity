@@ -1,9 +1,9 @@
 // @vitest-environment nuxt
-import { nextTick } from 'vue'
 
 import { mountSuspended } from '@nuxt/test-utils/runtime'
 import { createPinia, setActivePinia } from 'pinia'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
+import { nextTick } from 'vue'
 
 import GameChoiceButtons from '~/app/components/game/GameChoiceButtons.vue'
 

@@ -9,7 +9,7 @@
     "preview": "nuxt preview",
     "lint": "eslint .",
     "lint:fast": "oxlint . --deny-warnings --ignore-path .gitignore",
-    "format": "biome format --write .",
+    "format": "biome check --write .",
     "test": "vitest run",
     "test:watch": "vitest",
     "test:game": "vitest tests/game-store-modules.test.ts",
