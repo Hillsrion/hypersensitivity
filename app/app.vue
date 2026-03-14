@@ -56,6 +56,17 @@ useHead({
         'hypersensibilité, sensibilité, émotionnel, sensoriel, psychologie, bien-être',
     },
   ],
+  script: config.public.cloudflareAnalyticsToken
+    ? [
+        {
+          src: 'https://static.cloudflareinsights.com/beacon.min.js',
+          defer: true,
+          'data-cf-beacon': JSON.stringify({
+            token: config.public.cloudflareAnalyticsToken,
+          }),
+        },
+      ]
+    : [],
 })
 
 useSeoMeta({

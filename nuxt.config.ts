@@ -9,6 +9,7 @@ export default defineNuxtConfig({
       creditsDesign: '',
       testUrl: '',
       startDialogueId: '',
+      cloudflareAnalyticsToken: '',
     },
   },
   modules: [
@@ -17,13 +18,8 @@ export default defineNuxtConfig({
     '@hypernym/nuxt-gsap',
     '@nuxt/eslint',
     '@vueuse/nuxt',
-    'nuxt-cloudflare-analytics',
     '~/modules/devtools-extension.ts',
   ],
-
-  cloudflareAnalytics: {
-    token: process.env.NUXT_PUBLIC_CLOUDFLARE_ANALYTICS_TOKEN,
-  },
 
   gsap: {
     extraPlugins: {
@@ -40,7 +36,8 @@ export default defineNuxtConfig({
   },
 
   vite: {
-    plugins: [tailwindcss() as never],
+    // @ts-expect-error - tailwindcss vite plugin type mismatch
+    plugins: [tailwindcss()],
     server: {
       watch: {
         ignored: ['**/.worktrees/**'],
