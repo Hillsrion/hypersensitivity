@@ -109,6 +109,11 @@ export function useTestimonyCard(props: {
         // Set volume to 0.6 for testimonies
         audioStore.setVolume(0.6)
         await audioStore.playAudio(props.audio)
+
+        // Race condition check: if user unhovered while audio was starting
+        if (!isHovering.value) {
+          audioStore.stopCurrentAudio()
+        }
       }
     } else {
       if (isPlaying.value) {
@@ -120,7 +125,7 @@ export function useTestimonyCard(props: {
   }
 
   const startAnimations = () => {
-    // Kill all ongoing animations
+    // Kill all ongoing animations including previous border tweens
     if (currentAnimation) {
       currentAnimation.kill()
     }
@@ -130,8 +135,10 @@ export function useTestimonyCard(props: {
 
     // Border animation
     if (borderRect.value) {
+      gsap.killTweensOf(borderRect.value)
       const length = borderRect.value.getTotalLength()
-      // Reset to start
+
+      // Reset to start state immediately
       gsap.set(borderRect.value, {
         strokeDasharray: length,
         strokeDashoffset: length,
@@ -142,6 +149,7 @@ export function useTestimonyCard(props: {
         strokeDashoffset: 0,
         duration: duration.value,
         ease: 'none',
+        overwrite: true,
       })
     }
 
@@ -182,15 +190,18 @@ export function useTestimonyCard(props: {
   const stopAnimations = () => {
     // Border animation
     if (borderRect.value) {
+      gsap.killTweensOf(borderRect.value)
       const length = borderRect.value.getTotalLength()
       currentAnimation = gsap.to(borderRect.value, {
         strokeDashoffset: length,
         duration: 1,
         ease: 'power3.out',
+        overwrite: true,
         onComplete: () => {
           gsap.to(borderRect.value, {
             opacity: 0,
             duration: 0.3,
+            overwrite: true,
           })
         },
       })
