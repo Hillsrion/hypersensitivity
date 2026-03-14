@@ -153,10 +153,17 @@ watch(
 
     if (isEndingView && !wasEndingView) {
       if (view === 'skipped') {
+        const { track } = useMetrics()
+        track('quiz_skipped')
         gameStore.setShowFinalFooter(true)
         footerRevealTriggered.value = true
         animateFooter.value = true
       } else {
+        const { track } = useMetrics()
+        track('quiz_completed', {
+          sensitivity_level: sensitivityLevel.value,
+          total_score: totalScore.value,
+        })
         gameStore.setShowFinalFooter(false)
         footerRevealTriggered.value = false
       }

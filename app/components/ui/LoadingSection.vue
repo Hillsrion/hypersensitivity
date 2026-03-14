@@ -15,7 +15,10 @@ const bottomElement = useTemplateRef('bottomElement')
 const containerElement = useTemplateRef('containerElement')
 const isHovered = ref(false)
 
+const { track } = useMetrics()
+
 const onBottomElementClick = () => {
+  track('game_start')
   animationsStore.startTitleExit()
 }
 </script>

@@ -106,6 +106,8 @@ export function useTestimonyCard(props: {
     isHovering.value = val
     if (val) {
       if (props.audio) {
+        const { track } = useMetrics()
+        track('testimony_play', { author: props.author, audio: props.audio })
         // Set volume to 0.6 for testimonies
         audioStore.setVolume(0.6)
         await audioStore.playAudio(props.audio)
