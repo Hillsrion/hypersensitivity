@@ -148,10 +148,8 @@ export function useTestimonyCard(props: {
     // Text opacity animations (Karaoke effect)
     if (splitInstance?.words.value) {
       // Immediately dim all words to inactive state
-      gsap.to(splitInstance.words.value, {
+      gsap.set(splitInstance.words.value, {
         opacity: 0.6,
-        duration: 0.3,
-        ease: 'power2.out',
       })
 
       const timeline = gsap.timeline()
@@ -172,6 +170,11 @@ export function useTestimonyCard(props: {
           }
         }
       )
+      // Sync with current audio time if already playing
+      if (audioStore.currentTime > 0) {
+        timeline.seek(audioStore.currentTime)
+      }
+
       textAnimation = timeline
     }
   }
