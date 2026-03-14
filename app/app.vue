@@ -88,6 +88,9 @@ useSeoMeta({
     type: 'image/jpeg',
   },
 })
+
+// log runtime config
+console.log(config.public, 'yo')
 </script>
 
 <template>
