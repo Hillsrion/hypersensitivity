@@ -38,34 +38,30 @@ const updateWave = () => {
   const numberOfPoints = originalPoints.length
 
   for (let i = 0; i < numberOfPoints; i++) {
-    // 1. Calculate the "Wave" position (Dynamic)
     const p = originalPoints[i]
     if (!p) continue
 
-    // Calculate a nice sine wave for this x-position
+    // 1. Calculate the "Fancy" Wave position
     // Normalized X (0 to 1)
     const normX = (p.x - startX) / (endX - startX)
 
-    // Envelope to keep edges pinned (0 at ends, 1 in middle)
-    // Using a sine window for smooth taper
-    const envelope = Math.sin(normX * Math.PI)
+    // Advanced envelope: smooth taper at ends, wide body in middle
+    const envelope = Math.pow(Math.sin(normX * Math.PI), 0.8)
 
-    // Dynamic sine wave with multiple layers for sophistication
-    // Layer 1: Main slow wave
-    const wave1 = Math.sin(i * 0.8 + time.value) * 10
-    // Layer 2: Faster, smaller ripple
-    const wave2 = Math.sin(i * 1.6 - time.value * 1.5) * 4
-    // Layer 3: Ultra-slow shifting drift
-    const wave3 = Math.sin(i * 0.4 + time.value * 0.5) * 6
-    // Layer 4: Final high-frequency "shimmer"
-    const wave4 = Math.sin(i * 2.5 + time.value * 3.0) * 2.5
+    // Multi-layered sine wave for a "premium" liquid feel
+    // Layer 1: Main structural wave
+    const baseWave = Math.sin(i * 0.5 + time.value * 0.8) * 12
+    // Layer 2: Fast secondary ripple for complexity
+    const ripple = Math.sin(i * 1.5 - time.value * 2.0) * 4
+    // Layer 3: Slow shifting bias to avoid perfect symmetry
+    const drift = Math.cos(normX * 2.0 + time.value * 0.4) * 6
+    // Layer 4: High-frequency shimmer for "energy"
+    const shimmer = Math.sin(i * 3.0 + time.value * 4.5) * 2
 
-    // Combine and apply envelope
-    const waveY = centerY + (wave1 + wave2 + wave3 + wave4) * envelope * 0.8
+    // Combine layers and apply envelope
+    const waveY = centerY + (baseWave + ripple + drift + shimmer) * envelope
 
-    // 2. Interpolate between Original Y and Wave Y
-    // When morphProgress is 0, we strictly use p.y (Original)
-    // When morphProgress is 1, we strictly use waveY (Dynamic)
+    // 2. Interpolate between Original Y and Fancy Wave Y
     const currentY = p.y + (waveY - p.y) * morphProgress.value
 
     points.push({ x: p.x, y: currentY })
