@@ -1,8 +1,5 @@
-import { QUIZ_ENTRY_DELAY_MS } from '~/app/constants/durations'
-
 export function useMilestoneNavigation() {
   const gameStore = useGameStore()
-  let quizTimer: ReturnType<typeof setTimeout> | null = null
 
   const isMilestoneReached = (milestoneId: string) => {
     if (import.meta.dev) return true
@@ -16,22 +13,8 @@ export function useMilestoneNavigation() {
   }
 
   const navigateToTest = () => {
-    gameStore.closeMenu(false)
-    if (quizTimer) {
-      clearTimeout(quizTimer)
-    }
-    quizTimer = setTimeout(() => {
-      quizTimer = null
-      gameStore.setShowQuiz(true)
-    }, QUIZ_ENTRY_DELAY_MS)
+    gameStore.navigateToTest()
   }
-
-  onUnmounted(() => {
-    if (quizTimer) {
-      clearTimeout(quizTimer)
-      quizTimer = null
-    }
-  })
 
   return {
     isMilestoneReached,

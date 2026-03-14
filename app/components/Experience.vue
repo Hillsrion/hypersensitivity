@@ -119,7 +119,8 @@ const isEyeHidden = computed(() => {
     (animationsStore.aurora.visible &&
       !isDayTransition.value &&
       isContentRevealedPhase(gameStore.introAnimationPhase)) ||
-    isGameEnd.value
+    isGameEnd.value ||
+    gameStore.showQuiz
   )
 })
 </script>

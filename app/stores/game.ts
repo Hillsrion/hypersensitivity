@@ -1,7 +1,10 @@
 import { defineStore } from 'pinia'
 
 import { devConfig } from '../config/dev'
-import { ENTRY_ANNOTATION_AUTO_COMPLETE_DELAY_MS } from '../constants/durations'
+import {
+  ENTRY_ANNOTATION_AUTO_COMPLETE_DELAY_MS,
+  HSP_QUIZ_CONTENT_READY_DELAY_MS,
+} from '../constants/durations'
 import { gameData } from '../data/game'
 import {
   MILESTONES,
@@ -561,6 +564,8 @@ export const useGameStore = defineStore('game', {
 
         const newMilestone = getMilestoneForScene(sceneId)
         if (newMilestone && !this.reachedMilestones.includes(newMilestone.id)) {
+          const { track } = useMetrics()
+          track('milestone_reached', { milestone_id: newMilestone.id })
           this.reachedMilestones.push(newMilestone.id)
         }
 
@@ -658,6 +663,23 @@ export const useGameStore = defineStore('game', {
         const audioStore = useAudioStore()
         audioStore.resumeAudio()
       }
+    },
+
+    navigateToTest() {
+      const animationsStore = useAnimationsStore()
+
+      // Close menu, but don't resume audio (quiz has its own music/audio state if needed)
+      this.closeMenu(false)
+
+      // Reset Aurora state so it doesn't block the quiz
+      animationsStore.setAuroraVisibility(false)
+      animationsStore.setAuroraZIndex(0)
+
+      this._pauseTimerId = clearScheduledTimer(this._pauseTimerId)
+      this._pauseTimerId = scheduleTimer(() => {
+        this._pauseTimerId = null
+        this.setShowQuiz(true)
+      }, HSP_QUIZ_CONTENT_READY_DELAY_MS)
     },
 
     toggleForceShowUI() {
