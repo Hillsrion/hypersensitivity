@@ -1,5 +1,5 @@
 interface Env {
-  ANALYTICS: AnalyticsEngineDataset;
+  Hypersensibles_landing: AnalyticsEngineDataset;
 }
 
 export default {
@@ -30,7 +30,7 @@ export default {
       // Write to Analytics Engine
       // Blobs: event name, relevant strings
       // Doubles: numeric properties
-      env.ANALYTICS.writeDataPoint({
+      env.Hypersensibles_landing.writeDataPoint({
         blobs: [
           event,
           JSON.stringify(properties || {}),
