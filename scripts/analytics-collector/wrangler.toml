@@ -1,0 +1,7 @@
+name = "hypersensitivity-analytics"
+main = "index.ts"
+compatibility_date = "2024-04-01"
+
+[[analytics_engine_datasets]]
+binding = "ANALYTICS"
+dataset = "hypersensitivity_events"
