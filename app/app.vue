@@ -88,7 +88,6 @@ useSeoMeta({
     type: 'image/jpeg',
   },
 })
-
 </script>
 
 <template>
@@ -164,7 +163,7 @@ useSeoMeta({
           class="mb-16"
         />
         <TestimoniesSection id="testimonies" class="relative z-10" />
-        <Experience id="experience" class="-mt-[35svh]" />
+        <Experience id="experience" class="sm:-mt-[25svh]" />
       </div>
       <Teleport to="body">
         <Transition name="fade">

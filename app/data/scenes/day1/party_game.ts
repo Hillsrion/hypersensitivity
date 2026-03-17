@@ -62,7 +62,7 @@ export const dayOnePlay: Scene = {
     d(
       'd1_27',
       'Lucas',
-      "Au début, tu pioches une carte rôle. Tu la regardes en discret. Ensuite, on révèle la question du tour et les cartes opinions que t'as en main, c'est les sous-sujets qui te font gagner des points si TU les abordes. T'es pas obligé de toutes les jouer. Par contre, si tu utilises d'autres axes d'argumentation, tu perds des points.",
+      "Au début, tu pioches une carte rôle. Tu la regardes en discret. Ensuite, on révèle la question du tour et les cartes opinions que t'as en main, c'est les sous-sujets qui te font gagner des points si TU les abordes. T'es pas obligée de toutes les jouer. Par contre, si tu utilises d'autres axes d'argumentation, tu perds des points.",
       {}
     ),
     d(
@@ -80,7 +80,7 @@ export const dayOnePlay: Scene = {
     d(
       'd1_29',
       'Lucas',
-      "...Il les distribuera parmi les cartes bidon toutes les deux minutes, mais t'es pas obligé de toutes les utiliser. Que quand tu en as deux, tu as déjà validé une, mais tu gardes un et directement au tour deux.",
+      "...Il les distribuera parmi les cartes bidon toutes les deux minutes, mais t'es pas obligée de toutes les utiliser. Que quand tu en as deux, tu as déjà validé une, mais tu gardes un et directement au tour deux.",
       {}
     ),
     d('d1_30', 'LUCIE', 'Je me sens pas bien. Je reviens.', {

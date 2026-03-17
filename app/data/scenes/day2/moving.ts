@@ -76,7 +76,7 @@ export const dayTwoMoving: Scene = {
     d(
       'd2_22',
       'LUCIE',
-      'Ah, je connaissais pas. Vous avez besoin de main en ce moment ?',
+      'Ah, je connaissais pas. Vous avez besoin de mains en ce moment ?',
       {
         color: 'blue',
       }
