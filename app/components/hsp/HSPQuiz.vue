@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { EDGE_SPACING } from '~/app/constants/layout'
+import { UI_SIZES } from '~/app/constants/ui'
 
 type QuizSection = {
   name: string
@@ -72,7 +73,7 @@ const getRatingClass = (value: number) => {
     <nav
       ref="headerRef"
       class="fixed left-0 w-full flex justify-between items-center z-50 opacity-0"
-      :class="[EDGE_SPACING.TOP, EDGE_SPACING.PX]"
+      :class="[EDGE_SPACING.TOP, EDGE_SPACING.PX, UI_SIZES.TOP_HEADER]"
     >
       <div class="flex items-center">
         <span class="font-sans font-medium text-base leading-[28px] uppercase"
