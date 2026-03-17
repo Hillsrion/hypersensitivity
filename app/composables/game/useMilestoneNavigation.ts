@@ -1,8 +1,10 @@
+import { devConfig } from '../../config/dev'
+
 export function useMilestoneNavigation() {
   const gameStore = useGameStore()
 
   const isMilestoneReached = (milestoneId: string) => {
-    if (import.meta.dev) return true
+    if (devConfig.unlockAllMilestones) return true
     return gameStore.reachedMilestones.includes(milestoneId)
   }
 

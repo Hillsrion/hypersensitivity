@@ -1,5 +1,6 @@
 export const devConfig = {
   enabled: import.meta.env.VITE_DEV_ENABLED !== 'false', // Enable by default for now, can be toggled
+  unlockAllMilestones: import.meta.env.VITE_UNLOCK_ALL_MILESTONES === 'true', // Default to false
   resumeFromSnapshot: import.meta.env.VITE_RESUME_FROM_SNAPSHOT === 'true', // Default to false
   initialSceneId: import.meta.env.VITE_INITIAL_SCENE_ID || '', // Set to a string like 'dayOnePartySexy' to override
   initialFlags: {
