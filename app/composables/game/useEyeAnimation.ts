@@ -20,8 +20,8 @@ export const useEyeAnimation = () => {
       const isPortrait = window.matchMedia('(orientation: portrait)').matches
       const targetScale = isPortrait ? 25 : 5
       const targetDuration = isPortrait
-        ? ((targetScale - 1) / (5 - 1)) * (duration * 3)
-        : duration * 3
+        ? ((targetScale - 1) / (5 - 1)) * (duration * (isDayTransition ? 5 : 3))
+        : duration * (isDayTransition ? 5 : 3)
 
       const origin = isPortrait ? '683 200' : '683 384.5'
       tl.set(eyePath.value, { svgOrigin: origin })
@@ -105,8 +105,8 @@ export const useEyeAnimation = () => {
       const isPortrait = window.matchMedia('(orientation: portrait)').matches
       const targetScale = isPortrait ? 25 : 5
       const targetDuration = isPortrait
-        ? ((targetScale - 1) / (5 - 1)) * (duration * 3)
-        : duration * 3
+        ? ((targetScale - 1) / (5 - 1)) * (duration * (isDayTransition ? 5 : 3))
+        : duration * (isDayTransition ? 5 : 3)
 
       const origin = isPortrait ? '683 200' : '683 384.5'
       tl.set(eyePath.value, { svgOrigin: origin })
