@@ -13,8 +13,8 @@ import type { ExperienceGradientState } from './useExperienceGradient'
 
 export const useExperienceDayTransition = (
   gradientState: ExperienceGradientState,
-  playCloseEyeAnimation: () => Promise<void>,
-  playOpenEyeAnimation: () => Promise<void>,
+  playCloseEyeAnimation: (isDayTransition?: boolean) => Promise<void>,
+  playOpenEyeAnimation: (isDayTransition?: boolean) => Promise<void>,
   isGameEnd: ComputedRef<boolean>
 ) => {
   const { $gsap } = useNuxtApp()
@@ -51,7 +51,7 @@ export const useExperienceDayTransition = (
       await sleep(DAY_TRANSITION_UI_FADE_OUT_DELAY_MS)
 
       // 2. Play Close Eye Animation
-      await playCloseEyeAnimation()
+      await playCloseEyeAnimation(true)
 
       // The eye is fully closed. Safely advance the game state to Day 2 in the background.
       gameStore.completeDayTransition()
@@ -67,7 +67,7 @@ export const useExperienceDayTransition = (
       await nextTick()
 
       // 3. Play Open Eye Animation (This will also animate introBlurAmount down to 0)
-      await playOpenEyeAnimation()
+      await playOpenEyeAnimation(true)
 
       // 4. Finish Transition
       gameStore.setDayTransitioning(false)

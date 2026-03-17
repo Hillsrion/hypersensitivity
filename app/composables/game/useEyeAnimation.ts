@@ -6,7 +6,7 @@ export const useEyeAnimation = () => {
   const gameStore = useGameStore()
   const eyePath = useTemplateRef<SVGPathElement>('eyePath')
 
-  const playCloseEyeAnimation = () => {
+  const playCloseEyeAnimation = (isDayTransition = false) => {
     return new Promise<void>((resolve) => {
       if (!eyePath.value) {
         resolve()
@@ -26,29 +26,34 @@ export const useEyeAnimation = () => {
       const origin = isPortrait ? '683 200' : '683 384.5'
       tl.set(eyePath.value, { svgOrigin: origin })
 
-      // Start from Open State
+      // Start from Open State: Unscale and slightly close path simultaneously if it's a day transition
       tl.to(eyePath.value, {
         scale: 1,
+        attr: { d: isDayTransition ? eyePaths.step3 : eyePaths.step4 },
         svgOrigin: origin,
         duration: targetDuration,
         ease: 'power2.inOut',
       })
-        .to(eyePath.value, {
+
+      if (!isDayTransition) {
+        tl.to(eyePath.value, {
           attr: { d: eyePaths.step3 },
           y: 1,
           duration: duration,
           ease: 'power1.inOut',
         })
-        .to(
-          eyePath.value,
-          {
-            attr: { d: eyePaths.step2 },
-            y: 126.5,
-            duration: duration,
-            ease: 'power1.inOut',
-          },
-          '>'
-        )
+      }
+
+      tl.to(
+        eyePath.value,
+        {
+          attr: { d: eyePaths.step2 },
+          y: 126.5,
+          duration: duration,
+          ease: 'power1.inOut',
+        },
+        '>'
+      )
         .to(
           eyePath.value,
           {
@@ -85,7 +90,7 @@ export const useEyeAnimation = () => {
     })
   }
 
-  const playOpenEyeAnimation = () => {
+  const playOpenEyeAnimation = (isDayTransition = false) => {
     return new Promise<void>((resolve) => {
       if (!eyePath.value) {
         resolve()
@@ -171,18 +176,19 @@ export const useEyeAnimation = () => {
           },
           'step3'
         )
-        .to(
-          eyePath.value,
-          {
-            attr: { d: eyePaths.step4 },
-            y: 1,
-            scale: targetScale,
-            svgOrigin: origin,
-            duration: targetDuration,
-            ease: 'power1.inOut',
-          },
-          'step4'
-        )
+
+      tl.to(
+        eyePath.value,
+        {
+          attr: { d: isDayTransition ? eyePaths.step3 : eyePaths.step4 },
+          y: 1,
+          scale: targetScale,
+          svgOrigin: origin,
+          duration: targetDuration,
+          ease: 'power1.inOut',
+        },
+        'step4'
+      )
         .to(
           blurState,
           {
