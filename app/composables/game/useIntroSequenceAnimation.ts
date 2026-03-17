@@ -159,8 +159,7 @@ export const useIntroSequenceAnimation = (
       $gsap.set(eyePathRef.value, {
         y: 299.74,
         scale: 1,
-        transformOrigin: 'center center',
-        transformBox: 'fill-box',
+        svgOrigin: isPortrait ? '683 200' : '683 384.5',
       })
     }
 
