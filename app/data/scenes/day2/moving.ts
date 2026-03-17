@@ -8,6 +8,7 @@ export const dayTwoMoving: Scene = {
   title: 'Déménagement',
   entryAnnotation: 'Au déménagement',
   terminal: true,
+  condition: { flag: 'callChoice', operator: 'equals', value: 'accept' },
   audio: 'experience/J02_S03_Demenagement.mp3',
   dialogues: [
     thoughts(
