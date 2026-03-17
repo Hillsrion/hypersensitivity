@@ -17,11 +17,16 @@ export const useEyeAnimation = () => {
         onComplete: resolve,
       })
       const duration = 0.3
+      const isPortrait = window.matchMedia('(orientation: portrait)').matches
+      const targetScale = isPortrait ? 25 : 5
+      const targetDuration = isPortrait
+        ? ((targetScale - 1) / (5 - 1)) * (duration * 3)
+        : duration * 3
 
-      // Start from Open State (Scale 5, Step 4)
+      // Start from Open State
       tl.to(eyePath.value, {
         scale: 1,
-        duration: duration * 3,
+        duration: targetDuration,
         ease: 'power2.inOut',
       })
         .to(eyePath.value, {
@@ -88,6 +93,11 @@ export const useEyeAnimation = () => {
       })
       const duration = 0.3
       const blurState = { amount: gameStore.introBlurAmount }
+      const isPortrait = window.matchMedia('(orientation: portrait)').matches
+      const targetScale = isPortrait ? 25 : 5
+      const targetDuration = isPortrait
+        ? ((targetScale - 1) / (5 - 1)) * (duration * 3)
+        : duration * 3
 
       tl.to(eyePath.value, {
         attr: { d: eyePaths.base },
@@ -159,8 +169,8 @@ export const useEyeAnimation = () => {
           {
             attr: { d: eyePaths.step4 },
             y: 1,
-            scale: 5,
-            duration: duration * 3,
+            scale: targetScale,
+            duration: targetDuration,
             ease: 'power1.inOut',
           },
           'step4'
@@ -169,7 +179,7 @@ export const useEyeAnimation = () => {
           blurState,
           {
             amount: 0,
-            duration: duration * 3,
+            duration: targetDuration,
             ease: 'power1.inOut',
             onUpdate: () => gameStore.setIntroBlurAmount(blurState.amount),
           },

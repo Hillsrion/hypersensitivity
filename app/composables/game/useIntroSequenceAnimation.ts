@@ -149,6 +149,12 @@ export const useIntroSequenceAnimation = (
     const eyeStepDuration = 0.3
     const blurState = { amount: 8 }
 
+    const isPortrait = window.matchMedia('(orientation: portrait)').matches
+    const targetScale = isPortrait ? 25 : 5
+    const targetDuration = isPortrait
+      ? ((targetScale - 1) / (5 - 1)) * (eyeStepDuration * 3)
+      : eyeStepDuration * 3
+
     if (eyePathRef.value) {
       $gsap.set(eyePathRef.value, {
         y: 299.74,
@@ -262,15 +268,15 @@ export const useIntroSequenceAnimation = (
       .to(eyePathRef.value, {
         attr: { d: eyePaths.step4 },
         y: 1,
-        scale: 5,
-        duration: eyeStepDuration * 3,
+        scale: targetScale,
+        duration: targetDuration,
         ease: 'power1.inOut',
       })
       .to(
         blurState,
         {
           amount: 0,
-          duration: eyeStepDuration * 3,
+          duration: targetDuration,
           ease: 'power1.inOut',
           onUpdate: () => {
             gameStore.setIntroBlurAmount(blurState.amount)
@@ -281,7 +287,7 @@ export const useIntroSequenceAnimation = (
       .to(
         {},
         {
-          duration: eyeStepDuration * 3,
+          duration: targetDuration,
           onComplete: waitForAudioThenReveal,
         }
       )
