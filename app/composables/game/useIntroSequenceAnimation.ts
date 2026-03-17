@@ -155,11 +155,12 @@ export const useIntroSequenceAnimation = (
       ? ((targetScale - 1) / (5 - 1)) * (eyeStepDuration * 3)
       : eyeStepDuration * 3
 
+    const origin = isPortrait ? '683 200' : '683 384.5'
     if (eyePathRef.value) {
-      $gsap.set(eyePathRef.value, {
+      eyeTl.set(eyePathRef.value, {
         y: 299.74,
         scale: 1,
-        svgOrigin: isPortrait ? '683 200' : '683 384.5',
+        svgOrigin: origin,
       })
     }
 
@@ -268,6 +269,7 @@ export const useIntroSequenceAnimation = (
         attr: { d: eyePaths.step4 },
         y: 1,
         scale: targetScale,
+        svgOrigin: origin,
         duration: targetDuration,
         ease: 'power1.inOut',
       })

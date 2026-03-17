@@ -23,13 +23,13 @@ export const useEyeAnimation = () => {
         ? ((targetScale - 1) / (5 - 1)) * (duration * 3)
         : duration * 3
 
-      $gsap.set(eyePath.value, {
-        svgOrigin: isPortrait ? '683 200' : '683 384.5',
-      })
+      const origin = isPortrait ? '683 200' : '683 384.5'
+      tl.set(eyePath.value, { svgOrigin: origin })
 
       // Start from Open State
       tl.to(eyePath.value, {
         scale: 1,
+        svgOrigin: origin,
         duration: targetDuration,
         ease: 'power2.inOut',
       })
@@ -103,9 +103,8 @@ export const useEyeAnimation = () => {
         ? ((targetScale - 1) / (5 - 1)) * (duration * 3)
         : duration * 3
 
-      $gsap.set(eyePath.value, {
-        svgOrigin: isPortrait ? '683 200' : '683 384.5',
-      })
+      const origin = isPortrait ? '683 200' : '683 384.5'
+      tl.set(eyePath.value, { svgOrigin: origin })
 
       tl.to(eyePath.value, {
         attr: { d: eyePaths.base },
@@ -178,6 +177,7 @@ export const useEyeAnimation = () => {
             attr: { d: eyePaths.step4 },
             y: 1,
             scale: targetScale,
+            svgOrigin: origin,
             duration: targetDuration,
             ease: 'power1.inOut',
           },
