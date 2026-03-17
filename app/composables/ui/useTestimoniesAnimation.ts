@@ -140,5 +140,67 @@ export function useTestimoniesAnimation(
       ease: 'none', // Linear movement for scroll sync
       duration: 10,
     })
+
+    // --- 3. Horizontal Swipe Observer (for touch devices) ---
+    // We listen to native touch events to convert horizontal swipe into vertical scroll.
+    let touchStartX = 0
+    let touchStartY = 0
+    let isHorizontalSwipe = false
+
+    const handleTouchStart = (e: TouchEvent) => {
+      touchStartX = e.touches[0]?.clientX ?? 0
+      touchStartY = e.touches[0]?.clientY ?? 0
+      isHorizontalSwipe = false
+    }
+
+    const handleTouchMove = (e: TouchEvent) => {
+      if (!e.touches[0]) return
+
+      const touchX = e.touches[0].clientX
+      const touchY = e.touches[0].clientY
+
+      const deltaX = touchStartX - touchX
+      const deltaY = touchStartY - touchY
+
+      // Lock into horizontal swipe mode if movement is predominantly horizontal
+      if (
+        !isHorizontalSwipe &&
+        Math.abs(deltaX) > Math.abs(deltaY) &&
+        Math.abs(deltaX) > 5
+      ) {
+        isHorizontalSwipe = true
+      }
+
+      if (isHorizontalSwipe) {
+        // Prevent default to disable native behavior (like swipe-to-go-back or unwanted vertical scroll)
+        e.preventDefault()
+
+        // Swiping left (finger moves left) -> deltaX is positive -> scroll down (positive top)
+        window.scrollBy({
+          top: deltaX * 1.5,
+          behavior: 'auto',
+        })
+
+        // Update coordinates for continuous smooth scrolling
+        touchStartX = touchX
+        touchStartY = touchY
+      }
+    }
+
+    const sectionEl = sectionRef.value
+    if (sectionEl) {
+      sectionEl.addEventListener('touchstart', handleTouchStart, {
+        passive: true,
+      })
+      // Use passive: false so we can call e.preventDefault()
+      sectionEl.addEventListener('touchmove', handleTouchMove, {
+        passive: false,
+      })
+
+      onUnmounted(() => {
+        sectionEl.removeEventListener('touchstart', handleTouchStart)
+        sectionEl.removeEventListener('touchmove', handleTouchMove)
+      })
+    }
   })
 }

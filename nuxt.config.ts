@@ -26,6 +26,7 @@ export default defineNuxtConfig({
     extraPlugins: {
       scrollTrigger: true,
       scrollTo: true,
+      observer: true,
     },
   },
 
