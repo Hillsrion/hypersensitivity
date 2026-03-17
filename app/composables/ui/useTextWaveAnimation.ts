@@ -19,7 +19,11 @@ export const useTextWaveAnimation = (
         ? options.skipIntroOverride
         : animationsStore.skipIntro
 
-    if (shouldSkip) return
+    if (shouldSkip) {
+      $gsap.set(targets, { autoAlpha: 1 })
+      if (onComplete) onComplete()
+      return
+    }
 
     if (activeTween) {
       activeTween.kill()
@@ -69,14 +73,12 @@ export const useTextWaveAnimation = (
     elements,
     (newElements) => {
       if (newElements && newElements.length) {
-        nextTick(() => {
-          const targets = toRaw(newElements)
-          $gsap.set(targets, { autoAlpha: 0 })
+        const targets = toRaw(newElements)
+        $gsap.set(targets, { autoAlpha: 0 })
 
-          if (options.immediate) {
-            playEntry(targets, options.onComplete)
-          }
-        })
+        if (options.immediate) {
+          playEntry(targets, options.onComplete)
+        }
       }
     },
     { immediate: true }

@@ -107,10 +107,9 @@ const handleContainerScroll = () => {
   }
 
   // Trigger footer text animation when we've scrolled enough to see the footer
-  if (
-    !animateFooter.value &&
-    scrollTop >= elementRef.value.scrollHeight * 0.8
-  ) {
+  const maxScroll =
+    elementRef.value.scrollHeight - elementRef.value.clientHeight
+  if (!animateFooter.value && scrollTop >= maxScroll - 100) {
     animateFooter.value = true
   }
 }

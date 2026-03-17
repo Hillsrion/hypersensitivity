@@ -1,3 +1,5 @@
+import { useLenis } from 'lenis/vue'
+
 export function useTestimoniesAnimation(
   sectionRef: Readonly<Ref<HTMLElement | null>>,
   stickyRef: Readonly<Ref<HTMLElement | null>>,
@@ -6,6 +8,7 @@ export function useTestimoniesAnimation(
   firstCardContentRef: Readonly<Ref<HTMLElement | null>>
 ) {
   const { $gsap } = useNuxtApp()
+  const lenis = useLenis()
 
   onMounted(async () => {
     await nextTick()
@@ -146,11 +149,17 @@ export function useTestimoniesAnimation(
     let touchStartX = 0
     let touchStartY = 0
     let isHorizontalSwipe = false
+    let currentScroll = 0
+    let lastTouchTime = 0
+    let velocity = 0
 
     const handleTouchStart = (e: TouchEvent) => {
       touchStartX = e.touches[0]?.clientX ?? 0
       touchStartY = e.touches[0]?.clientY ?? 0
       isHorizontalSwipe = false
+      currentScroll = window.scrollY
+      lastTouchTime = performance.now()
+      velocity = 0
     }
 
     const handleTouchMove = (e: TouchEvent) => {
@@ -169,22 +178,45 @@ export function useTestimoniesAnimation(
         Math.abs(deltaX) > 5
       ) {
         isHorizontalSwipe = true
+        currentScroll = window.scrollY
       }
 
       if (isHorizontalSwipe) {
         // Prevent default to disable native behavior (like swipe-to-go-back or unwanted vertical scroll)
         e.preventDefault()
 
-        // Swiping left (finger moves left) -> deltaX is positive -> scroll down (positive top)
-        window.scrollBy({
-          top: deltaX * 1.5,
-          behavior: 'auto',
-        })
+        const now = performance.now()
+        const dt = now - lastTouchTime
+        const scrollDelta = deltaX * 1.5
+        currentScroll += scrollDelta
+
+        if (dt > 0) {
+          velocity = scrollDelta / dt
+        }
+        lastTouchTime = now
+
+        if (lenis?.value) {
+          lenis.value.scrollTo(currentScroll, { immediate: true })
+        } else {
+          window.scrollBy({ top: scrollDelta, behavior: 'auto' })
+        }
 
         // Update coordinates for continuous smooth scrolling
         touchStartX = touchX
         touchStartY = touchY
       }
+    }
+
+    const handleTouchEnd = () => {
+      if (isHorizontalSwipe && lenis?.value) {
+        const inertiaScroll = currentScroll + velocity * 300 // Project inertia forward
+        lenis.value.scrollTo(inertiaScroll, {
+          lerp: 0.05, // Smooth slide to end
+          duration: 1.2,
+        })
+      }
+      isHorizontalSwipe = false
+      velocity = 0
     }
 
     const sectionEl = sectionRef.value
@@ -196,10 +228,14 @@ export function useTestimoniesAnimation(
       sectionEl.addEventListener('touchmove', handleTouchMove, {
         passive: false,
       })
+      sectionEl.addEventListener('touchend', handleTouchEnd, {
+        passive: true,
+      })
 
       onUnmounted(() => {
         sectionEl.removeEventListener('touchstart', handleTouchStart)
         sectionEl.removeEventListener('touchmove', handleTouchMove)
+        sectionEl.removeEventListener('touchend', handleTouchEnd)
       })
     }
   })
