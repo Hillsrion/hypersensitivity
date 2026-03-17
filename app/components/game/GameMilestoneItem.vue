@@ -18,13 +18,6 @@ const labelRef = useTemplateRef<HTMLElement>('labelRef')
 
 const { $gsap } = useNuxtApp()
 
-// Set initial hidden state immediately at mount to prevent flash
-onMounted(() => {
-  if (labelRef.value) {
-    $gsap.set(labelRef.value, { opacity: 0, y: 20 })
-  }
-})
-
 defineExpose({
   dotRef,
   labelRef,
@@ -35,21 +28,18 @@ defineExpose({
   <div
     class="relative h-full flex-none w-[140px] lg:w-[25vw] flex flex-col shrink-0 overflow-visible"
   >
-    <!-- Line Segments -->
     <div
-      class="absolute top-1/2 h-px bg-primary/10 pointer-events-none left-0 w-[calc(50%-8px)]"
+      class="absolute top-1/2 h-px bg-primary/10 pointer-events-none left-0"
+      :class="isReached ? 'w-[calc(50%-8px)]' : 'w-1/2'"
     />
     <div
-      class="absolute top-1/2 h-px bg-primary/10 pointer-events-none right-0 w-[calc(50%-8px)]"
+      class="absolute top-1/2 h-px bg-primary/10 pointer-events-none right-0"
+      :class="isReached ? 'w-[calc(50%-8px)]' : 'w-1/2'"
     />
-    <!-- Milestone Point Container -->
     <button
       class="absolute left-1/2 top-1/2 -translate-x-2 -translate-y-1/2 origin-left -rotate-45"
       style="transform-origin: 8px 50%"
-      :class="{
-        'opacity-50 cursor-not-allowed': !isReached,
-        'cursor-pointer': isReached,
-      }"
+      :class="isReached ? 'cursor-pointer' : 'pointer-events-none opacity-0'"
       @click="$emit('click', milestone.id)"
     >
       <!-- Title -->
@@ -57,8 +47,7 @@ defineExpose({
         <!-- Dot -->
         <div
           ref="dotRef"
-          class="size-4 rounded-full border border-primary transition-all duration-500"
-          :class="isReached ? 'bg-transparent' : 'bg-transparent scale-75'"
+          class="size-4 rounded-full border border-primary bg-transparent transition-all duration-500"
         />
         <div
           ref="labelRef"

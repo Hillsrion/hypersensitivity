@@ -74,12 +74,12 @@ export function useMilestoneMenuScroll(
     }
   }
 
-  const stopLoop = () => {
+  const stopLoop = (clearPositions = true) => {
     if (loopTimeline) {
       loopTimeline.kill()
       loopTimeline = null
     }
-    if (itemsRef.value) {
+    if (clearPositions && itemsRef.value) {
       $gsap.set(itemsRef.value, { clearProps: 'xPercent,x' })
     }
   }

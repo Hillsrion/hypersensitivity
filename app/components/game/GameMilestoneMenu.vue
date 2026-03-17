@@ -14,13 +14,10 @@ const { isMilestoneReached, handleMilestoneClick, navigateToTest } =
 
 const menuRef = useTemplateRef<HTMLElement>('menuRef')
 const itemsRef = ref<HTMLElement[]>([])
-const itemComponents = ref<Array<{ labelRef: HTMLElement | null }>>([])
+const itemComponents = ref<
+  Array<{ labelRef: HTMLElement | null; isReached: boolean }>
+>([])
 const isMenuOpen = computed(() => gameStore.isMenuOpen)
-
-// Filtered milestones (only reached)
-const visibleMilestones = computed<Milestone[]>(() => {
-  return gameStore.milestones.filter((m) => isMilestoneReached(m.id))
-})
 
 type MilestoneItemExposed = {
   $el?: Element
@@ -32,11 +29,15 @@ const setMilestoneRef = (el: unknown, index: number) => {
   const item = el as MilestoneItemExposed
 
   if (item.$el instanceof HTMLElement) {
-    itemsRef.value[index] = item.$el
+    if (index >= 0) {
+      itemsRef.value[index] = item.$el
+    }
   }
 
+  const milestone = gameStore.milestones[index]
   itemComponents.value[index] = {
     labelRef: item.labelRef ?? null,
+    isReached: milestone ? isMilestoneReached(milestone.id) : false,
   }
 }
 
@@ -55,6 +56,10 @@ watch(isMenuOpen, (isOpen) => {
     nextTick(() => {
       if (!menuRef.value) return
 
+      if (itemsRef.value.length) {
+        $gsap.set(itemsRef.value, { clearProps: 'xPercent,x' })
+      }
+
       $gsap.fromTo(
         menuRef.value,
         { opacity: 0 },
@@ -63,28 +68,32 @@ watch(isMenuOpen, (isOpen) => {
 
       if (itemComponents.value.length) {
         const labels = itemComponents.value
-          .map((c) => c.labelRef)
-          .filter((label): label is HTMLElement => !!label)
+          .filter((c) => c.isReached && c.labelRef)
+          .map((c) => c.labelRef as HTMLElement)
 
-        // Animate labels (initial state already set by child onMounted)
-        $gsap.to(labels, {
-          opacity: 1,
-          y: 0,
-          duration: 0.5,
-          stagger: 0.1,
-          ease: 'power2.out',
-          delay: 0.2,
-          onComplete: () => {
-            $gsap.set(labels, { clearProps: 'y,opacity' })
-            if (isMenuOpen.value) {
-              startLoop()
-            }
-          },
-        })
+        // Animate labels with fromTo to eliminate layout flashes
+        $gsap.fromTo(
+          labels,
+          { opacity: 0, y: 20 },
+          {
+            opacity: 1,
+            y: 0,
+            duration: 0.5,
+            stagger: 0.1,
+            ease: 'power2.out',
+            delay: 0.2,
+            onComplete: () => {
+              $gsap.set(labels, { clearProps: 'y,opacity' })
+              if (isMenuOpen.value) {
+                startLoop()
+              }
+            },
+          }
+        )
       }
     })
   } else {
-    stopLoop()
+    stopLoop(false)
   }
 })
 
@@ -127,7 +136,7 @@ const navItemClasses =
             <!-- Milestones Container -->
             <div class="flex items-center relative h-full w-full">
               <GameMilestoneItem
-                v-for="(milestone, index) in visibleMilestones"
+                v-for="(milestone, index) in gameStore.milestones"
                 :key="milestone.id"
                 :ref="(el) => setMilestoneRef(el, index)"
                 :milestone="milestone"
