@@ -34,7 +34,7 @@ export const dayOneBathroom: Scene = {
   choices: [
     {
       id: 'outfit_sexy',
-      text: 'TENUE RAFFINEE',
+      text: 'TENUE RAFFINÉE',
       nextSceneId: SCENE_IDS.DAY_ONE_OUTFIT_SEXY,
       effects: {
         energy: -5,

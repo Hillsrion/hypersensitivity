@@ -5,7 +5,7 @@ import { d } from '../../helpers'
 export const dayOneRefuse: Scene = {
   id: SCENE_IDS.DAY_ONE_REFUSE,
   day: 1,
-  title: 'Soiree',
+  title: 'Soirée',
   audio: 'experience/J01_C03B_Discussion_Base.mp3',
   dialogues: [
     d(
@@ -28,20 +28,20 @@ export const dayOneRefuse: Scene = {
         color: 'red',
       }
     ),
-    d('d1_39', 'Ines', 'Vas-y, raconte.', {}),
+    d('d1_39', 'Inès', 'Vas-y, raconte.', {}),
     d(
       'd1_40',
       'LUCIE',
       "J'avais une réu ce matin. Vu que c'est toujours le bordel dans l'open space, j'ai réservé une des petites cabanes à isolation phonique. Ce pas, je la vois dans la cabane et elle veut pas bouger."
     ),
-    d('d1_41', 'Ines', "Waouh, dis-moi que tu l'as bougée de là."),
+    d('d1_41', 'Inès', "Waouh, dis-moi que tu l'as bougée de là."),
   ],
 }
 
 export const dayOneRefuseAssert: Scene = {
   id: SCENE_IDS.DAY_ONE_REFUSE_ASSERT,
   day: 1,
-  title: 'Soiree',
+  title: 'Soirée',
   audio: 'experience/J01_C03B_Discussion_Assert.mp3',
   condition: { flag: 'conflictOutcome', operator: 'equals', value: 'assert' },
   dialogues: [
@@ -57,7 +57,7 @@ export const dayOneRefuseAssert: Scene = {
 export const dayOneRefuseSubmit: Scene = {
   id: SCENE_IDS.DAY_ONE_REFUSE_SUBMIT,
   day: 1,
-  title: 'Soiree',
+  title: 'Soirée',
   condition: { flag: 'conflictOutcome', operator: 'equals', value: 'submit' },
   audio: 'experience/J01_C03B_Discussion_Calme.mp3',
   dialogues: [
@@ -72,7 +72,7 @@ export const dayOneRefuseSubmit: Scene = {
     ),
     d(
       'd1_44',
-      'Ines',
+      'Inès',
       "On peut pas gagner toutes les batailles. Vas-y step by step. Si tu veux, ce week-end, on t'aidera à trouver les mots pour mettre tes limites.",
       {
         color: 'green',
@@ -81,7 +81,7 @@ export const dayOneRefuseSubmit: Scene = {
     d('d1_45', 'LUCIE', "Trop bien, on fera ça. Merci d'être là.", {
       color: 'green',
     }),
-    d('d1_46', 'Ines', "Mais c'est normal, avec plaisir.", {
+    d('d1_46', 'Inès', "Mais c'est normal, avec plaisir.", {
       color: 'green',
     }),
   ],

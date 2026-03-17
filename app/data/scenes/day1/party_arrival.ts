@@ -5,7 +5,7 @@ import { d } from '../../helpers'
 export const dayOnePartySexy: Scene = {
   id: SCENE_IDS.DAY_ONE_PARTY_SEXY,
   day: 1,
-  title: 'Soiree',
+  title: 'Soirée',
   entryAnnotations: {
     items: ['À la soirée', 'Lucie toque à la porte'],
     transitionAtTime: 2000,
@@ -19,8 +19,8 @@ export const dayOnePartySexy: Scene = {
     }),
     d(
       'd1_20a',
-      'Ines',
-      'Ça fait plaisir de te voir. En plus, tu viens en re-sta. Epouse-moi.',
+      'Inès',
+      'Ça fait plaisir de te voir. En plus, tu viens en re-sta. Épouse-moi.',
       {
         color: 'green',
       }
@@ -35,7 +35,7 @@ export const dayOnePartySexy: Scene = {
     ),
     d(
       'd1_22a',
-      'Ines',
+      'Inès',
       'Bah tiens, pose ta veste et va prendre un verre. Je te rejoins dans le salon.',
       {
         color: 'green',
@@ -47,13 +47,13 @@ export const dayOnePartySexy: Scene = {
 export const dayOnePartyComfort: Scene = {
   id: SCENE_IDS.DAY_ONE_PARTY_COMFORT,
   day: 1,
-  title: 'Soiree',
+  title: 'Soirée',
   entryAnnotation: 'Lucie arrive à la soirée',
   entryAudioEarlyStart: true,
   condition: { flag: 'outfitChoice', operator: 'equals', value: 'comfort' },
   audio: 'experience/J01_S05_Soiree_Tenue_Confort.mp3',
   dialogues: [
-    d('d1_19b', 'Ines', 'Hey, ça fait plaisir de te voir !', {
+    d('d1_19b', 'Inès', 'Hey, ça fait plaisir de te voir !', {
       color: 'green',
     }),
     d('d1_20b', 'LUCIE', 'Mais moi aussi, ça me fait plaisir.', {
@@ -61,7 +61,7 @@ export const dayOnePartyComfort: Scene = {
     }),
     d(
       'd1_21b',
-      'Ines',
+      'Inès',
       "Comment il va, le petit monstre ? Ça fait longtemps que je ne l'ai pas vu, lui non plus.",
       {
         color: 'green',
@@ -72,7 +72,7 @@ export const dayOnePartyComfort: Scene = {
     }),
     d(
       'd1_23b',
-      'Ines',
+      'Inès',
       'Ah bah super alors. Bah viens, rentre, prends un verre et je te rejoins dans le salon.',
       {
         color: 'green',

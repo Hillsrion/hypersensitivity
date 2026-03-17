@@ -5,7 +5,7 @@ import { d, thoughts } from '../../helpers'
 export const dayOneGameEvent: Scene = {
   id: SCENE_IDS.DAY_ONE_GAME_EVENT,
   day: 1,
-  title: 'Soiree',
+  title: 'Soirée',
   audio: 'experience/J01_C03A_Jeu_Base.mp3',
   dialogues: [
     d(
@@ -45,7 +45,7 @@ export const dayOneGameEvent: Scene = {
 export const dayOnePlay: Scene = {
   id: SCENE_IDS.DAY_ONE_PLAY,
   day: 1,
-  title: 'Soiree',
+  title: 'Soirée',
   audio: 'experience/J01_C03A_Jeu.mp3',
   dialogues: [
     d('d1_24', 'LUCIE', 'Vas-yyyyy.', {
@@ -94,10 +94,10 @@ export const dayOnePlay: Scene = {
         color: 'red',
       }
     ),
-    d('d1_32', 'Ines', 'Lucie ? Lucie ?', {}),
+    d('d1_32', 'Inès', 'Lucie ? Lucie ?', {}),
     d(
       'd1_32_bis',
-      'Ines',
+      'Inès',
       "Luci... Hey, t'es partie d'un coup et t'es toute pâle. Ça va ?",
       {
         color: 'blue',
@@ -113,7 +113,7 @@ export const dayOnePlay: Scene = {
     ),
     d(
       'd1_34',
-      'Ines',
+      'Inès',
       "Ok, je comprends. Assieds-toi dans ma chambre, je t'appelle un Uber.",
       {
         color: 'green',
