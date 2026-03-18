@@ -73,12 +73,7 @@ useSeoMeta({
   title: mainData.title,
   ogTitle: mainData.title,
   ogDescription: mainData.introduction.content,
-  ogImage: {
-    src: '/og-image.jpg',
-    width: 1200,
-    height: 630,
-    type: 'image/jpeg',
-  },
+  ogImage: '/og-image.jpg',
   twitterCard: 'summary_large_image',
   twitterTitle: mainData.title,
   twitterImage: {
