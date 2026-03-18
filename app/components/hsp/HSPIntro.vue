@@ -15,8 +15,8 @@ const props = defineProps({
 defineEmits(['start'])
 
 const stats = computed(() => [
-  `${props.totalQuestions} questions réparties en ${props.sectionsCount} sections`,
-  'Durée estimée : 10 minutes',
+  `${props.totalQuestions} questions`,
+  '10 minutes',
 ])
 
 const { enter, leave } = useHSPIntroAnimation()
