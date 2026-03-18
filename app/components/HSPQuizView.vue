@@ -239,7 +239,7 @@ onUnmounted(() => {
 <template>
   <div
     ref="elementRef"
-    class="quiz-container fixed inset-0 z-100 w-full h-dvh flex flex-col items-center text-white transition-opacity duration-500"
+    class="quiz-container fixed inset-0 z-100 w-full h-dvh flex flex-col items-center text-white bg-primary transition-opacity duration-500"
     data-lenis-prevent
     :class="{
       'justify-center overflow-hidden':

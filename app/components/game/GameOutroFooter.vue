@@ -10,7 +10,8 @@ const props = defineProps<{
 const titleRef = useTemplateRef<HTMLElement>('titleRef')
 const { chars } = useSplitText(titleRef, { splitBy: 'chars,words' })
 const currentYear = new Date().getFullYear()
-const rootClasses = 'relative min-h-dvh w-full text-white flex flex-col'
+const rootClasses =
+  'relative min-h-dvh w-full text-white flex flex-col bg-primary'
 
 const { playEntry } = useTextWaveAnimation(
   computed(() => chars.value as HTMLElement[]),
