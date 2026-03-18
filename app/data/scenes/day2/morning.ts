@@ -46,7 +46,7 @@ export const dayTwoWakeupCrash: Scene = {
         operator: 'greaterThan',
         value: 0,
       },
-      disabledReason: '(Énergie insuffisante)',
+      disabledReason: "Pas assez d'énergie",
       effects: {
         energy: -20,
         flags: { callChoice: 'accept' },
@@ -105,7 +105,7 @@ export const dayTwoWakeupGood: Scene = {
         operator: 'greaterThan',
         value: 0,
       },
-      disabledReason: '(Énergie insuffisante)',
+      disabledReason: "Pas assez d'énergie",
       effects: {
         energy: -20,
         flags: { callChoice: 'accept' },

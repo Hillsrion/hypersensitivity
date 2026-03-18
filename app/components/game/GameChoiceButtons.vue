@@ -80,7 +80,7 @@ const {
           <span>{{ choice.text }}</span>
           <span
             v-if="gameStore.isChoiceDisabled(choice) && choice.disabledReason"
-            class="text-xs xs:fl-text-choice-min/xl leading-tight normal-case"
+            class="text-sm leading-tight normal-case absolute -bottom-0.5 right-0 italic whitespace-nowrap"
             :class="variant === 'dark' ? 'text-primary/40' : 'text-white/40'"
           >
             {{ choice.disabledReason }}

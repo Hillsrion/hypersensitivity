@@ -55,6 +55,14 @@
   font-display: swap;
 }
 
+@font-face {
+  font-family: "Satoshi";
+  src: url("~/assets/fonts/Satoshi-Italic.woff2") format("woff2");
+  font-weight: 400;
+  font-style: italic;
+  font-display: swap;
+}
+
 /* PP Eiko Font */
 @font-face {
   font-family: "PP Eiko";
