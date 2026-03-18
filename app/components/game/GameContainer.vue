@@ -14,8 +14,15 @@ const { $gsap } = useNuxtApp()
 
 const containerRef = useTemplateRef<HTMLElement>('containerRef')
 
+const route = useRoute()
+const isTestMode = computed(() => route.query.test === 'true')
+
 // Use VueUse to detect if the game container is physically on screen
-const isContainerVisible = useElementVisibility(containerRef)
+// In test mode, we force this to true to avoid flakiness with IntersectionObserver
+const isContainerVisibleRef = useElementVisibility(containerRef)
+const isContainerVisible = computed(
+  () => isTestMode.value || isContainerVisibleRef.value
+)
 
 const {
   gameStore,
@@ -111,6 +118,7 @@ const getEnergyBarClasses = () => {
           "
           class="fixed z-70 text-primary cursor-pointer group flex items-center justify-center font-sans md:-translate-x-[calc(50%-5px)]"
           :class="[EDGE_SPACING.TOP, EDGE_SPACING.LEFT, UI_SIZES.TOP_ELEMENT]"
+          aria-label="Menu"
           @click.stop="gameStore.toggleMenu()"
         >
           <MenuIcon

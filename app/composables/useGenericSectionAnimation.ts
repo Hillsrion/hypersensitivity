@@ -81,8 +81,16 @@ export function useGenericSectionAnimation(
       }
     }
 
+    let lastWidth = window.innerWidth
+
     // Run check after initial render and on resize
     const onResize = () => {
+      // Ignore height-only resizes on mobile to prevent layout thrashing from address bar
+      if (window.innerWidth === lastWidth && window.innerWidth < 1024) {
+        return
+      }
+      lastWidth = window.innerWidth
+
       // Small delay to let layout settle
       setTimeout(() => {
         // We reset to false to measure natural height
@@ -152,7 +160,7 @@ export function useGenericSectionAnimation(
           trigger: containerRef.value,
           start: () => `top ${calculateStartTop()}px`,
           pin: true,
-          anticipatePin: 1,
+          // anticipatePin: 1, // Removed to prevent early snapping/teleporting on mobile
           // We scroll the timeline directly via standard viewport lengths instead of component heights:
           end: () =>
             window.innerWidth >= 1536

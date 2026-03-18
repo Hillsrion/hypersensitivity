@@ -55,6 +55,6 @@ test.describe('Scene Navigation & Audio E2E', () => {
 
     // Check if the audio for J01_C01_TenueB.mp3 was triggered
     // It should be the last audio triggered
-    expect(audioPlays[audioPlays.length - 1]).toContain('J01_C01_TenueB.mp3')
+    expect(audioPlays[audioPlays.length - 1]).toContain('J01_C01_Tenue_B.mp3')
   })
 })

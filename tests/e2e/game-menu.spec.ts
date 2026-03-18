@@ -18,7 +18,7 @@ test.describe('Game Menu E2E', () => {
     // 3. Open the menu
     // The MenuIcon is inside a button in GameContainer
     // It's visible when showDelayedGameUI is true
-    const menuToggle = page.locator('button:has(> div.relative.w-7.h-7)')
+    const menuToggle = page.getByLabel('Menu')
     await expect(menuToggle).toBeVisible({ timeout: 10000 })
     await menuToggle.click()
 

@@ -19,7 +19,7 @@ test.describe('Day Transition E2E', () => {
     await expect(sceneSelect).toBeVisible({ timeout: 15000 })
 
     // Select a Day 1 end scene
-    await sceneSelect.selectOption('dayOneEndGoodReflect')
+    await sceneSelect.selectOption('dayOneEndGoodAssertComfort')
 
     // 4. Wait for the scene to load and the dialogue to appear
     // We can first wait for the entry annotation if present (dayOneEndGoodReflect doesn't have one in end.ts but others do)
