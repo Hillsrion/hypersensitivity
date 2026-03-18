@@ -226,8 +226,6 @@ onMounted(() => {
       },
     },
   })
-
-  animationsStore.setScrollLocked(true)
 })
 
 onUnmounted(() => {
@@ -235,7 +233,6 @@ onUnmounted(() => {
     clearTimeout(contentReadyTimer)
     contentReadyTimer = null
   }
-  animationsStore.setScrollLocked(false)
 })
 </script>
 

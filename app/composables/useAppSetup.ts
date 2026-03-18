@@ -52,11 +52,20 @@ export const useAppSetup = (lenisRef: Ref<LenisRef | null>) => {
     [
       () => animations.landing.intro.entry.completed,
       () => animations.scroll.locked,
+      () => {
+        const gameStore = useGameStore()
+        return (
+          gameStore.showQuiz ||
+          gameStore.showFinalFooter ||
+          gameStore.hasGameEnded ||
+          gameStore.currentSceneId === 'gameEnd'
+        )
+      },
     ],
-    ([introCompleted, scrollLocked]) => {
+    ([introCompleted, scrollLocked, gameEnded]) => {
       if (!lenisRef.value?.lenis) return
 
-      if (introCompleted && !scrollLocked) {
+      if (introCompleted && !scrollLocked && !gameEnded) {
         // Re-enable scrolling after loading is complete and if not locked
         lenisRef.value.lenis.start()
       } else {
