@@ -54,12 +54,7 @@ export const useAppSetup = (lenisRef: Ref<LenisRef | null>) => {
       () => animations.scroll.locked,
       () => {
         const gameStore = useGameStore()
-        return (
-          gameStore.showQuiz ||
-          gameStore.showFinalFooter ||
-          gameStore.hasGameEnded ||
-          gameStore.currentSceneId === 'gameEnd'
-        )
+        return gameStore.hasGameEnded || gameStore.currentSceneId === 'gameEnd'
       },
     ],
     ([introCompleted, scrollLocked, gameEnded]) => {

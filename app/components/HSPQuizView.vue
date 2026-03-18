@@ -52,7 +52,6 @@ const contentReady = ref(false)
 const resultsScrollTop = ref(0)
 const footerRevealTriggered = ref(false)
 const animateFooter = ref(false)
-const isFooterLocked = ref(false)
 let contentReadyTimer: ReturnType<typeof setTimeout> | null = null
 
 const resultsOpacity = computed(() => {
@@ -81,7 +80,6 @@ const resetResultsTransitionState = () => {
   resultsScrollTop.value = 0
   footerRevealTriggered.value = false
   animateFooter.value = false
-  isFooterLocked.value = false
 
   if (elementRef.value) {
     elementRef.value.scrollTop = 0
@@ -106,14 +104,6 @@ const handleContainerScroll = () => {
   ) {
     footerRevealTriggered.value = true
     gameStore.setShowFinalFooter(true)
-
-    // Automatically lock scroll to footer to prevent going back to results
-    isFooterLocked.value = true
-    nextTick(() => {
-      if (elementRef.value) {
-        elementRef.value.scrollTop = 0
-      }
-    })
   }
 
   // Trigger footer text animation when we've scrolled enough to see the footer
@@ -167,7 +157,6 @@ watch(
         gameStore.setShowFinalFooter(true)
         footerRevealTriggered.value = true
         animateFooter.value = true
-        isFooterLocked.value = true
       } else {
         const { track } = useMetrics()
         track('quiz_completed', {
@@ -176,7 +165,6 @@ watch(
         })
         gameStore.setShowFinalFooter(false)
         footerRevealTriggered.value = false
-        isFooterLocked.value = false
       }
 
       nextTick(() => {
@@ -193,7 +181,6 @@ watch(
       resultsScrollTop.value = 0
       footerRevealTriggered.value = false
       animateFooter.value = false
-      isFooterLocked.value = false
     }
   },
   { immediate: true }
@@ -287,7 +274,7 @@ onUnmounted(() => {
         class="w-full flex-1 flex flex-col"
       >
         <div
-          v-if="currentView === 'results' && !isFooterLocked"
+          v-if="currentView === 'results'"
           ref="resultsWrapperRef"
           class="min-h-dvh w-full flex items-center justify-center transition-opacity duration-300"
           :style="{ opacity: resultsOpacity }"
