@@ -94,11 +94,11 @@ export function useChoiceButtons(
       'text-white': variant.value === 'light' && !isDisabled,
       'text-primary/30': variant.value === 'dark' && isDisabled,
       'text-white/30': variant.value === 'light' && isDisabled,
+      // Maintain state during selection to avoid jumps before GSAP takes over
       'opacity-20':
-        !isSelecting.value &&
         hoveredIndex.value !== null &&
-        hoveredIndex.value !== index,
-      'opacity-0': isSelecting.value && !isSelected,
+        hoveredIndex.value !== index &&
+        (!isSelecting.value || !isSelected),
       'opacity-100':
         (!isSelecting.value &&
           (hoveredIndex.value === null || hoveredIndex.value === index)) ||
@@ -108,9 +108,9 @@ export function useChoiceButtons(
 
   const getIconClasses = () => {
     return {
-      'opacity-20': !isSelecting.value && hoveredIndex.value !== null,
-      'opacity-0': isSelecting.value,
-      'opacity-100': !isSelecting.value && hoveredIndex.value === null,
+      'transition-opacity duration-300': !isSelecting.value,
+      'opacity-20': hoveredIndex.value !== null,
+      'opacity-100': hoveredIndex.value === null,
       'border-primary text-primary': variant.value === 'dark',
       'border-white text-white': variant.value === 'light',
     }

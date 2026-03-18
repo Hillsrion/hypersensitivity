@@ -92,7 +92,7 @@ const {
       <div
         v-if="index === 0 && choices.length > 1"
         ref="iconRef"
-        class="relative fl-size-11/14 shrink-0 rounded-full border flex items-center justify-center transition-opacity duration-300"
+        class="relative fl-size-11/14 shrink-0 rounded-full border flex items-center justify-center"
         :class="getIconClasses()"
       >
         <div
