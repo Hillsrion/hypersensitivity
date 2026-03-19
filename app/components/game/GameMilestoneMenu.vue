@@ -98,7 +98,7 @@ watch(isMenuOpen, (isOpen) => {
 })
 
 const navItemClasses =
-  'flex items-center gap-2 font-sans fl-text-sm/base fl-leading-5/7 uppercase hover:text-primary transition-colors cursor-pointer'
+  'group flex items-center gap-2 font-sans fl-text-sm/base fl-leading-5/7 uppercase hover:text-primary focus:text-primary transition-colors cursor-pointer outline-none'
 </script>
 
 <template>
@@ -152,13 +152,19 @@ const navItemClasses =
             :class="EDGE_SPACING.PX"
           >
             <button :class="navItemClasses" @click.stop="gameStore.resetGame()">
-              <ResetIcon />
+              <ResetIcon class="transition-transform duration-500 group-hover:-rotate-180 group-focus:-rotate-180" />
               RECOMMENCER LE JEU
             </button>
 
-            <div :class="navItemClasses" @click="navigateToTest">
+            <div
+              :class="navItemClasses"
+              role="button"
+              tabindex="0"
+              @click="navigateToTest"
+              @keydown.enter="navigateToTest"
+            >
               TEST DU SPECTRE DE L'HYPERSENSIBILITÉ
-              <ArrowRightIcon />
+              <ArrowRightIcon class="transition-transform duration-300 group-hover:translate-x-1 group-focus:translate-x-1" />
             </div>
           </div>
         </div>
