@@ -71,6 +71,8 @@ useHead({
 
 useSeoMeta({
   title: mainData.title,
+  description:
+    "Une sensibilisation à l'hypersensibilité à travers des témoignages du quotidien et un court-métrage interactif.",
   ogTitle: mainData.title,
   ogDescription: mainData.introduction.content,
   ogImage: '/og-image.jpg',
