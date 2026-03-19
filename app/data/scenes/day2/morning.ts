@@ -24,8 +24,8 @@ export const dayTwoWakeupCrash: Scene = {
         color: 'blue',
       }
     ),
-    thoughts('d2_breakdown_1_allo', 'Allô ?', {
-      color: 'blue',
+    d('d2_breakdown_1_allo', 'Lucie', 'Allô ?', {
+      color: 'violet',
     }),
     d(
       'd2_breakdown_2',

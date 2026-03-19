@@ -79,7 +79,7 @@ export const dayOneOutfitComfort: Scene = {
   dialogues: [
     thoughts(
       'd1_3b',
-      "déjà que j'ai c'te réu de deux heures trente qui va me faire mal à la tête, autant être confort.",
+      "Déjà que j'ai c'te réu de deux heures trente qui va me faire mal à la tête, autant être confort.",
       {
         color: 'blue',
       }

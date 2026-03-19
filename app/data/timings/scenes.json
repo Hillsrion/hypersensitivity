@@ -241,7 +241,7 @@
   ],
   "d1_3b": [
     {
-      "word": "déjà",
+      "word": "Déjà",
       "start": 0.099,
       "end": 0.239
     },
@@ -1388,7 +1388,7 @@
       "end": 19.639
     },
     {
-      "word": "capable",
+      "word": "capables",
       "start": 19.68,
       "end": 19.939
     },
@@ -1799,7 +1799,7 @@
       "end": 9.84
     },
     {
-      "word": "va,",
+      "word": "va.",
       "start": 9.92,
       "end": 10
     },
@@ -3250,7 +3250,7 @@
       "end": 31.959
     },
     {
-      "word": "y'a",
+      "word": "y a",
       "start": 31.959,
       "end": 32
     },
@@ -3320,7 +3320,7 @@
       "end": 34.84
     },
     {
-      "word": "y'a",
+      "word": "y a",
       "start": 34.84,
       "end": 34.88
     },
@@ -6094,171 +6094,6 @@
       "word": "reconnaissante.",
       "start": 18.26,
       "end": 19.479
-    }
-  ],
-  "d2_2": [
-    {
-      "word": "Allo",
-      "start": 3.539,
-      "end": 3.84
-    },
-    {
-      "word": "ma",
-      "start": 3.86,
-      "end": 3.96
-    },
-    {
-      "word": "chérie ?",
-      "start": 4,
-      "end": 4.419
-    },
-    {
-      "word": "Ca",
-      "start": 4.639,
-      "end": 4.779
-    },
-    {
-      "word": "va ?",
-      "start": 4.819,
-      "end": 5.099
-    }
-  ],
-  "d2_3": [
-    {
-      "word": "Oui,",
-      "start": 5.46,
-      "end": 5.619
-    },
-    {
-      "word": "ca",
-      "start": 5.639,
-      "end": 5.699
-    },
-    {
-      "word": "va",
-      "start": 5.699,
-      "end": 5.8
-    },
-    {
-      "word": "bien",
-      "start": 5.819,
-      "end": 5.959
-    },
-    {
-      "word": "et",
-      "start": 5.979,
-      "end": 6.039
-    },
-    {
-      "word": "toi ?",
-      "start": 6.039,
-      "end": 6.279
-    }
-  ],
-  "d2_4": [
-    {
-      "word": "Ecoute,",
-      "start": 6.639,
-      "end": 6.959
-    },
-    {
-      "word": "ton",
-      "start": 6.979,
-      "end": 7.079
-    },
-    {
-      "word": "frere",
-      "start": 7.079,
-      "end": 7.379
-    },
-    {
-      "word": "demenage",
-      "start": 7.399,
-      "end": 7.899
-    },
-    {
-      "word": "aujourd'hui,",
-      "start": 7.919,
-      "end": 8.359
-    },
-    {
-      "word": "il",
-      "start": 8.399,
-      "end": 8.459
-    },
-    {
-      "word": "a",
-      "start": 8.479,
-      "end": 8.539
-    },
-    {
-      "word": "besoin",
-      "start": 8.539,
-      "end": 8.76
-    },
-    {
-      "word": "de",
-      "start": 8.779,
-      "end": 8.84
-    },
-    {
-      "word": "bras,",
-      "start": 8.879,
-      "end": 9.259
-    },
-    {
-      "word": "tu",
-      "start": 9.38,
-      "end": 9.42
-    },
-    {
-      "word": "peux",
-      "start": 9.44,
-      "end": 9.539
-    },
-    {
-      "word": "venir",
-      "start": 9.579,
-      "end": 9.779
-    },
-    {
-      "word": "l'aider ?",
-      "start": 9.8,
-      "end": 10.159
-    }
-  ],
-  "d2_5a": [
-    {
-      "word": "Ok,",
-      "start": 0.359,
-      "end": 0.8
-    },
-    {
-      "word": "je",
-      "start": 0.839,
-      "end": 1.059
-    },
-    {
-      "word": "passe.",
-      "start": 1.099,
-      "end": 1.579
-    }
-  ],
-  "d2_6a": [
-    {
-      "word": "Super,",
-      "start": 2.159,
-      "end": 2.7
-    },
-    {
-      "word": "a",
-      "start": 2.739,
-      "end": 2.899
-    },
-    {
-      "word": "toute !",
-      "start": 2.919,
-      "end": 3.239
     }
   ],
   "d2_5b": [

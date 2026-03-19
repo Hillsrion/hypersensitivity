@@ -68,7 +68,7 @@ export const dayOnePlay: Scene = {
     d(
       'd1_27_2',
       'Lucas',
-      "'Fin, tu peux reformuler, t'as capté, mais il faut que ça reste fidèle à l'esprit de la carte. Il y'a un GM qui va juger de ça et qui prend des notes. Il y'a des jetons influence qu'on peut utiliser.",
+      "'Fin, tu peux reformuler, t'as capté, mais il faut que ça reste fidèle à l'esprit de la carte. Il y a un GM qui va juger de ça et qui prend des notes. Il y a des jetons influence qu'on peut utiliser.",
       {
         energyChange: -5,
       }

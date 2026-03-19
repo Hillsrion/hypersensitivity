@@ -71,7 +71,7 @@ export const dayOneConflictSubmit: Scene = {
     d(
       'd1_16a',
       'Équipe',
-      "Oui, on comprend le point. Après, l'objectif reste quand même de tenir le sprint tel qu'il est prévu aujourd'hui. On est conscients que ça va demander un effort, mais on a besoin d'avancer et de montrer qu'on est capable d'absorber la charge. On fera un point d'avancement en milieu de sprint, pour voir si...",
+      "Oui, on comprend le point. Après, l'objectif reste quand même de tenir le sprint tel qu'il est prévu aujourd'hui. On est conscients que ça va demander un effort, mais on a besoin d'avancer et de montrer qu'on est capables d'absorber la charge. On fera un point d'avancement en milieu de sprint, pour voir si...",
       {
         color: 'blue',
       }
@@ -106,7 +106,7 @@ export const dayOneConflictAssert: Scene = {
     d(
       'd1_15b',
       'Karen',
-      'Ça y est, ça y est, ça va, Pas besoin de taper une crise.',
+      'Ça y est, ça y est, ça va. Pas besoin de taper une crise.',
       {
         color: 'red',
       }
