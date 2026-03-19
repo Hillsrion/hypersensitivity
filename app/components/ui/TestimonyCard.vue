@@ -67,7 +67,7 @@
           ref="authorRef"
           class="text-primary font-medium text-right relative z-10"
         >
-          {{ author }}
+          {{ author }}.
         </p>
       </AppText>
     </div>
