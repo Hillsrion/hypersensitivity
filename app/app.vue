@@ -37,7 +37,7 @@ const route = useRoute()
 const lenisRef = useTemplateRef('lenisRef')
 
 const { introductionData, creditsLinks } = useAppSetup(lenisRef)
-useCustomCursor()
+const { isVisible: isCursorVisible } = useCustomCursor()
 
 useHead({
   htmlAttrs: {
@@ -90,8 +90,11 @@ useSeoMeta({
     <!-- Custom Cursor -->
     <div
       ref="cursorRef"
-      class="custom-cursor fixed top-0 left-0 w-4 h-4 rounded-full pointer-events-none z-99999 transition-colors duration-300 ease-in-out will-change-transform"
-      :class="animations.cursor.variant === 'dark' ? 'bg-primary' : 'bg-white'"
+      class="custom-cursor fixed top-0 left-0 w-4 h-4 rounded-full pointer-events-none z-99999 transition-[background-color,opacity] duration-300 ease-in-out will-change-transform"
+      :class="[
+        animations.cursor.variant === 'dark' ? 'bg-primary' : 'bg-white',
+        isCursorVisible ? 'opacity-100' : 'opacity-0',
+      ]"
     />
 
     <DevToolsView v-if="route?.path === '/game-tools-view'" />
