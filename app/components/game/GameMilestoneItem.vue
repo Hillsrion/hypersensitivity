@@ -37,7 +37,7 @@ defineExpose({
       :class="isReached ? 'w-[calc(50%-8px)]' : 'w-1/2'"
     />
     <button
-      class="absolute left-1/2 top-1/2 -translate-x-2 -translate-y-1/2 origin-left -rotate-45"
+      class="group absolute left-1/2 top-1/2 -translate-x-2 -translate-y-1/2 origin-left -rotate-45 outline-none"
       style="transform-origin: 8px 50%"
       :class="isReached ? 'cursor-pointer' : 'pointer-events-none opacity-0'"
       @click="$emit('click', milestone.id)"
@@ -47,11 +47,15 @@ defineExpose({
         <!-- Dot -->
         <div
           ref="dotRef"
-          class="size-4 rounded-full border border-primary bg-transparent transition-all duration-500"
-        />
+          class="relative flex items-center justify-center size-4 rounded-full border border-primary bg-transparent"
+        >
+          <div
+            class="absolute inset-0 rounded-full bg-primary scale-0 transition-transform duration-500 ease-out group-hover:scale-100 group-focus:scale-100 group-focus-visible:scale-100"
+          />
+        </div>
         <div
           ref="labelRef"
-          class="font-sans pl-4 transition-colors duration-300 text-primary group-hover:text-primary/70 leading-tight whitespace-nowrap"
+          class="font-sans pl-4 transition-colors duration-300 text-primary group-hover:text-primary/70 group-focus:text-primary/70 leading-tight whitespace-nowrap"
         >
           <span class="uppercase mr-1 font-medium tabular-nums"
             >JOUR {{ milestone.day }}</span
