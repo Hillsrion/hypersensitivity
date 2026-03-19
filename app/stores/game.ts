@@ -185,10 +185,7 @@ export const useGameStore = defineStore('game', {
           this.introPlayed = true
           this.introAnimationPhase = 'complete'
           this.introBlurAmount = 0
-
-          const animationsStore = useAnimationsStore()
-          animationsStore.setCursorVariant('dark')
-          animationsStore.setAudiowaveVariant('dark')
+          this.ensureGameUITheme()
 
           return
         } else {
@@ -218,10 +215,7 @@ export const useGameStore = defineStore('game', {
         this.introPlayed = true
         this.introAnimationPhase = 'complete'
         this.introBlurAmount = 0
-
-        const animationsStore = useAnimationsStore()
-        animationsStore.setCursorVariant('dark')
-        animationsStore.setAudiowaveVariant('dark')
+        this.ensureGameUITheme()
 
         if (devConfig.playbackRate) {
           const audioStore = useAudioStore()
@@ -247,6 +241,10 @@ export const useGameStore = defineStore('game', {
           this.introAnimationPhase = 'hidden'
           this.menuStatus = 'closed'
           this.hasGameEnded = savedState.hasGameEnded
+
+          if (this.introPlayed) {
+            this.ensureGameUITheme()
+          }
         }
       } catch {
         this.resetGame()
@@ -307,6 +305,11 @@ export const useGameStore = defineStore('game', {
       this.introPlayed = !!startDialogueId
       this.introAnimationPhase = startDialogueId ? 'complete' : 'annotation'
       this.introBlurAmount = 0
+
+      if (this.introPlayed) {
+        this.ensureGameUITheme()
+      }
+
       this.saveGame()
 
       const currentScene = gameData.scenes[targetSceneId]
@@ -362,10 +365,14 @@ export const useGameStore = defineStore('game', {
 
     setIntroPlayed() {
       this.introPlayed = true
+      this.ensureGameUITheme()
     },
 
     setIntroAnimationPhase(phase: IntroAnimationPhase) {
       this.introAnimationPhase = phase
+      if (phase === 'complete') {
+        this.ensureGameUITheme()
+      }
     },
 
     setIntroBlurAmount(amount: number) {
@@ -412,6 +419,11 @@ export const useGameStore = defineStore('game', {
       this.flags = applyDialogueEnergyChange(this.flags, this.currentDialogue)
 
       this.pendingTransitionSceneId = null
+
+      if (this.introPlayed) {
+        this.ensureGameUITheme()
+      }
+
       this.saveGame()
     },
 
@@ -632,6 +644,7 @@ export const useGameStore = defineStore('game', {
       if (sceneId) {
         this.introPlayed = true
         this.introAnimationPhase = 'complete'
+        this.ensureGameUITheme()
         this.goToScene(sceneId)
         this.menuStatus = 'closed'
       }
@@ -684,6 +697,12 @@ export const useGameStore = defineStore('game', {
 
     toggleForceShowUI() {
       this.forceShowUI = !this.forceShowUI
+    },
+
+    ensureGameUITheme() {
+      const animationsStore = useAnimationsStore()
+      animationsStore.setCursorVariant('dark')
+      animationsStore.setAudiowaveVariant('dark')
     },
   },
 })
