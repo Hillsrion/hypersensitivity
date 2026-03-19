@@ -311,6 +311,13 @@ export const useIntroSequenceAnimation = (
         const firstWordStart = firstDialogue.timings?.[0]?.start
         if (typeof firstWordStart !== 'number') return
 
+        const targetMargin = 0.5
+        const remainingTime = firstWordStart - time - targetMargin
+
+        let dynamicScrollDuration = remainingTime
+        if (dynamicScrollDuration > 5.0) dynamicScrollDuration = 5.0
+        if (dynamicScrollDuration < 1.5) dynamicScrollDuration = 1.5
+
         if (
           !shouldTriggerIntroAutoScroll({
             audioTriggered: audioTriggered.value,
@@ -319,21 +326,26 @@ export const useIntroSequenceAnimation = (
             progress: mainTl.progress(),
             currentTime: time,
             firstWordStart,
+            scrollDuration: dynamicScrollDuration,
+            leadTime: targetMargin,
           })
         ) {
           return
         }
 
-        const scrollDuration = 1.5
-        console.log('LOG_DEBUG: Auto-scrolling to bottom (user too slow)')
+        console.log(
+          `LOG_DEBUG: Auto-scrolling to bottom smoothly over ${dynamicScrollDuration.toFixed(2)}s`
+        )
         gameStore.setAutoScrolling(true)
 
         $gsap.to(window, {
           scrollTo: {
-            y: containerEl.offsetTop + 7 * window.innerHeight,
+            y:
+              mainTl.scrollTrigger?.end ??
+              containerEl.offsetTop + 7 * window.innerHeight,
           },
-          duration: scrollDuration,
-          ease: 'power2.inOut',
+          duration: dynamicScrollDuration,
+          ease: 'power3.out',
           onComplete: () => {
             gameStore.setAutoScrolling(false)
             if (!gameStore.introPlayed) {
