@@ -30,6 +30,7 @@ export type AudioState = {
   isPaused: boolean
   preloadedCount: number
   fadeResolve: (() => void) | null
+  isUnlocked: boolean
 }
 
 export const useAudioStore = defineStore('audio', {
@@ -47,6 +48,7 @@ export const useAudioStore = defineStore('audio', {
     /** Number of audio items that have fired `canplaythrough` */
     preloadedCount: 0,
     fadeResolve: null,
+    isUnlocked: false,
   }),
 
   getters: {
@@ -56,6 +58,21 @@ export const useAudioStore = defineStore('audio', {
   },
 
   actions: {
+    unlockAllAudio() {
+      if (this.isUnlocked) return
+      this.isUnlocked = true
+
+      console.log('LOG_DEBUG: Unlocking all audio elements for iOS')
+
+      // iOS Safari requires audio elements to be loaded during a user interaction
+      // to lift the autoplay restriction.
+      this.list.forEach((item) => {
+        if (item.audio && item.audio !== this.currentAudio) {
+          item.audio.load()
+        }
+      })
+    },
+
     setVolume(val: number) {
       this.volume = val
       if (this.currentAudio && !this.fadeInterval) {

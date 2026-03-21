@@ -177,6 +177,15 @@ export const useAppSetup = (lenisRef: Ref<LenisRef | null>) => {
         { immediate: true }
       )
     }
+
+    // Unlock all audio on first user interaction to bypass Safari iOS autoplay policies
+    const unlockAudioForIOS = () => {
+      audioStore.unlockAllAudio()
+      window.removeEventListener('touchstart', unlockAudioForIOS)
+      window.removeEventListener('click', unlockAudioForIOS)
+    }
+    window.addEventListener('touchstart', unlockAudioForIOS, { passive: true })
+    window.addEventListener('click', unlockAudioForIOS, { passive: true })
   })
 
   onUnmounted(() => {
