@@ -25,7 +25,7 @@ export const dayOneRefuse: Scene = {
       'LUCIE',
       "Non, mais il faut que je te raconte un truc là, qui s'est passé tout à l'heure avec la vieille meuf aigrie de mon taf.",
       {
-        color: 'red',
+        color: 'orange',
       }
     ),
     d('d1_39', 'Inès', 'Vas-y, raconte.', {}),
@@ -49,7 +49,9 @@ export const dayOneRefuseAssert: Scene = {
       'd1_42',
       'LUCIE',
       "Bien sûr que je l'ai bougée de là, mais c'est pas dans l'aprèm, je reçois un mail du responsable pour un truc rien à voir. Elle est allée me balancer parce que je suis partie un peu plus tôt mardi dernier. Elle a rien d'autre à faire, sérieux.",
-      {}
+      {
+        color: 'orange',
+      }
     ),
   ],
 }
@@ -74,15 +76,11 @@ export const dayOneRefuseSubmit: Scene = {
       'd1_44',
       'Inès',
       "On peut pas gagner toutes les batailles. Vas-y step by step. Si tu veux, ce week-end, on t'aidera à trouver les mots pour mettre tes limites.",
-      {
-        color: 'green',
-      }
+      {}
     ),
     d('d1_45', 'LUCIE', "Trop bien, on fera ça. Merci d'être là.", {
-      color: 'green',
+      color: 'pink',
     }),
-    d('d1_46', 'Inès', "Mais c'est normal, avec plaisir.", {
-      color: 'green',
-    }),
+    d('d1_46', 'Inès', "Mais c'est normal, avec plaisir.", {}),
   ],
 }

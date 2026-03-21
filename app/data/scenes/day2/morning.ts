@@ -24,16 +24,12 @@ export const dayTwoWakeupCrash: Scene = {
         color: 'blue',
       }
     ),
-    d('d2_breakdown_1_allo', 'Lucie', 'Allô ?', {
-      color: 'violet',
-    }),
+    d('d2_breakdown_1_allo', 'Lucie', 'Allô ?', {}),
     d(
       'd2_breakdown_2',
       'Jérémy',
       "Coucou, je suis désolé de te déranger si tôt. Je t'appelle parce qu'on a un souci. Tu te souviens que je t'avais dit que je déménageais aujourd'hui ? En fait, j'ai plus personne pour conduire le camion de loc et y'a So qui a une grippe carabinée là, il est couché. Est-ce que je pourrais venir tout à l'heure ? Y'a genre trois allers-retours à faire, je pense.",
-      {
-        color: 'red',
-      }
+      {}
     ),
   ],
   choices: [
@@ -80,19 +76,15 @@ export const dayTwoWakeupGood: Scene = {
       'd2_good_1',
       "C'est aujourd'hui que j'avais prévu d'aller à la montagne. J'ai pas vu la semaine passée. J'ai encore jamais fait la croix de Chamrousse.",
       {
-        color: 'green',
+        color: 'lime',
       }
     ),
-    thoughts('d2_good_1_allo', 'Allô ?', {
-      color: 'green',
-    }),
+    thoughts('d2_good_1_allo', 'Allô ?', {}),
     d(
       'd2_good_2',
       'Jérémy',
       "Coucou, je suis désolé de te déranger si tôt. Je t'appelle parce qu'on a un souci. Tu te souviens que je t'avais dit que je déménageais aujourd'hui ? En fait, j'ai plus personne pour conduire le camion de loc et y'a So qui a une grippe carabinée là, il est couché. Est-ce que je pourrais venir tout à l'heure ? Y'a genre trois allers-retours à faire, je pense.",
-      {
-        color: 'red',
-      }
+      {}
     ),
   ],
   choices: [
@@ -134,7 +126,9 @@ export const dayTwoAccept: Scene = {
       'd2a_1',
       'LUCIE',
       "Nonnnn, tu sais quoi ? Je devais aller à la montagne aujourd'hui. Ça fait deux semaines que je repousse.",
-      {}
+      {
+        color: 'orange',
+      }
     ),
     d(
       'd2a_2',
@@ -168,7 +162,9 @@ export const dayTwoRefuse: Scene = {
       'd2b_1',
       'LUCIE',
       "Je suis désolée, je suis franchement pas en état de voir des gens et... j'ai vraiment besoin de prendre du temps pour moi. Mais demande à Lucas, il est dispo aujourd'hui.",
-      {}
+      {
+        color: 'cyan',
+      }
     ),
     d(
       'd2b_2',
@@ -180,7 +176,9 @@ export const dayTwoRefuse: Scene = {
       'd2b_3',
       'LUCIE',
       'Ça sera avec plaisir. Désolée encore. Gros bisous et bon courage.',
-      {}
+      {
+        color: 'cyan',
+      }
     ),
   ],
 }

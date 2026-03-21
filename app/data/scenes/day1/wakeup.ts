@@ -12,7 +12,7 @@ export const dayOneWakeup: Scene = {
   entryAudioEarlyStart: true,
   dialogues: [
     thoughts('d1_1', 'Oh purée, un autre jour dans la France de Macron...', {
-      color: 'violet',
+      color: 'blue',
     }),
   ],
 }
@@ -26,9 +26,7 @@ export const dayOneBathroom: Scene = {
     thoughts(
       'd1_2',
       'OK, alors soit la robe qui me serre avec cette foutue étiquette dedans, mais je suis maxi fraîche, soit je mets pantalon oversize avec une chemise, mais je suis maxi confort pour la journée de taf.',
-      {
-        color: 'red',
-      }
+      {}
     ),
   ],
   choices: [
@@ -62,9 +60,7 @@ export const dayOneOutfitSexy: Scene = {
     thoughts(
       'd1_3',
       "Vas-y, ça va le faire. Je coupe les étiquettes et c'est carré.",
-      {
-        color: 'green',
-      }
+      {}
     ),
   ],
   nextSceneId: SCENE_IDS.DAY_ONE_METRO_SEXY,
@@ -80,9 +76,7 @@ export const dayOneOutfitComfort: Scene = {
     thoughts(
       'd1_3b',
       "Déjà que j'ai c'te réu de deux heures trente qui va me faire mal à la tête, autant être confort.",
-      {
-        color: 'blue',
-      }
+      {}
     ),
   ],
   nextSceneId: SCENE_IDS.DAY_ONE_METRO_COMFORT,

@@ -91,7 +91,7 @@ export const dayOnePlay: Scene = {
       'd1_31',
       "[respiration] Tout va bien. Ça va aller, c'est rien. C'est rien.",
       {
-        color: 'red',
+        color: 'cyan',
       }
     ),
     d('d1_32', 'Inès', 'Lucie ? Lucie ?', {}),
@@ -115,12 +115,10 @@ export const dayOnePlay: Scene = {
       'd1_34',
       'Inès',
       "Ok, je comprends. Assieds-toi dans ma chambre, je t'appelle un Uber.",
-      {
-        color: 'green',
-      }
+      {}
     ),
     d('d1_35', 'LUCIE', 'Merci ma douce...', {
-      color: 'green',
+      color: 'pink',
     }),
   ],
   nextSceneId: SCENE_IDS.DAY_ONE_END_CRASH,

@@ -65,16 +65,14 @@ export const dayOneConflictSubmit: Scene = {
       'd1_15a',
       "Tu sais très bien que c'est tout rempli à cette heure-là. C'est la troisième fois que tu me fais le coup.",
       {
-        color: 'red',
+        color: 'orange',
       }
     ),
     d(
       'd1_16a',
       'Équipe',
       "Oui, on comprend le point. Après, l'objectif reste quand même de tenir le sprint tel qu'il est prévu aujourd'hui. On est conscients que ça va demander un effort, mais on a besoin d'avancer et de montrer qu'on est capables d'absorber la charge. On fera un point d'avancement en milieu de sprint, pour voir si...",
-      {
-        color: 'blue',
-      }
+      {}
     ),
     d(
       'd1_17a',
@@ -112,14 +110,13 @@ export const dayOneConflictAssert: Scene = {
       }
     ),
     thoughts('d1_16b', 'Et puis quoi encore ?', {
-      color: 'red',
+      color: 'orange',
     }),
     d(
       'd1_17b',
       'LUCIE',
       "Je pense que c'est juste pas réalisable qu'on boucle ce sprint dans les temps. Je comprends qu'on doive avancer sur la roadmap...",
       {
-        color: 'blue',
         pause: 1.3,
       }
     ),
